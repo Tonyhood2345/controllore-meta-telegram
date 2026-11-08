@@ -1,0 +1,332 @@
+// ==========================================
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Centro DarIA — Immobiliare Giancani</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  *{-webkit-tap-highlight-color:transparent;box-sizing:border-box;}
+  body{overscroll-behavior:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+  ::-webkit-scrollbar{width:3px;height:3px;}
+  ::-webkit-scrollbar-thumb{background:#334155;border-radius:2px;}
+  .glass{background:rgba(30,41,59,.8);border:1px solid rgba(255,255,255,.07);backdrop-filter:blur(10px);}
+  .nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;color:#94a3b8;
+    padding:6px 4px;border-radius:10px;cursor:pointer;transition:all .15s;font-size:11px;font-weight:700;}
+  .nav-item:hover{color:#fbbf24;}
+  .nav-item.on{color:#fbbf24;background:rgba(251,191,36,.1);}
+  .msg-bot{background:#1a4731;border-radius:14px 14px 4px 14px;}
+  .msg-usr{background:#1e293b;border-radius:14px 14px 14px 4px;}
+  .pill{display:inline-block;font-size:9px;font-weight:900;text-transform:uppercase;
+    padding:2px 8px;border-radius:999px;border:1px solid;}
+  #CHAT_PANEL{height:calc(100dvh - 56px);}
+  @media(min-width:768px){
+    .sb-label{display:none;}
+    .sb-expanded .sb-label{display:inline;}
+    #CHAT_PANEL{height:100dvh;}
+  }
+  @media(min-width:1024px){.sb-label{display:inline;}}
+  textarea{resize:none;}
+  .action-btn{font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.04em;
+    padding:10px 12px;border-radius:10px;transition:all .15s;cursor:pointer;}
+  .action-btn:active{transform:scale(.97);}
+</style>
+</head>
+<body class="bg-[#070d1a] text-slate-100 h-screen overflow-hidden">
+
+<div id="AUTH" class="h-screen flex items-center justify-center p-4"
+  style="background:radial-gradient(ellipse at 30% 20%,#1e1b4b 0%,#070d1a 60%)">
+  <div class="w-full max-w-xs space-y-4">
+    <div class="text-center mb-6">
+      <div class="inline-block bg-amber-500 text-slate-900 px-4 py-2 rounded-xl font-black text-xs uppercase tracking-widest mb-3">🏡 Immobiliare Giancani</div>
+      <h1 class="text-2xl font-black">Centro di Comando</h1>
+      <p class="text-slate-500 text-xs mt-1">Accesso riservato ai responsabili dell'agenzia</p>
+    </div>
+
+    <div id="S1">
+      <div class="glass rounded-2xl p-4 space-y-3">
+        <label class="text-[10px] font-black uppercase text-slate-400 block">Numero WhatsApp autorizzato</label>
+        <div class="flex gap-2">
+          <div class="bg-slate-800 border border-slate-700 rounded-xl px-3 flex items-center text-sm font-bold text-slate-300 shrink-0">🇮🇹 +39</div>
+          <input id="INP_TEL" type="tel" placeholder="3xxxxxxxxx" maxlength="10" inputmode="numeric" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm font-bold">
+        </div>
+        <button onclick="richiedeOTP()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-900 font-black py-3.5 rounded-xl text-sm uppercase tracking-wide transition-all active:scale-95">
+          <i class="fa-brands fa-whatsapp mr-2"></i>Invia OTP su WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <div id="S2" class="hidden">
+      <div class="glass rounded-2xl p-4 space-y-3">
+        <p id="OTP_HINT" class="text-[10px] text-slate-400 text-center"></p>
+        <input id="INP_OTP" type="text" placeholder="● ● ● ● ● ●" maxlength="6" inputmode="numeric" class="w-full bg-slate-800 border-2 border-slate-700 focus:border-emerald-400 rounded-xl px-3 py-3 text-3xl font-black tracking-[.5em] text-center outline-none transition-colors">
+        <button onclick="verificaOTP()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-3.5 rounded-xl text-sm uppercase tracking-wide transition-all active:scale-95">
+          <i class="fa-solid fa-unlock-keyhole mr-2"></i>Accedi al Pannello
+        </button>
+        <button onclick="tornaS1()" class="w-full text-slate-500 text-xs font-bold py-2 hover:text-slate-300 transition-colors">← Cambia numero</button>
+      </div>
+    </div>
+    <p id="AUTH_MSG" class="text-center text-xs font-bold hidden py-1"></p>
+  </div>
+</div>
+
+<div id="APP" class="hidden h-screen flex overflow-hidden">
+  <aside id="SB" class="hidden md:flex flex-col bg-slate-900/80 border-r border-slate-800/60 w-16 lg:w-52 shrink-0 pt-4 pb-3">
+    <div class="px-3 mb-4 text-center">
+      <div class="text-amber-400 font-black text-xs uppercase tracking-widest">🏡 DarIA</div>
+      <div id="SB_NOME" class="text-slate-600 text-[9px] mt-0.5 hidden lg:block"></div>
+    </div>
+    <nav id="SIDENAV" class="flex-1 flex flex-col gap-0.5 px-2 overflow-y-auto"></nav>
+    <div class="px-2 pt-2 border-t border-slate-800/60">
+      <button onclick="logout()" class="nav-item w-full"><i class="fa-solid fa-right-from-bracket text-base"></i><span class="sb-label text-[10px]">Esci</span></button>
+    </div>
+  </aside>
+
+  <div class="flex-1 flex flex-col overflow-hidden">
+    <header class="md:hidden bg-slate-900/90 border-b border-slate-800/60 px-4 py-3 flex items-center justify-between shrink-0">
+      <div>
+        <span class="text-amber-400 font-black text-xs uppercase tracking-widest">🏡 DarIA</span>
+        <span id="TOP_NOME" class="text-slate-500 text-[10px] ml-2"></span>
+      </div>
+      <button onclick="logout()" class="text-slate-500 text-sm"><i class="fa-solid fa-right-from-bracket"></i></button>
+    </header>
+
+    <main id="MAIN" class="flex-1 overflow-auto">
+      <div id="P_HOME" class="p-4 max-w-5xl mx-auto space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 id="H_GREET" class="text-lg font-black">Benvenuto</h2>
+            <p id="orologio" class="text-xs text-slate-400 mt-0.5"></p>
+          </div>
+          <button onclick="loadHome()" class="glass border border-slate-700 text-slate-400 hover:text-amber-400 text-xs font-bold px-3 py-2 rounded-lg transition-colors">
+            <i class="fa-solid fa-arrows-rotate"></i>
+          </button>
+        </div>
+
+        <div id="kpiGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div class="glass rounded-xl p-4 space-y-3 lg:col-span-1">
+            <h3 class="text-[10px] font-black uppercase text-slate-400"><i class="fa-solid fa-calendar-day mr-1"></i>Agenda</h3>
+            <div id="H_OGGI" class="space-y-1.5 text-xs"></div>
+            <div id="H_DOMANI" class="space-y-1.5 text-xs mt-2"></div>
+          </div>
+          <div class="glass rounded-xl p-4 lg:col-span-2">
+            <h3 class="text-[10px] font-black uppercase text-slate-400 mb-3"><i class="fa-solid fa-chart-pie mr-1"></i>Richieste e Bozze</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div style="position:relative;height:160px"><canvas id="chartRichieste"></canvas></div>
+              <div style="position:relative;height:160px"><canvas id="chartBozze"></canvas></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass rounded-xl p-4">
+          <h3 class="text-[10px] font-black uppercase text-slate-400 mb-3"><i class="fa-solid fa-bolt mr-1"></i>Azioni Rapide</h3>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <button onclick="eseguiAzione('resoconto',this)" class="action-btn bg-indigo-700 text-white text-[10px] py-3 rounded-lg"><i class="fa-solid fa-moon mr-1"></i>Resoconto</button>
+            <button onclick="eseguiAzione('conferme',this)"  class="action-btn bg-emerald-700 text-white text-[10px] py-3 rounded-lg"><i class="fa-solid fa-check-double mr-1"></i>Conferme</button>
+            <button onclick="eseguiAzione('incrocio',this)"  class="action-btn bg-rose-700 text-white text-[10px] py-3 rounded-lg"><i class="fa-solid fa-bullseye mr-1"></i>Incrocio</button>
+            <button onclick="eseguiAzione('commenti',this)"  class="action-btn bg-amber-600 text-white text-[10px] py-3 rounded-lg"><i class="fa-solid fa-comments mr-1"></i>Commenti</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="P_CHAT" class="hidden h-full">
+        <div class="flex h-full" id="CHAT_PANEL">
+          <div id="CHAT_LEFT" class="w-full md:w-72 border-r border-slate-800/60 flex flex-col h-full shrink-0">
+            <div class="p-3 border-b border-slate-800/60 flex gap-2">
+              <input id="CHAT_SEARCH" type="text" placeholder="🔍 Cerca..." oninput="filterChats()" class="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs outline-none focus:border-amber-400">
+              <button onclick="loadChatList()" class="text-slate-500 text-xs px-2"><i class="fa-solid fa-arrows-rotate"></i></button>
+            </div>
+            <div id="CHAT_LIST" class="flex-1 overflow-y-auto"></div>
+          </div>
+          <div id="CHAT_RIGHT" class="hidden md:flex flex-col flex-1 h-full overflow-hidden">
+            <div id="CONV_EMPTY" class="flex-1 flex flex-col items-center justify-center text-slate-700 gap-3">
+              <i class="fa-regular fa-comments text-5xl"></i><p class="text-xs font-bold uppercase">Seleziona una conversazione</p>
+            </div>
+            <div id="CONV_ACTIVE" class="hidden flex-col flex-1 h-full overflow-hidden">
+              <div class="border-b border-slate-800/60 px-4 py-3 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-3">
+                  <div id="CONV_AV" class="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center font-black text-sm"></div>
+                  <div><p id="CONV_NOME" class="font-bold text-sm"></p><p id="CONV_NUM" class="text-[10px] text-slate-400"></p></div>
+                </div>
+                <input type="checkbox" id="DARIA_TOGGLE" onchange="toggleDarIA()">
+              </div>
+              <div id="CONV_MSGS" class="flex-1 overflow-y-auto p-4 space-y-2"></div>
+              <div class="border-t border-slate-800/60 p-3 flex gap-2 shrink-0">
+                <textarea id="MSG_INPUT" rows="1" placeholder="Scrivi..." class="flex-1 bg-slate-800 rounded-xl px-3 py-2 text-sm outline-none"></textarea>
+                <button onclick="sendMsg()" class="bg-amber-500 text-slate-900 font-black px-4 rounded-xl"><i class="fa-solid fa-paper-plane"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="P_MODULI" class="hidden p-4 max-w-4xl mx-auto space-y-4">
+        <h2 class="text-base font-black uppercase">🧩 Moduli Agenzia</h2>
+        <div id="MODULI_GRID" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+      </div>
+
+      <div id="P_IDEE" class="hidden p-4 max-w-5xl mx-auto space-y-4">
+        <h2 class="text-base font-black uppercase">💡 Idee per l'Agenzia</h2>
+        <div id="IDEE_GRID" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+      </div>
+    </main>
+    <nav id="BOTTOMNAV" class="md:hidden bg-slate-900/90 border-t border-slate-800/60 flex shrink-0"></nav>
+  </div>
+</div>
+
+<div id="modalElenco" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-3">
+  <div class="glass w-full max-w-lg p-4 max-h-[80vh] overflow-y-auto">
+    <div class="flex justify-between items-center mb-3"><h3 id="titoloModal" class="font-black text-sm uppercase"></h3><button onclick="chiudiModal()" class="text-slate-400 text-xl">&times;</button></div>
+    <pre id="contenutoModal" class="text-[11px] whitespace-pre-wrap text-slate-200"></pre>
+  </div>
+</div>
+<div id="toast" class="hidden fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-800 border border-slate-600 px-4 py-2.5 rounded-xl text-xs font-bold z-50"></div>
+
+<script>
+var S = {tok:null,nome:'',tel:'',chatNum:null,chatNome:''};
+var chartRichieste=null, chartBozze=null;
+
+var TABS=[
+  {id:'HOME', icon:'fa-house', label:'Home'},
+  {id:'CHAT', icon:'fa-comments', label:'Chat'},
+  {id:'MODULI', icon:'fa-cubes', label:'Moduli'},
+  {id:'IDEE', icon:'fa-lightbulb', label:'Idee'}
+];
+
+var BC_TPLS = {
+  benvenuto: "Benvenuto da Immobiliare Giancani! Cerca una casa a Favara o Agrigento? 🏡"
+};
+
+function aggiornaOrologio() {
+  var now = new Date();
+  document.getElementById('orologio').innerText = now.toLocaleDateString('it-IT', {weekday:'long', day:'numeric', month:'long'}) + " — " + now.toLocaleTimeString('it-IT');
+}
+setInterval(aggiornaOrologio, 1000);
+
+function richiedeOTP() {
+  var tel = document.getElementById('INP_TEL').value.replace(/\D/g,'');
+  if(tel.length < 9) { mostraToast("Inserisci un numero valido."); return; }
+  document.getElementById('AUTH_MSG').classList.remove('hidden');
+  document.getElementById('AUTH_MSG').innerText = "Invio codice in corso...";
+  
+  google.script.run.withSuccessHandler(function(res){
+    if(res.ok) {
+      document.getElementById('S1').classList.add('hidden');
+      document.getElementById('S2').classList.remove('hidden');
+      document.getElementById('OTP_HINT').innerText = "Codice inviato al numero +" + tel;
+      mostraToast("✅ OTP Inviato!");
+    } else {
+      mostraToast("⚠️ " + res.m);
+    }
+  }).dcInviaOTP(tel);
+}
+
+function verificaOTP() {
+  var tel = document.getElementById('INP_TEL').value.replace(/\D/g,'');
+  var otp = document.getElementById('INP_OTP').value.trim();
+  google.script.run.withSuccessHandler(function(res){
+    if(res.ok) {
+      S.tok = res.tok; S.nome = res.nome; S.tel = res.tel;
+      document.getElementById('AUTH').classList.add('hidden');
+      document.getElementById('APP').classList.remove('hidden');
+      setupMenuUI();
+      loadHome();
+    } else { mostraToast("⚠️ " + res.m); }
+  }).dcVerificaOTP(tel, otp);
+}
+
+function setupMenuUI() {
+  var h = '';
+  TABS.forEach(function(t){
+    h += `<button onclick="switchTab('${t.id}')" id="NAV_${t.id}" class="nav-item flex-1 py-3 text-slate-400 font-bold"><i class="fa-solid ${t.icon} text-lg block"></i>${t.label}</button>`;
+  });
+  document.getElementById('BOTTOMNAV').innerHTML = h;
+}
+
+function switchTab(id) {
+  TABS.forEach(function(t){
+    document.getElementById('P_'+t.id).classList.add('hidden');
+    document.getElementById('NAV_'+t.id).classList.remove('on');
+  });
+  document.getElementById('P_'+id).classList.remove('hidden');
+  document.getElementById('NAV_'+id).classList.add('on');
+  if(id === 'CHAT') loadChatList();
+}
+
+function loadHome() {
+  google.script.run.withSuccessHandler(renderHomeData).dcHome(S.tok);
+}
+
+function renderHomeData(d) {
+  if(!d.auth) { logout(); return; }
+  
+  var k = '';
+  k += kpiCard('fa-house', d.totaleImmobili, 'Immobili', 'indigo');
+  k += kpiCard('fa-clipboard-list', d.totaleRichieste, 'Richieste', 'amber');
+  k += kpiCard('fa-file-signature', d.incarichiAttivi, 'Incarichi Attivi', 'rose');
+  k += kpiCard('fa-comments', d.commentiInCoda, 'Commenti Coda', 'orange');
+  document.getElementById('kpiGrid').innerHTML = k;
+
+  // Grafici Chart.js
+  if (chartRichieste) chartRichieste.destroy();
+  chartRichieste = new Chart(document.getElementById('chartRichieste'), {
+    type: 'doughnut',
+    data: { labels: ['Vendita','Acquisto','Affitto'], datasets: [{ data: [d.richiesteVendita, d.richiesteAcquisto, d.richiesteAffitto], backgroundColor:['#f59e0b','#6366f1','#10b981'], borderWidth:0 }] },
+    options: { plugins:{ legend:{ position:'bottom', labels:{ color:'#cbd5e1', font:{size:9} } } }, cutout:'60%', maintainAspectRatio:false }
+  });
+
+  if (chartBozze) chartBozze.destroy();
+  chartBozze = new Chart(document.getElementById('chartBozze'), {
+    type: 'bar',
+    data: { labels: ['Visite','Incarichi'], datasets: [{ data:[d.bozzeVisiteAperte, d.bozzeIncarichiAperte], backgroundColor:['#0ea5e9','#f43f5e'] }] },
+    options: { plugins:{ legend:{ display:false } }, scales:{ x:{ ticks:{ color:'#cbd5e1', font:{size:9} } }, y:{ ticks:{ color:'#cbd5e1' } } }, maintainAspectRatio:false }
+  });
+  
+  // Renderizza i Moduli
+  var mHtml = '';
+  MODULI_CFG.forEach(function(m){
+    mHtml += `<a href="${WEBAPP_URL}${m.url}" target="_blank" class="glass p-4 flex items-center gap-3">
+      <div class="w-10 h-11 rounded-xl flex items-center justify-center text-white text-base" style="background:${m.bg}"><i class="fa-solid ${m.icon}"></i></div>
+      <div><p class="font-bold text-xs text-white">${m.label}</p><p class="text-[10px] text-slate-400">${m.desc}</p></div>
+    </a>`;
+  });
+  document.getElementById('MODULI_GRID').innerHTML = mHtml;
+}
+
+function kpiCard(icona, valore, etichetta, colore) {
+  return `<div class="glass p-3 text-center border border-slate-800">
+    <div class="text-${colore}-400 text-base mb-0.5"><i class="fa-solid ${icona}"></i></div>
+    <div class="kpi-num text-xl font-black text-white">${valore}</div>
+    <div class="text-[9px] text-slate-500 uppercase font-black mt-1 tracking-wider">${etichetta}</div></div>`;
+}
+
+function eseguiAzione(az, btn) {
+  btn.disabled = true;
+  google.script.run.withSuccessHandler(function(res){
+    btn.disabled = false;
+    mostraToast(res.messaggio);
+    loadHome();
+  }).dcAzione(S.tok, az);
+}
+
+function mostraElenco(tipo) {
+  document.getElementById('titoloModal').innerText = tipo === 'utenti' ? "Elenco Utenti" : "Elenco Proprietari";
+  document.getElementById('modalElenco').classList.remove('hidden');
+  google.script.run.withSuccessHandler(function(res){
+    document.getElementById('contenutoModal').innerText = res.test || "Nessun dato.";
+  }).dcElenco(S.tok, tipo);
+}
+
+function chiudiModal() { document.getElementById('modalElenco').classList.add('hidden'); }
+function mostraToast(m) { var t = document.getElementById('toast'); t.innerText = m; t.classList.remove('hidden'); setTimeout(function(){ t.classList.add('hidden'); }, 3500); }
+function logout() { window.location.reload(); }
+</script>
+</body>
+</html>
+

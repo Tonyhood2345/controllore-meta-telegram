@@ -1,0 +1,1367 @@
+// ==========================================
+
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Incarico di Vendita — Immobiliare Giancani</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: {
+        bordeaux: '#5c061a', bordeauxDark: '#420311',
+        dorado: '#b45309', verdeTetto: '#10b981'
+      }}}
+    }
+  </script>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; background:#f1f5f9; padding-bottom:2rem; }
+    .glass-card { background:white; border:1px solid #e2e8f0; border-radius:1rem; box-shadow:0 4px 6px -1px rgba(0,0,0,0.05); }
+    canvas { touch-action:none; cursor:crosshair; background:#fff; }
+    input[type="text"],input[type="tel"],input[type="date"],input[type="number"],select,textarea {
+      border:2px solid #cbd5e1 !important; background:#fff !important;
+      border-radius:0.5rem !important; padding:0.55rem 0.65rem !important;
+      color:#1e293b !important; font-weight:700 !important; width:100%;
+    }
+    input:focus,select:focus,textarea:focus { border-color:#5c061a !important; outline:none !important; }
+    .doc-preview { width:100%; height:80px; object-fit:cover; border-radius:0.5rem; border:2px solid #10b981; }
+    .btn-foto { display:flex; align-items:center; justify-content:center; gap:0.4rem;
+      background:#1e293b; color:white; font-weight:800; font-size:11px;
+      padding:0.55rem; border-radius:0.5rem; cursor:pointer; }
+    .label-tag { font-size:9px; color:#64748b; font-weight:900; text-transform:uppercase; letter-spacing:.05em; margin-bottom:2px; display:block; }
+    .spia-autenticato { background:#dcfce7; border:1px solid #86efac; color:#166534; font-size:9px; font-weight:900;
+      border-radius:9999px; padding:2px 8px; display:none; }
+  </style>
+</head>
+<body class="max-w-md mx-auto p-3">
+
+  <!-- ═══════════════════════════════════ HEADER ══════════════════════════════ -->
+  <div class="text-center my-3">
+    <div class="inline-block bg-bordeaux text-white px-4 py-2 rounded-xl font-black text-xs border-b-4 border-bordeauxDark">🏡 IMMOBILIARE GIANCANI</div>
+    <h1 class="text-sm font-black mt-2 uppercase text-bordeaux">Incarico di Vendita</h1>
+    <p class="text-[10px] text-slate-400 mt-0.5">Compilare tutti i campi e validare OTP prima di procedere.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════ LOADER ══════════════════════════════ -->
+  <div id="loader" class="hidden text-center py-8 glass-card border-2 border-bordeaux/30 mb-3 p-4">
+    <i class="fa-solid fa-circle-notch fa-spin text-3xl text-bordeaux mb-2"></i>
+    <p id="loader-testo" class="text-xs font-bold text-slate-600">Elaborazione...</p>
+  </div>
+
+  <!-- ═══════════════════════════════════ SUCCESSO ════════════════════════════ -->
+  <div id="successo" class="hidden text-center py-6 glass-card p-4 border-t-4 border-t-verdeTetto space-y-4 mb-3">
+    <div class="text-verdeTetto text-4xl"><i class="fa-solid fa-file-contract"></i></div>
+    <h3 class="text-sm font-black text-verdeTetto uppercase">Incarico Registrato!</h3>
+    <div class="flex flex-col items-center p-3 bg-slate-50 rounded-2xl border border-slate-200">
+      <img id="qrContratto" src="" alt="QR" class="p-2 bg-white border rounded-xl shadow-md max-w-[140px] mb-1">
+      <p class="text-[10px] text-slate-500 font-bold uppercase mt-1"><i class="fa-solid fa-qrcode"></i> Scansiona il documento</p>
+    </div>
+    <div id="boxLinkFirma" class="hidden bg-indigo-50 border border-indigo-200 rounded-xl p-3 text-left">
+      <p class="text-[10px] font-black text-indigo-700 uppercase mb-2"><i class="fa-solid fa-link"></i> Link Firma Remota Venditori:</p>
+      <div id="listaLinkFirma" class="space-y-1"></div>
+    </div>
+    <div class="flex flex-col gap-2 pt-1">
+      <a id="lnkStampa" href="#" target="_blank" class="w-full bg-bordeaux text-white font-black py-3 rounded-lg text-xs flex items-center justify-center gap-2">
+        <i class="fa-solid fa-print"></i> Apri e Stampa PDF
+      </a>
+      <a id="btnCondividiWaFinal" href="#" target="_blank" class="w-full bg-emerald-600 text-white font-black py-3 rounded-lg text-xs flex items-center justify-center gap-2">
+        <i class="fa-brands fa-whatsapp"></i> Invia su WhatsApp
+      </a>
+    </div>
+    <button id="btnNuovoIncarico" type="button" class="text-xs font-bold text-slate-400 underline block pt-2 mx-auto">Nuovo Incarico</button>
+  </div>
+
+  <!-- ═══════════════════════════════════ FORM ════════════════════════════════ -->
+  <form id="incaricoForm" class="space-y-3 text-xs">
+
+    <!-- ── Parametri Agenzia ──────────────────────────────────────────────── -->
+    <div class="glass-card p-3 space-y-2">
+      <h4 class="font-black text-bordeaux uppercase border-b pb-1 text-[11px]">Parametri Agenzia</h4>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <span class="label-tag">Agente</span>
+          <select id="agente">
+            <option value="Antonio Giancani">Antonio Giancani</option>
+            <option value="Andrea Giancani">Andrea Giancani</option>
+          </select>
+        </div>
+        <div>
+          <span class="label-tag">Luogo Firma</span>
+          <input type="text" id="luogoFirma" value="Favara (AG)" class="uppercase">
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <span class="label-tag">Data Incarico</span>
+          <input type="date" id="dataIncarico">
+        </div>
+        <div>
+          <span class="label-tag">Tipo Incarico</span>
+          <select id="tipoIncarico">
+            <option value="ESCLUSIVA">Esclusiva</option>
+            <option value="NON ESCLUSIVA">Non Esclusiva</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Dati Immobile ──────────────────────────────────────────────────── -->
+    <div class="glass-card p-3 space-y-2">
+      <h4 class="font-black text-bordeaux uppercase border-b pb-1 text-[11px]">Dati Immobile</h4>
+
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <span class="label-tag">Tipo Immobile</span>
+          <select id="tipoImmobile">
+            <option value="Appartamento">Appartamento</option>
+            <option value="Villa">Villa</option>
+            <option value="Villetta">Villetta a schiera</option>
+            <option value="Attico">Attico</option>
+            <option value="Terreno">Terreno</option>
+            <option value="Locale Commerciale">Locale Commerciale</option>
+            <option value="Box/Garage">Box / Garage</option>
+          </select>
+        </div>
+        <div>
+          <span class="label-tag">Attualmente Affittato?</span>
+          <select id="affittato">
+            <option value="no" selected>NO</option>
+            <option value="si">SÌ</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <span class="label-tag">Situazione Urbanistica / Catastale</span>
+        <input type="text" id="urbanisticaCatastale" placeholder="es. Conforme, nessuna irregolarità">
+      </div>
+
+      <div>
+        <span class="label-tag">Condizioni Condominiali</span>
+        <input type="text" id="condizioniCondominiali" placeholder="Nulla da segnalare">
+      </div>
+
+      <div class="grid grid-cols-2 gap-2">
+        <div id="boxApeAgente">
+          <span class="label-tag">Classe Energetica APE</span>
+          <select id="classeEnergeticaApe">
+            <option value="A4">A4</option><option value="A3">A3</option><option value="A2">A2</option><option value="A1">A1</option>
+            <option value="B">B</option><option value="C">C</option><option value="D">D</option>
+            <option value="E">E</option><option value="F">F</option><option value="G">G</option>
+            <option value="N/D" selected>N/D — Non disponibile</option>
+          </select>
+        </div>
+        <div>
+          <span class="label-tag">Mutuo Residuo (€)</span>
+          <input type="text" id="mutuoResiduo" placeholder="0" inputmode="decimal">
+        </div>
+      </div>
+
+      <div>
+        <span class="label-tag">Da Rogitare Preferibilmente Entro Il</span>
+        <input type="date" id="dataRogitoPrevista">
+      </div>
+    </div>
+
+    <!-- ── Patti Economici ────────────────────────────────────────────────── -->
+    <div class="glass-card p-3 space-y-2">
+      <h4 class="font-black text-bordeaux uppercase border-b pb-1 text-[11px]">Patti Economici</h4>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <span class="label-tag">Prezzo Richiesto (€)</span>
+          <input type="text" id="prezzoVendita" placeholder="es. 95.000" inputmode="decimal">
+        </div>
+        <div>
+          <span class="label-tag">Prezzo Minimo (€)</span>
+          <input type="text" id="prezzoMinimo" placeholder="es. 85.000" inputmode="decimal">
+        </div>
+      </div>
+      <div>
+        <span class="label-tag">Durata Incarico (mesi)</span>
+        <select id="durataMesi">
+          <option value="3">3 mesi</option>
+          <option value="6">6 mesi</option>
+          <option value="12">12 mesi</option>
+          <option value="24" selected>24 mesi (2 anni)</option>
+        </select>
+      </div>
+
+      <!-- Box provvigione automatica -->
+      <div id="boxCalcoloProvv" class="bg-bordeaux/5 border border-bordeaux/20 rounded-lg p-2.5 hidden space-y-1">
+        <p class="text-[9px] text-slate-500 font-bold uppercase text-center">💰 Provvigione calcolata automaticamente</p>
+        <div class="flex justify-between text-[10px]"><span class="text-slate-500">Tipo:</span><span id="lblTipoProvv" class="font-black text-bordeaux">—</span></div>
+        <div class="flex justify-between text-[10px]"><span class="text-slate-500">Imponibile:</span><span id="lblImponibileProvv" class="font-black text-slate-700">—</span></div>
+        <div class="flex justify-between text-[10px]"><span class="text-slate-500">IVA 22%:</span><span id="lblIvaProvv" class="font-black text-slate-700">—</span></div>
+        <div class="flex justify-between text-[11px] border-t border-bordeaux/20 pt-1"><span class="text-bordeaux font-black">TOTALE:</span><span id="lblTotaleProvv" class="font-black text-bordeaux">—</span></div>
+        <p class="text-[8px] text-slate-400 italic text-center mt-1">≤65.000€ → 2.000€ fisso · &gt;65.000€ → 3% + IVA</p>
+      </div>
+    </div>
+
+    <!-- ── Venditori ──────────────────────────────────────────────────────── -->
+    <div class="glass-card p-3 space-y-2">
+      <div class="flex justify-between items-center border-b pb-1">
+        <h4 class="font-black text-bordeaux uppercase text-[11px]">Venditori / Proprietari</h4>
+        <button type="button" id="btnAggiungiVenditore" class="bg-bordeaux text-white px-3 py-1 rounded-lg font-black text-[10px]">
+          <i class="fa-solid fa-plus"></i> Aggiungi
+        </button>
+      </div>
+      <div id="listaVenditori" class="space-y-3"></div>
+    </div>
+
+    <!-- ── Dati Catastali ─────────────────────────────────────────────────── -->
+    <div class="glass-card p-3 space-y-2">
+      <div class="flex justify-between items-center border-b pb-1">
+        <h4 class="font-black text-bordeaux uppercase text-[11px]">Dati Catastali</h4>
+        <button type="button" id="btnAggiungiRigaCatasto" class="bg-indigo-600 text-white px-2.5 py-1 rounded-lg font-black text-[10px]">
+          <i class="fa-solid fa-plus"></i> Aggiungi Riga
+        </button>
+      </div>
+      <div class="grid grid-cols-2 gap-2 mb-1">
+        <div>
+          <span class="label-tag">Tipo Catasto</span>
+          <select id="catasto_tipo">
+            <option value="FABBRICATI">Catasto Fabbricati</option>
+            <option value="TERRENI">Catasto Terreni</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <p class="text-[9px] text-slate-400 italic leading-relaxed">Inserisci una riga per ogni particella/sub catastale.</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-7 gap-0.5 bg-slate-800 text-white rounded-lg p-1 text-center" style="font-size:8px; font-weight:900;">
+        <div>FOGLIO</div><div>PART.</div><div>SUB</div><div>CAT.</div><div>CONSIST.</div><div class="col-span-2">DESCRIZIONE / INDIRIZZO</div>
+      </div>
+      <div id="listaCatasto" class="space-y-1"></div>
+    </div>
+
+    <!-- ── Note Libere ────────────────────────────────────────────────────── -->
+    <div class="glass-card p-3 space-y-2">
+      <h4 class="font-black text-bordeaux uppercase border-b pb-1 text-[11px]">Note & Condizioni Particolari</h4>
+      <textarea id="noteLibere" rows="3" placeholder="Inserisci eventuali condizioni o note specifiche dell'incarico..." class="resize-none" style="font-weight:500!important;"></textarea>
+    </div>
+
+    <!-- ── Valutazione Rischio AML (Solo Agente) ─────────────────────────── -->
+    <div class="glass-card p-3 bg-slate-900 text-slate-100 space-y-2 border-2 border-amber-500/40">
+      <h4 class="font-black text-amber-400 uppercase border-b border-slate-700 pb-1 text-[11px]">
+        <i class="fa-solid fa-user-shield text-amber-400 mr-1"></i> Valutazione Rischio AML — Solo Ufficio
+      </h4>
+      <p class="text-[9px] text-slate-500 italic">Questa sezione non viene mostrata al cliente.</p>
+
+      <div>
+        <span class="label-tag" style="color:#94a3b8">Natura Giuridica Cliente</span>
+        <select id="aml_natura_giuridica" style="background:#1e293b;color:white;border-color:#475569">
+          <option value="Persona fisica/Ditta Individuale (Basso)">Persona fisica / Ditta Individuale [BASSO]</option>
+          <option value="Società di persone (Medio)">Società di persone [MEDIO]</option>
+          <option value="Società di capitali (Medio)">Società di capitali [MEDIO]</option>
+          <option value="Ente no profit / Associazione (Alto)">Ente no profit / Organizzazioni [ALTO]</option>
+          <option value="Trust / Family Office (Alto)">Trust / Family Office [ALTO]</option>
+        </select>
+      </div>
+
+      <div>
+        <span class="label-tag" style="color:#94a3b8">Settore e Attività Economica Cliente</span>
+        <input type="text" id="aml_settore_attivita" placeholder="es. Impiegato, Libero professionista, Pensionato..." style="background:#1e293b;color:white;border-color:#475569">
+      </div>
+
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <span class="label-tag" style="color:#94a3b8">Persona Politicamente Esposta?</span>
+          <select id="aml_pep" style="background:#1e293b;color:white;border-color:#475569">
+            <option value="no" selected>NO</option>
+            <option value="si">SÌ</option>
+          </select>
+        </div>
+        <div>
+          <span class="label-tag" style="color:#94a3b8">Scopo dell'Operazione</span>
+          <select id="aml_scopo_operazione" style="background:#1e293b;color:white;border-color:#475569">
+            <option value="abitazione_principale" selected>Uso abitazione principale</option>
+            <option value="abitazione_secondaria">Uso abitazione secondaria</option>
+            <option value="investimento">Investimento</option>
+            <option value="altro">Altro (specificare)</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="boxScopoAltro" class="hidden">
+        <span class="label-tag" style="color:#94a3b8">Specificare Altro Scopo</span>
+        <input type="text" id="aml_scopo_altro" placeholder="Descrivi lo scopo dell'operazione" style="background:#1e293b;color:white;border-color:#475569">
+      </div>
+
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <span class="label-tag" style="color:#94a3b8">Area Geografica</span>
+          <select id="aml_area_geo" style="background:#1e293b;color:white;border-color:#475569">
+            <option value="Italia (Basso)">Italia [BASSO]</option>
+            <option value="Paese UE (Medio)">Paese UE [MEDIO]</option>
+            <option value="Paese Extra UE (Alto)">Paese Extra UE [ALTO]</option>
+          </select>
+        </div>
+        <div>
+          <span class="label-tag" style="color:#94a3b8">Comportamento Cliente</span>
+          <select id="aml_comportamento" style="background:#1e293b;color:white;border-color:#475569">
+            <option value="Nella norma / Collaborativo (Basso)">Nella norma [BASSO]</option>
+            <option value="Anomalo / Reticente (Alto)">Anomalo / Reticente [ALTO]</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <span class="label-tag" style="color:#94a3b8">Origine Fondi</span>
+          <select id="aml_origine_fondi" style="background:#1e293b;color:white;border-color:#475569">
+            <option value="Finanziamento/Mutuo (Basso)">Finanziamento / Mutuo [BASSO]</option>
+            <option value="Patrimonio personale (Medio)">Patrimonio Personale [MEDIO]</option>
+            <option value="Provenienza da terzo soggetto (Alto)">Fondi da Terzi [ALTO]</option>
+            <option value="Eredità / Donazione (Basso)">Eredità / Donazione [BASSO]</option>
+          </select>
+        </div>
+        <div>
+          <span class="label-tag" style="color:#94a3b8">Frequenza Operazione</span>
+          <select id="aml_frequenza" style="background:#1e293b;color:white;border-color:#475569">
+            <option value="Occasionale (Basso)">Occasionale [BASSO]</option>
+            <option value="Continuativa (Medio)">Continuativa [MEDIO]</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <span class="label-tag" style="color:#94a3b8">Congruità Valore</span>
+          <select id="aml_congruita" style="background:#1e293b;color:white;border-color:#475569">
+            <option value="Congrua rispetto al mercato (Basso)">Congrua [BASSO]</option>
+            <option value="Incongrua rispetto al mercato (Medio)">Incongrua [MEDIO]</option>
+          </select>
+        </div>
+        <div>
+          <span class="label-tag" style="color:#94a3b8">Profilo Rischio Finale</span>
+          <select id="aml_profilo_finale" style="background:#1e293b;color:#fbbf24;font-weight:900;border-color:#475569">
+            <option value="BASSO">⬇️ BASSO</option>
+            <option value="MEDIO" selected>➡️ MEDIO</option>
+            <option value="ALTO">⬆️ ALTO</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <span class="label-tag" style="color:#94a3b8">Motivazione Profilazione</span>
+        <textarea id="aml_note_motivazione" rows="2"
+          style="background:#1e293b;color:white;border-color:#475569;font-weight:400"
+          placeholder="Indicare le motivazioni del punteggio di rischio assegnato..."></textarea>
+      </div>
+
+      <div id="badgeAml" class="text-center py-2 rounded-lg font-black text-sm" style="background:#1e3a5f;color:#60a5fa">
+        Profilo Rischio: <span id="labelProfiloAml">MEDIO</span>
+      </div>
+    </div>
+
+    <!-- ── Modalità Firma ─────────────────────────────────────────────────── -->
+    <div class="glass-card p-3 bg-slate-50 space-y-2">
+      <h4 class="font-black text-bordeaux uppercase text-[11px]">Modalità Firma</h4>
+      <select id="tipoFirma">
+        <option value="digitale">Firma Digitale sullo Schermo</option>
+        <option value="remota">Firma Remota via WhatsApp</option>
+        <option value="cartacea">Stampa e Firma su Carta</option>
+      </select>
+    </div>
+
+    <!-- ── Indicatore Auto-Save ──────────────────────────────────────────── -->
+    <div class="flex items-center justify-between bg-indigo-50 border border-indigo-200 rounded-xl px-3 py-2">
+      <span id="statoAutoSave" class="text-[10px] font-bold text-indigo-600">💾 Salvataggio automatico attivo</span>
+      <button type="button" id="btnSalvaBozzaManuale" class="bg-indigo-600 text-white font-black text-[10px] px-3 py-1.5 rounded-lg">
+        💾 Salva Bozza Ora
+      </button>
+    </div>
+
+    <button type="submit" id="btnSubmit" class="w-full bg-bordeaux text-white font-black py-3.5 rounded-xl shadow-lg text-xs uppercase tracking-wider border-b-4 border-bordeauxDark active:scale-95 transition-transform">
+      Registra Incarico e Genera PDF 📄
+    </button>
+
+    <div class="flex items-center justify-between gap-2 mt-2">
+      <button type="button" id="btnSalvaBozza" class="flex-1 bg-indigo-700 text-white font-black py-2.5 rounded-lg text-[10px] uppercase tracking-wider">
+        💾 Salva Bozza
+      </button>
+      <span id="statoAutosave" class="text-[9px] text-slate-400 font-bold"></span>
+    </div>
+  </form>
+
+  <!-- ── Input File nascosti ────────────────────────────────────────────────── -->
+  <input type="file" id="inputFotocamera" accept="image/*" capture="environment" class="hidden">
+  <input type="file" id="inputGalleria"   accept="image/*" class="hidden">
+
+  <!-- ── Modal Firma Fullscreen ─────────────────────────────────────────────── -->
+  <div id="modalFirmaFullscreen" class="hidden fixed inset-0 bg-slate-950/98 z-[9999] flex flex-col justify-between p-3">
+    <div class="text-center pt-2 flex-shrink-0">
+      <span class="inline-block bg-bordeaux text-white px-4 py-1 rounded-full text-[10px] font-black uppercase">✍️ FIRMA DIGITALE</span>
+      <h3 id="modalFirmaTitolo" class="text-white font-extrabold text-sm uppercase mt-1">Firma del Venditore</h3>
+      <p class="text-slate-400 text-[9px] mt-0.5">Traccia la firma nel riquadro bianco sottostante</p>
+    </div>
+    <div class="flex-1 w-full border-4 border-dashed border-slate-600 rounded-2xl overflow-hidden bg-white my-3 relative">
+      <canvas id="canvasFullscreen" class="w-full h-full"></canvas>
+    </div>
+    <div class="flex gap-3 pb-3 flex-shrink-0">
+      <button type="button" onclick="chiudiModalFirma(false)" class="w-1/2 bg-slate-800 text-slate-400 font-black py-3.5 rounded-xl text-xs uppercase">❌ Annulla</button>
+      <button type="button" onclick="salvaFirmaFullscreen()"  class="w-1/2 bg-emerald-600 text-white font-black py-3.5 rounded-xl text-xs uppercase shadow-lg">💾 Applica</button>
+    </div>
+  </div>
+
+<script>
+  /* ── Stato globale ─────────────────────────────────────────────────────── */
+  var documentiVenditori  = {};
+  var firmeSalvateBase64  = {};
+  var activeVenditoreFirmaId = "";
+  var idCardFotoCorrente  = "";
+  var indiceCardFotoCorrente = 0;
+  var canvasFull, ctxFull, disegnoFull = false;
+  var idBozzaCorrente = null; // se non null, stiamo aggiornando una bozza esistente
+  var autosaveTimer = null;
+  var idBozzaCorrente = null;
+  var intervalloAutoSave = null;
+
+  /* ── Init ──────────────────────────────────────────────────────────────── */
+  document.addEventListener("DOMContentLoaded", function() {
+    var oggi = new Date();
+    var dd   = String(oggi.getFullYear()) + '-' + String(oggi.getMonth()+1).padStart(2,'0') + '-' + String(oggi.getDate()).padStart(2,'0');
+    document.getElementById('dataIncarico').value = dd;
+
+    aggiungiVenditore({ nome:"MARIO ROSSI", dataNascita:"01/01/1970", luogoNascita:"Favara", cf:"RSSM RO70A01A089X", residenza:"FAVARA (AG) VIA ROMA 1", telefono:"3201667156" });
+    aggiungiRigaCatasto({ foglio:"12", particella:"345", sub:"1", categoria:"A/2", consistenza:"6 vani", descrizione:"Corso Vittorio Veneto 151 Favara", prezzo:"85000" });
+
+    document.getElementById('prezzoVendita').addEventListener('input', aggiornaCalcoloProvv);
+
+    document.getElementById('tipoImmobile').addEventListener('change', toggleBoxApe);
+    toggleBoxApe();
+
+    document.getElementById('aml_profilo_finale').addEventListener('change', aggiornaBadgeAml);
+    aggiornaBadgeAml();
+
+    document.getElementById('aml_scopo_operazione').addEventListener('change', function() {
+      document.getElementById('boxScopoAltro').classList.toggle('hidden', this.value !== 'altro');
+    });
+
+    document.getElementById('btnAggiungiVenditore').addEventListener('click', function() { aggiungiVenditore(); });
+    document.getElementById('btnAggiungiRigaCatasto').addEventListener('click', function() { aggiungiRigaCatasto(); });
+    document.getElementById('btnNuovoIncarico').addEventListener('click', function() { location.reload(); });
+    document.getElementById('inputFotocamera').addEventListener('change', eseguiCaricamentoFoto);
+    document.getElementById('inputGalleria').addEventListener('change', eseguiCaricamentoFoto);
+    document.getElementById('incaricoForm').addEventListener('submit', gestioneSottomissione);
+    document.getElementById('btnSalvaBozza').addEventListener('click', function() { salvaBozzaOra(true); });
+
+    // ── Verifica se stiamo riprendendo una bozza esistente (?riprendi=ID) ──
+    var urlParams = new URLSearchParams(window.location.search);
+    var idRiprendi = urlParams.get('riprendi');
+    if (idRiprendi) {
+      caricaBozzaEsistente(idRiprendi);
+    }
+
+    // ── Avvia autosave automatico ogni 30 secondi ──
+    avviaAutosave();
+    document.getElementById('btnSalvaBozzaManuale').addEventListener('click', function() { salvaBozzaCorrente(true); });
+
+    // ── Precarica bozza esistente se presente nell'URL (?idBozza=BZI_XXXX) ──
+    var paramsUrl = new URLSearchParams(window.location.search);
+    var idBozzaUrl = paramsUrl.get('idBozza');
+    if (idBozzaUrl) {
+      caricaBozzaEsistente(idBozzaUrl);
+    }
+
+    // ── Avvia auto-save ogni 30 secondi ──────────────────────────────────
+    intervalloAutoSave = setInterval(function() { salvaBozzaCorrente(false); }, 30000);
+
+    document.getElementById('tipoFirma').addEventListener('change', function() {
+      var val = this.value;
+      document.querySelectorAll('.blocco-canvas-venditore').forEach(function(el) {
+        el.classList.toggle('hidden', val !== 'digitale');
+      });
+      var btn = document.getElementById('btnSubmit');
+      if (val === 'remota')   btn.innerText = "Genera e Invia Link ai Venditori 🚀";
+      else if (val === 'digitale') btn.innerText = "Registra Incarico — Firma Ora 🖋️";
+      else btn.innerText = "Genera e Stampa su Carta 📄";
+    });
+  });
+
+  /* ── Toggle box APE solo se immobile abitativo ───────────────────────── */
+  function toggleBoxApe() {
+    var tipo = document.getElementById('tipoImmobile').value;
+    var nonAbitativi = ["Terreno", "Box/Garage"];
+    document.getElementById('boxApeAgente').style.display = nonAbitativi.includes(tipo) ? 'none' : 'block';
+  }
+
+  /* ── Badge AML colorato live ──────────────────────────────────────────── */
+  function aggiornaBadgeAml() {
+    var val = document.getElementById('aml_profilo_finale').value;
+    var badge = document.getElementById('badgeAml');
+    var label = document.getElementById('labelProfiloAml');
+    label.innerText = val;
+    if (val === 'BASSO')      { badge.style.background='#14532d'; badge.style.color='#86efac'; }
+    else if (val === 'MEDIO') { badge.style.background='#1e3a5f'; badge.style.color='#60a5fa'; }
+    else                      { badge.style.background='#450a0a'; badge.style.color='#fca5a5'; }
+  }
+
+  /* ── Calcolo provvigione automatica live ─────────────────────────────────
+     ≤65.000€ → 2.000€ fisso + IVA
+     >65.000€ → 3% + IVA
+  ──────────────────────────────────────────────────────────────────────── */
+  function aggiornaCalcoloProvv() {
+    var prezzoStr = document.getElementById('prezzoVendita').value.replace(/\./g,'').replace(',','.');
+    var prezzo    = parseFloat(prezzoStr) || 0;
+
+    if (prezzo <= 0) {
+      document.getElementById('boxCalcoloProvv').classList.add('hidden');
+      return;
+    }
+
+    var IVA = 0.22;
+    var tipo, imponibile;
+    if (prezzo <= 65000) {
+      tipo = "Compenso Fisso";
+      imponibile = 2000;
+    } else {
+      tipo = "Percentuale 3%";
+      imponibile = Math.round(prezzo * 0.03 * 100) / 100;
+    }
+    var iva = Math.round(imponibile * IVA * 100) / 100;
+    var totale = Math.round((imponibile + iva) * 100) / 100;
+
+    document.getElementById('boxCalcoloProvv').classList.remove('hidden');
+    document.getElementById('lblTipoProvv').innerText = tipo;
+    document.getElementById('lblImponibileProvv').innerText = _formatEuroJS(imponibile);
+    document.getElementById('lblIvaProvv').innerText = _formatEuroJS(iva);
+    document.getElementById('lblTotaleProvv').innerText = _formatEuroJS(totale);
+  }
+
+  function _formatEuroJS(n) {
+    return n.toLocaleString('it-IT', { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' €';
+  }
+
+  /* ── VENDITORI ─────────────────────────────────────────────────────────── */
+  function aggiungiVenditore(datiIniziali) {
+    var lista = document.getElementById('listaVenditori');
+    var idx   = lista.children.length;
+    var id    = "vend_" + Date.now() + "_" + idx;
+    var d     = datiIniziali || {};
+    var tipoFirmaVal = document.getElementById('tipoFirma').value;
+    var canvasHidden = tipoFirmaVal !== 'digitale' ? 'hidden' : '';
+
+    var div = document.createElement('div');
+    div.id  = id;
+    div.className = "bg-slate-50 border-2 border-slate-200 rounded-xl p-3 space-y-2 shadow-sm";
+    div.setAttribute('data-autenticato', 'false');
+
+    div.innerHTML =
+      '<div class="flex justify-between items-center border-b border-slate-300 pb-1">' +
+        '<span class="text-[10px] font-black text-bordeaux uppercase"><i class="fa-solid fa-user-tie"></i> Venditore / Proprietario ' + (idx+1) + '</span>' +
+        '<button type="button" onclick="eliminaVenditore(\'' + id + '\')" class="text-rose-600 font-bold text-[10px]">✕ Rimuovi</button>' +
+      '</div>' +
+
+      '<div class="grid grid-cols-2 gap-2">' +
+        '<button type="button" class="btn-foto" onclick="avviaScattaFoto(\'' + id + '\',' + idx + ',\'camera\')">' +
+          '<i class="fa-solid fa-camera"></i> Fotocamera</button>' +
+        '<button type="button" class="btn-foto" onclick="avviaScattaFoto(\'' + id + '\',' + idx + ',\'galleria\')" style="background:#475569;">' +
+          '<i class="fa-solid fa-image"></i> Galleria</button>' +
+      '</div>' +
+      '<div id="previewDoc_' + id + '" class="hidden"><img id="imgDoc_' + id + '" src="" class="doc-preview"></div>' +
+      '<div id="spinner_' + id + '" class="hidden text-center py-1 text-indigo-600 font-bold text-[10px]">' +
+        '<i class="fa-solid fa-circle-notch fa-spin"></i> DarIA Vision in lettura...</div>' +
+
+      '<div class="flex gap-1">' +
+        '<input type="text" class="vend-nome flex-1 uppercase" placeholder="COGNOME E NOME">' +
+        '<button type="button" onclick="cercaContatto(\'' + id + '\')" class="bg-slate-800 text-white px-2.5 rounded-lg font-black text-[10px] flex items-center gap-1 border border-slate-600">' +
+          '<i class="fa-solid fa-magnifying-glass text-amber-500"></i> Cerca</button>' +
+      '</div>' +
+
+      '<div class="grid grid-cols-3 gap-1">' +
+        '<input type="text" class="vend-nascita w-full text-center" placeholder="GG/MM/AAAA">' +
+        '<input type="text" class="vend-luogo  w-full uppercase" placeholder="COMUNE NASC.">' +
+        '<select class="vend-sesso w-full font-bold text-center">' +
+          '<option value="M">SESSO: M</option><option value="F">SESSO: F</option>' +
+        '</select>' +
+      '</div>' +
+
+      '<div class="flex gap-1">' +
+        '<input type="text" class="vend-cf flex-1 font-mono uppercase tracking-wider" placeholder="CODICE FISCALE">' +
+        '<button type="button" onclick="calcolaCF(\'' + id + '\')" class="bg-slate-800 text-white px-3 rounded-lg font-black text-[10px] flex items-center gap-1 border border-slate-600">' +
+          '<i class="fa-solid fa-calculator text-amber-500"></i> Calcola</button>' +
+      '</div>' +
+
+      '<input type="text" class="vend-residenza w-full uppercase" placeholder="RESIDENZA COMPLETA">' +
+      '<input type="tel" class="vend-tel w-full font-bold text-center" placeholder="CELLULARE WHATSAPP" ' +
+        'oninput="this.value=this.value.replace(/\\D/g,\'\')">' +
+
+      '<div class="flex gap-1 items-center">' +
+        '<span class="label-tag shrink-0">Quota Proprietà:</span>' +
+        '<input type="text" class="vend-quota flex-1 text-center font-black text-bordeaux" placeholder="es. 50% — auto">' +
+        '<button type="button" onclick="ricalcolaQuote()" class="bg-bordeaux text-white px-2 py-1 rounded font-black text-[9px]">Auto</button>' +
+      '</div>' +
+
+      '<div class="p-2 bg-indigo-50 border border-indigo-100 rounded-lg space-y-1">' +
+        '<span class="text-[9px] font-black text-indigo-700 uppercase block"><i class="fa-solid fa-shield-halved"></i> Validazione OTP</span>' +
+        '<div class="flex gap-1">' +
+          '<button type="button" onclick="inviaOtpVenditore(\'' + id + '\')" class="bg-indigo-600 text-white font-bold text-[10px] px-2 py-1 rounded flex-1 text-center">' +
+            '<i class="fa-brands fa-whatsapp"></i> Invia OTP</button>' +
+          '<input type="text" placeholder="OTP" maxlength="4" class="input-otp w-14 text-center font-black p-1 bg-white border-2 border-slate-300 rounded text-xs">' +
+          '<button type="button" onclick="verificaOtpVenditore(\'' + id + '\')" class="bg-emerald-600 text-white font-bold text-[10px] px-2 py-1 rounded">OK</button>' +
+        '</div>' +
+        '<div class="spia-otp text-[9px] text-emerald-600 font-black hidden text-center"><i class="fa-solid fa-circle-check"></i> AUTENTICATO</div>' +
+      '</div>' +
+
+      '<div class="blocco-canvas-venditore ' + canvasHidden + ' p-3 bg-slate-100 border rounded-lg flex items-center justify-between shadow-inner">' +
+        '<div>' +
+          '<span class="text-[9px] text-slate-500 font-bold uppercase block"><i class="fa-solid fa-signature"></i> Sottoscrizione</span>' +
+          '<span id="statusFirma_' + id + '" class="text-[10px] font-black text-rose-500 uppercase"><i class="fa-solid fa-pen-nib"></i> Da Firmare</span>' +
+        '</div>' +
+        '<button type="button" onclick="apriFirmaFullscreen(\'' + id + '\')" ' +
+          'class="bg-bordeaux text-white font-black text-[10px] px-3 py-2.5 rounded-lg shadow flex items-center gap-1 active:scale-95">' +
+          '<i class="fa-solid fa-mobile-screen-button"></i> Firma 📲</button>' +
+      '</div>';
+
+    lista.appendChild(div);
+
+    if (d.nome)        div.querySelector('.vend-nome').value = d.nome;
+    if (d.dataNascita) div.querySelector('.vend-nascita').value = d.dataNascita;
+    if (d.luogoNascita)div.querySelector('.vend-luogo').value = d.luogoNascita;
+    if (d.cf)          div.querySelector('.vend-cf').value = d.cf;
+    if (d.residenza)   div.querySelector('.vend-residenza').value = d.residenza;
+    if (d.telefono)    div.querySelector('.vend-tel').value = d.telefono;
+
+    ricalcolaQuote();
+  }
+
+  function eliminaVenditore(id) {
+    var el = document.getElementById(id);
+    if (el) el.remove();
+    ricalcolaQuote();
+  }
+
+  function ricalcolaQuote() {
+    var cards  = document.querySelectorAll('#listaVenditori > div');
+    var n      = cards.length;
+    if (n === 0) return;
+    var quota  = (100 / n).toFixed(2).replace('.', ',') + "%";
+    cards.forEach(function(c) {
+      var input = c.querySelector('.vend-quota');
+      if (input && !input.dataset.manuale) input.value = quota;
+    });
+  }
+
+  /* ── CATASTO ───────────────────────────────────────────────────────────── */
+  function aggiungiRigaCatasto(d) {
+    d = d || {};
+    var lista = document.getElementById('listaCatasto');
+    var id    = "cat_" + Date.now();
+
+    var div = document.createElement('div');
+    div.id  = id;
+    div.className = "grid gap-0.5 items-center bg-white border border-slate-200 rounded-lg p-1.5";
+    div.style.gridTemplateColumns = "1fr 1fr 0.7fr 0.8fr 1fr 2fr auto";
+
+    div.innerHTML =
+      '<input type="text" class="cat-foglio     text-center p-1 border border-slate-200 rounded text-xs" placeholder="12"     value="' + (d.foglio||'') + '">' +
+      '<input type="text" class="cat-particella text-center p-1 border border-slate-200 rounded text-xs" placeholder="345"    value="' + (d.particella||'') + '">' +
+      '<input type="text" class="cat-sub        text-center p-1 border border-slate-200 rounded text-xs" placeholder="1"      value="' + (d.sub||'') + '">' +
+      '<input type="text" class="cat-categoria  text-center p-1 border border-slate-200 rounded text-xs uppercase" placeholder="A/2"  value="' + (d.categoria||'') + '">' +
+      '<input type="text" class="cat-consistenza p-1 border border-slate-200 rounded text-xs uppercase" placeholder="6 vani" value="' + (d.consistenza||'') + '">' +
+      '<input type="text" class="cat-descrizione p-1 border border-slate-200 rounded text-xs uppercase col-span-1" placeholder="Via/Indirizzo" value="' + (d.descrizione||'') + '">' +
+      '<button type="button" onclick="document.getElementById(\'' + id + '\').remove()" class="text-rose-500 font-black text-xs px-1">✕</button>';
+
+    lista.appendChild(div);
+  }
+
+  /* ── FOTO / OCR ────────────────────────────────────────────────────────── */
+  function avviaScattaFoto(idCard, indice, sorgente) {
+    idCardFotoCorrente      = idCard;
+    indiceCardFotoCorrente  = indice;
+    var el = sorgente === 'camera'
+      ? document.getElementById('inputFotocamera')
+      : document.getElementById('inputGalleria');
+    el.click();
+  }
+
+  function eseguiCaricamentoFoto(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(evt) {
+      var base64 = evt.target.result;
+      document.getElementById('imgDoc_' + idCardFotoCorrente).src = base64;
+      document.getElementById('previewDoc_' + idCardFotoCorrente).classList.remove('hidden');
+      document.getElementById('spinner_' + idCardFotoCorrente).classList.remove('hidden');
+
+      google.script.run
+        .withSuccessHandler(function(res) {
+          document.getElementById('spinner_' + idCardFotoCorrente).classList.add('hidden');
+          if (res.successo) {
+            documentiVenditori[idCardFotoCorrente] = res.fileId;
+            if (res.ocrSuccesso) {
+              var card = document.getElementById(idCardFotoCorrente);
+              if (res.nome)        card.querySelector('.vend-nome').value = res.nome;
+              if (res.dataNascita) card.querySelector('.vend-nascita').value = res.dataNascita;
+              if (res.luogoNascita)card.querySelector('.vend-luogo').value = res.luogoNascita;
+              if (res.cf)          card.querySelector('.vend-cf').value = res.cf;
+              if (res.residenza)   card.querySelector('.vend-residenza').value = res.residenza;
+            } else {
+              alert("DarIA Vision: " + res.messaggio);
+            }
+          } else { alert("Errore: " + res.messaggio); }
+        })
+        .processaFotoCartaIdentitaIncarico(base64, indiceCardFotoCorrente);
+    };
+    reader.readAsDataURL(file);
+    e.target.value = "";
+  }
+
+  /* ── OTP ───────────────────────────────────────────────────────────────── */
+  function inviaOtpVenditore(idUnico) {
+    var card = document.getElementById(idUnico);
+    var nome = card.querySelector('.vend-nome').value.trim().toUpperCase();
+    var tel  = card.querySelector('.vend-tel').value.replace(/\D/g,'');
+
+    if (!nome || tel.length < 9) {
+      alert("⚠️ Inserisci nome e numero di cellulare valido prima di inviare l'OTP!");
+      return;
+    }
+    if (!tel.startsWith('39') && tel.length === 10) tel = '39' + tel;
+
+    var numeroDaria = "3505902923";
+    var msgOtp = "Sono " + nome + ", chiedo otp per verifica Incarico Vendita IMMOBILIARE GIANCANI";
+    var msgCliente =
+      "*IMMOBILIARE GIANCANI*\n🔐 Verifica Incarico Vendita\n\n" +
+      "Gentile " + nome + ", clicca il link per ricevere il codice OTP:\n\n" +
+      "https://wa.me/" + numeroDaria + "?text=" + encodeURIComponent(msgOtp);
+
+    window.open("https://wa.me/" + tel + "?text=" + encodeURIComponent(msgCliente), '_blank');
+  }
+
+  function verificaOtpVenditore(idUnico) {
+    var card = document.getElementById(idUnico);
+    var tel  = card.querySelector('.vend-tel').value;
+    var otp  = card.querySelector('.input-otp').value;
+    if (otp.length !== 4) { alert("Codice a 4 cifre richiesto!"); return; }
+
+    google.script.run
+      .withSuccessHandler(function(res) {
+        if (res.successo) {
+          card.setAttribute('data-autenticato', 'true');
+          card.querySelector('.spia-otp').classList.remove('hidden');
+          card.querySelector('.input-otp').disabled = true;
+        } else { alert(res.messaggio); }
+      })
+      .verificaOTPIncarico(tel, otp);
+  }
+
+  /* ── CALCOLO CF ────────────────────────────────────────────────────────── */
+  function calcolaCF(idUnico) {
+    var card = document.getElementById(idUnico);
+    var nom  = card.querySelector('.vend-nome').value.trim().toUpperCase();
+    var data = card.querySelector('.vend-nascita').value.trim();
+    var luogo= card.querySelector('.vend-luogo').value.trim().toUpperCase();
+    var sesso= card.querySelector('.vend-sesso').value;
+
+    if (!nom || !data || !luogo) { alert("⚠️ Inserisci nome, data e comune di nascita!"); return; }
+
+    var codiciComuni = {
+      "FAVARA":"D514","AGRIGENTO":"A089","CANICATTI":"B602","RACALMUTO":"H148",
+      "GROTTE":"E209","COMITINI":"C928","PALERMO":"G273","CATANIA":"C351",
+      "ROMA":"H501","MILANO":"F205","NAPOLI":"F839","TORINO":"L219"
+    };
+    var codComune = codiciComuni[luogo] || "XXXX";
+    var alertCitta = codComune === "XXXX";
+
+    var parti   = nom.split(" ");
+    var cognome = parti[0] || "";
+    var nome    = parti.slice(1).join(" ") || "X";
+
+    function lettere(s, isNome) {
+      var c = s.replace(/[^BCDFGHJKLMNPQRSTVWXYZ]/g,"");
+      var v = s.replace(/[^AEIOU]/g,"");
+      if (isNome && c.length >= 4) return c[0]+c[2]+c[3];
+      return (c+v+"XXX").substring(0,3);
+    }
+
+    var sp = data.split("/");
+    if (sp.length !== 3) { alert("⚠️ Formato data: GG/MM/AAAA"); return; }
+    var anno  = sp[2].substring(2,4);
+    var mesiL = ["A","B","C","D","E","H","L","M","P","R","S","T"];
+    var mese  = mesiL[parseInt(sp[1],10)-1] || "X";
+    var giorno= parseInt(sp[0],10) + (sesso==="F"?40:0);
+    var gg    = String(giorno).padStart(2,"0");
+
+    var cf15  = lettere(cognome,false)+lettere(nome,true)+anno+mese+gg+codComune;
+    var alfa  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var disp  = {'A':1,'B':0,'C':5,'D':7,'E':9,'F':13,'G':15,'H':17,'I':19,'J':21,'K':2,'L':4,'M':18,'N':20,'O':11,'P':3,'Q':6,'R':9,'S':11,'T':14,'U':16,'V':10,'W':22,'X':25,'Y':24,'Z':23,'0':1,'1':0,'2':5,'3':7,'4':9,'5':13,'6':15,'7':17,'8':19,'9':21};
+    var pari  = {'A':0,'B':1,'C':2,'D':3,'E':4,'F':5,'G':6,'H':7,'I':8,'J':9,'K':10,'L':11,'M':12,'N':13,'O':14,'P':15,'Q':16,'R':17,'S':18,'T':19,'U':20,'V':21,'W':22,'X':23,'Y':24,'Z':25,'0':0,'1':1,'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9};
+
+    var somma = 0;
+    for (var i=0;i<15;i++) somma += ((i+1)%2===0 ? pari : disp)[cf15[i]] || 0;
+    var ctrl = alfa[somma%26];
+
+    card.querySelector('.vend-cf').value = cf15 + ctrl;
+    if (alertCitta) alert("📍 NOTA: Comune '"+luogo+"' non in lista. Sostituisci XXXX con il codice Belfiore corretto!");
+  }
+
+  /* ── RICERCA CONTATTO RUBRICA ──────────────────────────────────────────── */
+  function cercaContatto(idUnico) {
+    var card = document.getElementById(idUnico);
+    var nome = card.querySelector('.vend-nome').value.trim();
+    if (!nome) { alert("⚠️ Inserisci un nome prima di cercare!"); return; }
+
+    var btn = card.querySelector('button[onclick^="cercaContatto"]');
+    var orig = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-amber-500"></i>';
+    btn.disabled = true;
+
+    google.script.run
+      .withSuccessHandler(function(res) {
+        btn.innerHTML = orig; btn.disabled = false;
+        if (!res.successo) { alert("⚠️ " + res.errore); return; }
+        var c = res.contatti;
+        if (c.length === 1) {
+          card.querySelector('.vend-nome').value = c[0].nome;
+          card.querySelector('.vend-tel').value  = c[0].telefono;
+        } else {
+          var msg = "Più contatti trovati:\n\n";
+          c.forEach(function(x,i){ msg += (i+1)+". "+x.nome+" ("+x.tipo+"): "+x.telefono+"\n"; });
+          var sc = prompt(msg);
+          if (sc) { var idx = parseInt(sc,10)-1; if(c[idx]){ card.querySelector('.vend-nome').value=c[idx].nome; card.querySelector('.vend-tel').value=c[idx].telefono; } }
+        }
+      })
+      .withFailureHandler(function(e){ btn.innerHTML=orig; btn.disabled=false; alert("❌ "+e.toString()); })
+      .cercaContattoInRubricaGoogle(nome);
+  }
+
+  /* ── FIRMA FULLSCREEN ──────────────────────────────────────────────────── */
+  function apriFirmaFullscreen(idUnico) {
+    activeVenditoreFirmaId = idUnico;
+    var nome = document.getElementById(idUnico).querySelector('.vend-nome').value.trim() || "Venditore";
+    document.getElementById('modalFirmaTitolo').innerText = "Firma di: " + nome.toUpperCase();
+    var m = document.getElementById('modalFirmaFullscreen');
+    m.classList.remove('hidden'); m.style.display = 'flex';
+
+    canvasFull = document.getElementById('canvasFullscreen');
+    ctxFull    = canvasFull.getContext('2d');
+    var cont   = canvasFull.parentElement;
+    canvasFull.width  = cont.clientWidth;
+    canvasFull.height = cont.clientHeight;
+    ctxFull.strokeStyle='#000'; ctxFull.lineWidth=4; ctxFull.lineCap='round'; ctxFull.lineJoin='round';
+    _agganciaEventiCanvas();
+  }
+
+  function _agganciaEventiCanvas() {
+    var fn = function(e) {
+      var r = canvasFull.getBoundingClientRect();
+      var cx = e.touches?e.touches[0].clientX:e.clientX;
+      var cy = e.touches?e.touches[0].clientY:e.clientY;
+      return { x:cx-r.left, y:cy-r.top };
+    };
+    canvasFull.onmousedown  = function(e){ disegnoFull=true; ctxFull.beginPath(); var p=fn(e); ctxFull.moveTo(p.x,p.y); };
+    canvasFull.onmousemove  = function(e){ if(!disegnoFull)return; var p=fn(e); ctxFull.lineTo(p.x,p.y); ctxFull.stroke(); };
+    window.onmouseup        = function(){ disegnoFull=false; };
+    canvasFull.addEventListener('touchstart',function(e){ disegnoFull=true; ctxFull.beginPath(); var p=fn(e); ctxFull.moveTo(p.x,p.y); e.preventDefault();},{passive:false});
+    canvasFull.addEventListener('touchmove', function(e){ if(!disegnoFull)return; var p=fn(e); ctxFull.lineTo(p.x,p.y); ctxFull.stroke(); e.preventDefault();},{passive:false});
+    canvasFull.addEventListener('touchend',  function(){ disegnoFull=false; });
+  }
+
+  function chiudiModalFirma(pulisci) {
+    var m = document.getElementById('modalFirmaFullscreen');
+    m.classList.add('hidden'); m.style.display='none';
+    if(pulisci && ctxFull) ctxFull.clearRect(0,0,canvasFull.width,canvasFull.height);
+  }
+
+  function salvaFirmaFullscreen() {
+    var vuoto = document.createElement('canvas');
+    vuoto.width=canvasFull.width; vuoto.height=canvasFull.height;
+    if(canvasFull.toDataURL()===vuoto.toDataURL()){ alert("Traccia la firma prima di salvare!"); return; }
+    firmeSalvateBase64[activeVenditoreFirmaId] = canvasFull.toDataURL('image/png');
+    var spia = document.getElementById('statusFirma_' + activeVenditoreFirmaId);
+    if(spia){ spia.innerHTML='<i class="fa-solid fa-circle-check"></i> ACQUISITA'; spia.className='text-[10px] font-black text-verdeTetto uppercase'; }
+    chiudiModalFirma(true);
+  }
+
+  /* ── GESTIONE BOZZE (auto-save + manuale + ripresa lavoro) ──────────────── */
+
+  /** Raccoglie tutti i dati del form in un oggetto, riutilizzabile sia per bozza che per submit finale */
+  function raccogliDatiForm() {
+    var tipoFirma = document.getElementById('tipoFirma').value;
+    var venditori = [];
+    document.querySelectorAll('#listaVenditori > div').forEach(function(card) {
+      venditori.push({
+        nome:        card.querySelector('.vend-nome').value.trim().toUpperCase(),
+        dataNascita: card.querySelector('.vend-nascita').value.trim(),
+        luogoNascita:card.querySelector('.vend-luogo').value.trim().toUpperCase(),
+        cf:          card.querySelector('.vend-cf').value.trim().toUpperCase(),
+        residenza:   card.querySelector('.vend-residenza').value.trim().toUpperCase(),
+        telefono:    card.querySelector('.vend-tel').value.trim(),
+        quota:       card.querySelector('.vend-quota').value.trim(),
+        firma:       tipoFirma === 'digitale' ? (firmeSalvateBase64[card.id] || "") : ""
+      });
+    });
+
+    var catasto = [];
+    document.querySelectorAll('#listaCatasto > div').forEach(function(row) {
+      catasto.push({
+        foglio:      row.querySelector('.cat-foglio').value.trim(),
+        particella:  row.querySelector('.cat-particella').value.trim(),
+        sub:         row.querySelector('.cat-sub').value.trim(),
+        categoria:   row.querySelector('.cat-categoria').value.trim().toUpperCase(),
+        consistenza: row.querySelector('.cat-consistenza').value.trim().toUpperCase(),
+        descrizione: row.querySelector('.cat-descrizione').value.trim().toUpperCase()
+      });
+    });
+
+    return {
+      agente:        document.getElementById('agente').value,
+      luogoFirma:    document.getElementById('luogoFirma').value,
+      dataIncarico:  document.getElementById('dataIncarico').value,
+      tipoIncarico:  document.getElementById('tipoIncarico').value,
+      tipoImmobile:            document.getElementById('tipoImmobile').value,
+      affittato:               document.getElementById('affittato').value,
+      urbanisticaCatastale:    document.getElementById('urbanisticaCatastale').value,
+      condizioniCondominiali:  document.getElementById('condizioniCondominiali').value || "Nulla da segnalare",
+      classeEnergeticaApe:     document.getElementById('classeEnergeticaApe').value,
+      mutuoResiduo:            document.getElementById('mutuoResiduo').value,
+      dataRogitoPrevista:      document.getElementById('dataRogitoPrevista').value,
+      prezzoVendita: document.getElementById('prezzoVendita').value,
+      prezzoMinimo:  document.getElementById('prezzoMinimo').value,
+      durataMesi:    document.getElementById('durataMesi').value,
+      noteLibere:    document.getElementById('noteLibere').value,
+      catasto_tipo:  document.getElementById('catasto_tipo').value,
+      venditori:     venditori,
+      catasto:       catasto,
+      tipoFirma:     tipoFirma,
+      aml_natura_giuridica: document.getElementById('aml_natura_giuridica').value,
+      aml_area_geo:         document.getElementById('aml_area_geo').value,
+      aml_comportamento:    document.getElementById('aml_comportamento').value,
+      aml_origine_fondi:    document.getElementById('aml_origine_fondi').value,
+      aml_frequenza:        document.getElementById('aml_frequenza').value,
+      aml_congruita:        document.getElementById('aml_congruita').value,
+      aml_profilo_finale:   document.getElementById('aml_profilo_finale').value,
+      aml_note_motivazione: document.getElementById('aml_note_motivazione').value,
+      aml_settore_attivita: document.getElementById('aml_settore_attivita').value,
+      aml_pep:              document.getElementById('aml_pep').value,
+      aml_scopo_operazione: document.getElementById('aml_scopo_operazione').value,
+      aml_scopo_altro:      document.getElementById('aml_scopo_altro').value
+    };
+  }
+
+  /** Salva la bozza corrente (silenziosa se auto-save, con feedback se manuale) */
+  function salvaBozzaCorrente(manuale) {
+    var dati = raccogliDatiForm();
+    var statoEl = document.getElementById('statoAutoSave');
+
+    if (manuale) {
+      statoEl.innerText = "⏳ Salvataggio in corso...";
+      statoEl.className = "text-[10px] font-bold text-amber-600";
+    }
+
+    google.script.run
+      .withSuccessHandler(function(res) {
+        if (res.successo) {
+          idBozzaCorrente = res.idBozza;
+          var ora = new Date().toLocaleTimeString('it-IT', {hour:'2-digit', minute:'2-digit'});
+          statoEl.innerText = "✅ Bozza salvata alle " + ora;
+          statoEl.className = "text-[10px] font-bold text-emerald-600";
+        } else if (manuale) {
+          statoEl.innerText = "⚠️ Errore salvataggio bozza";
+          statoEl.className = "text-[10px] font-bold text-rose-600";
+        }
+      })
+      .withFailureHandler(function() {
+        if (manuale) {
+          statoEl.innerText = "⚠️ Errore di connessione";
+          statoEl.className = "text-[10px] font-bold text-rose-600";
+        }
+      })
+      .salvaBozzaIncarico(idBozzaCorrente, dati);
+  }
+
+  /** Carica e precompila il form con i dati di una bozza esistente */
+  function caricaBozzaEsistente(idBozza) {
+    document.getElementById('loader-testo').innerText = "Caricamento bozza in corso...";
+    document.getElementById('loader').classList.remove('hidden');
+    document.getElementById('incaricoForm').classList.add('hidden');
+
+    google.script.run
+      .withSuccessHandler(function(res) {
+        document.getElementById('loader').classList.add('hidden');
+        document.getElementById('incaricoForm').classList.remove('hidden');
+
+        if (!res.successo) { alert("⚠️ " + res.messaggio); return; }
+        var d = res.dati;
+        idBozzaCorrente = idBozza;
+
+        document.getElementById('agente').value = d.agente || 'Antonio Giancani';
+        document.getElementById('luogoFirma').value = d.luogoFirma || 'Favara (AG)';
+        if (d.dataIncarico) document.getElementById('dataIncarico').value = d.dataIncarico;
+        document.getElementById('tipoIncarico').value = d.tipoIncarico || 'ESCLUSIVA';
+        document.getElementById('tipoImmobile').value = d.tipoImmobile || 'Appartamento';
+        document.getElementById('affittato').value = d.affittato || 'no';
+        document.getElementById('urbanisticaCatastale').value = d.urbanisticaCatastale || '';
+        document.getElementById('condizioniCondominiali').value = d.condizioniCondominiali || '';
+        document.getElementById('classeEnergeticaApe').value = d.classeEnergeticaApe || 'N/D';
+        document.getElementById('mutuoResiduo').value = d.mutuoResiduo || '';
+        if (d.dataRogitoPrevista) document.getElementById('dataRogitoPrevista').value = d.dataRogitoPrevista;
+        document.getElementById('prezzoVendita').value = d.prezzoVendita || '';
+        document.getElementById('prezzoMinimo').value = d.prezzoMinimo || '';
+        document.getElementById('durataMesi').value = d.durataMesi || '24';
+        document.getElementById('noteLibere').value = d.noteLibere || '';
+        document.getElementById('catasto_tipo').value = d.catasto_tipo || 'FABBRICATI';
+        document.getElementById('tipoFirma').value = d.tipoFirma || 'digitale';
+
+        document.getElementById('aml_natura_giuridica').value = d.aml_natura_giuridica || document.getElementById('aml_natura_giuridica').value;
+        document.getElementById('aml_area_geo').value = d.aml_area_geo || document.getElementById('aml_area_geo').value;
+        document.getElementById('aml_comportamento').value = d.aml_comportamento || document.getElementById('aml_comportamento').value;
+        document.getElementById('aml_origine_fondi').value = d.aml_origine_fondi || document.getElementById('aml_origine_fondi').value;
+        document.getElementById('aml_frequenza').value = d.aml_frequenza || document.getElementById('aml_frequenza').value;
+        document.getElementById('aml_congruita').value = d.aml_congruita || document.getElementById('aml_congruita').value;
+        document.getElementById('aml_profilo_finale').value = d.aml_profilo_finale || 'MEDIO';
+        document.getElementById('aml_note_motivazione').value = d.aml_note_motivazione || '';
+        document.getElementById('aml_settore_attivita').value = d.aml_settore_attivita || '';
+        document.getElementById('aml_pep').value = d.aml_pep || 'no';
+        document.getElementById('aml_scopo_operazione').value = d.aml_scopo_operazione || 'abitazione_principale';
+        document.getElementById('aml_scopo_altro').value = d.aml_scopo_altro || '';
+
+        // Ricostruisce venditori
+        document.getElementById('listaVenditori').innerHTML = '';
+        (d.venditori || []).forEach(function(v) { aggiungiVenditore(v); });
+        if (!d.venditori || !d.venditori.length) aggiungiVenditore();
+
+        // Ricostruisce catasto
+        document.getElementById('listaCatasto').innerHTML = '';
+        (d.catasto || []).forEach(function(c) { aggiungiRigaCatasto(c); });
+        if (!d.catasto || !d.catasto.length) aggiungiRigaCatasto();
+
+        toggleBoxApe();
+        aggiornaBadgeAml();
+        aggiornaCalcoloProvv();
+
+        document.getElementById('statoAutoSave').innerText = "📂 Bozza caricata — auto-save attivo";
+        document.getElementById('statoAutoSave').className = "text-[10px] font-bold text-indigo-600";
+      })
+      .withFailureHandler(function(err) {
+        document.getElementById('loader').classList.add('hidden');
+        document.getElementById('incaricoForm').classList.remove('hidden');
+        alert("Errore caricamento bozza: " + err.message);
+      })
+      .recuperaBozzaIncarico(idBozza);
+  }
+
+  /* ── RACCOLTA DATI CENTRALIZZATA (usata sia da submit che da autosave) ──── */
+  function raccogliDatiForm() {
+    var tipoFirma = document.getElementById('tipoFirma').value;
+    var vCards    = document.querySelectorAll('#listaVenditori > div');
+    var venditori = [];
+
+    vCards.forEach(function(card) {
+      venditori.push({
+        nome:        card.querySelector('.vend-nome').value.trim().toUpperCase(),
+        dataNascita: card.querySelector('.vend-nascita').value.trim(),
+        luogoNascita:card.querySelector('.vend-luogo').value.trim().toUpperCase(),
+        cf:          card.querySelector('.vend-cf').value.trim().toUpperCase(),
+        residenza:   card.querySelector('.vend-residenza').value.trim().toUpperCase(),
+        telefono:    card.querySelector('.vend-tel').value.trim(),
+        quota:       card.querySelector('.vend-quota').value.trim(),
+        firma:       tipoFirma === 'digitale' ? (firmeSalvateBase64[card.id] || "") : ""
+      });
+    });
+
+    var catasto = [];
+    document.querySelectorAll('#listaCatasto > div').forEach(function(row) {
+      catasto.push({
+        foglio:      row.querySelector('.cat-foglio').value.trim(),
+        particella:  row.querySelector('.cat-particella').value.trim(),
+        sub:         row.querySelector('.cat-sub').value.trim(),
+        categoria:   row.querySelector('.cat-categoria').value.trim().toUpperCase(),
+        consistenza: row.querySelector('.cat-consistenza').value.trim().toUpperCase(),
+        descrizione: row.querySelector('.cat-descrizione').value.trim().toUpperCase()
+      });
+    });
+
+    var docArray = [];
+    vCards.forEach(function(card){ docArray.push(documentiVenditori[card.id] || null); });
+
+    return {
+      agente:        document.getElementById('agente').value,
+      luogoFirma:    document.getElementById('luogoFirma').value,
+      dataIncarico:  document.getElementById('dataIncarico').value,
+      tipoIncarico:  document.getElementById('tipoIncarico').value,
+
+      tipoImmobile:            document.getElementById('tipoImmobile').value,
+      affittato:               document.getElementById('affittato').value,
+      urbanisticaCatastale:    document.getElementById('urbanisticaCatastale').value,
+      condizioniCondominiali:  document.getElementById('condizioniCondominiali').value || "Nulla da segnalare",
+      classeEnergeticaApe:     document.getElementById('classeEnergeticaApe').value,
+      mutuoResiduo:            document.getElementById('mutuoResiduo').value,
+      dataRogitoPrevista:      document.getElementById('dataRogitoPrevista').value,
+
+      prezzoVendita: document.getElementById('prezzoVendita').value.replace(/\./g,'').replace(',','.'),
+      prezzoMinimo:  document.getElementById('prezzoMinimo').value.replace(/\./g,'').replace(',','.'),
+      durataMesi:    document.getElementById('durataMesi').value,
+      noteLibere:    document.getElementById('noteLibere').value,
+      catasto_tipo:  document.getElementById('catasto_tipo').value,
+      venditori:     venditori,
+      catasto:       catasto,
+      documenti:     docArray,
+      tipoFirma:     tipoFirma,
+
+      aml_natura_giuridica: document.getElementById('aml_natura_giuridica').value,
+      aml_area_geo:         document.getElementById('aml_area_geo').value,
+      aml_comportamento:    document.getElementById('aml_comportamento').value,
+      aml_origine_fondi:    document.getElementById('aml_origine_fondi').value,
+      aml_frequenza:        document.getElementById('aml_frequenza').value,
+      aml_congruita:        document.getElementById('aml_congruita').value,
+      aml_profilo_finale:   document.getElementById('aml_profilo_finale').value,
+      aml_note_motivazione: document.getElementById('aml_note_motivazione').value,
+      aml_settore_attivita: document.getElementById('aml_settore_attivita').value,
+      aml_pep:              document.getElementById('aml_pep').value,
+      aml_scopo_operazione: document.getElementById('aml_scopo_operazione').value,
+      aml_scopo_altro:      document.getElementById('aml_scopo_altro').value
+    };
+  }
+
+  /* ── AUTOSAVE: ogni 30 secondi, silenzioso ──────────────────────────────── */
+  function avviaAutosave() {
+    if (autosaveTimer) clearInterval(autosaveTimer);
+    autosaveTimer = setInterval(function() {
+      salvaBozzaOra(false);
+    }, 30000);
+  }
+
+  /** Salva la bozza corrente. manuale=true mostra feedback all'utente. */
+  function salvaBozzaOra(manuale) {
+    var dati = raccogliDatiForm();
+
+    // Evita di salvare bozze completamente vuote
+    var haAlmenoUnVenditore = dati.venditori.some(function(v){ return v.nome; });
+    if (!haAlmenoUnVenditore && !manuale) return;
+
+    var statoEl = document.getElementById('statoAutosave');
+    if (manuale) statoEl.innerText = "💾 Salvataggio...";
+
+    google.script.run
+      .withSuccessHandler(function(res) {
+        if (res.successo) {
+          idBozzaCorrente = res.idBozza;
+          var ora = new Date();
+          var hh = String(ora.getHours()).padStart(2,'0');
+          var mm = String(ora.getMinutes()).padStart(2,'0');
+          statoEl.innerText = "✅ Bozza salvata alle " + hh + ":" + mm;
+          if (manuale) {
+            setTimeout(function(){ statoEl.innerText = ""; }, 4000);
+          }
+        } else if (manuale) {
+          statoEl.innerText = "⚠️ Errore salvataggio";
+          alert("Errore nel salvataggio bozza: " + (res.messaggio || ""));
+        }
+      })
+      .withFailureHandler(function(err) {
+        if (manuale) {
+          statoEl.innerText = "⚠️ Errore salvataggio";
+          alert("Errore: " + err.message);
+        }
+      })
+      .salvaBozzaIncarico(idBozzaCorrente, dati);
+  }
+
+  /* ── CARICA BOZZA ESISTENTE (da ?riprendi=ID) ───────────────────────────── */
+  function caricaBozzaEsistente(idBozza) {
+    document.getElementById('loader').classList.remove('hidden');
+    document.getElementById('loader-testo').innerText = "Caricamento bozza in corso...";
+
+    google.script.run
+      .withSuccessHandler(function(res) {
+        document.getElementById('loader').classList.add('hidden');
+        if (!res.successo) {
+          alert("Impossibile caricare la bozza: " + (res.messaggio || ""));
+          return;
+        }
+        idBozzaCorrente = idBozza;
+        precompilaForm(res.dati);
+      })
+      .withFailureHandler(function(err) {
+        document.getElementById('loader').classList.add('hidden');
+        alert("Errore caricamento bozza: " + err.message);
+      })
+      .recuperaBozzaIncarico(idBozza);
+  }
+
+  /** Precompila tutti i campi del form a partire da un oggetto dati salvato */
+  function precompilaForm(dati) {
+    document.getElementById('agente').value = dati.agente || "Antonio Giancani";
+    document.getElementById('luogoFirma').value = dati.luogoFirma || "Favara (AG)";
+    if (dati.dataIncarico) document.getElementById('dataIncarico').value = dati.dataIncarico;
+    document.getElementById('tipoIncarico').value = dati.tipoIncarico || "ESCLUSIVA";
+
+    document.getElementById('tipoImmobile').value = dati.tipoImmobile || "Appartamento";
+    document.getElementById('affittato').value = dati.affittato || "no";
+    document.getElementById('urbanisticaCatastale').value = dati.urbanisticaCatastale || "";
+    document.getElementById('condizioniCondominiali').value = dati.condizioniCondominiali || "";
+    document.getElementById('classeEnergeticaApe').value = dati.classeEnergeticaApe || "N/D";
+    document.getElementById('mutuoResiduo').value = dati.mutuoResiduo || "";
+    if (dati.dataRogitoPrevista) document.getElementById('dataRogitoPrevista').value = dati.dataRogitoPrevista;
+    toggleBoxApe();
+
+    document.getElementById('prezzoVendita').value = dati.prezzoVendita || "";
+    document.getElementById('prezzoMinimo').value = dati.prezzoMinimo || "";
+    document.getElementById('durataMesi').value = dati.durataMesi || "24";
+    document.getElementById('noteLibere').value = dati.noteLibere || "";
+    document.getElementById('catasto_tipo').value = dati.catasto_tipo || "FABBRICATI";
+    aggiornaCalcoloProvv();
+
+    document.getElementById('tipoFirma').value = dati.tipoFirma || "digitale";
+
+    document.getElementById('aml_natura_giuridica').value = dati.aml_natura_giuridica || "Persona fisica/Ditta Individuale (Basso)";
+    document.getElementById('aml_area_geo').value = dati.aml_area_geo || "Italia (Basso)";
+    document.getElementById('aml_comportamento').value = dati.aml_comportamento || "Nella norma / Collaborativo (Basso)";
+    document.getElementById('aml_origine_fondi').value = dati.aml_origine_fondi || "Finanziamento/Mutuo (Basso)";
+    document.getElementById('aml_frequenza').value = dati.aml_frequenza || "Occasionale (Basso)";
+    document.getElementById('aml_congruita').value = dati.aml_congruita || "Congrua rispetto al mercato (Basso)";
+    document.getElementById('aml_profilo_finale').value = dati.aml_profilo_finale || "MEDIO";
+    document.getElementById('aml_note_motivazione').value = dati.aml_note_motivazione || "";
+    document.getElementById('aml_settore_attivita').value = dati.aml_settore_attivita || "";
+    document.getElementById('aml_pep').value = dati.aml_pep || "no";
+    document.getElementById('aml_scopo_operazione').value = dati.aml_scopo_operazione || "abitazione_principale";
+    document.getElementById('aml_scopo_altro').value = dati.aml_scopo_altro || "";
+    document.getElementById('boxScopoAltro').classList.toggle('hidden', dati.aml_scopo_operazione !== 'altro');
+    aggiornaBadgeAml();
+
+    // Svuota i venditori/catasto di default e ricarica quelli salvati
+    document.getElementById('listaVenditori').innerHTML = '';
+    document.getElementById('listaCatasto').innerHTML = '';
+
+    (dati.venditori || []).forEach(function(v) {
+      aggiungiVenditore(v);
+    });
+    (dati.catasto || []).forEach(function(c) {
+      aggiungiRigaCatasto(c);
+    });
+
+    if (!document.getElementById('listaVenditori').children.length) aggiungiVenditore();
+    if (!document.getElementById('listaCatasto').children.length) aggiungiRigaCatasto();
+
+    document.getElementById('statoAutosave').innerText = "📂 Bozza caricata — pronta per la modifica";
+    setTimeout(function(){ document.getElementById('statoAutosave').innerText = ""; }, 5000);
+  }
+
+  /* ── SUBMIT ────────────────────────────────────────────────────────────── */
+  function gestioneSottomissione(e) {
+    e.preventDefault();
+
+    var vCards = document.querySelectorAll('#listaVenditori > div');
+    if (!vCards.length) { alert("Inserisci almeno un venditore!"); return; }
+
+    var bloccoAuth = false;
+    vCards.forEach(function(card) {
+      if (card.getAttribute('data-autenticato') !== 'true') bloccoAuth = true;
+    });
+    if (bloccoAuth) { alert("⚠️ Tutti i venditori devono verificare il proprio OTP!"); return; }
+
+    var catastoCheck = document.querySelectorAll('#listaCatasto > div');
+    if (!catastoCheck.length) { alert("Inserisci almeno una riga catastale!"); return; }
+
+    var pacchetto = raccogliDatiForm();
+    var venditori = pacchetto.venditori;
+    var tipoFirma = pacchetto.tipoFirma;
+
+    // Interrompe l'autosave automatico durante l'invio finale
+    if (autosaveTimer) clearInterval(autosaveTimer);
+
+    document.getElementById('incaricoForm').classList.add('hidden');
+    document.getElementById('loader-testo').innerText = "DarIA sta generando l'incarico...";
+    document.getElementById('loader').classList.remove('hidden');
+
+    if (tipoFirma === 'remota') {
+      google.script.run
+        .withSuccessHandler(function(res) {
+          document.getElementById('loader').classList.add('hidden');
+          if (res.successo) {
+            if (idBozzaCorrente) google.script.run.completaBozzaIncarico(idBozzaCorrente);
+            _mostraLinkFirmaRemota(res.urlBase, res.token, venditori);
+            document.getElementById('successo').classList.remove('hidden');
+          } else {
+            alert(res.messaggio);
+            document.getElementById('incaricoForm').classList.remove('hidden');
+            avviaAutosave();
+          }
+        })
+        .withFailureHandler(function(err) {
+          document.getElementById('loader').classList.add('hidden');
+          document.getElementById('incaricoForm').classList.remove('hidden');
+          avviaAutosave();
+          alert("Errore: " + err.message);
+        })
+        .generaLinkFirmaRemotaIncarico(pacchetto);
+    } else {
+      google.script.run
+        .withSuccessHandler(function(res) {
+          document.getElementById('loader').classList.add('hidden');
+          if (res.successo) {
+            if (idBozzaCorrente) google.script.run.completaBozzaIncarico(idBozzaCorrente);
+            document.getElementById('lnkStampa').href = res.urlPdf;
+            document.getElementById('qrContratto').src = "https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=" + encodeURIComponent(res.urlPdf);
+            var tel0 = (venditori[0].telefono||"").replace(/\D/g,'');
+            if(!tel0.startsWith('39')&&tel0.length===10) tel0='39'+tel0;
+            document.getElementById('btnCondividiWaFinal').href = "https://wa.me/"+tel0+"?text="+encodeURIComponent("IMMOBILIARE GIANCANI\n📄 Il tuo incarico firmato:\n"+res.urlPdf);
+            document.getElementById('successo').classList.remove('hidden');
+          } else {
+            alert(res.messaggio);
+            document.getElementById('incaricoForm').classList.remove('hidden');
+            avviaAutosave();
+          }
+        })
+        .withFailureHandler(function(err) {
+          document.getElementById('loader').classList.add('hidden');
+          document.getElementById('incaricoForm').classList.remove('hidden');
+          alert("Errore: " + err.message);
+        })
+        .salvaDatiIncarico(pacchetto);
+       
+    }
+  }
+
+  function _mostraLinkFirmaRemota(urlBase, token, venditori) {
+    var box   = document.getElementById('boxLinkFirma');
+    var lista = document.getElementById('listaLinkFirma');
+    box.classList.remove('hidden');
+    lista.innerHTML = '';
+    venditori.forEach(function(v,i) {
+      var t = (v.telefono||"").replace(/\D/g,'');
+      if(!t.startsWith('39')&&t.length===10) t='39'+t;
+      var link  = urlBase + "?page=firma_incarico&token=" + token + "&cli=" + i;
+      var testoCondividi = "IMMOBILIARE GIANCANI\n✍️ Firma Incarico Vendita\n\nGentile " + v.nome + ", clicca sul link seguente per sottoscrivere i moduli di Incarico, Privacy e AML:\n" + link;
+      
+      var linkWa  = "https://wa.me/" + t + "?text=" + encodeURIComponent(testoCondividi);
+      var linkTg  = "https://t.me/share/url?url=" + encodeURIComponent(link) + "&text=" + encodeURIComponent(testoCondividi);
+      var linkMail = "mailto:" + (v.email||"") + "?subject=" + encodeURIComponent("Firma Incarico Immobiliare Giancani") + "&body=" + encodeURIComponent(testoCondividi);
+      
+      var d = document.createElement('div');
+      d.className = "flex flex-col bg-white rounded-xl p-3 border border-indigo-200 mt-2 space-y-2 text-left";
+      d.innerHTML = '<div class="flex justify-between items-center border-b pb-1 border-slate-100">' +
+        '<span class="text-xs font-black text-indigo-900 uppercase">' + v.nome + '</span>' +
+        '<span class="text-[9px] font-bold text-slate-400">#' + (i+1) + ' Proprietario</span>' +
+        '</div>' +
+        '<div class="flex flex-wrap gap-1.5 justify-start">' +
+        '  <a href="' + linkWa + '" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[9px] px-2 py-1.5 rounded-lg flex items-center gap-1"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>' +
+        '  <a href="' + linkTg + '" target="_blank" class="bg-sky-500 hover:bg-sky-600 text-white font-bold text-[9px] px-2 py-1.5 rounded-lg flex items-center gap-1"><i class="fa-brands fa-telegram"></i> Telegram</a>' +
+        '  <a href="' + linkMail + '" class="bg-slate-600 hover:bg-slate-700 text-white font-bold text-[9px] px-2 py-1.5 rounded-lg flex items-center gap-1"><i class="fa-solid fa-envelope"></i> Email</a>' +
+        '  <button onclick="copiaLinkFirma(\'' + link + '\')" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold text-[9px] px-2 py-1.5 rounded-lg flex items-center gap-1"><i class="fa-solid fa-copy"></i> Copia Link</button>' +
+        '</div>';
+      lista.appendChild(d);
+    });
+    document.getElementById('lnkStampa').classList.add('hidden');
+  }
+
+  function copiaLinkFirma(link) {
+    navigator.clipboard.writeText(link).then(function() {
+      alert("📋 Link di firma copiato negli appunti!");
+    }).catch(function() {
+      alert("Errore nella copia. Link: " + link);
+    });
+  }
+</script>
+</body>
+</html>
+
+
+

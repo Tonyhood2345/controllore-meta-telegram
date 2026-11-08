@@ -1,0 +1,1308 @@
+// ==========================================
+
+<!DOCTYPE html>
+<html lang="it" x-data="app()" x-init="init()">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Centrale Boss</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    [x-cloak] { display: none !important; }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --bg:        #0b1120;
+      --surface:   #131f35;
+      --surface2:  #1a2a45;
+      --border:    rgba(148,163,184,0.10);
+      --accent:    #6366f1;
+      --accent2:   #8b5cf6;
+      --text:      #f1f5f9;
+      --muted:     #64748b;
+      --nav-h:     64px;
+      --safe-bot:  env(safe-area-inset-bottom, 0px);
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, 'SF Pro Display', 'Inter', system-ui, sans-serif;
+      height: 100%;
+      overscroll-behavior: none;
+    }
+
+    /* ── scrollarea principale: lascia spazio alla bottom nav ── */
+    body {
+      padding-bottom: calc(var(--nav-h) + var(--safe-bot));
+    }
+    @media (min-width: 1024px) {
+      body { padding-bottom: 0; }
+    }
+
+    /* ════════════════════════════════
+       BOTTOM NAV (mobile-first, sparisce su desktop)
+    ════════════════════════════════ */
+    .bnav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: calc(var(--nav-h) + var(--safe-bot));
+      padding-bottom: var(--safe-bot);
+      background: rgba(11, 17, 32, 0.96);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: stretch;
+      z-index: 100;
+    }
+    @media (min-width: 1024px) { .bnav { display: none; } }
+
+    .bnav-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding: 8px 4px;
+      position: relative;
+      -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      transition: color .15s;
+    }
+    .bnav-btn.active { color: var(--accent); }
+    .bnav-btn .icon {
+      font-size: 22px;
+      line-height: 1;
+      transition: transform .2s cubic-bezier(.34,1.56,.64,1);
+    }
+    .bnav-btn.active .icon { transform: scale(1.18); }
+    .bnav-btn .pill {
+      position: absolute;
+      top: 6px;
+      width: 36px; height: 3px;
+      border-radius: 2px;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity .15s;
+    }
+    .bnav-btn.active .pill { opacity: 1; }
+    .bnav-btn .lbl {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+
+    /* ════════════════════════════════
+       SIDEBAR DESKTOP (≥1024px)
+    ════════════════════════════════ */
+    .sidebar {
+      display: none;
+    }
+    @media (min-width: 1024px) {
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0; left: 0; bottom: 0;
+        width: 232px;
+        background: rgba(11, 17, 32, 0.98);
+        border-right: 1px solid var(--border);
+        z-index: 50;
+        overflow-y: auto;
+      }
+      .page-wrap { margin-left: 232px; }
+    }
+
+    .sb-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--muted);
+      transition: all .15s;
+      -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+    }
+    .sb-btn:hover { background: var(--surface); color: var(--text); }
+    .sb-btn.active {
+      background: linear-gradient(135deg, rgba(99,102,241,.18), rgba(139,92,246,.12));
+      color: #a5b4fc;
+      border-left: 3px solid var(--accent);
+      padding-left: 11px;
+    }
+
+    /* ════════════════════════════════
+       TAB BAR TABLET (768–1023px)
+    ════════════════════════════════ */
+    .tbar {
+      display: none;
+    }
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .tbar {
+        display: flex;
+        overflow-x: auto;
+        scrollbar-width: none;
+        gap: 4px;
+        padding: 8px 12px;
+        background: rgba(11, 17, 32, 0.96);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 56px;
+        z-index: 40;
+      }
+      .tbar::-webkit-scrollbar { display: none; }
+      body { padding-bottom: 0; }
+    }
+    .tbar-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .tbar-btn.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      box-shadow: 0 2px 12px rgba(99,102,241,.35);
+    }
+    .tbar-btn:not(.active):hover { background: var(--surface); color: var(--text); }
+
+    /* ════════════════════════════════
+       HEADER (mobile + tablet, hidden desktop)
+    ════════════════════════════════ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 56px;
+      background: rgba(11, 17, 32, 0.97);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+    }
+    @media (min-width: 1024px) { .topbar { display: none; } }
+
+    /* ════════════════════════════════
+       GLASSMORPHISM
+    ════════════════════════════════ */
+    .glass {
+      background: rgba(19, 31, 53, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+    }
+    .glass-2 {
+      background: rgba(26, 42, 69, 0.7);
+      border: 1px solid var(--border);
+    }
+
+    /* ════════════════════════════════
+       FORM ELEMENTS — mobile friendly
+    ════════════════════════════════ */
+    input, select, textarea {
+      background: rgba(11, 17, 32, 0.9) !important;
+      border: 1px solid rgba(148,163,184,.18) !important;
+      color: var(--text) !important;
+      border-radius: 12px;
+      /* min 16px per evitare zoom su iOS */
+      font-size: 16px !important;
+      padding: 12px !important;
+      width: 100%;
+      -webkit-appearance: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none !important;
+      border-color: var(--accent) !important;
+      box-shadow: 0 0 0 3px rgba(99,102,241,.18) !important;
+    }
+    select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+      background-repeat: no-repeat !important;
+      background-position: right 14px center !important;
+      padding-right: 36px !important;
+    }
+
+    /* ════════════════════════════════
+       PULSANTI — area di tocco 48px min
+    ════════════════════════════════ */
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 52px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: filter .15s, transform .1s;
+      width: 100%;
+    }
+    .btn-primary:active { transform: scale(.97); filter: brightness(.9); }
+    .btn-primary:disabled { opacity: .4; pointer-events: none; }
+
+    .btn-sm {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      min-height: 44px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: filter .12s, transform .1s;
+      padding: 0 12px;
+    }
+    .btn-sm:active { transform: scale(.96); }
+
+    /* ════════════════════════════════
+       CARD IMMOBILE
+    ════════════════════════════════ */
+    .imm-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: border-color .15s, background .15s;
+      active-state: brightness(.95);
+    }
+    .imm-card:active { background: var(--surface2); border-color: rgba(99,102,241,.4); }
+    @media (min-width: 1024px) {
+      .imm-card:hover { background: var(--surface2); border-color: rgba(99,102,241,.4); }
+    }
+
+    /* ════════════════════════════════
+       STELLE RATING
+    ════════════════════════════════ */
+    .star {
+      font-size: 28px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform .12s;
+      line-height: 1;
+      padding: 4px;
+    }
+    .star:active { transform: scale(1.3); }
+
+    /* ════════════════════════════════
+       BADGE & ANIMAZIONI
+    ════════════════════════════════ */
+    .badge-cold { animation: pulse-cold 2s infinite; }
+    @keyframes pulse-cold { 0%,100%{opacity:1} 50%{opacity:.55} }
+
+    /* ════════════════════════════════
+       TOAST
+    ════════════════════════════════ */
+    .toast-wrap {
+      position: fixed;
+      bottom: calc(var(--nav-h) + var(--safe-bot) + 12px);
+      left: 12px;
+      right: 12px;
+      z-index: 200;
+      pointer-events: none;
+    }
+    @media (min-width: 768px) {
+      .toast-wrap { bottom: 20px; left: auto; right: 20px; min-width: 300px; }
+    }
+    @media (min-width: 1024px) {
+      .toast-wrap { bottom: 24px; left: auto; right: 24px; }
+    }
+
+    /* ════════════════════════════════
+       MODAL — slide-up su mobile
+    ════════════════════════════════ */
+    .modal-sheet {
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+      background: rgba(0,0,0,.75);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: flex-end;
+    }
+    @media (min-width: 768px) {
+      .modal-sheet { align-items: center; justify-content: center; padding: 16px; }
+    }
+    .modal-body {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px 24px 0 0;
+      padding: 20px 16px;
+      max-height: 92dvh;
+      overflow-y: auto;
+      width: 100%;
+      -webkit-overflow-scrolling: touch;
+    }
+    @media (min-width: 768px) {
+      .modal-body {
+        border-radius: 20px;
+        max-width: 640px;
+        padding: 24px;
+      }
+    }
+    /* maniglia modale */
+    .modal-handle {
+      width: 40px; height: 4px;
+      background: rgba(148,163,184,.3);
+      border-radius: 2px;
+      margin: 0 auto 16px;
+    }
+    @media (min-width: 768px) { .modal-handle { display: none; } }
+
+    /* ════════════════════════════════
+       SCROLLBAR SOTTILE
+    ════════════════════════════════ */
+    ::-webkit-scrollbar { width: 3px; height: 3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(148,163,184,.25); border-radius: 2px; }
+
+    /* ════════════════════════════════
+       SECTION HEADER
+    ════════════════════════════════ */
+    .sec-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .sec-title {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -.3px;
+      line-height: 1.2;
+    }
+    .sec-sub {
+      font-size: 11.5px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* ════════════════════════════════
+       MAIN PADDING
+    ════════════════════════════════ */
+    .main-pad {
+      padding: 14px 12px 8px;
+    }
+    @media (min-width: 640px) { .main-pad { padding: 20px 20px 12px; } }
+    @media (min-width: 1024px) { .main-pad { padding: 28px 36px 20px; } }
+  </style>
+</head>
+<body>
+
+<!-- ══ TOAST ══ -->
+<div class="toast-wrap" x-show="toast.show" x-cloak x-transition>
+  <div class="rounded-2xl px-4 py-3.5 text-sm font-bold shadow-2xl flex items-center gap-2.5 text-white"
+       :class="toast.type==='ok'?'bg-emerald-600':'bg-red-600'">
+    <span x-text="toast.type==='ok'?'✅':'❌'" class="text-base"></span>
+    <span x-text="toast.msg" class="flex-1"></span>
+  </div>
+</div>
+
+<!-- ══ LAYOUT WRAPPER ══ -->
+<div class="flex min-h-screen">
+
+  <!-- SIDEBAR DESKTOP -->
+  <aside class="sidebar">
+    <div style="padding:20px 14px 16px; border-bottom:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;flex-shrink:0">G</div>
+        <div>
+          <p style="font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700">Antonio Giancani</p>
+          <p style="font-size:14px;font-weight:900;color:var(--text);line-height:1.2">Centrale Boss <span style="color:#a5b4fc;font-weight:500;font-size:10px">v3.5</span></p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;margin-top:10px;background:rgba(11,17,32,.7);padding:6px 10px;border-radius:8px;border:1px solid var(--border)">
+        <span style="width:7px;height:7px;border-radius:50%;background:#10b981;flex-shrink:0;animation:pulse-dot 2s infinite"></span>
+        <span style="font-size:10px;color:var(--muted);font-weight:600;font-family:monospace">DarIA Attivo</span>
+      </div>
+    </div>
+    <style>@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}</style>
+
+    <nav style="padding:10px 8px;flex:1">
+      <template x-for="t in tabs" :key="t.id">
+        <button @click="tab=t.id" :class="tab===t.id?'active':''" class="sb-btn">
+          <span style="font-size:16px;width:22px;text-align:center" x-text="t.icon"></span>
+          <span x-text="t.label"></span>
+        </button>
+      </template>
+    </nav>
+
+    <div style="padding:12px 14px;border-top:1px solid var(--border)">
+      <template x-if="festeggiati.length>0">
+        <button @click="tab='compleanni'"
+                style="width:100%;display:flex;align-items:center;gap:8px;background:#f59e0b;color:#0b1120;border-radius:10px;padding:10px 12px;font-size:12px;font-weight:800;border:none;cursor:pointer">
+          🎂 <span>Compleanni oggi</span>
+          <span style="margin-left:auto;background:#0b1120;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px" x-text="festeggiati.length"></span>
+        </button>
+      </template>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <div class="page-wrap" style="flex:1;min-width:0">
+
+    <!-- TOPBAR mobile/tablet -->
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff">G</div>
+        <div>
+          <p style="font-size:9px;text-transform:uppercase;color:var(--muted);font-weight:700;line-height:1">Antonio Giancani</p>
+          <p style="font-size:15px;font-weight:900;line-height:1.2">Centrale Boss <span style="color:#a5b4fc;font-size:11px;font-weight:500">v3.5</span></p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <template x-if="festeggiati.length>0">
+          <button @click="tab='compleanni'"
+                  style="display:flex;align-items:center;gap:5px;background:#f59e0b;color:#0b1120;border-radius:50px;padding:6px 10px;font-size:11px;font-weight:800;border:none;cursor:pointer;animation:bounce .8s infinite alternate">
+            🎂
+            <span style="background:#0b1120;color:#fff;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:9px" x-text="festeggiati.length"></span>
+          </button>
+        </template>
+        <style>@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-3px)}}</style>
+        <div style="display:flex;align-items:center;gap:5px;background:rgba(11,17,32,.8);padding:5px 8px;border-radius:8px;border:1px solid var(--border)">
+          <span style="width:6px;height:6px;border-radius:50%;background:#10b981;animation:pulse-dot 2s infinite"></span>
+          <span style="font-size:9px;color:var(--muted);font-weight:600;font-family:monospace" class="hidden sm:inline">DarIA</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- TAB BAR TABLET -->
+    <div class="tbar">
+      <template x-for="t in tabs" :key="t.id">
+        <button @click="tab=t.id" :class="tab===t.id?'active':''" class="tbar-btn">
+          <span x-text="t.icon"></span><span x-text="t.label"></span>
+        </button>
+      </template>
+    </div>
+
+    <!-- ══ PAGINE ══ -->
+    <main class="main-pad" style="max-width:1360px;margin:0 auto">
+
+      <!-- ── IMMOBILI ── -->
+      <div x-show="tab==='immobili'" x-cloak>
+        <div class="sec-head">
+          <div>
+            <div class="sec-title" style="color:#a5b4fc">🏠 Catalogo Immobili</div>
+            <div class="sec-sub">Disponibilità, visite, giorni di stasi</div>
+          </div>
+          <button @click="modalNuovoImm=true"
+                  style="background:var(--accent);color:#fff;border-radius:12px;padding:10px 16px;font-size:12px;font-weight:800;border:none;cursor:pointer;white-space:nowrap;flex-shrink:0;min-height:44px">
+            + Nuovo
+          </button>
+        </div>
+
+        <template x-if="immobili.length===0 && !loading">
+          <div class="glass" style="border-radius:18px;padding:40px 20px;text-align:center;color:var(--muted);font-size:13px;border-style:dashed">
+            Nessun immobile nel database operativo.
+          </div>
+        </template>
+
+        <div style="display:grid;grid-template-columns:1fr;gap:12px">
+          <style>@media(min-width:640px){.imm-grid{grid-template-columns:repeat(2,1fr)!important}}@media(min-width:1024px){.imm-grid{grid-template-columns:repeat(3,1fr)!important}}</style>
+          <div class="imm-grid" style="display:grid;grid-template-columns:1fr;gap:12px">
+            <template x-for="imm in immobili" :key="imm.ID_IMMOBILE">
+              <div class="imm-card" @click="apriDettaglioImm(imm)">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+                  <div style="min-width:0;flex:1">
+                    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                      <span style="font-size:15px;font-weight:800;color:var(--text)" x-text="imm.TIPOLOGIA||'Immobile'"></span>
+                      <span x-show="imm.ALERT_FREDDO==='FREDDO'" class="badge-cold"
+                            style="font-size:10px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#f87171;font-weight:700;border-radius:50px;padding:2px 8px">❄️ Freddo</span>
+                    </div>
+                    <p style="color:var(--muted);font-size:12.5px;margin-top:4px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"
+                       x-text="(imm.VIA||'')+(imm.NUMERO_CIVICO?' '+imm.NUMERO_CIVICO:'')"></p>
+                    <p style="color:#475569;font-size:11px;font-weight:600" x-text="imm.CITTA||''"></p>
+                  </div>
+                  <div style="text-align:right;flex-shrink:0">
+                    <p style="font-size:17px;font-weight:900;color:#a5b4fc" x-text="formatEuro(imm.PREZZO)"></p>
+                    <span style="font-size:10px;padding:3px 8px;border-radius:6px;font-weight:700;background:rgba(11,17,32,.8);color:var(--muted);border:1px solid var(--border);display:block;margin-top:4px;white-space:nowrap"
+                          x-text="imm.STATO||'Disponibile'"></span>
+                  </div>
+                </div>
+                <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+                  <span style="font-size:12px;color:var(--muted)">📐 <span style="color:var(--text);font-weight:700" x-text="imm.MQ_TOTALI||'—'"></span> mq</span>
+                  <span style="font-size:11px;padding:3px 8px;border-radius:8px;background:rgba(11,17,32,.6);font-weight:700"
+                        :style="parseInt(imm.GIORNI_SENZA_VISITE)>30?'color:#fbbf24':'color:var(--muted)'">
+                    📅 <span x-text="imm.GIORNI_SENZA_VISITE||0"></span> gg
+                  </span>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── COMPLEANNI ── -->
+      <div x-show="tab==='compleanni'" x-cloak>
+        <div class="sec-head">
+          <div>
+            <div class="sec-title" style="color:#fbbf24">🎂 Festeggiati Oggi</div>
+            <div class="sec-sub">Mantieni caldi i contatti con un augurio</div>
+          </div>
+        </div>
+        <template x-if="festeggiati.length===0">
+          <div class="glass" style="border-radius:18px;padding:40px 20px;text-align:center;color:var(--muted);font-size:13px">
+            Nessun cliente festeggiato oggi 🎉
+          </div>
+        </template>
+        <div style="display:grid;grid-template-columns:1fr;gap:12px">
+          <style>@media(min-width:640px){.fest-grid{grid-template-columns:repeat(2,1fr)!important}}</style>
+          <div class="fest-grid" style="display:grid;grid-template-columns:1fr;gap:12px">
+            <template x-for="f in festeggiati" :key="f.telefono+f.tipo">
+              <div class="glass" style="border-radius:18px;padding:18px">
+                <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+                  <div style="width:50px;height:50px;border-radius:14px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">
+                    <span x-text="f.tipo==='compleanno'?'🎂':'✨'"></span>
+                  </div>
+                  <div>
+                    <p style="font-size:16px;font-weight:800;color:var(--text)" x-text="f.nome"></p>
+                    <p style="font-size:11px;font-weight:700;color:#fbbf24;text-transform:uppercase;letter-spacing:.05em" x-text="f.tipo==='compleanno'?'Buon Compleanno!':'Buon Onomastico!'"></p>
+                  </div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+                  <button @click="apriWaLink(f)" class="btn-sm" style="background:#16a34a;color:#fff;min-height:48px">
+                    <i class="fa-brands fa-whatsapp"></i> WA
+                  </button>
+                  <button @click="inviaDarIA(f)" :disabled="f._inviatoAuto" class="btn-sm"
+                          :style="f._inviatoAuto?'background:#1e293b;color:var(--muted);cursor:not-allowed':'background:var(--accent);color:#fff'"
+                          style="min-height:48px">
+                    <i class="fa-solid fa-robot"></i> <span x-text="f._inviatoAuto?'✓':'DarIA'"></span>
+                  </button>
+                  <template x-if="f.email">
+                    <button @click="inviaEmail(f)" class="btn-sm" style="background:var(--surface2);color:var(--text);border:1px solid var(--border);min-height:48px">
+                      <i class="fa-regular fa-envelope"></i>
+                    </button>
+                  </template>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── INCROCIO ── -->
+      <div x-show="tab==='incrocio'" x-cloak>
+        <div class="sec-head">
+          <div>
+            <div class="sec-title" style="color:#34d399">🎯 Incrocio Acquirenti</div>
+            <div class="sec-sub">Clienti in target per l'immobile selezionato</div>
+          </div>
+        </div>
+        <div class="glass" style="border-radius:16px;padding:14px;margin-bottom:16px">
+          <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:8px">Seleziona Immobile</label>
+          <select x-model="immobiliSelezionato" @change="doIncrocio()" style="font-size:15px!important">
+            <option value="">— Scegli un immobile —</option>
+            <template x-for="imm in immobili" :key="imm.ID_IMMOBILE">
+              <option :value="imm.ID_IMMOBILE" x-text="(imm.TIPOLOGIA||'Imm.')+' – '+(imm.CITTA||'')+' ('+formatEuro(imm.PREZZO)+')'"></option>
+            </template>
+          </select>
+        </div>
+        <template x-if="matches.length===0 && immobiliSelezionato && !loading">
+          <div class="glass" style="border-radius:18px;padding:32px 20px;text-align:center;color:var(--muted);font-size:13px">
+            Nessun acquirente in target per questo immobile.
+          </div>
+        </template>
+        <div style="display:grid;grid-template-columns:1fr;gap:12px">
+          <style>@media(min-width:640px){.match-grid{grid-template-columns:repeat(2,1fr)!important}}</style>
+          <div class="match-grid" style="display:grid;grid-template-columns:1fr;gap:12px">
+            <template x-for="m in matches" :key="m.TELEFONO">
+              <div class="glass" style="border-radius:18px;padding:16px">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:14px">
+                  <div>
+                    <p style="font-size:16px;font-weight:800" x-text="(m.NOME||'')+(m.COGNOME?' '+m.COGNOME:'')"></p>
+                    <p style="font-size:12px;color:var(--muted);margin-top:3px">Budget: <span style="color:#34d399;font-weight:700" x-text="formatEuro(m.BUDGET_MAX)"></span></p>
+                  </div>
+                  <span style="font-size:10px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);color:#34d399;border-radius:50px;padding:3px 10px;font-weight:700;flex-shrink:0">In Target</span>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+                  <template x-for="btn in actionBtns" :key="btn.label">
+                    <button @click="doAction(btn, m)" class="btn-sm" :class="btn.cls" style="min-height:48px;font-size:11px;border-radius:10px;flex-direction:column;gap:2px">
+                      <span style="font-size:16px" x-text="btn.icon"></span>
+                      <span x-text="btn.label"></span>
+                    </button>
+                  </template>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── FEEDBACK VISITA ── -->
+      <div x-show="tab==='feedback'" x-cloak>
+        <div class="sec-head">
+          <div>
+            <div class="sec-title" style="color:#67e8f9">⭐ Feedback Sopralluogo</div>
+            <div class="sec-sub">Parametri di gradimento post-visita</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <!-- form campi -->
+          <div class="glass" style="border-radius:18px;padding:16px">
+            <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">Immobile</label>
+            <select x-model="fv.ID_IMMOBILE" style="margin-bottom:12px;font-size:15px!important">
+              <option value="">— seleziona immobile —</option>
+              <template x-for="imm in immobili" :key="imm.ID_IMMOBILE">
+                <option :value="imm.ID_IMMOBILE" x-text="(imm.TIPOLOGIA||'Imm.')+' – '+(imm.VIA||'')+' '+(imm.CITTA||'')"></option>
+              </template>
+            </select>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px">
+              <div>
+                <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">Cliente</label>
+                <input x-model="fv.CLIENTE" type="text" placeholder="Nome e Cognome">
+              </div>
+              <div>
+                <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">Telefono</label>
+                <input x-model="fv.TELEFONO" type="tel" placeholder="333 0000000">
+              </div>
+            </div>
+          </div>
+
+          <!-- stelle -->
+          <div class="glass" style="border-radius:18px;padding:16px">
+            <p style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">Criteri di Valutazione</p>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <template x-for="crit in criteri" :key="crit.key">
+                <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(11,17,32,.5);border-radius:12px;padding:10px 12px">
+                  <label style="font-size:13px;color:#cbd5e1;font-weight:600" x-text="crit.label"></label>
+                  <div style="display:flex;align-items:center;gap:0px">
+                    <template x-for="s in [1,2,3,4,5]" :key="s">
+                      <span class="star" @click="fv[crit.key]=s" :style="fv[crit.key]>=s?'color:#fbbf24':'color:#334155'">★</span>
+                    </template>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <!-- punteggio + note -->
+          <div class="glass" style="border-radius:18px;padding:16px">
+            <div style="text-align:center;background:rgba(11,17,32,.5);border-radius:14px;padding:14px;margin-bottom:14px;border:1px solid rgba(99,102,241,.15)">
+              <p style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Punteggio Gradimento</p>
+              <p style="font-size:32px;font-weight:900;color:#a5b4fc;margin-top:2px" x-text="calcolaMedia()"></p>
+            </div>
+            <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">Note Post-Visita</label>
+            <textarea x-model="fv.NOTE" placeholder="Commenti o obiezioni a caldo..." style="height:90px;resize:none;font-size:14px!important"></textarea>
+          </div>
+
+          <button @click="salvaFeedback()" :disabled="loading" class="btn-primary" style="background:#0891b2;color:#fff">
+            <span x-show="!loading">💾 Registra Feedback Visita</span>
+            <span x-show="loading">⏳ Salvataggio in corso...</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── ANALYTICS ── -->
+      <div x-show="tab==='analytics'" x-cloak>
+        <div class="sec-head">
+          <div>
+            <div class="sec-title" style="color:#c4b5fd">📊 Analytics & Offerte</div>
+            <div class="sec-sub">Benchmark di mercato e storico proposte</div>
+          </div>
+        </div>
+        <div class="glass" style="border-radius:16px;padding:14px;margin-bottom:16px">
+          <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:8px">Seleziona Immobile</label>
+          <select x-model="analyticsImm" @change="caricaAnalytics()" style="font-size:15px!important">
+            <option value="">— seleziona immobile —</option>
+            <template x-for="imm in immobili" :key="imm.ID_IMMOBILE">
+              <option :value="imm.ID_IMMOBILE" x-text="(imm.TIPOLOGIA||'Imm.')+' – '+(imm.VIA||'')+' '+(imm.CITTA||'')"></option>
+            </template>
+          </select>
+        </div>
+
+        <template x-if="analyticsImm">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <!-- benchmark -->
+            <div class="glass" style="border-radius:18px;padding:16px">
+              <p style="font-size:11px;font-weight:800;color:#c4b5fd;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">📈 Valutazione Mercato</p>
+              <template x-if="!benchmark">
+                <p style="font-size:12px;color:var(--muted)">Caricamento indici OMI...</p>
+              </template>
+              <template x-if="benchmark">
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(11,17,32,.5);border-radius:10px;padding:10px 12px">
+                    <span style="font-size:12.5px;color:var(--muted)">Prezzo Medio Zona</span>
+                    <span style="font-size:13px;font-weight:800;color:#c4b5fd;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);padding:4px 10px;border-radius:8px" x-text="formatEuro(benchmark.PREZZO_MQ_MEDIO)+'/mq'"></span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(11,17,32,.5);border-radius:10px;padding:10px 12px">
+                    <span style="font-size:12.5px;color:var(--muted)">Prezzo Immobile</span>
+                    <span style="font-size:13px;font-weight:800;color:var(--text)" x-text="calcolaPrezzoMQ()"></span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(11,17,32,.5);border-radius:10px;padding:10px 12px">
+                    <span style="font-size:12.5px;color:var(--muted)">Scostamento</span>
+                    <span :class="scostamentoCls()" style="font-size:14px;font-weight:900;padding:4px 10px;border-radius:8px" x-text="scostamentoBenchmark()"></span>
+                  </div>
+                </div>
+              </template>
+            </div>
+
+            <!-- proposte -->
+            <div class="glass" style="border-radius:18px;padding:16px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+                <p style="font-size:11px;font-weight:800;color:#c4b5fd;text-transform:uppercase;letter-spacing:.06em">🔨 Storico Proposte</p>
+                <span style="font-size:10px;background:rgba(11,17,32,.8);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:2px 8px;font-weight:700" x-text="proposte.length+' ricevute'"></span>
+              </div>
+              <template x-if="proposte.length===0">
+                <p style="font-size:12.5px;color:var(--muted);text-align:center;padding:16px 0">Nessuna proposta registrata.</p>
+              </template>
+              <div style="display:flex;flex-direction:column;gap:8px;max-height:200px;overflow-y:auto">
+                <template x-for="p in proposte" :key="p.ID">
+                  <div class="glass-2" style="border-radius:12px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+                    <div style="min-width:0;flex:1">
+                      <p style="font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" x-text="p.CLIENTE"></p>
+                      <p style="font-size:10px;color:var(--muted);font-family:monospace;margin-top:2px" x-text="p.DATA"></p>
+                    </div>
+                    <div style="text-align:right;flex-shrink:0">
+                      <p style="font-size:13px;font-weight:900;color:#34d399" x-text="formatEuro(p.IMPORTO_OFFERTA)"></p>
+                      <p style="font-size:10px;font-weight:700;font-family:monospace" :style="parseFloat(p.SCOSTAMENTO_PCT)<0?'color:#f87171':'color:#34d399'" x-text="p.SCOSTAMENTO_PCT"></p>
+                    </div>
+                  </div>
+                </template>
+              </div>
+              <button @click="modalProposta=true" class="btn-primary" style="background:rgba(139,92,246,.2);color:#c4b5fd;border:1px solid rgba(139,92,246,.2);margin-top:12px;min-height:48px">
+                + Registra Nuova Proposta
+              </button>
+            </div>
+
+            <!-- nota riservata boss -->
+            <div class="glass" style="border-radius:18px;padding:16px">
+              <p style="font-size:11px;font-weight:800;color:#f59e0b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">🔒 Nota Riservata Boss</p>
+              <textarea x-model="valutazioneBoss" placeholder="Considerazioni riservate su proprietario o margini..." style="height:80px;resize:none;font-size:14px!important;margin-bottom:10px"></textarea>
+              <button @click="salvaValutazione()" class="btn-primary" style="background:rgba(11,17,32,.9);color:var(--text);border:1px solid var(--border);min-height:48px">
+                💾 Salva Nota Riservata
+              </button>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <!-- ── IA REWRITE ── -->
+      <div x-show="tab==='iarewrite'" x-cloak>
+        <div class="sec-head">
+          <div>
+            <div class="sec-title" style="color:#fda4af">✨ IA Copywriting</div>
+            <div class="sec-sub">Riscrivi l'annuncio in 3 toni marketing</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="glass" style="border-radius:18px;padding:16px">
+            <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:8px">Descrizione Grezza</label>
+            <textarea x-model="rewriteInput" placeholder="Incolla le caratteristiche dell'immobile..." style="height:130px;resize:none;font-size:14px!important;margin-bottom:12px"></textarea>
+            <button @click="doRewrite()" :disabled="loading || !rewriteInput.trim()" class="btn-primary" style="background:#be123c;color:#fff">
+              <span x-show="!loading">✨ Genera 3 Varianti</span>
+              <span x-show="loading">⏳ Elaborazione IA...</span>
+            </button>
+          </div>
+
+          <template x-if="rewriteResults">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <template x-for="tono in ['emozionale','tecnico','urgente']" :key="tono">
+                <div class="glass" style="border-radius:18px;padding:16px">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)">
+                    <span style="font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.06em"
+                          :style="tono==='emozionale'?'color:#f472b6':tono==='tecnico'?'color:#38bdf8':'color:#fbbf24'"
+                          x-text="(tono==='emozionale'?'💖 ':tono==='tecnico'?'🔧 ':'⚡ ')+tono"></span>
+                    <button @click="copiaRw(tono)"
+                            style="font-size:11px;font-weight:700;background:rgba(11,17,32,.8);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 12px;cursor:pointer;min-height:36px">
+                      📋 Copia
+                    </button>
+                  </div>
+                  <p style="font-size:13.5px;line-height:1.65;color:#cbd5e1;background:rgba(11,17,32,.4);padding:12px;border-radius:12px;white-space:pre-wrap" x-text="rewriteResults[tono]"></p>
+                </div>
+              </template>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- ── CALENDARIO ── -->
+      <div x-show="tab==='calendario'" x-cloak>
+        <div class="sec-head">
+          <div>
+            <div class="sec-title" style="color:#2dd4bf">📅 Agenda Boss</div>
+            <div class="sec-sub">Prossimi 7 giorni</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <!-- eventi -->
+          <div>
+            <template x-if="eventi.length===0">
+              <div class="glass" style="border-radius:18px;padding:32px 20px;text-align:center;color:var(--muted);font-size:13px">
+                Nessun impegno in agenda.
+              </div>
+            </template>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <style>@media(min-width:640px){.ev-grid{display:grid!important;grid-template-columns:repeat(2,1fr);gap:10px}}</style>
+              <div class="ev-grid">
+                <template x-for="ev in eventi" :key="ev.titolo+ev.inizio">
+                  <div class="glass" style="border-radius:16px;padding:14px;display:flex;gap:12px;align-items:flex-start">
+                    <div style="width:38px;height:38px;border-radius:10px;background:rgba(45,212,191,.08);border:1px solid rgba(45,212,191,.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">📍</div>
+                    <div style="min-width:0;flex:1">
+                      <p style="font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" x-text="ev.titolo"></p>
+                      <p style="font-size:12px;font-weight:800;color:#2dd4bf;margin-top:3px;font-family:monospace" x-text="ev.inizio"></p>
+                      <p style="font-size:11.5px;color:var(--muted);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" x-show="ev.luogo" x-text="'🏠 '+ev.luogo"></p>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </div>
+
+          <!-- checklist documenti -->
+          <div class="glass" style="border-radius:18px;padding:16px">
+            <p style="font-size:11px;font-weight:800;color:#2dd4bf;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">📁 Checklist Documenti</p>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <template x-for="doc in checklist" :key="doc.nome">
+                <label style="display:flex;align-items:center;gap:12px;background:rgba(11,17,32,.5);border-radius:12px;padding:12px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;min-height:48px">
+                  <input type="checkbox" x-model="doc.ok" style="width:20px;height:20px;accent-color:var(--accent);flex-shrink:0;background:none!important;border:none!important;padding:0!important;font-size:16px!important">
+                  <span style="font-size:13px;font-weight:600;transition:color .15s" :style="doc.ok?'color:var(--muted);text-decoration:line-through':'color:var(--text)'" x-text="doc.nome"></span>
+                </label>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div><!-- /page-wrap -->
+</div><!-- /flex wrapper -->
+
+<!-- ══ BOTTOM NAV MOBILE ══ -->
+<nav class="bnav">
+  <template x-for="t in tabsBottom" :key="t.id">
+    <button @click="tab=t.id" :class="tab===t.id?'active':''" class="bnav-btn">
+      <span class="pill"></span>
+      <span class="icon" x-text="t.icon"></span>
+      <span class="lbl" x-text="t.label"></span>
+    </button>
+  </template>
+</nav>
+
+<!-- ══ MODAL NUOVO IMMOBILE ══ -->
+<div x-show="modalNuovoImm" x-cloak class="modal-sheet">
+  <div class="modal-body">
+    <div class="modal-handle"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+      <h3 style="font-size:16px;font-weight:900;color:#a5b4fc;text-transform:uppercase;letter-spacing:.04em">🏠 Nuovo Immobile</h3>
+      <button @click="modalNuovoImm=false" style="font-size:28px;color:var(--muted);background:none;border:none;cursor:pointer;line-height:1;padding:4px;-webkit-tap-highlight-color:transparent">&times;</button>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">Tipologia</label>
+          <select x-model="nuovoImm.TIPOLOGIA" style="font-size:15px!important">
+            <option>Appartamento</option><option>Villa</option><option>Casa indipendente</option>
+            <option>Terreno</option><option>Locale commerciale</option><option>Box</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">Stato</label>
+          <select x-model="nuovoImm.STATO" style="font-size:15px!important">
+            <option>Disponibile</option><option>Trattativa</option><option>Venduto</option><option>Ritirato</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">Prezzo (€)</label>
+        <input x-model="nuovoImm.PREZZO" type="number" inputmode="numeric" placeholder="Es. 135000">
+      </div>
+
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px">
+        <div>
+          <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">Via / Indirizzo</label>
+          <input x-model="nuovoImm.VIA" type="text" placeholder="Es. Corso Vittorio Veneto">
+        </div>
+        <div>
+          <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">Civico</label>
+          <input x-model="nuovoImm.NUMERO_CIVICO" type="text" placeholder="151">
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">Città</label>
+          <input x-model="nuovoImm.CITTA" type="text" placeholder="Favara">
+        </div>
+        <div>
+          <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">Zona</label>
+          <input x-model="nuovoImm.ZONA" type="text" placeholder="Centro">
+        </div>
+      </div>
+
+      <!-- piani -->
+      <div style="background:rgba(11,17,32,.6);border-radius:14px;padding:14px;border:1px solid var(--border)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Piani & Superfici</label>
+          <button @click="aggiungiPiano()" style="font-size:11px;background:rgba(99,102,241,.25);color:#a5b4fc;border:1px solid rgba(99,102,241,.25);border-radius:8px;padding:6px 12px;cursor:pointer;font-weight:700;min-height:36px">+ Piano</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;max-height:120px;overflow-y:auto">
+          <template x-for="(piano, idx) in nuovoImm.piani" :key="idx">
+            <div style="display:flex;gap:8px;align-items:center">
+              <input :placeholder="'Piano '+(idx+1)" x-model="piano.nome" type="text" style="flex:1">
+              <input placeholder="MQ" x-model="piano.mq" type="number" inputmode="numeric" style="width:60px;text-align:center">
+              <button @click="nuovoImm.piani.splice(idx,1)" style="color:#f87171;background:none;border:none;font-size:22px;cursor:pointer;padding:2px 6px;-webkit-tap-highlight-color:transparent;min-width:36px">&times;</button>
+            </div>
+          </template>
+        </div>
+        <p style="font-size:11px;color:var(--muted);text-align:right;margin-top:8px;font-weight:700">
+          Totale: <span style="color:#a5b4fc;font-size:12px" x-text="calcolaMQTotali()+' mq'"></span>
+        </p>
+      </div>
+
+      <!-- GPS -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center">
+        <button @click="geolocate()" style="background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:12px;font-size:12px;font-weight:700;cursor:pointer;min-height:48px">
+          📍 <span x-text="nuovoImm.LAT?'GPS OK ✅':'Rileva GPS'"></span>
+        </button>
+        <template x-if="nuovoImm.LAT">
+          <div style="background:rgba(11,17,32,.7);border:1px solid var(--border);border-radius:12px;padding:10px;text-align:center;font-size:10px;color:var(--muted);font-family:monospace">
+            <span x-text="nuovoImm.LAT.toFixed(4)"></span><br>
+            <span x-text="nuovoImm.LNG.toFixed(4)"></span>
+          </div>
+        </template>
+      </div>
+
+      <div>
+        <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">Telefono Proprietario</label>
+        <input x-model="nuovoImm.TELEFONO_PROPRIETARIO" @change="lookupProp()" type="tel" inputmode="tel" placeholder="Inserisci numero...">
+        <template x-if="nuovoImm._propNome">
+          <p style="font-size:11px;color:#34d399;font-weight:700;margin-top:6px">✅ <span x-text="nuovoImm._propNome"></span></p>
+        </template>
+      </div>
+
+      <div>
+        <label style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">Descrizione</label>
+        <textarea x-model="nuovoImm.DESCRIZIONE" placeholder="Dettagli immobile..." style="height:72px;resize:none;font-size:14px!important"></textarea>
+      </div>
+    </div>
+
+    <button @click="salvaImmobile()" :disabled="loading" class="btn-primary" style="background:var(--accent);color:#fff;margin-top:18px">
+      <span x-show="!loading">💾 Salva Immobile</span>
+      <span x-show="loading">⏳ Salvataggio...</span>
+    </button>
+  </div>
+</div>
+
+<!-- ══ SCRIPT APP ══ -->
+<script>
+function app() {
+  return {
+    tab: 'immobili',
+    loading: false,
+    toast: { show: false, msg: '', type: 'ok' },
+    tok: '',
+
+    tabs: [
+      { id:'immobili',   icon:'🏠', label:'Immobili' },
+      { id:'incrocio',   icon:'🎯', label:'Incrocio' },
+      { id:'feedback',   icon:'⭐', label:'Feedback' },
+      { id:'analytics',  icon:'📊', label:'Analytics' },
+      { id:'iarewrite',  icon:'✨', label:'IA Rewrite' },
+      { id:'compleanni', icon:'🎂', label:'Festeggiati' },
+      { id:'calendario', icon:'📅', label:'Agenda' },
+    ],
+    tabsBottom: [
+      { id:'immobili',   icon:'🏠', label:'Immobili' },
+      { id:'incrocio',   icon:'🎯', label:'Incroci' },
+      { id:'feedback',   icon:'⭐', label:'Visita' },
+      { id:'analytics',  icon:'📊', label:'Report' },
+      { id:'calendario', icon:'📅', label:'Agenda' },
+    ],
+
+    immobili: [],
+    festeggiati: [],
+    matches: [],
+    eventi: [],
+    proposte: [],
+    benchmark: null,
+
+    modalNuovoImm: false,
+    modalProposta: false,
+    nuovoImm: { piani: [] },
+    fv: { PANORAMA:0, QUALITA_INTERNA:0, STRUTTURA:0, PREZZO:0, POTENZIALE:0, NOTE:'', CLIENTE:'', TELEFONO:'', ID_IMMOBILE:'' },
+    proposta: { ESITO:'In valutazione', CLIENTE:'', TELEFONO:'', IMPORTO_OFFERTA:'' },
+    rewriteInput: '',
+    rewriteResults: null,
+    valutazioneBoss: '',
+    immobiliSelezionato: '',
+    analyticsImm: '',
+
+    criteri: [
+      { key:'PANORAMA',        label:'🌅 Panorama / Esposizione' },
+      { key:'QUALITA_INTERNA', label:'🏗️ Finiture / Qualità' },
+      { key:'STRUTTURA',       label:'🔧 Struttura / Impianti' },
+      { key:'PREZZO',          label:'💰 Rapporto Prezzo' },
+      { key:'POTENZIALE',      label:'📈 Indice Rivendibilità' },
+    ],
+
+    actionBtns: [
+      { label:'Chiama',   icon:'📞', cls:'', action:'call',  style:'background:#334155;color:#f1f5f9' },
+      { label:'WA',       icon:'💬', cls:'', action:'wa',    style:'background:#16a34a;color:#fff' },
+      { label:'SMS',      icon:'✉️',  cls:'', action:'sms',   style:'background:#1d4ed8;color:#fff' },
+      { label:'Telegram', icon:'✈️',  cls:'', action:'tg',    style:'background:#0369a1;color:#fff' },
+    ],
+
+    checklist: [
+      { nome:'APE (Attestato Prestazione Energetica)', ok:false },
+      { nome:'Visura Catastale Storica', ok:false },
+      { nome:'Planimetria Catastale Aggiornata', ok:false },
+      { nome:'Atto Notarile / Provenienza', ok:false },
+      { nome:"Documenti d'Identità Proprietari", ok:false },
+      { nome:'Certificato di Agibilità', ok:false },
+    ],
+
+    init() {
+      var p = new URLSearchParams(window.location.search);
+      this.tok = p.get('token') || localStorage.getItem('daria_boss_token') || '';
+      if (!this.tok) { this.mostraToast('Sessione assente o scaduta. Effettuare Login.','err'); return; }
+      this.caricaPannelloIniziale();
+    },
+
+    caricaPannelloIniziale() {
+      this.caricaImmobili();
+      this.caricaFesteggiati();
+      this.caricaEventi();
+    },
+
+    mostraToast(msg, type) {
+      type = type || 'ok';
+      this.toast = { show:true, msg:msg, type:type };
+      setTimeout(function(self){ self.toast.show = false; }, 3500, this);
+    },
+
+    formatEuro(v) {
+      var n = parseFloat(String(v||'').replace(/[^0-9.]/g,''));
+      if (!n) return '—';
+      return new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
+    },
+
+    calcolaMQTotali() {
+      return this.nuovoImm.piani.reduce(function(a,b){ return a+(parseFloat(b.mq)||0); }, 0);
+    },
+
+    aggiungiPiano() { this.nuovoImm.piani.push({ nome:'', mq:'' }); },
+
+    calcolaMedia() {
+      var self = this;
+      var voti = this.criteri.map(function(c){ return parseFloat(self.fv[c.key])||0; });
+      var s = voti.reduce(function(a,b){ return a+b; }, 0);
+      if (!s) return '0.00 ⭐';
+      return (s/voti.length).toFixed(2)+' ⭐';
+    },
+
+    caricaImmobili() {
+      var self = this;
+      this.loading = true;
+      if (typeof google !== 'undefined' && google.script) {
+        google.script.run
+          .withSuccessHandler(function(r){ if(r.ok) self.immobili=r.rows; else self.mostraToast(r.m||'Errore DB','err'); self.loading=false; })
+          .withFailureHandler(function(e){ self.mostraToast(e.message,'err'); self.loading=false; })
+          .coGetImmobili(this.tok);
+      } else { this.loading=false; }
+    },
+
+    salvaImmobile() {
+      var self = this;
+      var d = Object.assign({}, this.nuovoImm);
+      d.MQ_TOTALI = this.calcolaMQTotali();
+      d.PIANI_DETTAGLIO = JSON.stringify(d.piani);
+      delete d.piani; delete d._propNome;
+      this.loading = true;
+      if (typeof google !== 'undefined' && google.script) {
+        google.script.run
+          .withSuccessHandler(function(r){ self.loading=false; if(r.ok){ self.mostraToast('Immobile salvato!'); self.modalNuovoImm=false; self.nuovoImm={piani:[]}; self.caricaImmobili(); } else self.mostraToast(r.error,'err'); })
+          .withFailureHandler(function(e){ self.mostraToast(e.message,'err'); self.loading=false; })
+          .coSalvaImmobile(this.tok, d);
+      }
+    },
+
+    apriDettaglioImm(imm) { this.analyticsImm=imm.ID_IMMOBILE; this.tab='analytics'; this.caricaAnalytics(); },
+
+    geolocate() {
+      var self = this;
+      if (!navigator.geolocation) { this.mostraToast('GPS non disponibile','err'); return; }
+      navigator.geolocation.getCurrentPosition(
+        function(pos){ self.nuovoImm.LAT=pos.coords.latitude; self.nuovoImm.LNG=pos.coords.longitude; self.mostraToast('GPS agganciato! 📍'); },
+        function(){ self.mostraToast('Segnale GPS negato','err'); }
+      );
+    },
+
+    lookupProp() {
+      var self = this;
+      var tel = this.nuovoImm.TELEFONO_PROPRIETARIO;
+      if (!tel||typeof google==='undefined') return;
+      google.script.run
+        .withSuccessHandler(function(r){ if(r.ok&&r.contatto){ self.nuovoImm._propNome=r.contatto.NOME+' '+r.contatto.COGNOME; self.nuovoImm.PROPRIETARIO=self.nuovoImm._propNome; } })
+        .coLookupTelefono(this.tok, tel);
+    },
+
+    doIncrocio() {
+      var self = this;
+      if (!this.immobiliSelezionato||typeof google==='undefined') return;
+      var imm = this.immobili.find(function(i){ return i.ID_IMMOBILE===self.immobiliSelezionato; });
+      if (!imm) return;
+      this.loading=true;
+      google.script.run
+        .withSuccessHandler(function(r){ self.loading=false; if(r.ok) self.matches=r.matches; else self.mostraToast(r.error,'err'); })
+        .withFailureHandler(function(e){ self.mostraToast(e.message,'err'); self.loading=false; })
+        .coIncrociAcquirenti(this.tok, imm);
+    },
+
+    doAction(btn, c) {
+      var self = this;
+      var tel = String(c.TELEFONO||'').replace(/\D/g,'');
+      var nome = (c.NOME||'')+' '+(c.COGNOME||'');
+      var immSel = this.immobili.find(function(i){ return i.ID_IMMOBILE===self.immobiliSelezionato; });
+      var txt = immSel ? 'Salve '+nome.trim()+', ho una corrispondenza: '+(immSel.TIPOLOGIA||'')+' a '+(immSel.CITTA||'')+' al prezzo di '+this.formatEuro(immSel.PREZZO)+'. Desidera fissare un sopralluogo?' : '';
+      if (btn.action==='call') window.open('tel:+39'+tel);
+      else if (btn.action==='wa') window.open('https://wa.me/39'+tel+'?text='+encodeURIComponent(txt));
+      else if (btn.action==='sms') window.open('sms:+39'+tel+'?body='+encodeURIComponent(txt));
+      else if (btn.action==='tg') window.open('https://t.me/+39'+tel);
+    },
+
+    salvaFeedback() {
+      var self = this;
+      if (!this.fv.ID_IMMOBILE||!this.fv.CLIENTE){ this.mostraToast('Seleziona immobile e inserisci il cliente','err'); return; }
+      this.loading=true;
+      if (typeof google!=='undefined'&&google.script) {
+        google.script.run
+          .withSuccessHandler(function(r){ self.loading=false; if(r.ok){ self.mostraToast('Feedback registrato!'); self.fv={PANORAMA:0,QUALITA_INTERNA:0,STRUTTURA:0,PREZZO:0,POTENZIALE:0,NOTE:'',CLIENTE:'',TELEFONO:'',ID_IMMOBILE:''}; } else self.mostraToast(r.error,'err'); })
+          .withFailureHandler(function(e){ self.mostraToast(e.message,'err'); self.loading=false; })
+          .coSalvaFeedbackVisita(this.tok, this.fv);
+      }
+    },
+
+    caricaAnalytics() {
+      var self = this;
+      var imm = this.immobili.find(function(i){ return i.ID_IMMOBILE===self.analyticsImm; });
+      if (!imm||typeof google==='undefined') return;
+      google.script.run.withSuccessHandler(function(r){ if(r.ok) self.benchmark=r.benchmark; }).coBenchmark(this.tok, imm.ZONA||imm.CITTA||'', imm.TIPOLOGIA||'');
+      google.script.run.withSuccessHandler(function(r){ if(r.ok) self.proposte=r.rows; }).coGetProposte(this.tok, this.analyticsImm);
+      this.valutazioneBoss = imm.VALUTAZIONE_BOSS||'';
+    },
+
+    calcolaPrezzoMQ() {
+      var self = this;
+      var imm = this.immobili.find(function(i){ return i.ID_IMMOBILE===self.analyticsImm; });
+      if (!imm||!imm.MQ_TOTALI||!imm.PREZZO) return '—';
+      return new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(parseFloat(imm.PREZZO)/parseFloat(imm.MQ_TOTALI))+'/mq';
+    },
+
+    scostamentoBenchmark() {
+      var self = this;
+      var imm = this.immobili.find(function(i){ return i.ID_IMMOBILE===self.analyticsImm; });
+      if (!imm||!this.benchmark||!imm.MQ_TOTALI||!imm.PREZZO) return '—';
+      var ppMQ = parseFloat(imm.PREZZO)/parseFloat(imm.MQ_TOTALI);
+      var ref = parseFloat(this.benchmark.PREZZO_MQ_MEDIO);
+      if (!ref) return '—';
+      var pct = ((ppMQ-ref)/ref*100).toFixed(1);
+      return (pct>0?'+':'')+pct+'%';
+    },
+
+    scostamentoCls() {
+      var s = this.scostamentoBenchmark();
+      if (s==='—') return '';
+      return parseFloat(s)>0 ? 'text-red' : 'text-green';
+    },
+
+    salvaValutazione() {
+      var self = this;
+      var imm = this.immobili.find(function(i){ return i.ID_IMMOBILE===self.analyticsImm; });
+      if (!imm||typeof google==='undefined') return;
+      google.script.run
+        .withSuccessHandler(function(r){ if(r.ok) self.mostraToast('Nota riservata aggiornata'); else self.mostraToast(r.error,'err'); })
+        .coAggiornaImmobile(this.tok, imm._row, 'VALUTAZIONE_BOSS', this.valutazioneBoss);
+    },
+
+    doRewrite() {
+      var self = this;
+      if (!this.rewriteInput.trim()||typeof google==='undefined') return;
+      this.loading=true; this.rewriteResults=null;
+      google.script.run
+        .withSuccessHandler(function(r){ self.loading=false; if(r.ok) self.rewriteResults=r.risultati; else self.mostraToast(r.error,'err'); })
+        .withFailureHandler(function(e){ self.mostraToast(e.message,'err'); self.loading=false; })
+        .coIARewrite(this.tok, this.rewriteInput);
+    },
+
+    copiaRw(tono) { navigator.clipboard.writeText(this.rewriteResults[tono]); this.mostraToast('Copiato negli appunti!'); },
+
+    caricaFesteggiati() {
+      var self = this;
+      if (typeof google==='undefined') return;
+      google.script.run.withSuccessHandler(function(r){ if(r.ok) self.festeggiati=r.festeggiati; }).coGetFesteggiatiOggi(this.tok);
+    },
+
+    apriWaLink(f) {
+      if (typeof google==='undefined') return;
+      var self = this;
+      google.script.run.withSuccessHandler(function(r){ if(r.ok) window.open(r.url,'_blank'); }).coGetWaLink(this.tok, f.telefono, f.tipo);
+    },
+
+    inviaDarIA(f) {
+      this.mostraToast('⏳ Trasmissione a DarIA...');
+      if (typeof google==='undefined') return;
+      google.script.run.withSuccessHandler(function(){ f._inviatoAuto=true; }).  _inviaDarIA_manual(this.tok, f.telefono, f.tipo);
+    },
+
+    inviaEmail(f) {
+      var ogg = f.tipo==='compleanno'?'Tanti Auguri di Buon Compleanno!':'Tanti Auguri per il tuo Onomastico!';
+      var corpo = 'Gentile '+f.nome+',\n\nDesideriamo farle giungere i nostri più sinceri auguri.\n\nCon stima,\nAntonio Giancani\nAgenzia Immobiliare Giancani – Favara (AG)';
+      window.open('mailto:'+f.email+'?subject='+encodeURIComponent(ogg)+'&body='+encodeURIComponent(corpo));
+    },
+
+    caricaEventi() {
+      var self = this;
+      if (typeof google==='undefined') return;
+      google.script.run.withSuccessHandler(function(r){ if(r.ok) self.eventi=r.eventi; }).coGetAppuntamenti(this.tok);
+    },
+  };
+}
+</script>
+</body>
+</html>
+

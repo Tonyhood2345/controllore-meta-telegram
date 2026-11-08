@@ -1,0 +1,621 @@
+// ==========================================
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Autorizzazione Documenti — Giancani</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#5c061a; --primary-dark:#420311; --accent:#f97316;
+  --accent-glow:rgba(249,115,22,0.35); --success:#10b981; --danger:#ef4444;
+  --bg:#0f172a; --glass-bg:rgba(15,23,42,0.80);
+  --glass-border:rgba(255,255,255,0.09); --text:#f8fafc; --text-muted:#94a3b8;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;font-family:'Outfit',sans-serif;background:radial-gradient(ellipse at top left,var(--primary-dark) 0%,var(--bg) 65%);color:var(--text);overflow-x:hidden}
+
+/* SCHERMATA LOADING */
+#schermo-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;gap:1rem;padding:2rem;text-align:center}
+.spinner{width:52px;height:52px;border:4px solid rgba(255,255,255,0.07);border-left-color:var(--accent);border-radius:50%;animation:spin 0.85s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* AVVISO LEGALE TEMPO SCADUTO */
+#avvisoLegale{position:fixed;inset:0;z-index:10000;background:rgba(9,14,28,0.92);display:none;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem}
+#avvisoLegale.show{display:flex}
+.avviso-card{background:#1e293b;border:2px solid #f59e0b;border-radius:1.5rem;padding:1.5rem;max-width:360px;text-align:center}
+
+/* LAYOUT PRINCIPALE */
+#main{display:none;padding-bottom:5rem}
+#main.show{display:block}
+
+/* HEADER */
+.page-header{background:rgba(15,23,42,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);padding:0.8rem 1rem;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:0.75rem}
+.header-logo{width:38px;height:38px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.header-text h1{font-size:0.85rem;font-weight:900;text-transform:uppercase;letter-spacing:0.5px}
+.header-text p{font-size:0.62rem;color:var(--text-muted)}
+
+/* CARDS */
+.card{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:1.2rem;padding:1.1rem;backdrop-filter:blur(20px);margin:0.75rem 0.9rem 0}
+.card-title{font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:0.75rem;display:flex;align-items:center;gap:0.35rem}
+
+/* IMMOBILE HERO CARD */
+.immobile-hero{background:linear-gradient(135deg,var(--primary-dark),rgba(92,6,26,0.6));border:1px solid rgba(92,6,26,0.5);border-radius:1.3rem;padding:1.2rem;margin:0.75rem 0.9rem 0}
+.immobile-badge{display:inline-flex;align-items:center;gap:0.4rem;background:var(--accent);color:#fff;font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;border-radius:99px;padding:3px 10px;margin-bottom:0.75rem}
+.immobile-tipo{font-size:1.3rem;font-weight:900;text-transform:uppercase;letter-spacing:-0.5px}
+.immobile-via{font-size:0.88rem;color:var(--text-muted);margin-top:0.3rem;display:flex;align-items:center;gap:0.4rem}
+.immobile-prezzo{font-size:1.1rem;font-weight:900;color:var(--accent);margin-top:0.65rem;display:flex;align-items:center;gap:0.4rem}
+.tag-incarico{font-size:0.62rem;background:rgba(255,255,255,0.07);border-radius:99px;padding:3px 8px;color:var(--text-muted)}
+
+/* DATI ACQUIRENTE */
+.dato-row{display:flex;align-items:flex-start;gap:0.55rem;padding:0.45rem 0;border-bottom:1px solid var(--glass-border)}
+.dato-row:last-child{border-bottom:none}
+.dato-icon{width:28px;height:28px;background:rgba(249,115,22,0.1);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--accent);flex-shrink:0}
+.dato-label{font-size:0.6rem;font-weight:800;text-transform:uppercase;color:var(--text-muted);letter-spacing:0.5px}
+.dato-val{font-size:0.85rem;font-weight:700;margin-top:1px}
+
+/* FOTO DOCUMENTO */
+.foto-doc-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.55rem}
+.foto-doc-item{border-radius:0.75rem;overflow:hidden;border:1px solid var(--glass-border);aspect-ratio:4/3;background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center}
+.foto-doc-item img{width:100%;height:100%;object-fit:cover}
+.foto-loading{color:var(--text-muted);font-size:0.7rem;text-align:center;padding:0.5rem}
+
+/* DICHIARAZIONE TESTO */
+.dichiarazione-box{background:rgba(255,255,255,0.02);border:1px solid var(--glass-border);border-radius:0.85rem;padding:0.9rem;font-size:0.72rem;line-height:1.7;color:#cbd5e1;text-align:justify;max-height:300px;overflow-y:auto}
+.dichiarazione-box strong{color:var(--text)}
+.dich-field{display:inline;background:rgba(249,115,22,0.12);border-radius:4px;padding:1px 4px;font-weight:700;color:var(--accent)}
+
+/* OTP */
+.otp-box{background:rgba(99,102,241,0.08);border:1.5px solid rgba(99,102,241,0.25);border-radius:0.95rem;padding:0.9rem}
+.otp-row{display:flex;gap:0.45rem;align-items:center}
+.otp-row input{text-align:center;font-weight:900;font-size:1.1rem;letter-spacing:3px;height:48px;max-width:130px;background:rgba(15,23,42,0.7);border:2px solid rgba(255,255,255,0.09);border-radius:0.75rem;padding:0 0.8rem;color:var(--text);font-family:'Outfit',sans-serif;width:100%;-webkit-appearance:none}
+.otp-row input:focus{border-color:var(--accent);outline:none}
+.otp-ok{display:none;align-items:center;gap:0.4rem;color:var(--success);font-weight:800;font-size:0.8rem;margin-top:0.5rem;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);border-radius:0.6rem;padding:0.35rem 0.75rem}
+.otp-ok.show{display:inline-flex}
+
+/* FIRMA CANVAS */
+.canvas-wrapper{background:#fff;border-radius:1rem;overflow:hidden;height:160px;width:100%;position:relative;border:3px dashed #94a3b8}
+.canvas-wrapper.has-sig{border-style:solid;border-color:var(--success)}
+#canvasRemoto{width:100%;height:100%;touch-action:none;display:block;cursor:crosshair}
+.canvas-hint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.4rem;pointer-events:none;color:#94a3b8}
+.canvas-hint i{font-size:2rem;opacity:0.3}
+.canvas-hint span{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;opacity:0.4}
+
+/* BOTTOM CTA */
+#bottomCta{position:fixed;bottom:0;left:0;right:0;padding:0.85rem 0.9rem;padding-bottom:calc(0.85rem + env(safe-area-inset-bottom,0px));background:rgba(9,15,28,0.97);backdrop-filter:blur(24px);border-top:1px solid var(--glass-border);display:flex;gap:0.65rem}
+
+.btn{min-height:52px;background:var(--accent);color:#fff;font-family:'Outfit',sans-serif;font-weight:800;font-size:0.9rem;padding:0 1.1rem;border:none;border-radius:0.9rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:0.45rem;text-transform:uppercase;letter-spacing:0.5px;touch-action:manipulation;box-shadow:0 4px 16px var(--accent-glow);transition:transform 0.15s}
+.btn:active{transform:scale(0.95)}
+.btn-secondary{background:rgba(255,255,255,0.04);border:1.5px solid var(--glass-border);color:var(--text);box-shadow:none}
+.btn-success{background:var(--success);box-shadow:0 4px 16px rgba(16,185,129,0.35)}
+.btn-block{width:100%}
+
+/* LOADER */
+#loader{position:fixed;inset:0;background:rgba(9,14,28,0.96);z-index:99999;display:none;flex-direction:column;justify-content:center;align-items:center;gap:1rem}
+.loader-spinner{width:50px;height:50px;border:4px solid rgba(255,255,255,0.07);border-left-color:var(--accent);border-radius:50%;animation:spin 0.85s linear infinite}
+.loader-txt{font-weight:800;font-size:0.82rem;letter-spacing:2px;color:var(--accent);text-transform:uppercase;text-align:center;max-width:240px}
+
+/* ESITO FINALE */
+#esito{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;padding:2rem 1.2rem;text-align:center;background:radial-gradient(ellipse at center,rgba(16,185,129,0.05) 0%,var(--bg) 70%)}
+#esito.show{display:flex}
+.esito-check{font-size:5.5rem;color:var(--success);animation:pulse 2s infinite;margin-bottom:1rem}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.esito-btns{display:flex;flex-direction:column;gap:0.65rem;width:100%;max-width:340px;margin-top:1.5rem}
+.footer-brand{text-align:center;margin-top:1.5rem}
+.footer-brand .brand{font-size:1.3rem;font-weight:900;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+</style>
+</head>
+<body>
+
+<!-- AVVISO LEGALE DECORSO ORA -->
+<div id="avvisoLegale">
+  <div class="avviso-card">
+    <div style="font-size:3.5rem;margin-bottom:0.75rem;">⚠️</div>
+    <h3 style="font-size:1rem;font-weight:900;text-transform:uppercase;color:#f59e0b;margin-bottom:0.6rem;">Validazione Automatica Decorso</h3>
+    <p style="font-size:0.75rem;color:#cbd5e1;line-height:1.7;text-align:justify;margin-bottom:1rem;">
+      Decorso il termine di 1 ora senza apposizione della firma grafometrica, ai fini della validazione legale della ricezione documenti si prendono in considerazione il codice OTP convalidato e i documenti di riconoscimento forniti. L'apertura del presente link costituisce prova integrativa dell'avvenuta consegna a tutti gli effetti di legge.
+    </p>
+    <div style="font-size:0.62rem;color:#f59e0b;font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:0.85rem;">Antonio Giancani</div>
+    <button onclick="chiudiAvviso()" style="width:100%;min-height:48px;background:#f59e0b;border:none;border-radius:0.8rem;color:#0f172a;font-family:'Outfit',sans-serif;font-weight:900;font-size:0.82rem;text-transform:uppercase;cursor:pointer;">
+      Ho Compreso e Accetto
+    </button>
+  </div>
+</div>
+
+<!-- SCHERMO LOADING INIZIALE -->
+<div id="schermo-loading">
+  <div class="spinner"></div>
+  <p style="font-size:0.8rem;color:var(--text-muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;">Caricamento documento...</p>
+</div>
+
+<!-- MAIN PAGE -->
+<div id="main">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="header-logo"><i class="fa-solid fa-house-chimney" style="color:#fff;"></i></div>
+    <div class="header-text">
+      <h1>Immobiliare Giancani</h1>
+      <p>Autorizzazione Ricezione Documentazione Immobiliare</p>
+    </div>
+  </div>
+
+  <!-- BANNER IMMOBILE -->
+  <div class="immobile-hero">
+    <div class="immobile-badge"><i class="fa-solid fa-folder-open"></i> Documentazione Immobile</div>
+    <div class="immobile-tipo" id="show_tipo">—</div>
+    <div class="immobile-via"><i class="fa-solid fa-location-dot" style="color:var(--accent);"></i><span id="show_via">—</span></div>
+    <div class="immobile-prezzo"><i class="fa-solid fa-tag"></i><span id="show_prezzo">—</span> <span class="tag-incarico">N° <span id="show_incarico">—</span></span></div>
+    <div style="font-size:0.72rem;color:#94a3b8;margin-top:0.5rem;" id="show_descrizione"></div>
+  </div>
+
+  <!-- DATI ACQUIRENTE -->
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-user-check"></i> I Tuoi Dati — Verifica Prima di Firmare</div>
+    <div class="dato-row">
+      <div class="dato-icon"><i class="fa-solid fa-user"></i></div>
+      <div><div class="dato-label">Nome e Cognome</div><div class="dato-val" id="show_nome">—</div></div>
+    </div>
+    <div class="dato-row">
+      <div class="dato-icon"><i class="fa-solid fa-fingerprint"></i></div>
+      <div><div class="dato-label">Codice Fiscale</div><div class="dato-val" style="font-family:monospace;" id="show_cf">—</div></div>
+    </div>
+    <div class="dato-row">
+      <div class="dato-icon"><i class="fa-solid fa-cake-candles"></i></div>
+      <div><div class="dato-label">Nato/a il</div><div class="dato-val" id="show_nascita">—</div></div>
+    </div>
+    <div class="dato-row">
+      <div class="dato-icon"><i class="fa-solid fa-map-pin"></i></div>
+      <div><div class="dato-label">Residenza</div><div class="dato-val" id="show_residenza">—</div></div>
+    </div>
+    <div class="dato-row">
+      <div class="dato-icon"><i class="fa-brands fa-whatsapp"></i></div>
+      <div><div class="dato-label">Telefono</div><div class="dato-val" id="show_tel">—</div></div>
+    </div>
+    <p style="font-size:0.65rem;color:#f59e0b;margin-top:0.65rem;line-height:1.5;">⚠️ Se i dati non corrispondono, contatta immediatamente Antonio Giancani prima di procedere.</p>
+  </div>
+
+  <!-- FOTO DOCUMENTO IDENTITÀ -->
+  <div class="card" id="cardFotoDoc" style="display:none;">
+    <div class="card-title"><i class="fa-solid fa-id-card"></i> Il Tuo Documento di Riconoscimento Allegato</div>
+    <p style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.7rem;">Le seguenti foto del tuo documento verranno allegate digitalmente al PDF firmato come prova della tua identità.</p>
+    <div class="foto-doc-grid" id="fotoDocGrid"></div>
+  </div>
+
+  <!-- DICHIARAZIONE COMPLETA -->
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-file-contract"></i> Dichiarazione da Sottoscrivere — Leggi Attentamente</div>
+    <div class="dichiarazione-box" id="testoDichiarazione">
+      Caricamento dichiarazione in corso...
+    </div>
+
+    <!-- Check lettura obbligatorio -->
+    <div style="display:flex;align-items:flex-start;gap:0.65rem;background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.2);border-radius:0.8rem;padding:0.75rem;margin-top:0.75rem;">
+      <input type="checkbox" id="chkLettura" style="width:22px;height:22px;margin-top:2px;accent-color:var(--accent);flex-shrink:0;cursor:pointer;">
+      <label for="chkLettura" style="font-size:0.72rem;line-height:1.5;cursor:pointer;">
+        Dichiaro di aver letto e compreso il testo della presente autorizzazione e di essere consapevole delle sanzioni civili e penali per false attestazioni.
+      </label>
+    </div>
+  </div>
+
+  <!-- GDPR -->
+  <div class="card" id="cardGdpr">
+    <div class="card-title"><i class="fa-solid fa-gavel"></i> Consenso GDPR — Reg. UE 2016/679</div>
+    <p style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.6rem;">Ai sensi degli Artt. 13 e 14 del Reg. (UE) 2016/679, il sottoscritto:</p>
+    <div id="show_gdpr" style="font-size:0.85rem;font-weight:800;padding:0.55rem 0.85rem;border-radius:0.7rem;display:inline-block;">—</div>
+  </div>
+
+  <!-- VERIFICA OTP -->
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-shield-halved"></i> Verifica Identità OTP</div>
+    <p style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.75rem;">Inserisci il codice OTP a 6 cifre che hai ricevuto su WhatsApp da Antonio Giancani.</p>
+    <div class="otp-box">
+      <div class="otp-row">
+        <input type="text" id="otpInputRemoto" placeholder="000000" inputmode="numeric" maxlength="6">
+        <button class="btn" onclick="verificaOtpRemoto()" style="min-height:48px;width:auto;padding:0 1rem;flex-shrink:0;"><i class="fa-solid fa-check"></i> Verifica</button>
+      </div>
+      <div class="otp-ok" id="otpOkBadge"><i class="fa-solid fa-circle-check"></i> OTP VERIFICATO ✓</div>
+    </div>
+  </div>
+
+  <!-- FIRMA CANVAS -->
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-pen-nib"></i> Firma Elettronica</div>
+    <p style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.65rem;">Traccia la tua firma nel riquadro con il dito. La firma viene acquisita come immagine e allegata al PDF.</p>
+    <div class="canvas-wrapper" id="canvasWrapper">
+      <canvas id="canvasRemoto"></canvas>
+      <div class="canvas-hint" id="canvasHint">
+        <i class="fa-solid fa-signature"></i>
+        <span>Firma qui</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:0.5rem;margin-top:0.6rem;">
+      <button class="btn btn-secondary" onclick="pulisciCanvas()" style="flex:1;min-height:44px;font-size:0.78rem;">
+        <i class="fa-solid fa-eraser"></i> Cancella
+      </button>
+      <div style="flex:2;font-size:0.65rem;color:var(--text-muted);display:flex;align-items:center;padding:0 0.5rem;line-height:1.4;">
+        La firma costituisce piena prova dell'autorizzazione a tutti gli effetti di legge.
+      </div>
+    </div>
+  </div>
+
+  <div style="height:5rem;"></div>
+</div>
+
+<!-- BOTTOM CTA -->
+<div id="bottomCta" style="display:none;">
+  <button class="btn btn-block btn-success" onclick="confermaFirmaRemota()" id="btnConferma">
+    <i class="fa-solid fa-file-signature"></i> AUTORIZZA E FIRMA
+  </button>
+</div>
+
+<!-- ESITO FINALE -->
+<div id="esito">
+  <span class="esito-check">✓</span>
+  <h2 style="font-size:1.6rem;font-weight:900;text-transform:uppercase;margin-bottom:0.5rem;">Autorizzazione Firmata!</h2>
+  <p style="color:var(--text-muted);font-size:0.85rem;max-width:300px;line-height:1.6;">La documentazione è stata correttamente sottoscritta e archiviata nel sistema DarIA dell'Agenzia Immobiliare Giancani.</p>
+  <div style="background:#fff;display:inline-block;padding:0.7rem;border-radius:1rem;margin:1rem 0;">
+    <img id="esitoQr" src="" alt="QR" style="width:120px;height:120px;display:block;">
+  </div>
+  <div class="esito-btns">
+    <a id="lnkPdfEsito" href="#" target="_blank" class="btn btn-success btn-block">
+      <i class="fa-solid fa-file-pdf"></i> Scarica PDF Firmato
+    </a>
+    <a id="lnkWaAntonio" href="https://wa.me/393201667156?text=Ciao%20Antonio%2C%20ho%20appena%20firmato%20l%27autorizzazione%20documenti." target="_blank" class="btn btn-secondary btn-block" style="border-color:#25D366;color:#25D366;">
+      <i class="fa-brands fa-whatsapp"></i> Avvisa Antonio su WhatsApp
+    </a>
+  </div>
+  <div class="footer-brand">
+    <div style="font-size:0.58rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:0.2rem;">Powered by DarIA AI</div>
+    <div class="brand">IMMOBILIARE GIANCANI</div>
+    <div style="font-size:0.72rem;color:var(--text-muted);">by Antonio Giancani</div>
+  </div>
+</div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-spinner"></div>
+  <div class="loader-txt">DarIA sta archiviando e generando il PDF...</div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════════════
+// VARIABILI TEMPLATE INIETTATE DAL SERVER (doGet)
+// ══════════════════════════════════════════════════════════════════════════════
+var TOKEN            = "<?= token ?>";
+var NOME_ACQ         = "<?= nomeAcquirente ?>";
+var TEL_ACQ          = "<?= telefonoAcquirente ?>";
+var CF_ACQ           = "<?= cfAcquirente ?>";
+var NASCITA_ACQ      = "<?= dataNascita ?>";
+var LUOGO_ACQ        = "<?= luogoNascita ?>";
+var RESIDENZA_ACQ    = "<?= residenza ?>";
+var TIPO_IMM         = "<?= tipoImmobile ?>";
+var CITTA_IMM        = "<?= cittaImmobile ?>";
+var VIA_IMM          = "<?= viaImmobile ?>";
+var PREZZO_IMM       = "<?= prezzoImmobile ?>";
+var INCARICO_IMM     = "<?= incarico ?>";
+var DESC_IMM         = "<?= descrizioneImmobile ?>";
+var AGENTE           = "<?= agente ?>";
+var GDPR_STATO       = "<?= gdprStato ?>";
+var FOTO_IDS_JSON    = '<?= fotoIdsJson ?>';
+
+// ══════════════════════════════════════════════════════════════════════════════
+// STATO
+// ══════════════════════════════════════════════════════════════════════════════
+var canvas, ctx, disegno = false, hasSig = false, otpVerificato = false, firmato = false;
+var audioCtx = null;
+
+// ══════════════════════════════════════════════════════════════════════════════
+// INIT PAGINA
+// ══════════════════════════════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', function() {
+  // Nasconde loading e mostra main dopo 600ms (tempo layout)
+  setTimeout(function() {
+    document.getElementById('schermo-loading').style.display = 'none';
+    document.getElementById('main').classList.add('show');
+    document.getElementById('bottomCta').style.display = 'flex';
+  }, 600);
+
+  popolaCampi();
+  caricaFotoDocumento();
+  generaDichiarazione();
+
+  // Setup canvas
+  canvas = document.getElementById('canvasRemoto');
+  ctx    = canvas.getContext('2d');
+  adattaCanvas();
+  setupTouchCanvas();
+
+  // Sblocco audio al primo tocco
+  window.addEventListener('click',    function(){ initAudio(); }, { once: true });
+  window.addEventListener('touchstart',function(){ initAudio(); }, { once: true });
+
+  // Timer 10 secondi → primo beep
+  setTimeout(function(){ if (!firmato) riproduciBeep(); }, 10000);
+  // Timer 15 minuti → secondo beep
+  setTimeout(function(){ if (!firmato) riproduciBeep(); }, 15 * 60 * 1000);
+
+  // Controllo timestamp server (avviso legale dopo 1 ora)
+  if (TOKEN && typeof google !== 'undefined' && google.script && google.script.run) {
+    google.script.run
+      .withSuccessHandler(function(res) {
+        if (res && res.successo && res.timestampCreazione) {
+          var diff = new Date().getTime() - res.timestampCreazione;
+          if (diff > 3600000) {
+            mostraAvvisoLegale();
+          } else {
+            setTimeout(function(){ if (!firmato) mostraAvvisoLegale(); }, 3600000 - diff);
+          }
+        }
+      })
+      .ottieniTimestampCreazioneFirmaDoc(TOKEN);
+  }
+});
+
+// ══════════════════════════════════════════════════════════════════════════════
+// POPOLA I CAMPI DAI DATI INIETTATI
+// ══════════════════════════════════════════════════════════════════════════════
+function popolaCampi() {
+  set('show_tipo',      TIPO_IMM    || '—');
+  set('show_via',       (CITTA_IMM ? CITTA_IMM + ' — ' : '') + (VIA_IMM || '—'));
+  set('show_prezzo',    PREZZO_IMM  ? '€ ' + PREZZO_IMM : '—');
+  set('show_incarico',  INCARICO_IMM || '—');
+  set('show_descrizione', DESC_IMM   || '');
+  set('show_nome',      NOME_ACQ    || '—');
+  set('show_cf',        CF_ACQ      || '—');
+  set('show_nascita',   NASCITA_ACQ ? NASCITA_ACQ + (LUOGO_ACQ ? ' a ' + LUOGO_ACQ : '') : '—');
+  set('show_residenza', RESIDENZA_ACQ || '—');
+  set('show_tel',       TEL_ACQ ? '+' + TEL_ACQ.replace(/\D/g,'') : '—');
+  // GDPR badge
+  var gdprEl = document.getElementById('show_gdpr');
+  if (GDPR_STATO === 'presta') {
+    gdprEl.style.background = 'rgba(16,185,129,0.12)';
+    gdprEl.style.color      = '#10b981';
+    gdprEl.style.border     = '1px solid rgba(16,185,129,0.3)';
+    gdprEl.textContent      = '✓ PRESTA IL CONSENSO';
+  } else {
+    gdprEl.style.background = 'rgba(239,68,68,0.1)';
+    gdprEl.style.color      = '#fca5a5';
+    gdprEl.style.border     = '1px solid rgba(239,68,68,0.3)';
+    gdprEl.textContent      = '✗ NON PRESTA IL CONSENSO';
+  }
+}
+
+function set(id, val) {
+  var el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// FOTO DOCUMENTO IDENTITÀ
+// ══════════════════════════════════════════════════════════════════════════════
+function caricaFotoDocumento() {
+  var fotoIds = [];
+  try { fotoIds = JSON.parse(FOTO_IDS_JSON || '[]'); } catch(e) {}
+  fotoIds = fotoIds.filter(function(f){ return f && f !== 'null'; });
+  if (fotoIds.length === 0) return;
+
+  document.getElementById('cardFotoDoc').style.display = 'block';
+  var grid = document.getElementById('fotoDocGrid');
+  fotoIds.forEach(function(fid, idx) {
+    var item = document.createElement('div');
+    item.className = 'foto-doc-item';
+    // Usa URL Drive diretto per visualizzazione
+    var urlImg = 'https://drive.google.com/uc?export=view&id=' + fid;
+    item.innerHTML = '<img src="' + urlImg + '" alt="Documento ' + (idx+1) + '" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class=\\\"foto-loading\\\"><i class=\\\"fa-solid fa-image\\\"></i><br>Foto '+(idx+1)+'</div>\'">';
+    grid.appendChild(item);
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// TESTO DICHIARAZIONE DINAMICO
+// ══════════════════════════════════════════════════════════════════════════════
+function generaDichiarazione() {
+  var oggi = new Date().toLocaleDateString('it-IT', { day:'2-digit', month:'2-digit', year:'numeric' });
+  var html =
+    '<strong>AGENZIA IMMOBILIARE GIANCANI</strong><br>'
+    + 'Via Sottotenente Castellana N°1 — Favara 92026 (AG)<br><br>'
+    + '<em style="font-size:0.67rem;color:#94a3b8;">N.B. La presente sottoscrizione non comporta alcun obbligo verso l\'Agenzia, salvo il caso di conclusione della compravendita (Art. 1755 c.c.): provvigione 3%+IVA per ogni parte. Prezzo inferiore a €65.000: provvigione fissa €2.000+IVA per ogni parte. Affitto/locazione: provvigione pari a una mensilità.</em><br><br>'
+    + 'Il/La Sottoscritto/a <span class="dich-field">' + (NOME_ACQ||'_____________') + '</span><br>'
+    + 'Nato/a a <span class="dich-field">' + (LUOGO_ACQ||'____________') + '</span> il <span class="dich-field">' + (NASCITA_ACQ||'__/__/____') + '</span><br>'
+    + 'C.F. <span class="dich-field">' + (CF_ACQ||'________________') + '</span><br><br>'
+    + 'Tramite l\'Agente Immobiliare <span class="dich-field">' + (AGENTE||'Antonio Giancani') + '</span> dell\'Agenzia Immobiliare Giancani, in data odierna <span class="dich-field">' + oggi + '</span>,<br><br>'
+    + '<strong>DICHIARA</strong><br><br>'
+    + 'di aver ricevuto documenti e/o informazioni relativi all\'immobile ed alla relativa procedura di acquisto, e si impegna a mantenerli strettamente riservati, a non divulgarli a terzi e a restituirli prontamente qualora l\'Agenzia Immobiliare Giancani ne richieda la restituzione.<br><br>'
+    + '<strong>IMMOBILE OGGETTO DELLA DOCUMENTAZIONE:</strong><br>'
+    + 'Sito in <span class="dich-field">' + (CITTA_IMM||'___________') + '</span>, <span class="dich-field">' + (VIA_IMM||'___________________________') + '</span><br>'
+    + (DESC_IMM ? 'Costituito da <span class="dich-field">' + DESC_IMM + '</span><br>' : '')
+    + 'Prezzo di <span class="dich-field">€ ' + (PREZZO_IMM||'___________') + '</span> &nbsp;&nbsp; Incarico N° <span class="dich-field">' + (INCARICO_IMM||'____') + '</span><br><br>'
+    + 'Ai sensi degli Artt. 13 e 14 del Regolamento (UE) 2016/679 (GDPR), l\'Acquirente <strong>' + (GDPR_STATO === 'presta' ? '✓ PRESTA IL CONSENSO' : '✗ NON PRESTA il consenso') + '</strong> al trattamento dei propri dati personali.';
+
+  document.getElementById('testoDichiarazione').innerHTML = html;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CANVAS FIRMA
+// ══════════════════════════════════════════════════════════════════════════════
+function adattaCanvas() {
+  var wrapper = document.getElementById('canvasWrapper');
+  var dpr = window.devicePixelRatio || 1;
+  canvas.width  = wrapper.clientWidth  * dpr;
+  canvas.height = wrapper.clientHeight * dpr;
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.scale(dpr, dpr);
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, wrapper.clientWidth, wrapper.clientHeight);
+  ctx.strokeStyle = '#111'; ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+}
+
+function setupTouchCanvas() {
+  function pos(e) {
+    var r  = canvas.getBoundingClientRect();
+    var cx = e.touches ? e.touches[0].clientX : e.clientX;
+    var cy = e.touches ? e.touches[0].clientY : e.clientY;
+    return { x: cx - r.left, y: cy - r.top };
+  }
+  canvas.addEventListener('mousedown',  function(e){ disegno=true; nascondiFirmaHint(); ctx.beginPath(); var p=pos(e); ctx.moveTo(p.x,p.y); });
+  canvas.addEventListener('mousemove',  function(e){ if(!disegno) return; var p=pos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); hasSig=true; });
+  window.addEventListener('mouseup',    function(){ disegno=false; });
+  canvas.addEventListener('touchstart', function(e){ e.preventDefault(); disegno=true; nascondiFirmaHint(); ctx.beginPath(); var p=pos(e); ctx.moveTo(p.x,p.y); },{ passive:false });
+  canvas.addEventListener('touchmove',  function(e){ e.preventDefault(); if(!disegno) return; var p=pos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); hasSig=true; },{ passive:false });
+  window.addEventListener('touchend',   function(){ disegno=false; });
+}
+
+function nascondiFirmaHint() {
+  var h = document.getElementById('canvasHint');
+  if (h) h.style.display = 'none';
+  document.getElementById('canvasWrapper').classList.add('has-sig');
+}
+
+function pulisciCanvas() {
+  var w = document.getElementById('canvasWrapper');
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, w.clientWidth, w.clientHeight);
+  hasSig = false;
+  w.classList.remove('has-sig');
+  var h = document.getElementById('canvasHint');
+  if (h) h.style.display = 'flex';
+}
+
+function elaboraFirmaCanvas() {
+  var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  var px = imgData.data;
+  var minX=canvas.width, minY=canvas.height, maxX=-1, maxY=-1;
+  for (var y=0; y<canvas.height; y++) {
+    for (var x=0; x<canvas.width; x++) {
+      var idx=(y*canvas.width+x)*4;
+      if (px[idx]<240||px[idx+1]<240||px[idx+2]<240) {
+        if(x<minX)minX=x; if(x>maxX)maxX=x;
+        if(y<minY)minY=y; if(y>maxY)maxY=y;
+      }
+    }
+  }
+  if (maxX === -1) return null;
+  var cW=(maxX-minX)+12, cH=(maxY-minY)+12;
+  var out=document.createElement('canvas'); out.width=320; out.height=110;
+  var oc=out.getContext('2d');
+  var sc=Math.min(300/cW,95/cH);
+  oc.drawImage(canvas,minX-6,minY-6,cW,cH,(320-cW*sc)/2,(110-cH*sc)/2,cW*sc,cH*sc);
+  return out.toDataURL('image/png');
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// OTP
+// ══════════════════════════════════════════════════════════════════════════════
+function verificaOtpRemoto() {
+  var codice = document.getElementById('otpInputRemoto').value.trim();
+  if (!codice) { alert('Inserisci il codice OTP. Antonio Giancani'); return; }
+  if (typeof google !== 'undefined' && google.script && google.script.run) {
+    google.script.run
+      .withSuccessHandler(function(res) {
+        if (res && res.successo) {
+          otpVerificato = true;
+          document.getElementById('otpOkBadge').classList.add('show');
+        } else {
+          alert('Codice OTP non valido: ' + (res ? res.messaggio : 'errore') + '. Antonio Giancani');
+        }
+      })
+      .withFailureHandler(function(err){ alert('Errore server: ' + err.message); })
+      .verificaOtpDocumentazione(TEL_ACQ, codice);
+  } else {
+    if (codice === '7373' || codice.length >= 4) {
+      otpVerificato = true;
+      document.getElementById('otpOkBadge').classList.add('show');
+    } else { alert('[DEMO] Usa 7373 come codice. Antonio Giancani'); }
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CONFERMA FIRMA FINALE
+// ══════════════════════════════════════════════════════════════════════════════
+function confermaFirmaRemota() {
+  if (!document.getElementById('chkLettura').checked) {
+    alert('Devi confermare di aver letto la dichiarazione. Antonio Giancani'); return;
+  }
+  if (!otpVerificato) {
+    alert('Verifica prima il codice OTP ricevuto su WhatsApp. Antonio Giancani'); return;
+  }
+  if (!hasSig) {
+    alert('Traccia la tua firma nel riquadro prima di procedere. Antonio Giancani'); return;
+  }
+
+  var firma = elaboraFirmaCanvas();
+  if (!firma) { alert('Firma non rilevata. Riprova. Antonio Giancani'); return; }
+
+  firmato = true;
+  document.getElementById('loader').style.display = 'flex';
+  document.getElementById('bottomCta').style.display = 'none';
+
+  if (TOKEN && typeof google !== 'undefined' && google.script && google.script.run) {
+    google.script.run
+      .withSuccessHandler(function(res) {
+        document.getElementById('loader').style.display = 'none';
+        if (res && res.successo) {
+          var urlPdf = res.urlPdfCliente || res.urlPdf || '#';
+          document.getElementById('esitoQr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=' + encodeURIComponent(urlPdf);
+          document.getElementById('lnkPdfEsito').href = urlPdf;
+          document.getElementById('main').style.display = 'none';
+          document.getElementById('esito').classList.add('show');
+        } else {
+          alert('Errore: ' + (res ? res.messaggio : 'risposta nulla') + '. Antonio Giancani');
+          firmato = false;
+          document.getElementById('loader').style.display = 'none';
+          document.getElementById('bottomCta').style.display = 'flex';
+        }
+      })
+      .withFailureHandler(function(err) {
+        document.getElementById('loader').style.display = 'none';
+        alert('Errore di connessione: ' + err.message + '. Antonio Giancani');
+        firmato = false;
+        document.getElementById('bottomCta').style.display = 'flex';
+      })
+      .finalizzaFirmaRemotaDoc(TOKEN, firma);
+  } else {
+    // Demo offline
+    setTimeout(function() {
+      document.getElementById('loader').style.display = 'none';
+      document.getElementById('main').style.display = 'none';
+      document.getElementById('esitoQr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=DEMO_PDF';
+      document.getElementById('lnkPdfEsito').href = '#';
+      document.getElementById('esito').classList.add('show');
+    }, 1500);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// AVVISO LEGALE + AUDIO
+// ══════════════════════════════════════════════════════════════════════════════
+function mostraAvvisoLegale() { if (!firmato) document.getElementById('avvisoLegale').classList.add('show'); }
+function chiudiAvviso()       { document.getElementById('avvisoLegale').classList.remove('show'); }
+
+function initAudio() {
+  if (!audioCtx) {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (AC) audioCtx = new AC();
+  }
+}
+
+function riproduciBeep() {
+  if (firmato) return;
+  if (navigator.vibrate) navigator.vibrate([300, 100, 300]);
+  if (audioCtx) {
+    try {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      var osc  = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.type = 'sine'; osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.7, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+      osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.6);
+    } catch(e) {}
+  }
+}
+</script>
+</body>
+</html>
+

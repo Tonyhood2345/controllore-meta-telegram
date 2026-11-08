@@ -1,0 +1,123 @@
+// ==========================================
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bozze Incarichi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-900 text-white min-h-screen p-3">
+
+  <div class="max-w-lg mx-auto">
+
+    <div class="text-center mb-4">
+      <span class="inline-block bg-amber-500 text-slate-900 px-3 py-1 rounded-full text-[11px] font-black uppercase">🏡 IMMOBILIARE GIANCANI</span>
+      <h1 class="text-base font-black uppercase mt-2">Gestione Bozze Incarichi</h1>
+      <p class="text-slate-500 text-[10px] mt-1">Incarichi di vendita salvati in automatico o manualmente</p>
+    </div>
+
+    <!-- Filtri -->
+    <div class="flex gap-2 mb-3">
+      <button onclick="filtra('TUTTI')"      id="btn_TUTTI"      class="filtro-btn flex-1 bg-slate-700 text-white font-bold text-[10px] py-2 rounded-lg">📋 Tutti</button>
+      <button onclick="filtra('COMPLETATO')" id="btn_COMPLETATO" class="filtro-btn flex-1 bg-emerald-700 text-white font-bold text-[10px] py-2 rounded-lg">✅ Completati</button>
+      <button onclick="filtra('BOZZA')"      id="btn_BOZZA"      class="filtro-btn flex-1 bg-amber-600 text-white font-bold text-[10px] py-2 rounded-lg">✏️ Bozze</button>
+    </div>
+
+    <div id="loader" class="text-center py-8 text-slate-400 text-sm">
+      <i class="fa-solid fa-circle-notch fa-spin text-2xl text-amber-500 mb-2 block"></i>
+      Caricamento bozze incarichi...
+    </div>
+
+    <div id="lista" class="space-y-2 hidden"></div>
+    <div id="vuoto" class="hidden text-center py-8 text-slate-500 text-sm">Nessuna bozza di incarico trovata.</div>
+
+    <button onclick="nuovoIncarico()" class="w-full mt-4 bg-bordeaux bg-red-800 text-white font-black py-3.5 rounded-xl text-xs uppercase tracking-wider shadow-lg">
+      ➕ Nuovo Incarico da Zero
+    </button>
+
+  </div>
+
+  <script>
+    var tutteLeBozze = [];
+    var filtroAttivo = 'TUTTI';
+    var WEBAPP_URL = "<?= WEBAPP_URL ?>";
+
+    google.script.run
+      .withSuccessHandler(function(bozze) {
+        tutteLeBozze = bozze || [];
+        document.getElementById('loader').classList.add('hidden');
+        renderLista(tutteLeBozze);
+      })
+      .withFailureHandler(function(err) {
+        document.getElementById('loader').innerText = "Errore: " + err.message;
+      })
+      .leggiBozzeIncarichiComplete();
+
+    function filtra(stato) {
+      filtroAttivo = stato;
+      var filtrate = stato === 'TUTTI' ? tutteLeBozze : tutteLeBozze.filter(function(b){ return b.stato === stato; });
+      renderLista(filtrate);
+    }
+
+    function renderLista(bozze) {
+      var lista = document.getElementById('lista');
+      var vuoto = document.getElementById('vuoto');
+      lista.innerHTML = '';
+      if (!bozze.length) { lista.classList.add('hidden'); vuoto.classList.remove('hidden'); return; }
+      vuoto.classList.add('hidden');
+      lista.classList.remove('hidden');
+
+      bozze.forEach(function(b) {
+        var colore = b.stato === 'COMPLETATO' ? 'border-emerald-600' : 'border-amber-500';
+        var badge  = b.stato === 'COMPLETATO'
+          ? '<span class="bg-emerald-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full">✅ COMPLETATO</span>'
+          : '<span class="bg-amber-500 text-slate-900 text-[9px] font-black px-2 py-0.5 rounded-full">✏️ BOZZA</span>';
+
+        var div = document.createElement('div');
+        div.className = "bg-slate-800 border-l-4 " + colore + " rounded-xl p-3 space-y-1";
+        div.innerHTML =
+          '<div class="flex justify-between items-start">' +
+            '<div>' +
+              '<p class="text-[10px] text-slate-400 font-bold">' + b.dataOra + ' — ' + b.agente + '</p>' +
+              '<p class="text-sm font-black text-white uppercase">' + b.venditori + '</p>' +
+              '<p class="text-[10px] text-slate-400 mt-0.5"><i class="fa-solid fa-house"></i> ' + b.indirizzo + '</p>' +
+            '</div>' +
+            badge +
+          '</div>' +
+          '<div class="flex gap-2 mt-2">' +
+            '<button onclick="riprendiBozza(\'' + b.idBozza + '\')" class="flex-1 bg-indigo-600 text-white font-black text-[10px] py-2 rounded-lg">▶️ Riprendi</button>' +
+            '<button onclick="eliminaBozza(\'' + b.idBozza + '\')" class="flex-1 bg-rose-700 text-white font-black text-[10px] py-2 rounded-lg">🗑️ Elimina</button>' +
+          '</div>';
+        lista.appendChild(div);
+      });
+    }
+
+    function riprendiBozza(idBozza) {
+      // Apre di nuovo il form Incarico passando l'id della bozza da precompilare
+      window.location.href = WEBAPP_URL + "?page=incarico&riprendi=" + idBozza;
+    }
+
+    function nuovoIncarico() {
+      window.location.href = WEBAPP_URL + "?page=incarico";
+    }
+
+    function eliminaBozza(idBozza) {
+      if (!confirm("Eliminare definitivamente questa bozza?")) return;
+      google.script.run
+        .withSuccessHandler(function(res) {
+          if (res.successo) {
+            tutteLeBozze = tutteLeBozze.filter(function(b){ return b.idBozza !== idBozza; });
+            filtra(filtroAttivo);
+          } else {
+            alert("Errore: " + (res.messaggio || "impossibile eliminare"));
+          }
+        })
+        .eliminaBozzaIncarico(idBozza);
+    }
+  </script>
+</body>
+</html>
+

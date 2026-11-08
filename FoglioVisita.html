@@ -1,0 +1,1128 @@
+// ==========================================
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Foglio Visita — Giancani</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#5c061a; --primary-dark:#420311; --accent:#f97316;
+  --accent-glow:rgba(249,115,22,0.35); --success:#10b981; --danger:#ef4444;
+  --bg:#0f172a; --glass-bg:rgba(15,23,42,0.75);
+  --glass-border:rgba(255,255,255,0.09); --glass-hover:rgba(255,255,255,0.04);
+  --text:#f8fafc; --text-muted:#94a3b8;
+  --safe-top:env(safe-area-inset-top,0px); --safe-bottom:env(safe-area-inset-bottom,0px);
+  --safe-left:env(safe-area-inset-left,0px); --safe-right:env(safe-area-inset-right,0px);
+  --progress-h:56px; --bottomnav-h:80px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{height:100%}
+body{font-family:'Outfit',sans-serif;background:radial-gradient(ellipse at top left,var(--primary-dark) 0%,var(--bg) 65%);color:var(--text);min-height:100dvh;overflow-x:hidden}
+#debugBar{position:fixed;top:0;left:0;right:0;background:#ef4444;color:#fff;font-size:11px;font-weight:bold;padding:6px 10px;z-index:99999;font-family:monospace}
+#progress-bar{position:fixed;top:0;left:0;right:0;height:calc(var(--progress-h) + var(--safe-top));padding-top:var(--safe-top);background:rgba(15,23,42,0.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);z-index:500;display:flex;align-items:center;padding-left:calc(0.75rem + var(--safe-left));padding-right:calc(0.75rem + var(--safe-right));gap:0.5rem;margin-top:24px}
+.top-logo{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,0.4);border:1px solid var(--accent);border-radius:99px;padding:3px 9px;flex-shrink:0}
+.top-logo i{color:var(--accent);font-size:0.7rem}
+.top-logo span{font-size:0.55rem;font-weight:900;letter-spacing:1px}
+.step-pill{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.step-pill-bar{width:100%;height:4px;border-radius:99px;background:var(--glass-border);position:relative;overflow:hidden;transition:background 0.3s}
+.step-pill-bar::after{content:'';position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1)}
+.step-pill.active .step-pill-bar::after,.step-pill.done .step-pill-bar::after{transform:scaleX(1)}
+.step-pill.done .step-pill-bar{background:rgba(16,185,129,0.2)}
+.step-pill.done .step-pill-bar::after{background:var(--success)}
+.step-pill-label{font-size:0.55rem;font-weight:800;letter-spacing:0.5px;text-transform:uppercase;color:var(--text-muted);white-space:nowrap;transition:color 0.3s}
+.step-pill.active .step-pill-label{color:var(--accent)}
+.step-pill.done .step-pill-label{color:var(--success)}
+#app{padding-top:calc(var(--progress-h) + var(--safe-top) + 24px);padding-bottom:calc(var(--bottomnav-h) + var(--safe-bottom));min-height:100dvh}
+.step-screen{display:none;padding:1.1rem calc(0.9rem + var(--safe-left)) 1rem calc(0.9rem + var(--safe-right));animation:fadeSlide 0.3s ease}
+.step-screen.active{display:block}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.step-header{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.1rem}
+.step-icon{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;box-shadow:0 4px 14px var(--accent-glow)}
+.step-header-text h2{font-size:1.1rem;font-weight:900;text-transform:uppercase;letter-spacing:-0.3px}
+.step-header-text p{font-size:0.72rem;color:var(--text-muted);margin-top:2px}
+.glass-card{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:1.2rem;padding:1.15rem;backdrop-filter:blur(20px);box-shadow:0 8px 32px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.05);margin-bottom:0.9rem}
+.form-group{display:flex;flex-direction:column;margin-bottom:0.9rem}
+.form-group:last-child{margin-bottom:0}
+.form-group label{font-size:0.68rem;font-weight:800;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.35rem;letter-spacing:0.8px;display:flex;align-items:center;gap:0.3rem}
+input[type="text"],input[type="tel"],input[type="date"],input[type="time"],input[type="number"],select,textarea{background:rgba(15,23,42,0.7);border:2px solid var(--glass-border);border-radius:0.8rem;padding:0.85rem 1rem;color:var(--text);font-family:'Outfit',sans-serif;font-weight:600;font-size:1rem;width:100%;transition:border-color 0.2s,box-shadow 0.2s;-webkit-appearance:none;appearance:none}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-glow)}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M6 8L0 0h12z' fill='%2394a3b8'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.55rem}
+.btn{min-height:56px;background:var(--accent);color:#fff;font-family:'Outfit',sans-serif;font-weight:800;font-size:1rem;padding:0 1.4rem;border:none;border-radius:1rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:0.45rem;transition:transform 0.15s,box-shadow 0.2s;text-transform:uppercase;letter-spacing:0.5px;width:100%;touch-action:manipulation;box-shadow:0 4px 16px var(--accent-glow)}
+.btn:active{transform:scale(0.96);box-shadow:none!important}
+.btn-secondary{background:var(--glass-hover);border:1.5px solid var(--glass-border);color:var(--text);box-shadow:none}
+.btn-success{background:var(--success);box-shadow:0 4px 16px rgba(16,185,129,0.35)}
+.btn-danger{background:rgba(239,68,68,0.12);border:1.5px solid rgba(239,68,68,0.35);color:#fca5a5;box-shadow:none}
+.btn-sm{min-height:44px;font-size:0.8rem;padding:0 0.9rem;border-radius:0.75rem;width:auto}
+#bottom-nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--bottomnav-h) + var(--safe-bottom));padding-bottom:var(--safe-bottom);background:rgba(9,15,28,0.97);backdrop-filter:blur(24px);border-top:1px solid var(--glass-border);z-index:500;display:flex;align-items:center;gap:0.7rem;padding-left:calc(1rem + var(--safe-left));padding-right:calc(1rem + var(--safe-right))}
+#btn-back{flex-shrink:0;width:auto;padding:0 1rem;min-height:56px}
+#btn-next{flex:1;min-height:56px;font-size:1rem}
+.step-counter-badge{font-size:0.68rem;font-weight:800;color:var(--text-muted);white-space:nowrap;flex-shrink:0}
+.client-card{background:rgba(255,255,255,0.022);border:1px solid var(--glass-border);border-radius:1.1rem;padding:1rem;margin-bottom:0.85rem}
+.client-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem;border-bottom:1px dashed var(--glass-border);padding-bottom:0.55rem}
+.client-badge{display:inline-flex;align-items:center;gap:0.4rem;color:var(--accent);font-weight:800;font-size:0.9rem}
+.preview-doc{width:100%;max-height:110px;object-fit:cover;border-radius:0.75rem;border:2px dashed var(--success);margin:0.4rem 0}
+.scan-status{display:none;font-size:0.75rem;text-align:center;color:var(--accent);margin:0.35rem 0;font-weight:700}
+.otp-box{background:rgba(99,102,241,0.08);border:1.5px solid rgba(99,102,241,0.25);border-radius:0.95rem;padding:0.85rem;margin-top:0.7rem}
+.otp-row{display:flex;gap:0.45rem;align-items:center}
+.otp-row input{text-align:center;font-weight:900;font-size:1.15rem;letter-spacing:3px;padding:0.55rem;height:48px;max-width:120px}
+.otp-verified-badge{display:none;align-items:center;gap:0.3rem;color:var(--success);font-weight:800;font-size:0.82rem;margin-top:0.45rem;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);border-radius:0.6rem;padding:0.35rem 0.7rem}
+.otp-verified-badge.show{display:inline-flex}
+.signature-area{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.02);border:1px solid var(--glass-border);border-radius:0.85rem;padding:0.7rem 0.9rem;margin-top:0.7rem}
+.signature-status{font-weight:700;font-size:0.82rem}
+.status-unsigned{color:#f87171}
+.status-signed{color:var(--success)}
+.gps-widget{background:rgba(249,115,22,0.06);border:1.5px solid rgba(249,115,22,0.2);border-radius:1.1rem;padding:0.9rem;margin-bottom:0.85rem;text-align:center}
+#gpsStatus{font-size:0.82rem;margin-top:0.55rem;display:none;font-weight:600;padding:0.45rem 0.7rem;border-radius:0.55rem;background:rgba(0,0,0,0.2)}
+#modalFirma{position:fixed;inset:0;background:#0a0f1e;z-index:9000;display:none;flex-direction:column;padding:var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left)}
+#modalFirma.modal-active{display:flex}
+.firma-topbar{display:flex;justify-content:space-between;align-items:center;padding:0.7rem 1rem;border-bottom:1px solid var(--glass-border);flex-shrink:0}
+.firma-topbar h3{font-size:0.95rem;font-weight:900;text-transform:uppercase}
+.firma-topbar p{font-size:0.68rem;color:var(--text-muted)}
+.canvas-wrap{flex:1;margin:0.55rem 0.9rem;background:#fff;border-radius:1.05rem;overflow:hidden}
+#canvasFirma{width:100%;height:100%;touch-action:none;display:block}
+.firma-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;padding:0.7rem 0.9rem;flex-shrink:0}
+.firma-actions .btn{min-height:56px}
+#modalScelta{position:fixed;inset:0;z-index:8000;display:none;flex-direction:column;justify-content:flex-end;background:rgba(0,0,0,0.65)}
+#modalScelta.modal-active{display:flex}
+.sheet-inner{background:#111e32;border-top-left-radius:1.6rem;border-top-right-radius:1.6rem;border:1px solid var(--glass-border);border-bottom:none;max-height:80dvh;display:flex;flex-direction:column;padding-bottom:var(--safe-bottom)}
+.sheet-handle{width:38px;height:4px;background:var(--glass-border);border-radius:99px;margin:0.65rem auto 0.2rem}
+.sheet-header{display:flex;justify-content:space-between;align-items:center;padding:0.4rem 1.15rem 0.65rem;border-bottom:1px solid var(--glass-border)}
+.sheet-header h3{font-size:0.95rem;font-weight:900;text-transform:uppercase;color:var(--accent)}
+.sheet-close{background:none;border:none;color:var(--text-muted);font-size:1.5rem;cursor:pointer;line-height:1;padding:0 0.2rem}
+#modalSceltaLista{overflow-y:auto;padding:0.9rem 1.15rem;flex:1}
+.sheet-item{background:rgba(255,255,255,0.03);border:1px solid var(--glass-border);border-radius:0.8rem;padding:0.8rem 0.9rem;margin-bottom:0.65rem;display:flex;justify-content:space-between;align-items:center;gap:0.7rem}
+.sheet-item strong{color:var(--accent);font-size:0.88rem;display:block;margin-bottom:2px}
+.sheet-item .meta{font-size:0.7rem;color:var(--text-muted);line-height:1.4}
+#success-panel{display:none;padding:2rem 1.1rem 1.5rem;text-align:center;min-height:100dvh;flex-direction:column;align-items:center;justify-content:center}
+#success-panel.success-active{display:flex}
+.success-icon{font-size:5rem;color:var(--success);margin-bottom:1.1rem;animation:pulse 2s infinite;display:block}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.success-btns{display:flex;flex-direction:column;gap:0.7rem;width:100%;max-width:340px;margin:1.25rem auto 0}
+#loader{position:fixed;inset:0;background:rgba(9,14,28,0.95);z-index:99999;display:none;flex-direction:column;justify-content:center;align-items:center;gap:1.1rem}
+.loader-spinner{width:50px;height:50px;border:4px solid rgba(255,255,255,0.07);border-left-color:var(--accent);border-radius:50%;animation:spin 0.85s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-text{font-weight:800;font-size:0.88rem;letter-spacing:2px;color:var(--accent);text-transform:uppercase}
+.footer-brand{text-align:center;padding:1.25rem 1rem 0.25rem}
+.footer-brand .powered{font-size:0.62rem;text-transform:uppercase;font-weight:700;color:var(--text-muted);letter-spacing:2px;margin-bottom:0.25rem}
+.footer-brand .brand-name{font-size:1.6rem;font-weight:900;letter-spacing:0.5px;background:linear-gradient(135deg,#fff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block}
+.footer-brand .brand-author{font-size:0.8rem;font-weight:600;color:var(--text-muted);letter-spacing:1px;display:block;margin-top:2px}
+.legal-notice{font-size:0.7rem;color:var(--text-muted);line-height:1.55;text-align:justify}
+.info-block{background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.25);border-radius:0.8rem;padding:0.8rem;font-size:0.8rem;line-height:1.5}
+.section-label{font-size:0.67rem;font-weight:800;text-transform:uppercase;color:var(--accent);letter-spacing:1px;margin-bottom:0.55rem;display:flex;align-items:center;gap:0.35rem}
+.flex-row{display:flex;align-items:center;gap:0.5rem}
+.mt-s{margin-top:0.5rem}.mt-m{margin-top:0.8rem}
+.mb-s{margin-bottom:0.5rem}.mb-m{margin-bottom:0.85rem}
+.text-accent{color:var(--accent)}.text-muted{color:var(--text-muted)}
+.submit-btn-hero{min-height:64px;font-size:1.05rem;border-radius:1.2rem;background:linear-gradient(135deg,var(--primary) 0%,var(--accent) 100%);box-shadow:0 6px 24px var(--accent-glow)}
+</style>
+</head>
+<body>
+
+<div id="debugBar">⏳ Inizializzazione in corso...</div>
+
+<div id="progress-bar">
+  <div class="top-logo"><i class="fa-solid fa-house"></i><span>DarIA</span></div>
+  <div class="step-pill active" id="pill-0"><div class="step-pill-bar"></div><div class="step-pill-label">Registro</div></div>
+  <div class="step-pill" id="pill-1"><div class="step-pill-bar"></div><div class="step-pill-label">Clienti</div></div>
+  <div class="step-pill" id="pill-2"><div class="step-pill-bar"></div><div class="step-pill-label">Immobili</div></div>
+  <div class="step-pill" id="pill-3"><div class="step-pill-bar"></div><div class="step-pill-label">Firma</div></div>
+</div>
+
+<div id="app">
+
+  <div class="step-screen active" id="step-0">
+    <div class="step-header">
+      <div class="step-icon"><i class="fa-solid fa-book-open"></i></div>
+      <div class="step-header-text"><h2>Parametri Registro</h2><p>Data, ora e agente responsabile</p></div>
+    </div>
+    <div class="glass-card">
+      <div class="form-group">
+        <label><i class="fa-solid fa-user-tie"></i> Agente Incaricato</label>
+        <select id="agente"><option value="Antonio Giancani">Antonio Giancani</option><option value="Andrea Giancani">Andrea Giancani</option></select>
+      </div>
+      <div class="form-group">
+        <label><i class="fa-solid fa-location-dot"></i> Luogo Stipula</label>
+        <input type="text" id="luogoFirma" value="Favara (AG)" inputmode="text">
+      </div>
+      <div class="form-group">
+        <label><i class="fa-solid fa-calendar-days"></i> Data Sopralluogo</label>
+        <input type="date" id="dataVisita">
+      </div>
+      <div class="grid-2">
+        <div class="form-group"><label><i class="fa-solid fa-clock"></i> Ora Inizio</label><input type="time" id="oraInizio"></div>
+        <div class="form-group"><label><i class="fa-solid fa-clock-rotate-left"></i> Ora Fine</label><input type="time" id="oraFine"></div>
+      </div>
+    </div>
+    <div class="footer-brand"><div class="powered">Powered by DarIA AI</div><div class="brand-name">IMMOBILIARE GIANCANI</div><div class="brand-author">by Antonio Giancani 13 50</div></div>
+  </div>
+
+  <div class="step-screen" id="step-1">
+    <div class="step-header">
+      <div class="step-icon"><i class="fa-solid fa-users"></i></div>
+      <div class="step-header-text"><h2>Visitatori</h2><p>Aggiungi i clients presenti (max 4)</p></div>
+    </div>
+    <div class="flex-row mb-m">
+      <button type="button" class="btn btn-secondary btn-sm" onclick="apriRegistroStorico()"><i class="fa-solid fa-clock-rotate-left"></i> Storico</button>
+      <button type="button" class="btn btn-sm" onclick="aggiungiCliente()" style="flex:1;"><i class="fa-solid fa-user-plus"></i> Aggiungi Cliente</button>
+    </div>
+    <div id="listaClienti"></div>
+    <div class="footer-brand"><div class="powered">Powered by DarIA AI</div><div class="brand-name">IMMOBILIARE GIANCANI</div><div class="brand-author">by Antonio Giancani</div></div>
+  </div>
+
+  <div class="step-screen" id="step-2">
+    <div class="step-header">
+      <div class="step-icon"><i class="fa-solid fa-building"></i></div>
+      <div class="step-header-text"><h2>Immobili Visitati</h2><p>GPS e lista unità (max 12)</p></div>
+    </div>
+    <div class="gps-widget">
+      <button type="button" class="btn btn-secondary" style="width:100%;" onclick="rilevaPosizioneGps()"><i class="fa-solid fa-location-crosshairs"></i> RILEVA POSIZIONE GPS</button>
+      <div id="gpsStatus"></div>
+    </div>
+    <div class="flex-row mb-m">
+      <button type="button" class="btn btn-secondary btn-sm" onclick="apriDatabaseImmobili()"><i class="fa-solid fa-database"></i> Database</button>
+      <button type="button" class="btn btn-sm" onclick="aggiungiImmobile()" style="flex:1;"><i class="fa-solid fa-plus"></i> Aggiungi Immobile</button>
+    </div>
+    <div id="listaImmobili"></div>
+    <div class="footer-brand"><div class="powered">Powered by DarIA AI</div><div class="brand-name">IMMOBILIARE GIANCANI</div><div class="brand-author">by Antonio Giancani</div></div>
+  </div>
+
+  <div class="step-screen" id="step-3">
+    <div class="step-header">
+      <div class="step-icon"><i class="fa-solid fa-file-signature"></i></div>
+      <div class="step-header-text"><h2>Firma &amp; Invio</h2><p>Modalità sottoscrizione e invio finale</p></div>
+    </div>
+    <div class="glass-card">
+      <div class="section-label"><i class="fa-solid fa-signature"></i> Modalità Sottoscrizione</div>
+      <div class="form-group">
+        <select id="tipoFirma" onchange="cambiaTipoFirma(this.value)">
+          <option value="digitale">✍️ Firma sul mio cellulare</option>
+          <option value="remota">📱 Invia link per firma sul suo cellulare</option>
+          <option value="cartacea">🖨️ Stampa e Firma Cartacea</option>
+        </select>
+      </div>
+      <div id="infoFirmaRemota" class="info-block mt-s" style="display:none;">
+        <i class="fa-solid fa-circle-info text-accent"></i>
+        <strong>Firma Remota:</strong> Verrà generato un link protetto da condividere su WhatsApp.
+      </div>
+    </div>
+    <div class="glass-card">
+      <div class="section-label"><i class="fa-solid fa-gavel"></i> Nota Legale GDPR</div>
+      <p class="legal-notice">Il sottoscritto dichiara di aver visionato gli immobili con l'assistenza dell'agente incaricato. Ai sensi del GDPR UE 2016/679, si esprime il consenso al trattamento dei dati personali. L'acquisizione delle coordinate GPS, del timestamp e della firma OTP costituiscono piena prova dell'avvenuta visita a tutti gli effetti di legge.</p>
+    </div>
+    <button type="button" class="btn submit-btn-hero mt-m" onclick="inviaForm()">
+      <i class="fa-solid fa-file-signature"></i> REGISTRA VISITA E FIRMA ORA
+    </button>
+    <div class="footer-brand" style="margin-bottom:1rem;"><div class="powered">Powered by DarIA AI</div><div class="brand-name">IMMOBILIARE GIANCANI</div><div class="brand-author">by Antonio Giancani</div></div>
+  </div>
+
+</div>
+
+<div id="bottom-nav">
+  <button class="btn btn-secondary" id="btn-back" onclick="stepBack()"><i class="fa-solid fa-arrow-left"></i></button>
+  <button class="btn btn-secondary" id="btn-draft" onclick="salvaInBozze()"><i class="fa-solid fa-floppy-disk text-accent"></i> Bozza</button>
+  <span class="step-counter-badge" id="step-counter">Passo 1 di 4</span>
+  <button class="btn" id="btn-next" onclick="stepNext()">Avanti <i class="fa-solid fa-arrow-right"></i></button>
+</div>
+
+<div id="success-panel">
+  <i class="fa-solid fa-circle-check success-icon"></i>
+  <h2 style="font-size:1.55rem;font-weight:900;text-transform:uppercase;margin-bottom:0.5rem;">Visita Registrata!</h2>
+  <p class="text-muted" style="font-size:0.88rem;">Il foglio visita è stato salvato nel sistema DarIA.</p>
+  <div style="background:#fff;display:inline-block;padding:0.8rem;border-radius:1rem;margin:1.15rem 0;">
+    <img id="successQr" src="" alt="QR" style="width:130px;height:130px;display:block;">
+  </div>
+  <div class="success-btns">
+    <a id="lnkPdf" href="#" target="_blank" class="btn"><i class="fa-solid fa-file-pdf"></i> Apri PDF</a>
+    <a id="btnWaShare" href="#" target="_blank" class="btn btn-secondary" style="border-color:#25D366;color:#25D366;background:rgba(37,211,102,0.06);"><i class="fa-brands fa-whatsapp"></i> Invia WhatsApp</a>
+    <button type="button" class="btn btn-secondary" onclick="location.reload()"><i class="fa-solid fa-arrows-rotate"></i> Nuovo Sopralluogo</button>
+  </div>
+  <div class="footer-brand" style="margin-top:2rem;"><div class="powered">Powered by DarIA AI</div><div class="brand-name">IMMOBILIARE GIANCANI</div><div class="brand-author">by Antonio Giancani</div></div>
+</div>
+
+<div id="modalFirma">
+  <div class="firma-topbar">
+    <div><h3><i class="fa-solid fa-pen-nib text-accent"></i> Apponi la Firma</h3><p>Firma nel riquadro bianco con il dito</p></div>
+    <button type="button" class="btn btn-secondary btn-sm" onclick="chiudiFirma()"><i class="fa-solid fa-xmark"></i> Chiudi</button>
+  </div>
+  <div class="canvas-wrap"><canvas id="canvasFirma"></canvas></div>
+  <div class="firma-actions">
+    <button type="button" class="btn btn-secondary" onclick="pulisciFirma()"><i class="fa-solid fa-eraser"></i> Pulisci</button>
+    <button type="button" class="btn btn-danger" onclick="chiudiFirma()"><i class="fa-solid fa-times"></i> Annulla</button>
+    <button type="button" class="btn btn-success" onclick="salvaFirma()"><i class="fa-solid fa-check"></i> Applica</button>
+  </div>
+</div>
+
+<div id="modalScelta" onclick="chiudiScelta()">
+  <div class="sheet-inner" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header"><h3 id="modalSceltaTitolo">Registro</h3><button class="sheet-close" onclick="chiudiScelta()">&times;</button></div>
+    <div id="modalSceltaLista"></div>
+  </div>
+</div>
+
+<div id="loader">
+  <div class="loader-spinner"></div>
+  <div class="loader-text">DarIA sta processando...</div>
+</div>
+
+<script>
+// ── RICEZIONE DATI BOZZA DA DARIA BACKEND ──
+var BOZZA_INIETTATA = <?= typeof bozzaIniettata !== 'undefined' && bozzaIniettata !== null ? JSON.stringify(bozzaIniettata) : 'null' ?>;
+
+
+// ... [lascia invariato il resto del tuo oggetto DB] ...
+// ── FINESTRA ALERT CON TIMER AUTOMATICO ──
+window.addEventListener('DOMContentLoaded', function() {
+  var adesso = new Date();
+  var dataOp = adesso.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  var oraOp  = adesso.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+  alert("Ciao, sono Agenda 73 v3.5\nAccesso eseguito il 1105" + dataOp + " alle ore " + oraOp);
+});
+
+var DB = {
+  immobili: [
+    {tipo:"Appartamento",citta:"Favara",via:"Corso Vittorio Veneto 151",prezzo:"85.000",incarico:"12"},
+    {tipo:"Villa Indipendente",citta:"Agrigento",via:"Viale delle Dune 18",prezzo:"240.000",incarico:"45"},
+    {tipo:"Mansarda",citta:"Favara",via:"Via Agrigento 5",prezzo:"62.000",incarico:"8"},
+    {tipo:"Locale Commerciale",citta:"Favara",via:"Piazza Cavour 22",prezzo:"110.000",incarico:"31"},
+    {tipo:"Appartamento",citta:"Aragona",via:"Via Roma 88",prezzo:"45.000",incarico:"17"}
+  ],
+  clienti: [
+    {nome:"SALVATORE DALI",dataNascita:"01/01/1981",luogoNascita:"Favara",sesso:"M",cf:"DLASVT81A01A089X",residenza:"FAVARA (AG) VIA DELLE FONTI 12",telefono:"3201667156"},
+    {nome:"MARIO ROSSI",dataNascita:"15/05/1975",luogoNascita:"Palermo",sesso:"M",cf:"RSSMRA75E15G273U",residenza:"AGRIGENTO VIA ATENE 1",telefono:"3334445555"},
+    {nome:"GIULIA BIANCHI",dataNascita:"22/10/1990",luogoNascita:"Canicatti",sesso:"F",cf:"BNCGLI90R62B602S",residenza:"FAVARA VIA CAPITANO CALABRESE 3",telefono:"3201667156"}
+  ]
+};
+
+var currentStep = 0;
+var TOTAL_STEPS = 4;
+var clientiCount = 0;
+var immobiliCount = 0;
+var activeClientFirmaCardId = null;
+var canvas, ctx, drawing = false;
+var idBozzaCorrente = null;
+
+function setDebug(msg, col) {
+  var b = document.getElementById('debugBar');
+  if (b) { b.innerText = msg; b.style.background = col || '#ef4444'; }
+}
+
+function inizializzaPagina() {
+  setDebug('STEP 1 - JS avviato', '#f97316');
+
+  try {
+    var d = new Date();
+    var anno = d.getFullYear();
+    var mese = String(d.getMonth()+1).padStart(2,'0');
+    var giorno = String(d.getDate()).padStart(2,'0');
+    var oreF = String(d.getHours()).padStart(2,'0');
+    var minF = String(d.getMinutes()).padStart(2,'0');
+    var dI = new Date(d.getTime()-3600000);
+    var oreI = String(dI.getHours()).padStart(2,'0');
+    var minI = String(dI.getMinutes()).padStart(2,'0');
+    document.getElementById('dataVisita').value = anno+'-'+mese+'-'+giorno;
+    document.getElementById('oraFine').value = oreF+':'+minF;
+    document.getElementById('oraInizio').value = oreI+':'+minI;
+    document.getElementById('luogoFirma').value = 'Favara (AG)';
+    document.getElementById('agente').value = 'Antonio Giancani';
+    setDebug('STEP 2 - Campi OK', '#f97316');
+  } catch(e) { setDebug('CRASH STEP 2: '+e.toString(),'#dc2626'); return; }
+
+  try {
+    canvas = document.getElementById('canvasFirma');
+    ctx = canvas.getContext('2d');
+    setupCanvasEvents();
+    setDebug('STEP 3 - Canvas OK', '#f97316');
+  } catch(e) { setDebug('CRASH STEP 3: '+e.toString(),'#dc2626'); return; }
+
+  try {
+    updateStepUI();
+    setDebug('STEP 4 - UI OK', '#f97316');
+  } catch(e) { setDebug('CRASH STEP 4: '+e.toString(),'#dc2626'); return; }
+
+  setDebug('STEP 5 - Contatto server...','#6366f1');
+
+  if (typeof google !== 'undefined' && google.script && google.script.run) {
+    setDebug('STEP 5 - google.script.run OK','#6366f1');
+    google.script.run
+      .withSuccessHandler(function(dati) {
+        setDebug('STEP 6 - Dati ricevuti OK','#10b981');
+        if (dati) {
+          if (dati.clienti && dati.clienti.length > 0) DB.clienti = dati.clienti;
+          if (dati.immobili && dati.immobili.length > 0) DB.immobili = dati.immobili;
+        }
+        caricaPrimiElementi();
+        setDebug('SISTEMA PRONTO - Antonio Giancani','#10b981');
+      })
+      .withFailureHandler(function(err) {
+        setDebug('ERRORE SERVER: '+err.message,'#dc2626');
+        caricaPrimiElementi();
+      })
+      .ottieniDatiInizialiVisita();
+  } else {
+    setDebug('OFFLINE - Modalita demo','#f59e0b');
+    caricaPrimiElementi();
+  }
+}
+
+function caricaPrimiElementi() {
+  document.getElementById('listaClienti').innerHTML = '';
+  document.getElementById('listaImmobili').innerHTML = '';
+  clientiCount = 0;
+  immobiliCount = 0;
+  aggiungiCliente(DB.clienti[0]);
+  aggiungiImmobile(DB.immobili[0]);
+}
+
+window.onload = inizializzaPagina;
+
+function updateStepUI() {
+  document.querySelectorAll('.step-screen').forEach(function(el,i){ el.classList.toggle('active', i===currentStep); });
+  document.querySelectorAll('.step-pill').forEach(function(pill,i){
+    pill.classList.remove('active','done');
+    if (i < currentStep) pill.classList.add('done');
+    if (i === currentStep) pill.classList.add('active');
+  });
+  document.getElementById('step-counter').textContent = 'Passo '+(currentStep+1)+' di '+TOTAL_STEPS;
+  var back = document.getElementById('btn-back');
+  var next = document.getElementById('btn-next');
+  back.disabled = currentStep === 0;
+  back.style.opacity = currentStep === 0 ? '0.3' : '1';
+  if (currentStep === TOTAL_STEPS-1) {
+    next.style.display = 'none';
+  } else {
+    next.style.display = 'flex';
+    next.innerHTML = 'Avanti <i class="fa-solid fa-arrow-right"></i>';
+  }
+}
+
+function stepNext() {
+  if (currentStep===0) {
+    if (!document.getElementById('dataVisita').value || !document.getElementById('oraInizio').value || !document.getElementById('oraFine').value || !document.getElementById('luogoFirma').value.trim()) {
+      alert('Compila tutti i campi. Antonio Giancani'); return;
+    }
+  }
+  if (currentStep===1 && document.querySelectorAll('#listaClienti .client-card').length===0) { alert('Inserisci almeno un cliente. Antonio Giancani'); return; }
+  if (currentStep===2 && document.querySelectorAll('#listaImmobili .client-card').length===0) { alert('Inserisci almeno un immobile. Antonio Giancani'); return; }
+  if (currentStep < TOTAL_STEPS-1) { currentStep++; updateStepUI(); window.scrollTo(0,0); }
+}
+
+function stepBack() {
+  if (currentStep > 0) { currentStep--; updateStepUI(); window.scrollTo(0,0); }
+}
+
+function setupCanvasEvents() {
+  function getPos(e) {
+    var r = canvas.getBoundingClientRect();
+    var cx = e.touches ? e.touches[0].clientX : e.clientX;
+    var cy = e.touches ? e.touches[0].clientY : e.clientY;
+    return {x: cx-r.left, y: cy-r.top};
+  }
+  canvas.addEventListener('mousedown',function(e){ drawing=true; ctx.beginPath(); var p=getPos(e); ctx.moveTo(p.x,p.y); });
+  canvas.addEventListener('mousemove',function(e){ if(!drawing) return; var p=getPos(e); ctx.lineTo(p.x,p.y); ctx.strokeStyle='#000'; ctx.lineWidth=3; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.stroke(); });
+  window.addEventListener('mouseup',function(){ drawing=false; });
+  canvas.addEventListener('touchstart',function(e){ e.preventDefault(); drawing=true; ctx.beginPath(); var p=getPos(e); ctx.moveTo(p.x,p.y); },{passive:false});
+  canvas.addEventListener('touchmove',function(e){ e.preventDefault(); if(!drawing) return; var p=getPos(e); ctx.lineTo(p.x,p.y); ctx.strokeStyle='#000'; ctx.lineWidth=3; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.stroke(); },{passive:false});
+  window.addEventListener('touchend',function(){ drawing=false; });
+}
+
+function aggiungiCliente(data) {
+  data = data || {};
+  if (clientiCount >= 4) { alert('Massimo 4 clienti. Antonio Giancani'); return; }
+  clientiCount++;
+  var id = 'cli_'+Date.now()+'_'+Math.random().toString(36).substr(2,5);
+  var otpOk = (data.nome && data.telefono) ? 'true' : 'false';
+  var card = document.createElement('div');
+  card.className = 'client-card';
+  card.id = id;
+  card.setAttribute('data-otp-verified', otpOk);
+  card.setAttribute('data-signature', '');
+  card.innerHTML = '<div class="client-card-header">'
+    +'<span class="client-badge"><i class="fa-solid fa-user"></i> Visitatore #'+clientiCount+'</span>'
+    +'<button type="button" class="btn btn-danger btn-sm" onclick="rimuoviCliente(\''+id+'\')"><i class="fa-solid fa-trash"></i></button>'
+    +'</div>'
+    +'<div class="grid-2 mb-s">'
+    +'<label class="btn btn-secondary btn-sm" style="cursor:pointer;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;">'
+    +'<i class="fa-solid fa-camera"></i> Fotocamera'
+    +'<input type="file" accept="image/*" capture="environment" style="display:none;" onchange="processaFotoDocumento(this, \''+id+'\')">'
+    +'</label>'
+    +'<label class="btn btn-secondary btn-sm" style="cursor:pointer;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;">'
+    +'<i class="fa-solid fa-images"></i> Galleria'
+    +'<input type="file" accept="image/*" style="display:none;" onchange="processaFotoDocumento(this, \''+id+'\')">'
+    +'</label>'
+    +'</div>'
+    // ... [Codice precedente dentro aggiungiCliente] ...
++'<div class="scan-status" id="scanStatus_'+id+'"><i class="fa-solid fa-spinner fa-spin"></i> DarIA Vision...</div>'
++'<img id="docPreview_'+id+'" class="preview-doc" style="display:none;" alt="Preview">'
+
+// Sostituisci da qui:
++'<div class="form-group"><label><i class="fa-solid fa-id-card"></i> Cognome e Nome</label>'
++'<div style="display:flex; gap:0.5rem; width:100%;">'
++'<input type="text" class="cli-nome" value="'+(data.nome||'')+'" placeholder="COGNOME NOME" inputmode="text" style="flex:1;">'
++'<button type="button" class="btn btn-secondary" onclick="cercaContattoDaInput(\''+id+'\')" style="min-height:auto; height:50px; width:50px; padding:0; display:flex; align-items:center; justify-content:center; border-radius:0.8rem; flex-shrink:0;"><i class="fa-solid fa-magnifying-glass-list text-accent"></i></button>'
++'</div></div>'
+// A qui.
+
++'<div class="grid-3">'
+// ... [Resto del codice di aggiungiCliente] ...
+
+    
+    +'<div class="form-group"><label>Nato il</label><input type="text" class="cli-nascita" value="'+(data.dataNascita||'')+'" placeholder="GG/MM/AAAA"></div>'
+    +'<div class="form-group"><label>A</label><input type="text" class="cli-luogo" value="'+(data.luogoNascita||'')+'" placeholder="Luogo"></div>'
+    +'<div class="form-group"><label>Sesso</label><select class="cli-sesso"><option value="M"'+(data.sesso==='M'?' selected':'')+'>M</option><option value="F"'+(data.sesso==='F'?' selected':'')+'>F</option></select></div>'
+    +'</div>'
+    +'<div class="grid-2">'
+    +'<div class="form-group"><label><i class="fa-solid fa-fingerprint"></i> Cod. Fiscale</label><input type="text" class="cli-cf" value="'+(data.cf||'')+'" placeholder="Codice Fiscale" style="font-family:monospace;"></div>'
+    +'<div class="form-group" style="justify-content:flex-end;"><button type="button" class="btn btn-secondary" onclick="calcolaCf(\''+id+'\')" style="width:100%;min-height:56px;"><i class="fa-solid fa-calculator"></i> Calcola CF</button></div>'
+    +'</div>'
+    +'<div class="form-group"><label><i class="fa-solid fa-map-marker-alt"></i> Residenza</label><input type="text" class="cli-residenza" value="'+(data.residenza||'')+'" placeholder="Via, Citta, CAP"></div>'
+    +'<div class="form-group"><label><i class="fa-brands fa-whatsapp"></i> Cellulare</label><input type="tel" class="cli-telefono" value="'+(data.telefono||'')+'" placeholder="3201234567" inputmode="tel"></div>'
+    +'<div class="otp-box">'
+    +'<div class="otp-row">'
+    +'<button type="button" class="btn btn-secondary btn-sm" id="btnOtp_'+id+'" onclick="inviaOtp(\''+id+'\')" style="flex:1;min-height:48px;"><i class="fa-brands fa-whatsapp"></i> Invia OTP</button>'
+    +'<input type="text" id="otpInput_'+id+'" placeholder="Codice OTP" inputmode="numeric" style="max-width:120px;flex:1;height:48px;">'
+    +'<button type="button" class="btn btn-sm" onclick="verificaOtp(\''+id+'\')" style="min-height:48px;width:auto;padding:0 0.9rem;"><i class="fa-solid fa-check"></i> OK</button>'
+    +'</div>'
+    +'<div class="otp-verified-badge'+((data.nome&&data.telefono)?' show':'')+'" id="otpStatus_'+id+'"><i class="fa-solid fa-circle-check"></i> OTP VALIDATO</div>'
+    +'</div>'
+    +'<div class="signature-area" id="sigArea_'+id+'">'
+    +'<span class="signature-status status-unsigned" id="sigStatus_'+id+'"><i class="fa-solid fa-pen-nib"></i> Da Firmare</span>'
+    +'<button type="button" class="btn btn-secondary btn-sm" onclick="apriFirma(\''+id+'\')"><i class="fa-solid fa-signature"></i> Firma Schermo</button>'
+    +'</div>'
+    +'<div class="flex-row mt-m" style="align-items:flex-start;gap:0.7rem;">'
+    +'<input type="checkbox" id="gdpr_'+id+'"'+(data.nome?' checked':'')+' style="width:22px;height:22px;margin-top:2px;accent-color:var(--accent);flex-shrink:0;">'
+    +'<label for="gdpr_'+id+'" style="font-size:0.7rem;line-height:1.4;color:var(--text-muted);">Acconsento al trattamento dei dati personali (GDPR UE 2016/679).</label>'
+    +'</div>';
+  document.getElementById('listaClienti').appendChild(card);
+  cambiaTipoFirma(document.getElementById('tipoFirma').value);
+}
+
+function rimuoviCliente(id) { var el=document.getElementById(id); if(el){el.remove();clientiCount--;} }
+
+function aggiungiImmobile(data) {
+  data = data || {};
+  if (immobiliCount >= 12) { alert('Massimo 12 immobili. Antonio Giancani'); return; }
+  immobiliCount++;
+  var id = 'imm_'+Date.now()+'_'+Math.random().toString(36).substr(2,5);
+  var card = document.createElement('div');
+  card.className = 'client-card';
+  card.id = id;
+  card.innerHTML = '<div class="client-card-header">'
+    +'<span class="client-badge"><i class="fa-solid fa-home"></i> Unita #'+immobiliCount+'</span>'
+    +'<button type="button" class="btn btn-danger btn-sm" onclick="rimuoviImmobile(\''+id+'\')"><i class="fa-solid fa-trash"></i></button>'
+    +'</div>'
+    +'<div class="grid-2">'
+    +'<div class="form-group"><label>Tipo</label><input type="text" class="imm-tipo" value="'+(data.tipo||'Appartamento')+'" placeholder="Appartamento"></div>'
+    +'<div class="form-group"><label>Citta</label><input type="text" class="imm-citta" value="'+(data.citta||'Favara')+'" placeholder="Citta"></div>'
+    +'</div>'
+    +'<div class="form-group"><label><i class="fa-solid fa-road"></i> Indirizzo</label><input type="text" class="imm-via" value="'+(data.via||'')+'" placeholder="Via / Corso e numero"></div>'
+    +'<div class="grid-2">'
+    +'<div class="form-group"><label>Prezzo (€)</label><input type="text" class="imm-prezzo" value="'+(data.prezzo||'')+'" placeholder="Es. 85.000"></div>'
+    +'<div class="form-group"><label>Cod. Incarico</label><input type="text" class="imm-rif" value="'+(data.incarico||'')+'" placeholder="Riferimento"></div>'
+    +'</div>';
+  document.getElementById('listaImmobili').appendChild(card);
+}
+
+function rimuoviImmobile(id) { var el=document.getElementById(id); if(el){el.remove();immobiliCount--;} }
+
+function simulaDocScan(id, source) {
+  var sEl=document.getElementById('scanStatus_'+id);
+  var pEl=document.getElementById('docPreview_'+id);
+  sEl.style.display='block'; pEl.style.display='none';
+  setTimeout(function(){
+    sEl.style.display='none';
+    pEl.src='https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?w=500&auto=format&fit=crop&q=60';
+    pEl.style.display='block';
+    var card=document.getElementById(id);
+    card.querySelector('.cli-nome').value='SALVATORE GIANCANI';
+    card.querySelector('.cli-nascita').value='20/09/1985';
+    card.querySelector('.cli-luogo').value='Favara';
+    card.querySelector('.cli-sesso').value='M';
+    card.querySelector('.cli-cf').value='GNCSVT85P20A089Z';
+    card.querySelector('.cli-residenza').value='FAVARA VIA SAN FRANCESCO 10';
+  },1500);
+}
+
+function calcolaCf(id) {
+  var card = document.getElementById(id);
+  var cfInput = card.querySelector('.cli-cf');
+
+  // Recupero dei dati inseriti nei campi del visitatore
+  var nomeCompleto = card.querySelector('.cli-nome').value.trim().toUpperCase();
+  var dataNascita = card.querySelector('.cli-nascita').value.trim(); // Ci aspettiamo GG/MM/AAAA
+  var luogo = card.querySelector('.cli-luogo').value.trim().toUpperCase();
+  var sesso = card.querySelector('.cli-sesso').value;
+
+  // Controllo bloccante se mancano dati essenziali
+  if (!nomeCompleto || !dataNascita || !luogo) {
+    alert("⚠️ Inserisci prima: Cognome e Nome, Data di Nascita e Luogo per calcolare il CF. Antonio Giancani");
+    return;
+  }
+
+  // Separazione standard tra primo blocco (Cognome) e il resto (Nome)
+  var parti = nomeCompleto.split(/\s+/);
+  var cognome = parti[0] || "";
+  var nome = parti.slice(1).join(" ") || "";
+  if (nome === "") { cognome = nomeCompleto; nome = nomeCompleto; }
+
+  // Database rapido locale dei codici Belfiore per la tua zona operativa
+  var codiciComuni = {
+    "FAVARA": "F814", "AGRIGENTO": "A089", "ARAGONA": "A373", "CANICATTÌ": "B602", "CANICATTI": "B602",
+    "PALERMO": "G273", "SCIACCA": "I533", "SICULIANA": "I730", "PORTO EMPEDOCLE": "G914", 
+    "RAVANUSA": "H194", "CAMPOBELLO DI LICATA": "B520", "LICATA": "E573", "PALMA DI MONTECHIARO": "G282",
+    "NARO": "F845", "RACALMUTO": "H148", "GROTTE": "E209", "SAN LEONE": "A089", "CATANIA": "C351", "ROMA": "H501", "MILANO": "F205"
+  };
+
+  var codiceBelfiore = codiciComuni[luogo] || "X000"; 
+  if (codiceBelfiore === "X000") {
+    var belfioreManuale = prompt("Comune fuori provincia o non mappato da DarIA.\nInserisci il codice Belfiore di 4 caratteri (es. F814):", "");
+    if (belfioreManuale && belfioreManuale.length === 4) {
+      codiceBelfiore = belfioreManuale.toUpperCase();
+    } else {
+      return; // Interrompe se l'utente annulla il prompt
+    }
+  }
+
+  try {
+    // Generazione del codice ed inserimento diretto nel campo
+    var cfCalcolato = generaCodiceFiscaleItaliano(cognome, nome, dataNascita, sesso, codiceBelfiore);
+    cfInput.value = cfCalcolato;
+    cfInput.style.borderColor = "var(--success)";
+  } catch (e) {
+    alert("❌ Impossibile calcolare il codice: " + e.toString());
+  }
+}
+
+// ── MOTORE LOGICO DI CALCOLO (ALGORITMO MINISTERIALE) ──
+function generaCodiceFiscaleItaliano(cognome, nome, data, sesso, belfiore) {
+  var s_cod = calcolaLettereCF(cognome, false);
+  var n_cod = calcolaLettereCF(nome, true);
+  
+  var partiData = data.split('/');
+  if (partiData.length !== 3) throw new Error("Usa il formato GG/MM/AAAA");
+  var giorno = parseInt(partiData[0], 10);
+  var mese = parseInt(partiData[1], 10);
+  var anno = partiData[2];
+
+  var d_anno = anno.substring(anno.length - 2);
+  var mesiMappa = ["A", "B", "C", "D", "E", "H", "L", "M", "P", "R", "S", "T"];
+  var d_mese = mesiMappa[mese - 1];
+  
+  var d_giorno = giorno;
+  if (sesso === "F") d_giorno += 40;
+  var d_giorno_str = d_giorno < 10 ? "0" + d_giorno : "" + d_giorno;
+
+  var cfParziale = s_cod + n_cod + d_anno + d_mese + d_giorno_str + belfiore;
+  return cfParziale + calcolaCarattereControllo(cfParziale);
+}
+
+function calcolaLettereCF(stringa, isNome) {
+  var str = stringa.replace(/[^A-Z]/g, "");
+  var cons = str.replace(/[AEIOU]/g, "");
+  var voc = str.replace(/[^AEIOU]/g, "");
+
+  if (isNome && cons.length >= 4) {
+    return cons[0] + cons[2] + cons[3]; // Regola del secondo nome: 1a, 3a e 4a consonante
+  }
+  var unito = cons + voc + "XXX";
+  return unito.substring(0, 3);
+}
+
+function calcolaCarattereControllo(cf15) {
+  var dispari = {
+    '0':1, '1':0, '2':5, '3':7, '4':9, '5':13, '6':15, '7':17, '8':19, '9':21,
+    'A':1, 'B':0, 'C':5, 'D':7, 'E':9, 'F':13, 'G':15, 'H':17, 'I':19, 'J':21,
+    'K':2, 'L':4, 'M':18, 'N':20, 'O':11, 'P':3, 'Q':6, 'R':8, 'S':12, 'T':14,
+    'U':16, 'V':10, 'W':22, 'X':25, 'Y':24, 'Z':23
+  };
+  var pari = {
+    '0':0, '1':1, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9,
+    'A':0, 'B':1, 'C':2, 'D':3, 'E':4, 'F':5, 'G':6, 'H':7, 'I':8, 'J':9,
+    'K':10, 'L':11, 'M':12, 'N':13, 'O':14, 'P':15, 'Q':16, 'R':17, 'S':18, 'T':19,
+    'U':20, 'V':21, 'W':22, 'X':23, 'Y':24, 'Z':25
+  };
+  
+  var somma = 0;
+  for (var i = 0; i < 15; i++) {
+    somma += ((i + 1) % 2 === 0) ? pari[cf15[i]] : dispari[cf15[i]];
+  }
+  var alf = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  return alf[somma % 26];
+}
+
+function inviaOtp(id) {
+  var card=document.getElementById(id);
+  var tel=card.querySelector('.cli-telefono').value.trim();
+  var nome=card.querySelector('.cli-nome').value.trim();
+  if(!tel){alert('Inserisci il numero di telefono. Antonio Giancani');return;}
+  var btn=document.getElementById('btnOtp_'+id);
+  if(btn){btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Invio...';}
+  if(typeof google!=='undefined'&&google.script&&google.script.run){
+    google.script.run
+      .withSuccessHandler(function(res){
+        if(btn){btn.disabled=false;btn.innerHTML='<i class="fa-brands fa-whatsapp"></i> Invia OTP';}
+        if(res&&res.successo){alert('OTP inviato a '+tel+' via WhatsApp. Antonio Giancani');}
+        else{alert('Errore: '+(res?res.messaggio:'nessuna risposta')+'. Antonio Giancani');}
+      })
+      .withFailureHandler(function(err){
+        if(btn){btn.disabled=false;btn.innerHTML='<i class="fa-brands fa-whatsapp"></i> Invia OTP';}
+        alert('Errore server: '+err.message+'. Antonio Giancani');
+      })
+      .inviaOtpVisitaReale(tel,nome||'Cliente');
+  } else {
+    if(btn){btn.disabled=false;btn.innerHTML='<i class="fa-brands fa-whatsapp"></i> Invia OTP';}
+    alert('[DEMO] OTP simulato a '+tel+'. Usa 7373. Antonio Giancani');
+  }
+}
+
+function verificaOtp(id) {
+  var card=document.getElementById(id);
+  var tel=card.querySelector('.cli-telefono').value.trim();
+  var input=document.getElementById('otpInput_'+id).value.trim();
+  var status=document.getElementById('otpStatus_'+id);
+  if(!input){alert('Inserisci il codice OTP. Antonio Giancani');return;}
+  if(typeof google!=='undefined'&&google.script&&google.script.run){
+    google.script.run
+      .withSuccessHandler(function(res){
+        if(res&&res.successo){status.classList.add('show');card.setAttribute('data-otp-verified','true');}
+        else{alert('Errore: '+(res?res.messaggio:'errore')+'. Antonio Giancani');}
+      })
+      .withFailureHandler(function(err){alert('Errore: '+err.message);})
+      .verificaOTPFoglioVisita(tel,input);
+  } else {
+    if(input==='7373'||input.length>=4){status.classList.add('show');card.setAttribute('data-otp-verified','true');}
+    else{alert('Codice non valido. Usa 7373 in demo. Antonio Giancani');}
+  }
+}
+
+function cambiaTipoFirma(val) {
+  document.querySelectorAll('.signature-area').forEach(function(el){el.style.display=(val==='digitale')?'flex':'none';});
+  document.getElementById('infoFirmaRemota').style.display=(val==='remota')?'block':'none';
+}
+
+function apriFirma(clientId) {
+  activeClientFirmaCardId=clientId;
+  document.getElementById('modalFirma').classList.add('modal-active');
+  setTimeout(function(){
+    var container=canvas.parentElement;
+    var dpr=window.devicePixelRatio||1;
+    canvas.width=container.clientWidth*dpr;
+    canvas.height=container.clientHeight*dpr;
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.scale(dpr,dpr);
+    ctx.fillStyle='#ffffff';
+    ctx.fillRect(0,0,container.clientWidth,container.clientHeight);
+  },200);
+}
+
+function pulisciFirma() {
+  var container=canvas.parentElement;
+  ctx.fillStyle='#ffffff';
+  ctx.fillRect(0,0,container.clientWidth,container.clientHeight);
+}
+
+function chiudiFirma() { document.getElementById('modalFirma').classList.remove('modal-active'); }
+
+function salvaFirma() {
+  var card=document.getElementById(activeClientFirmaCardId);
+  var dataUrl=canvas.toDataURL();
+  card.setAttribute('data-signature',dataUrl);
+  var status=document.getElementById('sigStatus_'+activeClientFirmaCardId);
+  status.innerHTML='<div style="display:flex;align-items:center;gap:0.5rem;">'
+    +'<i class="fa-solid fa-circle-check" style="color:var(--success);"></i>'
+    +'<span style="color:var(--success);font-weight:800;">FIRMATO</span>'
+    +'<img src="'+dataUrl+'" style="height:32px;background:#fff;border-radius:4px;padding:2px;" alt="Firma">'
+    +'</div>';
+  chiudiFirma();
+}
+
+function rilevaPosizioneGps() {
+  var status=document.getElementById('gpsStatus');
+  status.style.display='block';
+  status.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Acquisizione GPS...';
+  if(!navigator.geolocation){status.innerHTML='<span style="color:var(--danger);">GPS non supportato.</span>';return;}
+  navigator.geolocation.getCurrentPosition(
+    function(pos){
+      status.innerHTML='<span style="color:var(--success);"><i class="fa-solid fa-check-circle"></i> Posizione: '+pos.coords.latitude.toFixed(5)+', '+pos.coords.longitude.toFixed(5)+'</span>';
+      aggiungiImmobile(DB.immobili[1]||DB.immobili[0]);
+    },
+    function(){status.innerHTML='<span style="color:var(--accent);">GPS non disponibile.</span>';}
+  );
+}
+
+function apriRegistroStorico() {
+  document.getElementById('modalSceltaTitolo').innerText='Registro Storico Clienti';
+  var list=document.getElementById('modalSceltaLista');
+  list.innerHTML='';
+  DB.clienti.forEach(function(c){
+    var item=document.createElement('div');
+    item.className='sheet-item';
+    item.innerHTML='<div><strong>'+c.nome+'</strong><div class="meta">Tel: '+c.telefono+' | CF: '+c.cf+'</div></div>'
+      +'<button class="btn btn-sm" onclick=\'importaCliente('+JSON.stringify(c).replace(/'/g,"&#39;")+')\'>Usa</button>';
+    list.appendChild(item);
+  });
+  document.getElementById('modalScelta').classList.add('modal-active');
+}
+
+function importaCliente(c){aggiungiCliente(c);chiudiScelta();}
+
+function apriDatabaseImmobili() {
+  document.getElementById('modalSceltaTitolo').innerText='Database Immobili';
+  var list=document.getElementById('modalSceltaLista');
+  list.innerHTML='';
+  DB.immobili.forEach(function(imm){
+    var item=document.createElement('div');
+    item.className='sheet-item';
+    item.innerHTML='<div><strong>'+imm.tipo+' - '+imm.citta+'</strong><div class="meta">'+imm.via+'<br>€ '+imm.prezzo+' | Rif. '+imm.incarico+'</div></div>'
+      +'<button class="btn btn-sm" onclick=\'importaImmobile('+JSON.stringify(imm).replace(/'/g,"&#39;")+')\'>Usa</button>';
+    list.appendChild(item);
+  });
+  document.getElementById('modalScelta').classList.add('modal-active');
+}
+
+function importaImmobile(imm){aggiungiImmobile(imm);chiudiScelta();}
+function chiudiScelta(){document.getElementById('modalScelta').classList.remove('modal-active');}
+// ── SALVATAGGIO IN BOZZA AUTOMATICO E SILENZIOSO (DARIA BACKGROUND) ──
+function salvaInBozzeSilenzioso() {
+  // Evita di salvare se non hai inserito almeno il nome del primo cliente
+  var primoNome = document.querySelector('#listaClienti .cli-nome');
+  if (!primoNome || !primoNome.value.trim()) return;
+
+  var dati = raccogliDatiForm();
+  
+  if (typeof google !== 'undefined' && google.script && google.script.run) {
+    google.script.run
+      .withSuccessHandler(function(res) {
+        if (res && res.successo) {
+          idBozzaCorrente = res.idBozza;
+          console.log('✓ DarIA ha auto-salvato la bozza corrente: ' + res.idBozza);
+        }
+      })
+      .salvaBozzaFoglioVisita(dati);
+  }
+}
+
+// Attiva l'Autosave automatico ogni 60 secondi (60000 millisecondi)
+setInterval(salvaInBozzeSilenzioso, 60000);
+
+function raccogliDatiForm() {
+  var clienti=[];
+  document.querySelectorAll('#listaClienti .client-card').forEach(function(card){
+    clienti.push({
+      nome:card.querySelector('.cli-nome').value.trim().toUpperCase(),
+      dataNascita:card.querySelector('.cli-nascita').value.trim(),
+      luogoNascita:card.querySelector('.cli-luogo').value.trim(),
+      sesso:card.querySelector('.cli-sesso').value,
+      cf:card.querySelector('.cli-cf').value.trim().toUpperCase(),
+      residenza:card.querySelector('.cli-residenza').value.trim(),
+      telefono:card.querySelector('.cli-telefono').value.trim(),
+      otpVerified:card.getAttribute('data-otp-verified')==='true',
+      signature:card.getAttribute('data-signature')||'',
+      // 🎯 QUESTO È IL CAMPO FONDAMENTALE DA VERIFICARE:
+      idFotoDocumento: card.getAttribute('data-doc-id') || '' 
+    });
+  });
+  // ... resto della funzione rimane invariato
+  
+  var immobili=[];
+  document.querySelectorAll('#listaImmobili .client-card').forEach(function(card){
+    immobili.push({
+      tipo:card.querySelector('.imm-tipo').value.trim(),
+      citta:card.querySelector('.imm-citta').value.trim(),
+      via:card.querySelector('.imm-via').value.trim(),
+      prezzo:card.querySelector('.imm-prezzo').value.trim(),
+      incarico:card.querySelector('.imm-rif').value.trim()
+    });
+  });
+  var gps='';
+  var gpsEl=document.getElementById('gpsStatus');
+  if(gpsEl&&gpsEl.innerText.includes('Posizione')){gps=gpsEl.innerText.replace(/.*Posizione:\s*/,'').trim();}
+  return {
+    idBozza:idBozzaCorrente,
+    agente:document.getElementById('agente').value,
+    luogoFirma:document.getElementById('luogoFirma').value.trim(),
+    dataVisita:document.getElementById('dataVisita').value,
+    oraInizio:document.getElementById('oraInizio').value,
+    oraFine:document.getElementById('oraFine').value,
+    tipoFirma:document.getElementById('tipoFirma').value,
+    clienti:clienti,
+    immobili:immobili,
+    gpsCoordinata:gps
+  };
+}
+
+function salvaInBozze() {
+  var dati=raccogliDatiForm();
+  var loader=document.getElementById('loader');
+  loader.style.display='flex';
+  if(typeof google!=='undefined'&&google.script&&google.script.run){
+    google.script.run
+      .withSuccessHandler(function(res){
+        loader.style.display='none';
+        if(res&&res.successo){idBozzaCorrente=res.idBozza;alert('Bozza salvata! ID: '+res.idBozza+'\nAntonio Giancani');}
+        else{alert('Errore bozza: '+(res?(res.messaggio||res.errore):'?')+'\nAntonio Giancani');}
+      })
+      .withFailureHandler(function(err){loader.style.display='none';alert('Errore: '+err.message);})
+      .salvaBozzaFoglioVisita(dati);
+  } else {
+    setTimeout(function(){
+      loader.style.display='none';
+      if(!idBozzaCorrente)idBozzaCorrente='BOZZA_'+Math.floor(1000+Math.random()*9000);
+      alert('[DEMO] Bozza: '+idBozzaCorrente+'. Antonio Giancani');
+    },800);
+  }
+}
+
+function inviaForm() {
+  var clientCards=document.querySelectorAll('#listaClienti .client-card');
+  if(clientCards.length===0){alert('Inserisci almeno un cliente. Antonio Giancani');return;}
+  var allVerified=true, allSigned=true;
+  var tipoFirma=document.getElementById('tipoFirma').value;
+  clientCards.forEach(function(card){
+    if(card.getAttribute('data-otp-verified')!=='true')allVerified=false;
+    if(tipoFirma==='digitale'&&!card.getAttribute('data-signature'))allSigned=false;
+  });
+  if(!allVerified){alert('Valida OTP per tutti i clienti. Antonio Giancani');return;}
+  if(tipoFirma==='digitale'&&!allSigned){alert('Tutti devono firmare. Antonio Giancani');return;}
+
+  var dati=raccogliDatiForm();
+  var loader=document.getElementById('loader');
+  loader.style.display='flex';
+
+  if(tipoFirma==='remota'){
+    if(typeof google!=='undefined'&&google.script&&google.script.run){
+      google.script.run
+        .withSuccessHandler(function(res){
+          loader.style.display='none';
+          if(res&&res.successo){
+            var testo='Gentile Cliente, firma il sopralluogo qui: '+res.urlBase+'?azione=firma&token='+res.token+' - Antonio Giancani';
+            window.open('https://wa.me/39'+dati.clienti[0].telefono.replace(/\D/g,'')+'?text='+encodeURIComponent(testo),'_blank');
+            location.reload();
+          } else {alert('Errore: '+(res?res.messaggio:'errore')+'\nAntonio Giancani');}
+        })
+        .withFailureHandler(function(err){loader.style.display='none';alert('Errore: '+err.message);})
+        .generaLinkFirmaRemota(dati);
+    } else {
+      setTimeout(function(){loader.style.display='none';alert('[DEMO] Link firma remota simulato. Antonio Giancani');location.reload();},1000);
+    }
+    return;
+  }
+
+  if(typeof google!=='undefined'&&google.script&&google.script.run){
+    google.script.run
+      .withSuccessHandler(function(res){
+        loader.style.display='none';
+        if(res&&res.successo){
+          document.getElementById('app').style.display='none';
+          document.getElementById('bottom-nav').style.display='none';
+          document.getElementById('progress-bar').style.display='none';
+          document.getElementById('successQr').src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(res.urlPdf);
+          document.getElementById('lnkPdf').href=res.urlPdf;
+          var tel=(res.telefonoCliente||'').replace(/\D/g,'');
+          var shareText='Copia foglio visita: '+res.urlPdf+' - Antonio Giancani';
+          document.getElementById('btnWaShare').href='https://wa.me/39'+tel+'?text='+encodeURIComponent(shareText);
+          document.getElementById('success-panel').classList.add('success-active');
+        } else {
+          alert('Errore: '+(res?(res.messaggio||res.errore):'Risposta nulla')+'\nAntonio Giancani');
+        }
+      })
+      .withFailureHandler(function(err){loader.style.display='none';alert('CRASH SERVER:\n'+err.message+'\nAntonio Giancani');})
+      .salvaDatiFoglioVisita(dati);
+  } else {
+    setTimeout(function(){
+      loader.style.display='none';
+      var mockPdf='https://drive.google.com/file/d/1KRrKhRFJHv_jyrRs9jPxavvmL_f-jWXl/view';
+      document.getElementById('app').style.display='none';
+      document.getElementById('bottom-nav').style.display='none';
+      document.getElementById('progress-bar').style.display='none';
+      document.getElementById('successQr').src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(mockPdf);
+      document.getElementById('lnkPdf').href=mockPdf;
+      document.getElementById('success-panel').classList.add('success-active');
+    },1500);
+  }
+}
+
+function processaFotoDocumento(input, id) {
+  if (!input.files || !input.files[0]) return;
+  
+  var file = input.files[0];
+  var previewEl = document.getElementById('docPreview_' + id);
+  var statusEl  = document.getElementById('scanStatus_' + id);
+  
+  statusEl.style.display = 'block';
+  statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> DarIA Scanner — Ottimizzazione immagine...';
+  
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    // Mostra l'anteprima immediata a schermo
+    previewEl.src = e.target.result;
+    previewEl.style.display = 'block';
+    
+    // ── MOTORE DI COMPRESSIONE LATO CLIENT PER FOTO PESANTI ──
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      var ctx = canvas.getContext('2d');
+      
+      // Imposta una risoluzione massima ottimale (es. 1200px di larghezza)
+      var max_width = 1200;
+      var width = img.width;
+      var height = img.height;
+      
+      if (width > max_width) {
+        height = Math.round((height * max_width) / width);
+        width = max_width;
+      }
+      
+      canvas.width = width;
+      canvas.height = height;
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      // Converte in JPEG compresso (qualità 0.758 / 75%)
+      var base64Compresso = canvas.toDataURL('image/jpeg', 0.75);
+      
+      statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> DarIA Scanner — Archiviazione Drive e Lettura OCR...';
+      
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function(res) {
+            statusEl.style.display = 'none';
+            if (res && res.successo && res.ocrSuccesso) {
+              var card = document.getElementById(res.idCardHtml);
+              if (card) {
+                if (res.nome)         card.querySelector('.cli-nome').value      = res.nome;
+                if (res.dataNascita)  card.querySelector('.cli-nascita').value   = res.dataNascita;
+                if (res.luogoNascita) card.querySelector('.cli-luogo').value     = res.luogoNascita;
+                if (res.cf)           card.querySelector('.cli-cf').value        = res.cf;
+                if (res.residenza)    card.querySelector('.cli-residenza').value = res.residenza;
+                if (res.sesso)        card.querySelector('.cli-sesso').value     = res.sesso;
+                
+                // Aggancia l'ID leggero del file Drive alla scheda cliente
+                card.setAttribute('data-doc-id', res.fileId); 
+                card.querySelector('.cli-cf').style.borderColor = "var(--success)";
+                
+                statusEl.style.display = 'block';
+                statusEl.innerHTML = '<i class="fa-solid fa-check-circle" style="color:var(--success);"></i> Archiviato e Compilato!';
+                setTimeout(function(){ statusEl.style.display='none'; }, 3000);
+              }
+            } else {
+              statusEl.style.display = 'block';
+              statusEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:var(--accent);"></i> Archiviato su Drive, compila i dati mancanti.';
+              setTimeout(function(){ statusEl.style.display='none'; }, 3000);
+            }
+          })
+          .withFailureHandler(function(err) {
+            statusEl.style.display = 'none';
+            alert('Errore di caricamento: ' + err.message);
+          })
+          .processaFotoCartaIdentita(base64Compresso, id, file.name);
+      }
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function cercaContattoDaInput(id) {
+  var card = document.getElementById(id);
+  var nomeDigitato = card.querySelector('.cli-nome').value.trim();
+  
+  if (!nomeDigitato || nomeDigitato.length < 2) {
+    alert("⚠️ Inserisci almeno 2 lettere nel campo Nome per avviare la ricerca. Antonio Giancani");
+    return;
+  }
+  
+  cardAttivaPerRubrica = id;
+  setDebug('DarIA sta cercando nel registro storico...', '#6366f1');
+  
+  // Interrogazione del backend reale su Google Apps Script
+  if (typeof google !== 'undefined' && google.script && google.script.run) {
+    google.script.run
+      .withSuccessHandler(function(res) {
+        if (res && res.successo && res.risultati && res.risultati.length > 0) {
+          mostraFinestraSelezioneRubrica(res.risultati);
+          setDebug('SISTEMA PRONTO - Antonio Giancani', '#10b981');
+        } else {
+          // Fallback sul DB locale finto se il server non trova nulla
+          var filtrati = DB.clienti.filter(function(c) { return c.nome.toUpperCase().includes(nomeDigitato.toUpperCase()); });
+          if (filtrati.length > 0) {
+            mostraFinestraSelezioneRubrica(filtrati);
+          } else {
+            alert("ℹ️ Nessun riscontro trovato nel registro storico per questo nominativo. Antonio Giancani");
+          }
+        }
+      })
+      .withFailureHandler(function(err) {
+        alert("Errore ricerca server: " + err.message);
+      })
+      .cercaClienteNelRegistroVisites(nomeDigitato);
+  } else {
+    // Modalità Demo Offline (Usa il DB mock locale)
+    var filtrati = DB.clienti.filter(function(c) { return c.nome.toUpperCase().includes(nomeDigitato.toUpperCase()); });
+    if (filtrati.length > 0) {
+      mostraFinestraSelezioneRubrica(filtrati);
+    } else {
+      alert("[DEMO] Nessun riscontro trovato nel database locale. Antonio Giancani");
+    }
+  }
+}
+
+function mostraFinestraSelezioneRubrica(risultati) {
+  document.getElementById('modalSceltaTitolo').innerText = 'Seleziona Anagrafica Rubrica';
+  var listaContenitore = document.getElementById('modalSceltaLista');
+  listaContenitore.innerHTML = '';
+  
+  risultati.forEach(function(cliente) {
+    var voceRubrica = document.createElement('div');
+    voceRubrica.className = 'sheet-item';
+    
+    // Layout pulito con Nome, Telefono cliccabile e dettagli fiscali/anagrafici
+    voceRubrica.innerHTML = '<div>'
+      + '<strong>' + cliente.nome + '</strong>'
+      + '<div class="meta"><i class="fa-solid fa-phone text-accent"></i> Tel: ' + (cliente.telefono || 'Non presente') + '</div>'
+      + '<div class="meta">CF: ' + (cliente.cf || 'N/D') + ' | Nato il: ' + (cliente.dataNascita || 'N/D') + '</div>'
+      + '</div>'
+      + '<button type="button" class="btn btn-sm btn-success" onclick=\'autocompilaCampiCliente(' + JSON.stringify(cliente).replace(/'/g, "&#39;") + ')\'><i class="fa-solid fa-user-check"></i> Usa</button>';
+      
+    listaContenitore.appendChild(voceRubrica);
+  });
+  
+  document.getElementById('modalScelta').classList.add('modal-active');
+}
+
+function autocompilaCampiCliente(datiCliente) {
+  if (!cardAttivaPerRubrica) return;
+  var card = document.getElementById(cardAttivaPerRubrica);
+  
+  // Scrittura rapida e pulita di tutti i campi recuperati
+  if (datiCliente.nome)         card.querySelector('.cli-nome').value = datiCliente.nome;
+  if (datiCliente.dataNascita)  card.querySelector('.cli-nascita').value = datiCliente.dataNascita;
+  if (datiCliente.luogoNascita) card.querySelector('.cli-luogo').value = datiCliente.luogoNascita;
+  if (datiCliente.sesso)        card.querySelector('.cli-sesso').value = datiCliente.sesso;
+  if (datiCliente.residenza)    card.querySelector('.cli-residenza').value = datiCliente.residenza;
+  if (datiCliente.telefono)     card.querySelector('.cli-telefono').value = datiCliente.telefono;
+  
+  if (datiCliente.cf) {
+    card.querySelector('.cli-cf').value = datiCliente.cf;
+    card.querySelector('.cli-cf').style.borderColor = "var(--success)";
+  }
+  
+  // Forza l'attivazione visiva dello stato se ha già un telefono associato storicamente
+  if (datiCliente.telefono && datiCliente.nome) {
+    card.setAttribute('data-otp-verified', 'true');
+    document.getElementById('otpStatus_' + cardAttivaPerRubrica).classList.add('show');
+  }
+
+  chiudiScelta();
+}
+</script>
+</body>
+</html>
+

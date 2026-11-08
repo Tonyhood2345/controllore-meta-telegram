@@ -1,0 +1,41 @@
+// ==========================================
+
+
+// ============================================================
+//  API ENDPOINTS FOR CENTRALE OPERATIVA (co*)
+// ============================================================
+
+function _dcSes(tok) {
+  return _verificaSessioneCentrale(tok);
+}
+
+function coBenchmark(tok, zona, tipo) {
+  var sessione = _verificaSessioneCentrale(tok);
+  if (!sessione) return { ok: false, error: "Non autorizzato" };
+  return dbBenchmark(zona, tipo);
+}
+
+function coGetProposte(tok, idImm) {
+  var sessione = _verificaSessioneCentrale(tok);
+  if (!sessione) return { ok: false, error: "Non autorizzato" };
+  return dbGetProposte(idImm);
+}
+
+function coLookupTelefono(tok, tel) {
+  var sessione = _verificaSessioneCentrale(tok);
+  if (!sessione) return { ok: false, error: "Non autorizzato" };
+  return dbLookupTelefono(tel);
+}
+
+function coIncrociAcquirenti(tok, imm) {
+  var sessione = _verificaSessioneCentrale(tok);
+  if (!sessione) return { ok: false, error: "Non autorizzato" };
+  return dbIncrociAcquirenti(imm);
+}
+
+function coSalvaFeedbackVisita(tok, fv) {
+  var sessione = _verificaSessioneCentrale(tok);
+  if (!sessione) return { ok: false, error: "Non autorizzato" };
+  return dbSalvaFeedbackVisita(fv);
+}
+
