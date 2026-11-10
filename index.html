@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Dashboard Analytics & Canali — Immobiliare Giancani</title>
+  <title>Dashboard & Visione Totale Post — Immobiliare Giancani</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Chart.js CDN -->
@@ -20,7 +20,7 @@
               600: '#059669',
               700: '#047857',
               gold: '#d97706',
-              dark: '#0f172a',
+              dark: '#0b1120',
               card: '#1e293b',
               border: '#334155'
             }
@@ -39,7 +39,7 @@
       width: 6px;
     }
     .custom-scrollbar::-webkit-scrollbar-track {
-      background: #0f172a;
+      background: #0b1120;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb {
       background: #334155;
@@ -48,48 +48,55 @@
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
       background: #475569;
     }
+    .img-zoom {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-hover:hover .img-zoom {
+      transform: scale(1.05);
+    }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-emerald-500 selection:text-white">
+<body class="bg-[#0b1120] text-slate-100 min-h-screen flex flex-col antialiased selection:bg-emerald-500 selection:text-white">
 
-  <!-- TOP HEADER & BRANDING -->
-  <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-3">
+  <!-- TOP HEADER / NAVBAR -->
+  <header class="sticky top-0 z-40 bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
-      <!-- Brand & Title -->
-      <div class="flex items-center space-x-3.5">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-700 flex items-center justify-center shadow-lg shadow-amber-500/20 text-white font-black text-xl tracking-tighter">
-          G
+      <!-- Logo e Brand -->
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 text-white font-extrabold text-lg">
+          🏠
         </div>
         <div>
-          <div class="flex items-center space-x-2">
-            <span class="text-xs font-bold tracking-widest text-amber-500 uppercase">Immobiliare Giancani</span>
-            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1"></span> Live Monitor
-            </span>
-            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20">
-              🛡️ Meta Kill-Switch ON
+          <div class="flex items-center gap-2">
+            <h1 class="font-extrabold text-base sm:text-lg text-white tracking-tight">Immobiliare Giancani</h1>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1"></span>
+              VISION TOTALE
             </span>
           </div>
-          <h1 class="text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-1.5">
-            Dashboard Analytics & Monitoraggio Canali
-          </h1>
+          <p class="text-xs text-slate-400 hidden sm:block">Controllore Anti-Ban Meta • Post, Immagini Esterni & Portali Estero</p>
         </div>
       </div>
 
-      <!-- Action Button & Sync Status -->
+      <!-- Azioni Header -->
       <div class="flex items-center space-x-3">
-        <div class="hidden sm:flex flex-col text-right">
-          <span class="text-[11px] text-slate-400">Ultimo aggiornamento:</span>
-          <span id="label-ultimo-aggiornamento" class="text-xs font-semibold text-slate-200">In caricamento...</span>
+        <!-- Badge Ultimo Aggiornamento -->
+        <div class="hidden md:flex items-center space-x-2 text-xs text-slate-400 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800">
+          <svg class="w-3.5 h-3.5 text-emerald-400 animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>Sync: <strong id="label-ultimo-aggiornamento" class="text-slate-200">Adesso</strong></span>
         </div>
 
-        <button id="btn-aggiorna" onclick="aggiornaDatiManuale()" class="inline-flex items-center px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 border border-slate-700 active:scale-95 transition-all text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-          <svg id="icon-refresh" class="w-4 h-4 mr-1.5 text-emerald-400 transition-transform duration-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-          </svg>
-          <span id="txt-aggiorna">Aggiorna Dati</span>
+        <!-- Pulsante Aggiorna Dati -->
+        <button id="btn-aggiorna" onclick="aggiornaDatiManuale()" class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-md shadow-emerald-600/20 active:scale-95 disabled:opacity-50">
+          <svg id="icon-refresh" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          <span id="txt-aggiorna">Aggiorna</span>
         </button>
+
+        <!-- Link Rapido Telegram Bot -->
+        <a href="https://t.me/AMMINISTRAZIONISOCIAL_BOT" target="_blank" class="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-sky-600/20 hover:bg-sky-600/30 text-sky-300 border border-sky-500/30 transition-all">
+          <span>✈️ Bot Telegram</span>
+        </a>
       </div>
 
     </div>
@@ -98,900 +105,885 @@
   <!-- MAIN CONTAINER -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-    <!-- BANNER STATO PROTEZIONE -->
-    <div class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-          </svg>
-        </div>
-        <div>
-          <h2 class="text-sm font-bold text-white flex items-center gap-2">
-            Archiviazione Database Attiva su Foglio Google: <span class="font-mono text-emerald-400">DB_Interazioni</span>
-          </h2>
-          <p class="text-xs text-slate-400 mt-0.5">
-            Ogni post o notifica è archiviato in tempo reale. I canali Meta sono convogliati su Telegram con blocco chiamate attivo.
-          </p>
-        </div>
-      </div>
-      <div class="flex items-center space-x-2 shrink-0">
-        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-          Telegram Bot: <strong class="text-emerald-400">Attivo</strong>
-        </span>
-        <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
-          Meta Graph API: <strong class="text-rose-400">Neutralizzata</strong>
-        </span>
-      </div>
-    </div>
-
-    <!-- SEZIONE 1: 4 CANALI - POST OGGI VS LIMITE MASSIMO -->
-    <div>
+    <!-- KPI CARDS SOGLIE: 5 CANALI (INCLUSO ESTERO) -->
+    <section>
       <div class="flex items-center justify-between mb-3">
-        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-          </svg>
-          Attività Oggi vs Soglia Massima di Sicurezza (4 Canali)
-        </h3>
-        <span class="text-xs text-slate-500">Reset automatico a mezzanotte</span>
+        <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400">Canali di Pubblicazione & Limiti di Sicurezza Anti-Ban</h2>
+        <span class="text-xs text-slate-400">Soglie Giornaliere</span>
       </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
         
         <!-- CARD TELEGRAM -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-sm hover:border-slate-700 transition-all relative overflow-hidden group">
-          <div class="absolute top-0 right-0 w-24 h-24 bg-sky-500/5 rounded-full blur-xl group-hover:bg-sky-500/10 transition-all pointer-events-none"></div>
-          <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center space-x-2.5">
-              <div class="w-8 h-8 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 font-bold">
-                ✈️
-              </div>
-              <div>
-                <h4 class="text-xs font-bold text-white uppercase tracking-tight">Telegram</h4>
-                <p class="text-[10px] text-slate-400">Canale Principale & Bot</p>
-              </div>
-            </div>
-            <span id="badge-tg-stato" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              Sicuro
+        <div class="bg-[#1e293b]/90 border border-slate-800 rounded-xl p-3.5 shadow-sm relative overflow-hidden flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-sky-400 flex items-center gap-1.5">
+              <span>✈️</span> Telegram
             </span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-300 border border-sky-500/20 font-bold">ATTIVO</span>
           </div>
-
-          <div class="flex items-baseline justify-between mb-1.5">
-            <span class="text-2xl font-extrabold text-white" id="val-tg-oggi">0</span>
-            <span class="text-xs font-medium text-slate-400">/ <span id="lim-tg-max">50</span> max</span>
+          <div class="my-2">
+            <div class="flex items-baseline space-x-1">
+              <span id="val-tg-oggi" class="text-2xl font-black text-white">8</span>
+              <span class="text-xs text-slate-400">/ <span id="lim-tg-max">50</span></span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-1.5 mt-2 overflow-hidden">
+              <div id="bar-tg" class="bg-sky-400 h-1.5 rounded-full transition-all duration-500" style="width: 16%"></div>
+            </div>
           </div>
-
-          <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden mb-2">
-            <div id="bar-tg" class="bg-sky-500 h-2 rounded-full transition-all duration-700" style="width: 0%"></div>
-          </div>
-
-          <div class="flex items-center justify-between text-[11px] text-slate-400">
-            <span>Utilizzo odierno</span>
-            <span id="pct-tg" class="font-bold text-sky-400">0%</span>
-          </div>
+          <p id="pct-tg" class="text-[10px] text-emerald-400 font-medium">✅ Sotto soglia di sicurezza</p>
         </div>
 
         <!-- CARD FACEBOOK -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-sm hover:border-slate-700 transition-all relative overflow-hidden group">
-          <div class="absolute top-0 right-0 w-24 h-24 bg-blue-600/5 rounded-full blur-xl group-hover:bg-blue-600/10 transition-all pointer-events-none"></div>
-          <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center space-x-2.5">
-              <div class="w-8 h-8 rounded-lg bg-blue-600/10 border border-blue-600/20 flex items-center justify-center text-blue-400 font-bold">
-                📘
-              </div>
-              <div>
-                <h4 class="text-xs font-bold text-white uppercase tracking-tight">Facebook Page</h4>
-                <p class="text-[10px] text-slate-400">Meta Graph API</p>
-              </div>
-            </div>
-            <span id="badge-fb-stato" class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
-              Blocco Meta
+        <div class="bg-[#1e293b]/90 border border-slate-800 rounded-xl p-3.5 shadow-sm relative overflow-hidden flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+              <span>📘</span> Facebook
             </span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-bold">FILTRATO</span>
           </div>
-
-          <div class="flex items-baseline justify-between mb-1.5">
-            <span class="text-2xl font-extrabold text-white" id="val-fb-oggi">0</span>
-            <span class="text-xs font-medium text-slate-400">/ <span id="lim-fb-max">5</span> max</span>
+          <div class="my-2">
+            <div class="flex items-baseline space-x-1">
+              <span id="val-fb-oggi" class="text-2xl font-black text-white">1</span>
+              <span class="text-xs text-slate-400">/ <span id="lim-fb-max">5</span></span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-1.5 mt-2 overflow-hidden">
+              <div id="bar-fb" class="bg-amber-400 h-1.5 rounded-full transition-all duration-500" style="width: 20%"></div>
+            </div>
           </div>
-
-          <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden mb-2">
-            <div id="bar-fb" class="bg-blue-500 h-2 rounded-full transition-all duration-700" style="width: 0%"></div>
-          </div>
-
-          <div class="flex items-center justify-between text-[11px] text-slate-400">
-            <span>Soglia Anti-Blocco</span>
-            <span id="pct-fb" class="font-bold text-blue-400">0%</span>
-          </div>
+          <p id="pct-fb" class="text-[10px] text-amber-300 font-medium">🛑 Meta Graph Bloccato</p>
         </div>
 
         <!-- CARD INSTAGRAM -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-sm hover:border-slate-700 transition-all relative overflow-hidden group">
-          <div class="absolute top-0 right-0 w-24 h-24 bg-fuchsia-500/5 rounded-full blur-xl group-hover:bg-fuchsia-500/10 transition-all pointer-events-none"></div>
-          <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center space-x-2.5">
-              <div class="w-8 h-8 rounded-lg bg-fuchsia-500/10 border border-fuchsia-500/20 flex items-center justify-center text-fuchsia-400 font-bold">
-                📸
-              </div>
-              <div>
-                <h4 class="text-xs font-bold text-white uppercase tracking-tight">Instagram</h4>
-                <p class="text-[10px] text-slate-400">Reels & Post Feed</p>
-              </div>
-            </div>
-            <span id="badge-ig-stato" class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
-              Blocco Meta
+        <div class="bg-[#1e293b]/90 border border-slate-800 rounded-xl p-3.5 shadow-sm relative overflow-hidden flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-purple-400 flex items-center gap-1.5">
+              <span>📸</span> Instagram
             </span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20 font-bold">FILTRATO</span>
           </div>
-
-          <div class="flex items-baseline justify-between mb-1.5">
-            <span class="text-2xl font-extrabold text-white" id="val-ig-oggi">0</span>
-            <span class="text-xs font-medium text-slate-400">/ <span id="lim-ig-max">5</span> max</span>
+          <div class="my-2">
+            <div class="flex items-baseline space-x-1">
+              <span id="val-ig-oggi" class="text-2xl font-black text-white">1</span>
+              <span class="text-xs text-slate-400">/ <span id="lim-ig-max">5</span></span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-1.5 mt-2 overflow-hidden">
+              <div id="bar-ig" class="bg-purple-400 h-1.5 rounded-full transition-all duration-500" style="width: 20%"></div>
+            </div>
           </div>
-
-          <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden mb-2">
-            <div id="bar-ig" class="bg-gradient-to-r from-amber-500 to-fuchsia-500 h-2 rounded-full transition-all duration-700" style="width: 0%"></div>
-          </div>
-
-          <div class="flex items-center justify-between text-[11px] text-slate-400">
-            <span>Soglia Anti-Blocco</span>
-            <span id="pct-ig" class="font-bold text-fuchsia-400">0%</span>
-          </div>
+          <p id="pct-ig" class="text-[10px] text-purple-300 font-medium">🛑 Meta Graph Bloccato</p>
         </div>
 
         <!-- CARD WHATSAPP -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-sm hover:border-slate-700 transition-all relative overflow-hidden group">
-          <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-xl group-hover:bg-emerald-500/10 transition-all pointer-events-none"></div>
-          <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center space-x-2.5">
-              <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold">
-                💬
-              </div>
-              <div>
-                <h4 class="text-xs font-bold text-white uppercase tracking-tight">WhatsApp</h4>
-                <p class="text-[10px] text-slate-400">Cloud API & Diretti</p>
-              </div>
-            </div>
-            <span id="badge-wa-stato" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              Sicuro
+        <div class="bg-[#1e293b]/90 border border-slate-800 rounded-xl p-3.5 shadow-sm relative overflow-hidden flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+              <span>💬</span> WhatsApp
             </span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-bold">ATTIVO</span>
           </div>
+          <div class="my-2">
+            <div class="flex items-baseline space-x-1">
+              <span id="val-wa-oggi" class="text-2xl font-black text-white">3</span>
+              <span class="text-xs text-slate-400">/ <span id="lim-wa-max">10</span></span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-1.5 mt-2 overflow-hidden">
+              <div id="bar-wa" class="bg-emerald-400 h-1.5 rounded-full transition-all duration-500" style="width: 30%"></div>
+            </div>
+          </div>
+          <p id="pct-wa" class="text-[10px] text-emerald-400 font-medium">✅ Sotto soglia di sicurezza</p>
+        </div>
 
-          <div class="flex items-baseline justify-between mb-1.5">
-            <span class="text-2xl font-extrabold text-white" id="val-wa-oggi">0</span>
-            <span class="text-xs font-medium text-slate-400">/ <span id="lim-wa-max">10</span> max</span>
+        <!-- CARD ESTERO & PORTALI INTERNAZIONALI -->
+        <div class="bg-[#1e293b]/90 border border-indigo-500/30 rounded-xl p-3.5 shadow-sm relative overflow-hidden flex flex-col justify-between col-span-2 sm:col-span-1 bg-gradient-to-br from-[#1e293b] to-indigo-950/40">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-indigo-400 flex items-center gap-1.5">
+              <span>🌍</span> Estero / Portali
+            </span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 font-bold">INTERNAZIONALE</span>
           </div>
-
-          <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden mb-2">
-            <div id="bar-wa" class="bg-emerald-500 h-2 rounded-full transition-all duration-700" style="width: 0%"></div>
+          <div class="my-2">
+            <div class="flex items-baseline space-x-1">
+              <span id="val-estero-oggi" class="text-2xl font-black text-white">4</span>
+              <span class="text-xs text-slate-400">/ <span id="lim-estero-max">20</span></span>
+            </div>
+            <div class="w-full bg-slate-800 rounded-full h-1.5 mt-2 overflow-hidden">
+              <div id="bar-estero" class="bg-indigo-400 h-1.5 rounded-full transition-all duration-500" style="width: 20%"></div>
+            </div>
           </div>
-
-          <div class="flex items-center justify-between text-[11px] text-slate-400">
-            <span>Utilizzo odierno</span>
-            <span id="pct-wa" class="font-bold text-emerald-400">0%</span>
-          </div>
+          <p id="pct-estero" class="text-[10px] text-indigo-300 font-medium">🇩🇪 🇬🇧 🇨🇭 Acquirenti Esteri</p>
         </div>
 
       </div>
-    </div>
+    </section>
 
-    <!-- SEZIONE 2: KPI MEDIE TEMPORALI (7gg, 4sett, mese) -->
-    <div>
-      <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-        <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-        </svg>
-        Medie Statistiche di Pubblicazione & Interazione
-      </h3>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        
-        <!-- CARD MEDIA GIORNALIERA (7 GG) -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-sm flex items-center justify-between">
-          <div>
-            <p class="text-xs font-medium text-slate-400">Media Giornaliera</p>
-            <h4 class="text-xs font-semibold text-slate-500 mb-1">(Ultimi 7 giorni)</h4>
-            <div class="flex items-baseline space-x-2">
-              <span id="kpi-media-giornaliera" class="text-3xl font-extrabold text-white">0.0</span>
-              <span class="text-xs text-slate-400 font-medium">post / giorno</span>
-            </div>
-            <span class="inline-flex items-center text-[11px] font-semibold text-emerald-400 mt-2">
-              <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
-              Ritmo costante e sicuro
-            </span>
-          </div>
-          <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 font-bold text-xl">
-            📅
-          </div>
+    <!-- MEDIE STATISTICHE -->
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+      <div class="bg-[#1e293b] border border-slate-800 rounded-xl p-4 flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-400 font-medium">Media Giornaliera (ultimi 7 giorni)</p>
+          <p id="kpi-media-giornaliera" class="text-2xl font-extrabold text-white mt-1">11.4</p>
+          <span class="text-[11px] text-emerald-400 font-medium">Distribuzione omogenea</span>
         </div>
-
-        <!-- CARD MEDIA SETTIMANALE (4 SETT) -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-sm flex items-center justify-between">
-          <div>
-            <p class="text-xs font-medium text-slate-400">Media Settimanale</p>
-            <h4 class="text-xs font-semibold text-slate-500 mb-1">(Ultime 4 settimane)</h4>
-            <div class="flex items-baseline space-x-2">
-              <span id="kpi-media-settimanale" class="text-3xl font-extrabold text-white">0.0</span>
-              <span class="text-xs text-slate-400 font-medium">post / settimana</span>
-            </div>
-            <span class="inline-flex items-center text-[11px] font-semibold text-sky-400 mt-2">
-              <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-              Copertura multi-settimana
-            </span>
-          </div>
-          <div class="w-12 h-12 rounded-2xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 font-bold text-xl">
-            📊
-          </div>
+        <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-lg">
+          📈
         </div>
-
-        <!-- CARD MEDIA MENSILE -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-sm flex items-center justify-between">
-          <div>
-            <p class="text-xs font-medium text-slate-400">Media Mensile</p>
-            <h4 class="text-xs font-semibold text-slate-500 mb-1">(Volume mensile stimato)</h4>
-            <div class="flex items-baseline space-x-2">
-              <span id="kpi-media-mensile" class="text-3xl font-extrabold text-white">0</span>
-              <span class="text-xs text-slate-400 font-medium">interazioni / mese</span>
-            </div>
-            <span class="inline-flex items-center text-[11px] font-semibold text-purple-400 mt-2">
-              <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              Zero rischi di shadowban
-            </span>
-          </div>
-          <div class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 font-bold text-xl">
-            📈
-          </div>
-        </div>
-
       </div>
-    </div>
+      <div class="bg-[#1e293b] border border-slate-800 rounded-xl p-4 flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-400 font-medium">Media Settimanale (ultime 4 settimane)</p>
+          <p id="kpi-media-settimanale" class="text-2xl font-extrabold text-white mt-1">78.5</p>
+          <span class="text-[11px] text-sky-400 font-medium">Canali verificati e stabili</span>
+        </div>
+        <div class="w-10 h-10 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold text-lg">
+          📊
+        </div>
+      </div>
+      <div class="bg-[#1e293b] border border-slate-800 rounded-xl p-4 flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-400 font-medium">Volume Totale Mese Corrente</p>
+          <p id="kpi-media-mensile" class="text-2xl font-extrabold text-white mt-1">314</p>
+          <span class="text-[11px] text-indigo-400 font-medium">Zero ban • 100% Sicurezza</span>
+        </div>
+        <div class="w-10 h-10 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-bold text-lg">
+          🛡️
+        </div>
+      </div>
+    </section>
 
-    <!-- SEZIONE 3: GRAFICI A ISTOGRAMMA (CHART.JS) -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- GRAFICI A ISTOGRAMMA (CHART.JS) -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-4">
       
-      <!-- GRAFICO 1: ATTIVITÀ REALE VS SOGLIA DI SICUREZZA META -->
-      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
-        <div class="flex items-center justify-between mb-4">
+      <!-- Grafico 1: Attività Reale vs Soglia -->
+      <div class="bg-[#1e293b] border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+        <div class="flex items-center justify-between mb-2">
           <div>
-            <h3 class="text-sm font-bold text-white">Attività Reale vs Soglia di Sicurezza</h3>
-            <p class="text-xs text-slate-400 mt-0.5">Confronto per canale: volume odierno vs limite consentito</p>
+            <h3 class="font-bold text-sm text-white">Attività Reale vs Soglia di Sicurezza</h3>
+            <p class="text-xs text-slate-400">Verifica costante dei tetti massimi consentiti</p>
           </div>
-          <span class="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
-            Istogramma a barre affiancate
-          </span>
+          <div class="flex items-center space-x-2 text-[10px]">
+            <span class="flex items-center gap-1 text-emerald-400"><span class="w-2.5 h-2.5 rounded bg-emerald-500"></span> Reale</span>
+            <span class="flex items-center gap-1 text-rose-400"><span class="w-2.5 h-2.5 rounded bg-rose-500"></span> Limite Max</span>
+          </div>
         </div>
-
-        <div class="relative w-full h-64 sm:h-72">
+        <div class="relative h-56 w-full">
           <canvas id="chart-canali"></canvas>
         </div>
-
-        <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-around text-xs text-slate-400">
-          <div class="flex items-center space-x-1.5">
-            <span class="w-3 h-3 rounded bg-emerald-500 inline-block"></span>
-            <span>Attività Reale Registrata</span>
-          </div>
-          <div class="flex items-center space-x-1.5">
-            <span class="w-3 h-3 rounded bg-rose-500 inline-block"></span>
-            <span>Soglia Massima di Sicurezza</span>
-          </div>
-        </div>
       </div>
 
-      <!-- GRAFICO 2: VOLUME TEMPORALE PER GIORNO E PER MESE -->
-      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
-        <div class="flex items-center justify-between mb-4">
+      <!-- Grafico 2: Distribuzione Temporale -->
+      <div class="bg-[#1e293b] border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
+        <div class="flex items-center justify-between mb-2">
           <div>
-            <h3 class="text-sm font-bold text-white">Distribuzione Temporale</h3>
-            <p class="text-xs text-slate-400 mt-0.5">Volume di pubblicazioni e interazioni nel tempo</p>
+            <h3 class="font-bold text-sm text-white">Volume Pubblicazioni nel Tempo</h3>
+            <p id="desc-grafico-temporale" class="text-xs text-slate-400">Distribuzione settimanale dei post</p>
           </div>
-          
-          <!-- TAB SWITCH: GIORNO SETTIMANA / MESE -->
-          <div class="inline-flex rounded-lg bg-slate-800 p-0.5 border border-slate-700 text-xs font-semibold">
-            <button id="btn-tab-giorni" onclick="mostraGraficoTemporale('giorni')" class="px-3 py-1 rounded-md bg-emerald-600 text-white shadow-sm transition-all">
-              Settimana
-            </button>
-            <button id="btn-tab-mesi" onclick="mostraGraficoTemporale('mesi')" class="px-3 py-1 rounded-md text-slate-400 hover:text-white transition-all">
-              Mese
-            </button>
+          <div class="flex items-center space-x-1 bg-slate-900 p-0.5 rounded-lg border border-slate-800 text-xs">
+            <button id="btn-tab-giorni" onclick="mostraGraficoTemporale('giorni')" class="px-2.5 py-1 rounded-md bg-emerald-600 text-white font-semibold">Settimana</button>
+            <button id="btn-tab-mesi" onclick="mostraGraficoTemporale('mesi')" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-white">Mese</button>
           </div>
         </div>
-
-        <div class="relative w-full h-64 sm:h-72">
+        <div class="relative h-56 w-full">
           <canvas id="chart-temporale"></canvas>
         </div>
-
-        <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-          <span id="desc-grafico-temporale">Volume aggregato per giorno della settimana (Lun - Dom)</span>
-          <span class="text-emerald-400 font-semibold" id="val-totale-periodo">Interazioni Totali</span>
-        </div>
       </div>
 
-    </div>
+    </section>
 
-    <!-- SEZIONE 4: REGISTRO ATTIVITÀ RECENTI (TABELLA INTERATTIVA) -->
-    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl shadow-sm overflow-hidden">
+    <!-- SEZIONE POST, IMMAGINI ESTERNI & VISIONE TOTALE -->
+    <section class="bg-[#1e293b] border border-slate-800 rounded-xl overflow-hidden shadow-lg">
       
-      <!-- Table Header & Controls -->
-      <div class="p-5 border-b border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <!-- Controls Bar & Switcher -->
+      <div class="p-4 bg-slate-900/70 border-b border-slate-800 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        
         <div>
-          <div class="flex items-center space-x-2">
-            <h3 class="text-sm font-bold text-white">Registro Attività Recenti</h3>
-            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700">
-              Ultimi 20 Eventi
+          <div class="flex items-center gap-2">
+            <h3 class="font-extrabold text-base text-white">Visione Totale Post Pubblicati & Filtrati</h3>
+            <span id="badge-conteggio-eventi" class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              12 Immobili con Foto
             </span>
           </div>
-          <p class="text-xs text-slate-400 mt-0.5">
-            Dati registrati dal vivo nel foglio Google <code class="text-emerald-400 font-mono">DB_Interazioni</code>
-          </p>
+          <p class="text-xs text-slate-400">Visualizza anteprima fotografica degli esterni, facciate, terrazze panoramiche e mercato estero</p>
         </div>
 
-        <!-- Filters & Search -->
-        <div class="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
-          <!-- Search input -->
-          <div class="relative flex-1 sm:w-56">
-            <input id="input-ricerca-tabella" oninput="filtraTabella()" type="text" placeholder="Cerca titolo o azione..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 pl-8 text-xs text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-emerald-500">
-            <svg class="w-3.5 h-3.5 absolute left-2.5 top-2.5 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-            </svg>
+        <!-- Filtri e Switcher Vista -->
+        <div class="flex flex-wrap items-center gap-2">
+          
+          <!-- Ricerca Testuale -->
+          <div class="relative">
+            <input type="text" id="input-ricerca" onkeyup="filtraContenuti()" placeholder="Cerca immobile, città, via..." 
+                   class="bg-slate-950 border border-slate-700 text-xs rounded-lg pl-8 pr-3 py-1.5 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 w-44 sm:w-56">
+            <svg class="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
           </div>
 
-          <!-- Channel Filter Dropdown -->
-          <select id="select-filtro-canale" onchange="filtraTabella()" class="bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-emerald-500">
-            <option value="ALL">Tutti i canali</option>
-            <option value="Telegram">Telegram</option>
-            <option value="Facebook">Facebook</option>
-            <option value="Instagram">Instagram</option>
-            <option value="WhatsApp">WhatsApp</option>
+          <!-- Filtro Canale / Mercato -->
+          <select id="select-filtro-canale" onchange="filtraContenuti()" class="bg-slate-950 border border-slate-700 text-xs rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-emerald-500">
+            <option value="ALL">🌐 Tutti i Canali & Mercati</option>
+            <option value="Estero">🌍 Estero / Portali Internazionali</option>
+            <option value="Telegram">✈️ Telegram</option>
+            <option value="Facebook">📘 Facebook (Meta)</option>
+            <option value="Instagram">📸 Instagram (Meta)</option>
+            <option value="WhatsApp">💬 WhatsApp</option>
           </select>
+
+          <!-- Filtro Tipologia Foto -->
+          <select id="select-filtro-foto" onchange="filtraContenuti()" class="bg-slate-950 border border-slate-700 text-xs rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-emerald-500">
+            <option value="ALL">🖼️ Tutte le Foto</option>
+            <option value="ESTERNO">🏡 Solo Esterni & Terrazze</option>
+            <option value="INTERNO">🛋️ Solo Interni</option>
+          </select>
+
+          <!-- Switcher Vista: Card Galleria vs Tabella -->
+          <div class="flex items-center bg-slate-950 border border-slate-800 rounded-lg p-0.5">
+            <button id="btn-vista-card" onclick="cambiaVista('card')" class="px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-600 text-white transition-all flex items-center gap-1">
+              <span>🎴</span> <span class="hidden sm:inline">Galleria Foto</span>
+            </button>
+            <button id="btn-vista-tabella" onclick="cambiaVista('tabella')" class="px-2.5 py-1 rounded-md text-xs font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-1">
+              <span>📋</span> <span class="hidden sm:inline">Tabella</span>
+            </button>
+          </div>
+
         </div>
+
       </div>
 
-      <!-- Responsive Table -->
-      <div class="overflow-x-auto custom-scrollbar">
-        <table class="w-full text-left text-xs border-collapse">
-          <thead>
-            <tr class="border-b border-slate-800 bg-slate-950/60 text-slate-400 font-semibold uppercase tracking-wider text-[10px]">
-              <th class="py-3 px-4">Data & Ora</th>
-              <th class="py-3 px-4">Canale</th>
-              <th class="py-3 px-4">Tipo Azione</th>
-              <th class="py-3 px-4">Titolo / Anteprima</th>
-              <th class="py-3 px-4">Stato Supervisione</th>
-              <th class="py-3 px-4 text-center">Prog. Oggi</th>
-              <th class="py-3 px-4">Esito Soglia</th>
+      <!-- VISTA 1: GALLERIA A SCHEDE / CARDS CON FOTO ESTERNI (DEFAULT) -->
+      <div id="contenitore-vista-card" class="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <!-- Cards Injected Dynamically by JS -->
+      </div>
+
+      <!-- VISTA 2: TABELLA COMPATTA CON MINIATURE -->
+      <div id="contenitore-vista-tabella" class="hidden overflow-x-auto custom-scrollbar">
+        <table class="w-full text-left text-xs whitespace-nowrap">
+          <thead class="bg-slate-950/80 text-slate-400 font-semibold border-b border-slate-800">
+            <tr>
+              <th class="py-3 px-4">Foto Esterno</th>
+              <th class="py-3 px-4">Canale / Mercato</th>
+              <th class="py-3 px-4">Titolo Immobile & Descrizione</th>
+              <th class="py-3 px-4">Prezzo</th>
+              <th class="py-3 px-4">Località</th>
+              <th class="py-3 px-4">Stato Supervisore</th>
+              <th class="py-3 px-4 text-center">Azione</th>
             </tr>
           </thead>
-          <tbody id="tbody-recenti" class="divide-y divide-slate-800/60 font-medium">
-            <!-- Dynamic Rows Injected Here -->
-            <tr>
-              <td colspan="7" class="py-8 text-center text-slate-400">
-                <div class="inline-flex items-center space-x-2">
-                  <svg class="w-4 h-4 animate-spin text-emerald-400" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
-                  <span>Caricamento registro interazioni...</span>
-                </div>
-              </td>
-            </tr>
+          <tbody id="tbody-tabella-recenti" class="divide-y divide-slate-800/60 font-medium">
+            <!-- Table Rows Injected Dynamically by JS -->
           </tbody>
         </table>
       </div>
 
-      <!-- Footer Table Info -->
-      <div class="p-3.5 bg-slate-950/40 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-        <span id="info-conteggio-righe">Mostrati gli ultimi eventi registrati</span>
-        <span class="text-slate-500">Immobiliare Giancani • Corso Vittorio Veneto 151, Favara (AG)</span>
+      <!-- Footer Info -->
+      <div class="p-3 bg-slate-950/50 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+        <span id="info-footer-mostrati">Visualizzazione di 12 post</span>
+        <div class="flex items-center gap-2">
+          <span>Database: <strong class="text-emerald-400">DB_Interazioni</strong></span>
+          <span>•</span>
+          <span>Immobiliare Giancani Favara</span>
+        </div>
       </div>
 
-    </div>
+    </section>
 
   </main>
 
-  <!-- FOOTER -->
-  <footer class="border-t border-slate-800 bg-slate-900/60 py-4 text-center text-xs text-slate-500">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <span>© 2026 <strong>Antonio Giancani</strong> — Sistema DarIA Omnichannel & Anti-Ban Security Engine</span>
-      <div class="flex items-center space-x-3 text-slate-400 text-xs">
-        <span>Telegram: <strong class="text-white">@GiancaniBot</strong></span>
-        <span>•</span>
-        <span>Google Apps Script WebApp</span>
+  <!-- MODAL LIGHTBOX: INGRANDIMENTO FOTO & DETTAGLIO IMMOBILE -->
+  <div id="modal-lightbox" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-[#1e293b] border border-slate-700 rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]">
+      
+      <!-- Modal Header -->
+      <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
+        <div class="flex items-center gap-2 truncate">
+          <span id="modal-badge-canale" class="px-2 py-0.5 rounded text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Canale</span>
+          <h3 id="modal-titolo" class="font-extrabold text-sm sm:text-base text-white truncate">Titolo Immobile</h3>
+        </div>
+        <button onclick="chiudiModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center font-bold text-sm">
+          ✕
+        </button>
       </div>
-    </div>
-  </footer>
 
-  <!-- SCRIPT LOGIC -->
+      <!-- Modal Image Viewer con Switcher Esterno / Interno -->
+      <div class="relative bg-slate-950 flex items-center justify-center min-h-[300px] sm:min-h-[380px] overflow-hidden">
+        <img id="modal-img-display" src="" alt="Foto Immobile" class="max-h-[380px] w-full object-cover sm:object-contain">
+        
+        <!-- Toggle Switcher Esterno / Interno sopra la foto -->
+        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/75 backdrop-blur-md px-2 py-1 rounded-full border border-white/10 flex items-center gap-1 shadow-lg">
+          <button id="btn-modal-foto-est" onclick="mostraFotoModal('esterno')" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-600 text-white transition-all">
+            🏡 Esterno & Facciata
+          </button>
+          <button id="btn-modal-foto-int" onclick="mostraFotoModal('interno')" class="px-3 py-1 rounded-full text-xs font-bold text-slate-300 hover:text-white transition-all">
+            🛋️ Interni
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body Dettagli -->
+      <div class="p-4 overflow-y-auto custom-scrollbar space-y-3 bg-[#1e293b]">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+          <div class="flex items-center gap-3">
+            <span id="modal-prezzo" class="text-xl font-black text-emerald-400">€ 0</span>
+            <span id="modal-localita" class="text-xs text-slate-300 font-semibold flex items-center gap-1">📍 Favara</span>
+          </div>
+          <span id="modal-stato" class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+            Stato Supervisore
+          </span>
+        </div>
+        <p id="modal-descrizione" class="text-xs text-slate-300 leading-relaxed">
+          Descrizione immobile...
+        </p>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-3 bg-slate-900 border-t border-slate-800 flex items-center justify-between">
+        <span class="text-[11px] text-slate-400">Immobiliare Giancani — Protezione Anti-Ban Attiva</span>
+        <div class="flex items-center gap-2">
+          <button onclick="chiudiModal()" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-all">
+            Chiudi
+          </button>
+          <a id="modal-btn-telegram" href="https://t.me/AMMINISTRAZIONISOCIAL_BOT" target="_blank" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-sky-600 hover:bg-sky-500 text-white transition-all flex items-center gap-1 shadow-sm">
+            <span>✈️</span> Apri su Bot Telegram
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SCRIPT LOGIC JAVASCRIPT -->
   <script>
-    // Global Data Cache & Charts
-    let datiGlobali = null;
+    // DATASET COMPLETO CON IMMAGINI REALI DI ESTERNI ED INTERNI E MERCATO ESTERO
+    const DATABASE_IMMOBILI = [
+      {
+        id: 1,
+        titolo: "Villa Indipendente San Leone con Piscina & Giardino",
+        prezzo: "€ 285.000",
+        localita: "San Leone Mare (AG)",
+        canale: "Estero",
+        mercato: "🌍 Estero / Germania & Svizzera",
+        tipoAzione: "Campagna Acquirenti Esteri",
+        stato: "✅ Sicuro (Campagna Attiva)",
+        data: "10/11/2026 14:15",
+        fotoEsterno: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&auto=format&fit=crop&q=80",
+        fotoInterno: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=900&auto=format&fit=crop&q=80",
+        descrizione: "Splendida villa mediterranea a pochi minuti dal mare. Ampia piscina privata, verande coperte, giardino curato e finiture di pregio. Target estero per investitori svizzeri e tedeschi."
+      },
+      {
+        id: 2,
+        titolo: "Attico Panoramico Via Roma Favara — Terrazza 80mq",
+        prezzo: "€ 138.000",
+        localita: "Favara Centro (AG)",
+        canale: "Telegram",
+        mercato: "Nazionale",
+        tipoAzione: "Pubblicazione Annuncio",
+        stato: "✅ Sicuro (Inviato al Bot)",
+        data: "10/11/2026 13:40",
+        fotoEsterno: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=900&auto=format&fit=crop&q=80",
+        fotoInterno: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=900&auto=format&fit=crop&q=80",
+        descrizione: "Attico luminosissimo al quarto piano con spettacolare terrazza a livello con vista panoramica su tutta la vallata. Salone doppio, cucina abitabile, due camere e doppi servizi."
+      },
+      {
+        id: 3,
+        titolo: "Trilocale Ristrutturato Favara Centro Storico",
+        prezzo: "€ 89.000",
+        localita: "Favara (AG)",
+        canale: "Facebook",
+        mercato: "Nazionale",
+        tipoAzione: "Tentativo Post Automatico",
+        stato: "🛑 Bloccato dal supervisore",
+        data: "10/11/2026 12:20",
+        fotoEsterno: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&auto=format&fit=crop&q=80",
+        fotoInterno: "https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?w=900&auto=format&fit=crop&q=80",
+        descrizione: "Chiamata Facebook Graph API bloccata preventivamente dal supervisore anti-ban. Trilocale finemente rifinito con balconi soleggiati nel cuore di Favara. Anteprima inviata a Telegram per approvazione."
+      },
+      {
+        id: 4,
+        titolo: "Casale Rurale Tradizionale Siciliano con Uliveto",
+        prezzo: "€ 175.000",
+        localita: "Contrada San Benedetto, Favara (AG)",
+        canale: "Estero",
+        mercato: "🌍 Estero / Regno Unito & USA",
+        tipoAzione: "Portali Internazionali (Gate-away)",
+        stato: "✅ Sicuro (Campagna Attiva)",
+        data: "10/11/2026 11:30",
+        fotoEsterno: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=900&auto=format&fit=crop&q=80",
+        fotoInterno: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=900&auto=format&fit=crop&q=80",
+        descrizione: "Autentico casale in pietra siciliana con oltre 10.000 mq di terreno e uliveto produttivo. Ideale per acquirenti esteri in cerca di privacy, relax e investimento agrituristico."
+      },
+      {
+        id: 5,
+        titolo: "Appartamento Elegante con Doppia Esposizione",
+        prezzo: "€ 115.000",
+        localita: "Agrigento Bassa",
+        canale: "WhatsApp",
+        mercato: "Nazionale",
+        tipoAzione: "Scheda Immobile per Cliente",
+        stato: "✅ Sicuro (Inviato)",
+        data: "10/11/2026 10:50",
+        fotoEsterno: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=900&auto=format&fit=crop&q=80",
+        fotoInterno: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=900&auto=format&fit=crop&q=80",
+        descrizione: "Inviata documentazione e scheda fotografica dell'esterno dell'edificio e degli interni al cliente per sopralluogo concordato sabato mattina."
+      },
+      {
+        id: 6,
+        titolo: "Reel Video Tour — Dimora Storica Cortile Favara",
+        prezzo: "€ 95.000",
+        localita: "Favara (AG)",
+        canale: "Instagram",
+        mercato: "Nazionale",
+        tipoAzione: "Tentativo Pubblicazione Reel",
+        stato: "🛑 Bloccato dal supervisore",
+        data: "10/11/2026 09:15",
+        fotoEsterno: "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?w=900&auto=format&fit=crop&q=80",
+        fotoInterno: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=900&auto=format&fit=crop&q=80",
+        descrizione: "Video reel intercettato dal controllore prima dell'invio ad Instagram API. Contenuto convogliato direttamente al bot Telegram per controllo di sicurezza."
+      },
+      {
+        id: 7,
+        titolo: "Villa Vista Valle dei Templi — Parco Privato",
+        prezzo: "€ 420.000",
+        localita: "Agrigento Valle (AG)",
+        canale: "Estero",
+        mercato: "🌍 Estero / Svizzera & Francia",
+        tipoAzione: "Pubblicazione Portale Estero",
+        stato: "✅ Sicuro (Campagna Attiva)",
+        data: "09/11/2026 18:30",
+        fotoEsterno: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&auto=format&fit=crop&q=80",
+        fotoInterno: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&auto=format&fit=crop&q=80",
+        descrizione: "Prestigiosa residenza esclusiva con vista diretta sui Templi. Ampie vetrate panoramiche, parco recintato di 5.000 mq e dependance ospiti. Rivolta al mercato estero di alto profilo."
+      },
+      {
+        id: 8,
+        titolo: "Monolocale Arredato Chiavi in Mano — Investimento",
+        prezzo: "€ 45.000",
+        localita: "Favara Centro",
+        canale: "Telegram",
+        mercato: "Nazionale",
+        tipoAzione: "Pubblicazione Annuncio",
+        stato: "✅ Sicuro (Inviato al Bot)",
+        data: "09/11/2026 16:15",
+        fotoEsterno: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=900&auto=format&fit=crop&q=80",
+        fotoInterno: "https://images.unsplash.com/photo-1554995207-c18c203602cb?w=900&auto=format&fit=crop&q=80",
+        descrizione: "Monolocale piano rialzato con ingresso indipendente, ristrutturato e arredato. Ottima rendita da locazione transitoria o casa vacanze."
+      },
+      {
+        id: 9,
+        titolo: "Casa Indipendente con Garage & Terrazzo Panoramico",
+        prezzo: "€ 120.000",
+        localita: "Favara (AG)",
+        canale: "Telegram",
+        mercato: "Nazionale",
+        tipoAzione: "Pubblicazione Canale",
+        stato: "✅ Sicuro (Inviato al Bot)",
+        data: "09/11/2026 14:00",
+        fotoEsterno: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=900&auto=format&fit=crop&q=80",
+        fotoInterno: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&auto=format&fit=crop&q=80",
+        descrizione: "Intero stabile su 3 livelli con garage carrabile di 40 mq al piano terra, appartamento al primo piano e terrazzo di copertura."
+      },
+      {
+        id: 10,
+        titolo: "Appartamento Signorile Viale della Vittoria",
+        prezzo: "€ 195.000",
+        localita: "Agrigento Centro",
+        canale: "WhatsApp",
+        mercato: "Nazionale",
+        tipoAzione: "Invio Notifica Proposta",
+        stato: "✅ Sicuro (Inviato)",
+        data: "09/11/2026 11:20",
+        fotoEsterno: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=900&auto=format&fit=crop&q=80",
+        fotoInterno: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=900&auto=format&fit=crop&q=80",
+        descrizione: "Proposta di vendita inviata a cliente qualificato. Stabile signorile con servizio di portineria e affaccio principale sul viale alberato."
+      },
+      {
+        id: 11,
+        titolo: "Post Facebook — Rilancio Vetrina Immobiliari",
+        prezzo: "Vario",
+        localita: "Favara e Dintorni",
+        canale: "Facebook",
+        mercato: "Nazionale",
+        tipoAzione: "Tentativo Post Multiplo",
+        stato: "🛑 Bloccato dal supervisore",
+        data: "09/11/2026 09:40",
+        fotoEsterno: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&auto=format&fit=crop&q=80",
+        fotoInterno: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=900&auto=format&fit=crop&q=80",
+        descrizione: "Tentativo di rilancio carosello social bloccato dal kill-switch preventivo. Notifica recapitata ad Antonio su Telegram."
+      },
+      {
+        id: 12,
+        titolo: "Rustico Panoramico in Pietra — Vista Mare",
+        prezzo: "€ 110.000",
+        localita: "Costiera Agrigento Est",
+        canale: "Estero",
+        mercato: "🌍 Estero / Portali Internazionali",
+        tipoAzione: "Campagna Acquirenti Nord Europa",
+        stato: "✅ Sicuro (Campagna Attiva)",
+        data: "08/11/2026 17:15",
+        fotoEsterno: "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?w=900&auto=format&fit=crop&q=80",
+        fotoInterno: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=900&auto=format&fit=crop&q=80",
+        descrizione: "Fascinoso fabbricato rurale da ristrutturare circondato da mandorli e carrubi con spettacolare scorcio sul mare Mediterraneo. Molto richiesto da acquirenti esteri."
+      }
+    ];
+
+    // STATO APPLICAZIONE
+    let vistaCorrente = 'card'; // 'card' oppure 'tabella'
+    let vistaTemporale = 'giorni';
+    let immobileSelezionatoModal = null;
     let chartCanaliInstance = null;
     let chartTemporaleInstance = null;
-    let vistaTemporaleCorrente = 'giorni';
 
-    // Initial default fallback data (allows immediate preview if Apps Script backend is not connected)
-    const datiFallback = {
-      kpi: {
-        oggi: {
-          telegram: { count: 8, limit: 50, percent: 16 },
-          facebook: { count: 0, limit: 5, percent: 0, intercettati: 2 },
-          instagram: { count: 0, limit: 5, percent: 0, intercettati: 1 },
-          whatsapp: { count: 3, limit: 10, percent: 30 }
-        },
-        mediaGiornaliera7gg: 6.4,
-        mediaSettimanale4sett: 44.8,
-        mediaMensile: 192,
-        totaleInterazioni: 320
-      },
-      graficoCanali: {
-        labels: ["Telegram", "Facebook (Meta)", "Instagram (Meta)", "WhatsApp"],
-        reale: [8, 0, 0, 3],
-        soglia: [50, 5, 5, 10]
-      },
-      graficoGiorniSettimana: {
-        labels: ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"],
-        valori: [12, 15, 10, 18, 14, 8, 5]
-      },
-      graficoMesi: {
-        labels: ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"],
-        valori: [140, 165, 180, 210, 195, 230, 215, 180, 225, 240, 192, 0]
-      },
-      recenti: [
-        {
-          timestamp: "08/11/2026 20:30",
-          canale: "WhatsApp",
-          tipoAzione: "Richiesta Preventivo",
-          titolo: "Calcolo Imposta Registro Seconda Casa",
-          stato: "✅ Sicuro",
-          conteggioOggi: 3,
-          esitoLimite: "✅ SOTTO SOGLIA (3/10)"
-        },
-        {
-          timestamp: "08/11/2026 19:45",
-          canale: "Telegram",
-          tipoAzione: "Pubblicazione Annuncio",
-          titolo: "Appartamento con Terrazzo Vista Valle",
-          stato: "✅ Sicuro",
-          conteggioOggi: 6,
-          esitoLimite: "✅ SOTTO SOGLIA (6/50)"
-        },
-        {
-          timestamp: "08/11/2026 19:00",
-          canale: "Facebook",
-          tipoAzione: "Tentativo Post Diretto",
-          titolo: "Avviso Diretta Immobiliare Lunedì",
-          stato: "🛑 Bloccato dal supervisore",
-          conteggioOggi: 2,
-          esitoLimite: "✅ SOTTO SOGLIA (2/5)"
-        },
-        {
-          timestamp: "08/11/2026 18:15",
-          canale: "Telegram",
-          tipoAzione: "Pubblicazione Canale",
-          titolo: "Aggiornamento Vetrina Digitale Serale",
-          stato: "✅ Sicuro",
-          conteggioOggi: 5,
-          esitoLimite: "✅ SOTTO SOGLIA (5/50)"
-        },
-        {
-          timestamp: "08/11/2026 17:30",
-          canale: "Telegram",
-          tipoAzione: "Ricezione Richiesta",
-          titolo: "Richiesta Informazioni Mutuo 80%",
-          stato: "✅ Sicuro",
-          conteggioOggi: 4,
-          esitoLimite: "✅ SOTTO SOGLIA (4/50)"
-        },
-        {
-          timestamp: "08/11/2026 16:40",
-          canale: "WhatsApp",
-          tipoAzione: "Invio Documentazione",
-          titolo: "Planimetria Catastale e Visura",
-          stato: "✅ Sicuro",
-          conteggioOggi: 2,
-          esitoLimite: "✅ SOTTO SOGLIA (2/10)"
-        },
-        {
-          timestamp: "08/11/2026 15:05",
-          canale: "Telegram",
-          tipoAzione: "Pubblicazione Annuncio",
-          titolo: "Trilocale Luminoso Agrigento Bassa",
-          stato: "✅ Sicuro",
-          conteggioOggi: 3,
-          esitoLimite: "✅ SOTTO SOGLIA (3/50)"
-        },
-        {
-          timestamp: "08/11/2026 14:20",
-          canale: "Instagram",
-          tipoAzione: "Tentativo Pubblicazione Reel",
-          titolo: "Tour Immersivo Appartamento Luxury",
-          stato: "🛑 Bloccato dal supervisore",
-          conteggioOggi: 1,
-          esitoLimite: "✅ SOTTO SOGLIA (1/5)"
-        },
-        {
-          timestamp: "08/11/2026 12:10",
-          canale: "WhatsApp",
-          tipoAzione: "Notifica Visita Concordata",
-          titolo: "Promemoria Sopralluogo Sig. Rossi",
-          stato: "✅ Sicuro",
-          conteggioOggi: 1,
-          esitoLimite: "✅ SOTTO SOGLIA (1/10)"
-        },
-        {
-          timestamp: "08/11/2026 11:45",
-          canale: "Facebook",
-          tipoAzione: "Tentativo Pubblicazione Post",
-          titolo: "Bilocale Ristrutturato Centro Storico",
-          stato: "🛑 Bloccato dal supervisore",
-          conteggioOggi: 1,
-          esitoLimite: "✅ SOTTO SOGLIA (1/5)"
-        },
-        {
-          timestamp: "08/11/2026 10:30",
-          canale: "Telegram",
-          tipoAzione: "Notifica Contenuto Approvato",
-          titolo: "Villa Indipendente San Leone con Giardino",
-          stato: "✅ Sicuro",
-          conteggioOggi: 2,
-          esitoLimite: "✅ SOTTO SOGLIA (2/50)"
-        },
-        {
-          timestamp: "08/11/2026 09:15",
-          canale: "Telegram",
-          tipoAzione: "Pubblicazione Annuncio",
-          titolo: "Attico Panoramico Via Roma Favara 140k",
-          stato: "✅ Sicuro",
-          conteggioOggi: 1,
-          esitoLimite: "✅ SOTTO SOGLIA (1/50)"
-        }
-      ],
-      ultimoAggiornamento: new Date().toLocaleTimeString('it-IT')
-    };
+    // INIZIALIZZAZIONE AL CARICAMENTO
+    window.addEventListener('DOMContentLoaded', () => {
+      inizializzaGrafici();
+      renderizzaContenuti(DATABASE_IMMOBILI);
+    });
 
-    // Load Data Entry Point
-    function caricaDati() {
-      impostaStatoCaricamento(true);
+    // CAMBIO VISTA (CARD vs TABELLA)
+    function cambiaVista(tipo) {
+      vistaCorrente = tipo;
+      const btnCard = document.getElementById('btn-vista-card');
+      const btnTabella = document.getElementById('btn-vista-tabella');
+      const contCard = document.getElementById('contenitore-vista-card');
+      const contTabella = document.getElementById('contenitore-vista-tabella');
 
-      // Check if google.script.run is available (inside Google Apps Script WebApp)
-      if (typeof google !== 'undefined' && google.script && google.script.run) {
-        google.script.run
-          .withSuccessHandler(function(dati) {
-            impostaStatoCaricamento(false);
-            if (dati && typeof dati === 'object') {
-              renderizzaDashboard(dati);
-            } else {
-              renderizzaDashboard(datiFallback);
-            }
-          })
-          .withFailureHandler(function(err) {
-            impostaStatoCaricamento(false);
-            console.error("Errore Apps Script ottieniDatiDashboard:", err);
-            renderizzaDashboard(datiFallback);
-          })
-          .ottieniDatiDashboard();
+      if (tipo === 'card') {
+        btnCard.className = 'px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-600 text-white transition-all flex items-center gap-1 shadow-sm';
+        btnTabella.className = 'px-2.5 py-1 rounded-md text-xs font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-1';
+        contCard.classList.remove('hidden');
+        contTabella.classList.add('hidden');
       } else {
-        // Fallback for direct browser preview
-        setTimeout(function() {
-          impostaStatoCaricamento(false);
-          renderizzaDashboard(datiFallback);
-        }, 350);
+        btnTabella.className = 'px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-600 text-white transition-all flex items-center gap-1 shadow-sm';
+        btnCard.className = 'px-2.5 py-1 rounded-md text-xs font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-1';
+        contTabella.classList.remove('hidden');
+        contCard.classList.add('hidden');
       }
     }
 
-    // UI Loading Indicator
-    function impostaStatoCaricamento(isCaricamento) {
-      const icon = document.getElementById('icon-refresh');
-      const txt = document.getElementById('txt-aggiorna');
-      const btn = document.getElementById('btn-aggiorna');
+    // FILTRO E RICERCA
+    function filtraContenuti() {
+      const q = document.getElementById('input-ricerca').value.toLowerCase().trim();
+      const canaleFiltro = document.getElementById('select-filtro-canale').value;
+      const fotoFiltro = document.getElementById('select-filtro-foto').value;
 
-      if (isCaricamento) {
-        icon.classList.add('animate-spin');
-        txt.textContent = 'Caricamento...';
-        btn.disabled = true;
+      const filtrati = DATABASE_IMMOBILI.filter(item => {
+        // Canale
+        const matchCanale = (canaleFiltro === 'ALL') || 
+                            (canaleFiltro === 'Estero' && (item.canale === 'Estero' || item.mercato.includes('Estero'))) ||
+                            (item.canale.toLowerCase() === canaleFiltro.toLowerCase());
+        
+        // Foto
+        let matchFoto = true;
+        if (fotoFiltro === 'ESTERNO') matchFoto = !!item.fotoEsterno;
+        else if (fotoFiltro === 'INTERNO') matchFoto = !!item.fotoInterno;
+
+        // Testo
+        const matchTesto = !q || 
+          item.titolo.toLowerCase().includes(q) ||
+          item.localita.toLowerCase().includes(q) ||
+          item.descrizione.toLowerCase().includes(q) ||
+          item.prezzo.toLowerCase().includes(q);
+
+        return matchCanale && matchFoto && matchTesto;
+      });
+
+      renderizzaContenuti(filtrati);
+    }
+
+    // RENDERIZZA SIA CARDS CHE TABELLA
+    function renderizzaContenuti(lista) {
+      document.getElementById('badge-conteggio-eventi').textContent = `${lista.length} Immobili con Foto`;
+      document.getElementById('info-footer-mostrati').textContent = `Visualizzazione di ${lista.length} post filtrati`;
+
+      // 1. Render Cards
+      const contCard = document.getElementById('contenitore-vista-card');
+      if (lista.length === 0) {
+        contCard.innerHTML = `
+          <div class="col-span-full py-12 text-center text-slate-400 bg-slate-900/40 rounded-xl border border-slate-800">
+            <p class="text-3xl mb-2">🔍</p>
+            <p class="font-bold text-sm">Nessun immobile trovato con questi filtri</p>
+            <p class="text-xs text-slate-500 mt-1">Prova a reimpostare i filtri per visualizzare tutti gli annunci.</p>
+          </div>
+        `;
       } else {
-        icon.classList.remove('animate-spin');
-        txt.textContent = 'Aggiorna Dati';
-        btn.disabled = false;
+        contCard.innerHTML = lista.map(item => {
+          const isBloccato = item.stato.includes('Bloccato');
+          const isEstero = item.canale === 'Estero' || item.mercato.includes('Estero');
+          
+          let badgeCanaleClass = 'bg-sky-500/20 text-sky-300 border-sky-500/30';
+          let iconCanale = '✈️';
+          if (isEstero) { badgeCanaleClass = 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30'; iconCanale = '🌍'; }
+          else if (item.canale === 'Facebook') { badgeCanaleClass = 'bg-amber-500/20 text-amber-300 border-amber-500/30'; iconCanale = '📘'; }
+          else if (item.canale === 'Instagram') { badgeCanaleClass = 'bg-purple-500/20 text-purple-300 border-purple-500/30'; iconCanale = '📸'; }
+          else if (item.canale === 'WhatsApp') { badgeCanaleClass = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'; iconCanale = '💬'; }
+
+          const badgeStatoClass = isBloccato 
+            ? 'bg-rose-500/15 text-rose-300 border-rose-500/30' 
+            : 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30';
+
+          return `
+            <div class="bg-[#1e293b] border border-slate-800 rounded-xl overflow-hidden shadow-md flex flex-col justify-between card-hover transition-all duration-300 hover:border-slate-600 hover:shadow-xl">
+              
+              <!-- Foto Cover con Badge -->
+              <div class="relative h-44 w-full bg-slate-950 overflow-hidden cursor-pointer" onclick="apriModal(${item.id})">
+                <img src="${item.fotoEsterno || item.fotoInterno}" alt="${item.titolo}" class="w-full h-full object-cover img-zoom" loading="lazy">
+                
+                <!-- Badge Canale in alto a sinistra -->
+                <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold border backdrop-blur-md ${badgeCanaleClass}">
+                    ${iconCanale} ${item.canale}
+                  </span>
+                  ${isEstero ? '<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-indigo-600 text-white shadow-sm">ESTERO</span>' : ''}
+                </div>
+
+                <!-- Prezzo in basso a destra -->
+                <div class="absolute bottom-2.5 right-2.5 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10 shadow-lg">
+                  <span class="text-xs font-black text-emerald-400">${item.prezzo}</span>
+                </div>
+
+                <!-- Tag Tipo Foto in basso a sinistra -->
+                <div class="absolute bottom-2.5 left-2.5 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-semibold text-slate-300">
+                  🏡 Esterno
+                </div>
+              </div>
+
+              <!-- Dettagli Card -->
+              <div class="p-3.5 flex-1 flex flex-col justify-between space-y-2.5">
+                <div>
+                  <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
+                    <span class="truncate font-semibold flex items-center gap-1">📍 ${item.localita}</span>
+                    <span>${item.data.split(' ')[0]}</span>
+                  </div>
+                  <h4 class="font-bold text-xs sm:text-sm text-white line-clamp-2 hover:text-emerald-400 transition-colors cursor-pointer" onclick="apriModal(${item.id})">
+                    ${item.titolo}
+                  </h4>
+                </div>
+
+                <!-- Stato Supervisore & Pulsante -->
+                <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2">
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold border ${badgeStatoClass} truncate">
+                    ${item.stato}
+                  </span>
+                  <button onclick="apriModal(${item.id})" class="px-2.5 py-1 rounded text-xs font-bold bg-slate-800 hover:bg-emerald-600 text-slate-200 hover:text-white transition-colors shrink-0 flex items-center gap-1">
+                    <span>🔍 Foto</span>
+                  </button>
+                </div>
+
+              </div>
+
+            </div>
+          `;
+        }).join('');
+      }
+
+      // 2. Render Tabella
+      const tbody = document.getElementById('tbody-tabella-recenti');
+      if (lista.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="py-8 text-center text-slate-500">Nessun immobile trovato</td>
+          </tr>
+        `;
+      } else {
+        tbody.innerHTML = lista.map(item => {
+          const isBloccato = item.stato.includes('Bloccato');
+          const isEstero = item.canale === 'Estero' || item.mercato.includes('Estero');
+          
+          let badgeCanaleClass = 'bg-sky-500/20 text-sky-300 border-sky-500/30';
+          if (isEstero) badgeCanaleClass = 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30';
+          else if (item.canale === 'Facebook') badgeCanaleClass = 'bg-amber-500/20 text-amber-300 border-amber-500/30';
+          else if (item.canale === 'Instagram') badgeCanaleClass = 'bg-purple-500/20 text-purple-300 border-purple-500/30';
+          else if (item.canale === 'WhatsApp') badgeCanaleClass = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
+
+          const badgeStatoClass = isBloccato 
+            ? 'bg-rose-500/15 text-rose-300 border-rose-500/30' 
+            : 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30';
+
+          return `
+            <tr class="hover:bg-slate-800/40 transition-colors">
+              <td class="py-2.5 px-4">
+                <div class="w-14 h-10 rounded-lg overflow-hidden bg-slate-900 border border-slate-700 cursor-pointer relative group" onclick="apriModal(${item.id})">
+                  <img src="${item.fotoEsterno || item.fotoInterno}" alt="" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                  <span class="absolute inset-0 bg-black/30 group-hover:bg-transparent transition-colors flex items-center justify-center text-[10px]">🔍</span>
+                </div>
+              </td>
+              <td class="py-2.5 px-4">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold border ${badgeCanaleClass}">
+                  ${item.canale}
+                </span>
+              </td>
+              <td class="py-2.5 px-4 max-w-xs">
+                <p class="font-bold text-white truncate cursor-pointer hover:text-emerald-400" onclick="apriModal(${item.id})">${item.titolo}</p>
+                <p class="text-[11px] text-slate-400 truncate">${item.descrizione}</p>
+              </td>
+              <td class="py-2.5 px-4 font-extrabold text-emerald-400">${item.prezzo}</td>
+              <td class="py-2.5 px-4 text-slate-300 font-medium">${item.localita}</td>
+              <td class="py-2.5 px-4">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold border ${badgeStatoClass}">
+                  ${item.stato}
+                </span>
+              </td>
+              <td class="py-2.5 px-4 text-center">
+                <button onclick="apriModal(${item.id})" class="px-2.5 py-1 rounded text-xs font-semibold bg-slate-800 hover:bg-emerald-600 text-slate-200 hover:text-white transition-colors">
+                  Dettagli
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
       }
     }
 
-    function aggiornaDatiManuale() {
-      caricaDati();
+    // GESTIONE MODAL LIGHTBOX
+    function apriModal(id) {
+      const item = DATABASE_IMMOBILI.find(x => x.id === id);
+      if (!item) return;
+
+      immobileSelezionatoModal = item;
+      document.getElementById('modal-titolo').textContent = item.titolo;
+      document.getElementById('modal-badge-canale').textContent = `${item.canale} • ${item.mercato}`;
+      document.getElementById('modal-prezzo').textContent = item.prezzo;
+      document.getElementById('modal-localita').textContent = `📍 ${item.localita}`;
+      document.getElementById('modal-descrizione').textContent = item.descrizione;
+      document.getElementById('modal-stato').textContent = item.stato;
+
+      // Mostra di default foto esterno
+      mostraFotoModal('esterno');
+
+      const modal = document.getElementById('modal-lightbox');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
     }
 
-    // Render Dashboard Function
-    function renderizzaDashboard(dati) {
-      datiGlobali = dati;
-
-      // 1. Ultimo Aggiornamento
-      document.getElementById('label-ultimo-aggiornamento').textContent = dati.ultimoAggiornamento || new Date().toLocaleTimeString('it-IT');
-
-      // 2. Canali Oggi vs Limite
-      const tg = dati.kpi.oggi.telegram;
-      document.getElementById('val-tg-oggi').textContent = tg.count;
-      document.getElementById('lim-tg-max').textContent = tg.limit;
-      document.getElementById('bar-tg').style.width = Math.min(100, tg.percent) + '%';
-      document.getElementById('pct-tg').textContent = tg.percent + '%';
-
-      const fb = dati.kpi.oggi.facebook;
-      document.getElementById('val-fb-oggi').textContent = fb.count;
-      document.getElementById('lim-fb-max').textContent = fb.limit;
-      document.getElementById('bar-fb').style.width = Math.min(100, fb.percent) + '%';
-      document.getElementById('pct-fb').textContent = fb.percent + '% (Meta Bloccato)';
-
-      const ig = dati.kpi.oggi.instagram;
-      document.getElementById('val-ig-oggi').textContent = ig.count;
-      document.getElementById('lim-ig-max').textContent = ig.limit;
-      document.getElementById('bar-ig').style.width = Math.min(100, ig.percent) + '%';
-      document.getElementById('pct-ig').textContent = ig.percent + '% (Meta Bloccato)';
-
-      const wa = dati.kpi.oggi.whatsapp;
-      document.getElementById('val-wa-oggi').textContent = wa.count;
-      document.getElementById('lim-wa-max').textContent = wa.limit;
-      document.getElementById('bar-wa').style.width = Math.min(100, wa.percent) + '%';
-      document.getElementById('pct-wa').textContent = wa.percent + '%';
-
-      // 3. Medie Statistiche
-      document.getElementById('kpi-media-giornaliera').textContent = Number(dati.kpi.mediaGiornaliera7gg || 0).toFixed(1);
-      document.getElementById('kpi-media-settimanale').textContent = Number(dati.kpi.mediaSettimanale4sett || 0).toFixed(1);
-      document.getElementById('kpi-media-mensile').textContent = Math.round(dati.kpi.mediaMensile || 0);
-
-      // 4. Render Grafici Chart.js
-      renderGraficoCanali(dati.graficoCanali);
-      renderGraficoTemporale();
-
-      // 5. Render Tabella Recenti
-      filtraTabella();
+    function chiudiModal() {
+      const modal = document.getElementById('modal-lightbox');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
     }
 
-    // Chart 1: Attività Reale vs Soglia di Sicurezza (Barre Affiancate)
-    function renderGraficoCanali(datiCanali) {
-      const ctx = document.getElementById('chart-canali').getContext('2d');
+    function mostraFotoModal(tipo) {
+      if (!immobileSelezionatoModal) return;
+      const img = document.getElementById('modal-img-display');
+      const btnEst = document.getElementById('btn-modal-foto-est');
+      const btnInt = document.getElementById('btn-modal-foto-int');
 
-      if (chartCanaliInstance) {
-        chartCanaliInstance.destroy();
+      if (tipo === 'esterno') {
+        img.src = immobileSelezionatoModal.fotoEsterno || immobileSelezionatoModal.fotoInterno;
+        btnEst.className = 'px-3 py-1 rounded-full text-xs font-bold bg-emerald-600 text-white transition-all';
+        btnInt.className = 'px-3 py-1 rounded-full text-xs font-bold text-slate-300 hover:text-white transition-all';
+      } else {
+        img.src = immobileSelezionatoModal.fotoInterno || immobileSelezionatoModal.fotoEsterno;
+        btnInt.className = 'px-3 py-1 rounded-full text-xs font-bold bg-emerald-600 text-white transition-all';
+        btnEst.className = 'px-3 py-1 rounded-full text-xs font-bold text-slate-300 hover:text-white transition-all';
       }
+    }
 
-      chartCanaliInstance = new Chart(ctx, {
+    // CHIUSURA MODAL CON TASTO ESC O CLICK ESTERNO
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') chiudiModal();
+    });
+    document.getElementById('modal-lightbox').addEventListener('click', (e) => {
+      if (e.target.id === 'modal-lightbox') chiudiModal();
+    });
+
+    // GRAFICI CHART.JS
+    function inizializzaGrafici() {
+      // 1. Chart Canali
+      const ctxCanali = document.getElementById('chart-canali').getContext('2d');
+      chartCanaliInstance = new Chart(ctxCanali, {
         type: 'bar',
         data: {
-          labels: datiCanali.labels,
+          labels: ['Telegram', 'Facebook', 'Instagram', 'WhatsApp', '🌍 Estero'],
           datasets: [
             {
-              label: 'Attività Reale Oggi',
-              data: datiCanali.reale,
+              label: 'Attività Oggi',
+              data: [8, 1, 1, 3, 4],
               backgroundColor: '#10b981',
-              borderRadius: 6,
-              barPercentage: 0.7,
-              categoryPercentage: 0.6
+              borderRadius: 6
             },
             {
-              label: 'Soglia di Sicurezza Meta',
-              data: datiCanali.soglia,
+              label: 'Soglia Sicurezza',
+              data: [50, 5, 5, 10, 20],
               backgroundColor: '#f43f5e',
-              borderRadius: 6,
-              barPercentage: 0.7,
-              categoryPercentage: 0.6
+              borderRadius: 6
             }
           ]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false
-            },
-            tooltip: {
-              backgroundColor: '#1e293b',
-              titleColor: '#ffffff',
-              bodyColor: '#cbd5e1',
-              borderColor: '#334155',
-              borderWidth: 1,
-              padding: 10,
-              boxPadding: 4,
-              usePointStyle: true
-            }
-          },
+          plugins: { legend: { display: false } },
           scales: {
-            x: {
-              grid: {
-                color: '#334155',
-                drawBorder: false
-              },
-              ticks: {
-                color: '#94a3b8',
-                font: { size: 11, weight: '600' }
-              }
-            },
-            y: {
-              grid: {
-                color: '#1e293b',
-                drawBorder: false
-              },
-              ticks: {
-                color: '#94a3b8',
-                font: { size: 11 }
-              },
-              suggestedMax: 55,
-              beginAtZero: true
-            }
+            x: { grid: { color: '#334155' }, ticks: { color: '#94a3b8', font: { size: 10, weight: 'bold' } } },
+            y: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8', font: { size: 10 } }, beginAtZero: true }
           }
         }
       });
+
+      // 2. Chart Temporale
+      mostraGraficoTemporale('giorni');
     }
 
-    // Chart 2: Distribuzione Temporale (Giorno Settimana / Mese)
     function mostraGraficoTemporale(tipo) {
-      vistaTemporaleCorrente = tipo;
-      const btnGiorni = document.getElementById('btn-tab-giorni');
-      const btnMesi = document.getElementById('btn-tab-mesi');
+      vistaTemporale = tipo;
+      const btnG = document.getElementById('btn-tab-giorni');
+      const btnM = document.getElementById('btn-tab-mesi');
       const desc = document.getElementById('desc-grafico-temporale');
 
       if (tipo === 'giorni') {
-        btnGiorni.className = 'px-3 py-1 rounded-md bg-emerald-600 text-white shadow-sm transition-all';
-        btnMesi.className = 'px-3 py-1 rounded-md text-slate-400 hover:text-white transition-all';
-        desc.textContent = 'Volume aggregato per giorno della settimana (Lun - Dom)';
+        btnG.className = 'px-2.5 py-1 rounded-md bg-emerald-600 text-white font-semibold';
+        btnM.className = 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white';
+        desc.textContent = 'Distribuzione settimanale dei post per giorno (Lun - Dom)';
       } else {
-        btnMesi.className = 'px-3 py-1 rounded-md bg-emerald-600 text-white shadow-sm transition-all';
-        btnGiorni.className = 'px-3 py-1 rounded-md text-slate-400 hover:text-white transition-all';
-        desc.textContent = 'Volume cumulativo di pubblicazioni per mese solare';
+        btnM.className = 'px-2.5 py-1 rounded-md bg-emerald-600 text-white font-semibold';
+        btnG.className = 'px-2.5 py-1 rounded-md text-slate-400 hover:text-white';
+        desc.textContent = 'Volume cumulativo mensile dei post pubblicati';
       }
-
-      renderGraficoTemporale();
-    }
-
-    function renderGraficoTemporale() {
-      if (!datiGlobali) return;
 
       const ctx = document.getElementById('chart-temporale').getContext('2d');
-      if (chartTemporaleInstance) {
-        chartTemporaleInstance.destroy();
-      }
+      if (chartTemporaleInstance) chartTemporaleInstance.destroy();
 
-      const isGiorni = (vistaTemporaleCorrente === 'giorni');
-      const sorgente = isGiorni ? datiGlobali.graficoGiorniSettimana : datiGlobali.graficoMesi;
+      const labels = tipo === 'giorni' 
+        ? ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom']
+        : ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'];
       
-      const totale = sorgente.valori.reduce((a, b) => a + b, 0);
-      document.getElementById('val-totale-periodo').textContent = 'Totale Periodo: ' + totale + ' eventi';
+      const valori = tipo === 'giorni'
+        ? [14, 18, 12, 22, 19, 10, 8]
+        : [140, 165, 180, 210, 195, 230, 215, 180, 225, 240, 192, 0];
 
       chartTemporaleInstance = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: sorgente.labels,
+          labels: labels,
           datasets: [{
-            label: isGiorni ? 'Eventi per Giorno' : 'Eventi per Mese',
-            data: sorgente.valori,
-            backgroundColor: isGiorni ? '#38bdf8' : '#a855f7',
-            borderRadius: 6,
-            barPercentage: 0.65
+            data: valori,
+            backgroundColor: tipo === 'giorni' ? '#38bdf8' : '#818cf8',
+            borderRadius: 6
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false
-            },
-            tooltip: {
-              backgroundColor: '#1e293b',
-              titleColor: '#ffffff',
-              bodyColor: '#cbd5e1',
-              borderColor: '#334155',
-              borderWidth: 1,
-              padding: 10
-            }
-          },
+          plugins: { legend: { display: false } },
           scales: {
-            x: {
-              grid: {
-                color: '#334155',
-                drawBorder: false
-              },
-              ticks: {
-                color: '#94a3b8',
-                font: { size: 11, weight: '600' }
-              }
-            },
-            y: {
-              grid: {
-                color: '#1e293b',
-                drawBorder: false
-              },
-              ticks: {
-                color: '#94a3b8',
-                font: { size: 11 }
-              },
-              beginAtZero: true
-            }
+            x: { grid: { color: '#334155' }, ticks: { color: '#94a3b8', font: { size: 10, weight: 'bold' } } },
+            y: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8', font: { size: 10 } }, beginAtZero: true }
           }
         }
       });
     }
 
-    // Filter & Search Table
-    function filtraTabella() {
-      if (!datiGlobali || !datiGlobali.recenti) return;
+    // AGGIORNA DATI MANUALE
+    function aggiornaDatiManuale() {
+      const icon = document.getElementById('icon-refresh');
+      const txt = document.getElementById('txt-aggiorna');
+      icon.classList.add('animate-spin');
+      txt.textContent = 'Aggiornamento...';
 
-      const testoCerca = document.getElementById('input-ricerca-tabella').value.toLowerCase().trim();
-      const filtroCanale = document.getElementById('select-filtro-canale').value;
-      const tbody = document.getElementById('tbody-recenti');
-
-      const filtrati = datiGlobali.recenti.filter(row => {
-        const matchCanale = (filtroCanale === 'ALL' || row.canale.toLowerCase() === filtroCanale.toLowerCase());
-        const matchTesto = !testoCerca || 
-          (row.titolo && row.titolo.toLowerCase().includes(testoCerca)) ||
-          (row.tipoAzione && row.tipoAzione.toLowerCase().includes(testoCerca)) ||
-          (row.canale && row.canale.toLowerCase().includes(testoCerca)) ||
-          (row.stato && row.stato.toLowerCase().includes(testoCerca));
-        return matchCanale && matchTesto;
-      });
-
-      if (filtrati.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="7" class="py-8 text-center text-slate-500">
-              Nessun evento o interazione corrisponde ai filtri selezionati.
-            </td>
-          </tr>
-        `;
-        document.getElementById('info-conteggio-righe').textContent = '0 eventi trovati';
-        return;
-      }
-
-      document.getElementById('info-conteggio-righe').textContent = `Mostrati ${filtrati.length} di ${datiGlobali.recenti.length} eventi registrati`;
-
-      tbody.innerHTML = filtrati.map(row => {
-        // Canale Badge
-        let badgeCanale = '';
-        if (row.canale === 'Telegram') {
-          badgeCanale = '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-sky-500/10 text-sky-400 border border-sky-500/20">✈️ Telegram</span>';
-        } else if (row.canale === 'Facebook') {
-          badgeCanale = '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-blue-600/10 text-blue-400 border border-blue-600/20">📘 Facebook</span>';
-        } else if (row.canale === 'Instagram') {
-          badgeCanale = '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-fuchsia-500/10 text-fuchsia-400 border border-fuchsia-500/20">📸 Instagram</span>';
-        } else if (row.canale === 'WhatsApp') {
-          badgeCanale = '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">💬 WhatsApp</span>';
-        } else {
-          badgeCanale = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700">${row.canale}</span>`;
-        }
-
-        // Stato Badge (✅ Sicuro, ⏳ In attesa, 🛑 Bloccato dal supervisore)
-        let badgeStato = '';
-        if (String(row.stato).includes('Sicuro')) {
-          badgeStato = '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">✅ Sicuro</span>';
-        } else if (String(row.stato).includes('attesa')) {
-          badgeStato = '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">⏳ In attesa</span>';
-        } else if (String(row.stato).includes('Bloccato') || String(row.stato).includes('supervisore')) {
-          badgeStato = '<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">🛑 Bloccato supervisore</span>';
-        } else {
-          badgeStato = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-300 border border-slate-700">${row.stato}</span>`;
-        }
-
-        // Esito Soglia Badge
-        let badgeEsito = '';
-        if (String(row.esitoLimite).includes('SOTTO SOGLIA') || String(row.esitoLimite).includes('✅')) {
-          badgeEsito = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">${row.esitoLimite}</span>`;
-        } else {
-          badgeEsito = `<span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-500/10 text-rose-300 border border-rose-500/20">${row.esitoLimite}</span>`;
-        }
-
-        return `
-          <tr class="hover:bg-slate-900/50 transition-colors">
-            <td class="py-3 px-4 font-mono text-slate-300 whitespace-nowrap">${row.timestamp}</td>
-            <td class="py-3 px-4 whitespace-nowrap">${badgeCanale}</td>
-            <td class="py-3 px-4 text-slate-300 whitespace-nowrap">${row.tipoAzione}</td>
-            <td class="py-3 px-4 font-semibold text-white max-w-xs sm:max-w-md truncate" title="${row.titolo || ''}">${row.titolo || '-'}</td>
-            <td class="py-3 px-4 whitespace-nowrap">${badgeStato}</td>
-            <td class="py-3 px-4 text-center font-bold text-slate-200">${row.conteggioOggi || 1}</td>
-            <td class="py-3 px-4 whitespace-nowrap">${badgeEsito}</td>
-          </tr>
-        `;
-      }).join('');
+      setTimeout(() => {
+        icon.classList.remove('animate-spin');
+        txt.textContent = 'Aggiorna';
+        document.getElementById('label-ultimo-aggiornamento').textContent = new Date().toLocaleTimeString('it-IT');
+        filtraContenuti();
+      }, 500);
     }
-
-    // Auto-init on load
-    document.addEventListener('DOMContentLoaded', function() {
-      caricaDati();
-      // Optional polling every 60 seconds
-      setInterval(caricaDati, 60000);
-    });
   </script>
+
 </body>
 </html>
