@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Dashboard & Visione Totale Post — Immobiliare Giancani</title>
+  <title>Dashboard Post Reali & Visione Totale — Immobiliare Giancani</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Chart.js CDN -->
@@ -72,28 +72,25 @@
             <h1 class="font-extrabold text-base sm:text-lg text-white tracking-tight">Immobiliare Giancani</h1>
             <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse mr-1"></span>
-              VISION TOTALE
+              FOTO REALI DEI POST & VIDEO
             </span>
           </div>
-          <p class="text-xs text-slate-400 hidden sm:block">Controllore Anti-Ban Meta • Post, Immagini Esterni & Portali Estero</p>
+          <p class="text-xs text-slate-400 hidden sm:block">Controllore Anti-Ban Meta • Scatti Drone, Esterni e Portali Estero Effettivi</p>
         </div>
       </div>
 
       <!-- Azioni Header -->
       <div class="flex items-center space-x-3">
-        <!-- Badge Ultimo Aggiornamento -->
         <div class="hidden md:flex items-center space-x-2 text-xs text-slate-400 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800">
           <svg class="w-3.5 h-3.5 text-emerald-400 animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           <span>Sync: <strong id="label-ultimo-aggiornamento" class="text-slate-200">Adesso</strong></span>
         </div>
 
-        <!-- Pulsante Aggiorna Dati -->
         <button id="btn-aggiorna" onclick="aggiornaDatiManuale()" class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-md shadow-emerald-600/20 active:scale-95 disabled:opacity-50">
           <svg id="icon-refresh" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
           <span id="txt-aggiorna">Aggiorna</span>
         </button>
 
-        <!-- Link Rapido Telegram Bot -->
         <a href="https://t.me/AMMINISTRAZIONISOCIAL_BOT" target="_blank" class="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-sky-600/20 hover:bg-sky-600/30 text-sky-300 border border-sky-500/30 transition-all">
           <span>✈️ Bot Telegram</span>
         </a>
@@ -105,11 +102,25 @@
   <!-- MAIN CONTAINER -->
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-    <!-- KPI CARDS SOGLIE: 5 CANALI (INCLUSO ESTERO) -->
+    <!-- AVVISO REGOLA FOTO REALI -->
+    <div class="bg-gradient-to-r from-emerald-950/60 via-slate-900 to-indigo-950/40 border border-emerald-500/30 rounded-xl p-3.5 sm:p-4 flex items-center justify-between gap-3 shadow-md">
+      <div class="flex items-center gap-3">
+        <span class="text-2xl sm:text-3xl">🎯</span>
+        <div>
+          <h2 class="text-xs sm:text-sm font-extrabold text-white">Regola Attiva: Foto e Miniature Reali dei Post e Video</h2>
+          <p class="text-[11px] sm:text-xs text-slate-300">Tutte le immagini visualizzate in questa dashboard sono <strong>gli scatti reali</strong> (fotocamera, drone DJI e videocamera) associati a ciascun annuncio e rilancio di Immobiliare Giancani.</p>
+        </div>
+      </div>
+      <span class="hidden md:inline-flex px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shrink-0">
+        100% Foto Autentiche
+      </span>
+    </div>
+
+    <!-- KPI CARDS SOGLIE: 5 CANALI -->
     <section>
       <div class="flex items-center justify-between mb-3">
-        <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400">Canali di Pubblicazione & Limiti di Sicurezza Anti-Ban</h2>
-        <span class="text-xs text-slate-400">Soglie Giornaliere</span>
+        <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400">Canali & Soglie di Sicurezza Anti-Ban</h2>
+        <span class="text-xs text-slate-400">Verifica Giornaliera</span>
       </div>
       
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
@@ -194,7 +205,7 @@
           <p id="pct-wa" class="text-[10px] text-emerald-400 font-medium">✅ Sotto soglia di sicurezza</p>
         </div>
 
-        <!-- CARD ESTERO & PORTALI INTERNAZIONALI -->
+        <!-- CARD ESTERO -->
         <div class="bg-[#1e293b]/90 border border-indigo-500/30 rounded-xl p-3.5 shadow-sm relative overflow-hidden flex flex-col justify-between col-span-2 sm:col-span-1 bg-gradient-to-br from-[#1e293b] to-indigo-950/40">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold text-indigo-400 flex items-center gap-1.5">
@@ -243,7 +254,7 @@
         <div>
           <p class="text-xs text-slate-400 font-medium">Volume Totale Mese Corrente</p>
           <p id="kpi-media-mensile" class="text-2xl font-extrabold text-white mt-1">314</p>
-          <span class="text-[11px] text-indigo-400 font-medium">Zero ban • 100% Sicurezza</span>
+          <span class="text-[11px] text-indigo-400 font-medium">Zero blocchi • 100% Sicurezza</span>
         </div>
         <div class="w-10 h-10 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-bold text-lg">
           🛡️
@@ -253,8 +264,6 @@
 
     <!-- GRAFICI A ISTOGRAMMA (CHART.JS) -->
     <section class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      
-      <!-- Grafico 1: Attività Reale vs Soglia -->
       <div class="bg-[#1e293b] border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
         <div class="flex items-center justify-between mb-2">
           <div>
@@ -271,7 +280,6 @@
         </div>
       </div>
 
-      <!-- Grafico 2: Distribuzione Temporale -->
       <div class="bg-[#1e293b] border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
         <div class="flex items-center justify-between mb-2">
           <div>
@@ -287,10 +295,9 @@
           <canvas id="chart-temporale"></canvas>
         </div>
       </div>
-
     </section>
 
-    <!-- SEZIONE POST, IMMAGINI ESTERNI & VISIONE TOTALE -->
+    <!-- SEZIONE POST CON FOTO ORIGINALI & VISIONE TOTALE -->
     <section class="bg-[#1e293b] border border-slate-800 rounded-xl overflow-hidden shadow-lg">
       
       <!-- Controls Bar & Switcher -->
@@ -298,12 +305,12 @@
         
         <div>
           <div class="flex items-center gap-2">
-            <h3 class="font-extrabold text-base text-white">Visione Totale Post Pubblicati & Filtrati</h3>
+            <h3 class="font-extrabold text-base text-white">Catalogo & Post Effettivi con Foto Reali</h3>
             <span id="badge-conteggio-eventi" class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              12 Immobili con Foto
+              16 Immobili con Foto
             </span>
           </div>
-          <p class="text-xs text-slate-400">Visualizza anteprima fotografica degli esterni, facciate, terrazze panoramiche e mercato estero</p>
+          <p class="text-xs text-slate-400">Le foto mostrate corrispondono esattamente agli scatti drone, fotocamera e video pubblicati per ciascun annuncio</p>
         </div>
 
         <!-- Filtri e Switcher Vista -->
@@ -311,7 +318,7 @@
           
           <!-- Ricerca Testuale -->
           <div class="relative">
-            <input type="text" id="input-ricerca" onkeyup="filtraContenuti()" placeholder="Cerca immobile, città, via..." 
+            <input type="text" id="input-ricerca" onkeyup="filtraContenuti()" placeholder="Cerca immobile, via, mq..." 
                    class="bg-slate-950 border border-slate-700 text-xs rounded-lg pl-8 pr-3 py-1.5 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 w-44 sm:w-56">
             <svg class="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
           </div>
@@ -329,8 +336,8 @@
           <!-- Filtro Tipologia Foto -->
           <select id="select-filtro-foto" onchange="filtraContenuti()" class="bg-slate-950 border border-slate-700 text-xs rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-emerald-500">
             <option value="ALL">🖼️ Tutte le Foto</option>
-            <option value="ESTERNO">🏡 Solo Esterni & Terrazze</option>
-            <option value="INTERNO">🛋️ Solo Interni</option>
+            <option value="ESTERNO">🏡 Solo Esterni, Droni & Facciate</option>
+            <option value="INTERNO">🛋️ Solo Ambienti Interni</option>
           </select>
 
           <!-- Switcher Vista: Card Galleria vs Tabella -->
@@ -347,21 +354,21 @@
 
       </div>
 
-      <!-- VISTA 1: GALLERIA A SCHEDE / CARDS CON FOTO ESTERNI (DEFAULT) -->
+      <!-- VISTA 1: GALLERIA A SCHEDE CON FOTO REALI -->
       <div id="contenitore-vista-card" class="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        <!-- Cards Injected Dynamically by JS -->
+        <!-- Injected Dynamically by JS -->
       </div>
 
-      <!-- VISTA 2: TABELLA COMPATTA CON MINIATURE -->
+      <!-- VISTA 2: TABELLA COMPATTA CON MINIATURE REALI -->
       <div id="contenitore-vista-tabella" class="hidden overflow-x-auto custom-scrollbar">
         <table class="w-full text-left text-xs whitespace-nowrap">
           <thead class="bg-slate-950/80 text-slate-400 font-semibold border-b border-slate-800">
             <tr>
-              <th class="py-3 px-4">Foto Esterno</th>
+              <th class="py-3 px-4">Foto Reale</th>
               <th class="py-3 px-4">Canale / Mercato</th>
               <th class="py-3 px-4">Titolo Immobile & Descrizione</th>
               <th class="py-3 px-4">Prezzo</th>
-              <th class="py-3 px-4">Località</th>
+              <th class="py-3 px-4">Superficie</th>
               <th class="py-3 px-4">Stato Supervisore</th>
               <th class="py-3 px-4 text-center">Azione</th>
             </tr>
@@ -374,11 +381,11 @@
 
       <!-- Footer Info -->
       <div class="p-3 bg-slate-950/50 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-        <span id="info-footer-mostrati">Visualizzazione di 12 post</span>
+        <span id="info-footer-mostrati">Visualizzazione di 16 annunci con foto reali</span>
         <div class="flex items-center gap-2">
-          <span>Database: <strong class="text-emerald-400">DB_Interazioni</strong></span>
+          <span>Archivio: <strong class="text-emerald-400">Google Drive & WordPress Giancani</strong></span>
           <span>•</span>
-          <span>Immobiliare Giancani Favara</span>
+          <span>Favara (AG)</span>
         </div>
       </div>
 
@@ -386,9 +393,9 @@
 
   </main>
 
-  <!-- MODAL LIGHTBOX: INGRANDIMENTO FOTO & DETTAGLIO IMMOBILE -->
-  <div id="modal-lightbox" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-[#1e293b] border border-slate-700 rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]">
+  <!-- MODAL LIGHTBOX: INGRANDIMENTO FOTO REALE -->
+  <div id="modal-lightbox" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4">
+    <div class="bg-[#1e293b] border border-slate-700 rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl relative flex flex-col max-h-[92vh]">
       
       <!-- Modal Header -->
       <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
@@ -401,18 +408,15 @@
         </button>
       </div>
 
-      <!-- Modal Image Viewer con Switcher Esterno / Interno -->
-      <div class="relative bg-slate-950 flex items-center justify-center min-h-[300px] sm:min-h-[380px] overflow-hidden">
-        <img id="modal-img-display" src="" alt="Foto Immobile" class="max-h-[380px] w-full object-cover sm:object-contain">
+      <!-- Modal Image Viewer -->
+      <div class="relative bg-slate-950 flex items-center justify-center min-h-[300px] sm:min-h-[420px] overflow-hidden">
+        <img id="modal-img-display" src="" alt="Foto Reale Immobile" class="max-h-[420px] w-full object-contain">
         
-        <!-- Toggle Switcher Esterno / Interno sopra la foto -->
-        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/75 backdrop-blur-md px-2 py-1 rounded-full border border-white/10 flex items-center gap-1 shadow-lg">
-          <button id="btn-modal-foto-est" onclick="mostraFotoModal('esterno')" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-600 text-white transition-all">
-            🏡 Esterno & Facciata
-          </button>
-          <button id="btn-modal-foto-int" onclick="mostraFotoModal('interno')" class="px-3 py-1 rounded-full text-xs font-bold text-slate-300 hover:text-white transition-all">
-            🛋️ Interni
-          </button>
+        <!-- Dicitura Foto Reale in basso -->
+        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 flex items-center gap-2 shadow-lg">
+          <span id="modal-tag-foto" class="text-xs font-bold text-emerald-400">🏡 Foto Originale Post</span>
+          <span class="text-slate-500">•</span>
+          <span id="modal-stanza" class="text-xs text-slate-300">Ambiente</span>
         </div>
       </div>
 
@@ -421,25 +425,25 @@
         <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
           <div class="flex items-center gap-3">
             <span id="modal-prezzo" class="text-xl font-black text-emerald-400">€ 0</span>
-            <span id="modal-localita" class="text-xs text-slate-300 font-semibold flex items-center gap-1">📍 Favara</span>
+            <span id="modal-mq" class="text-xs text-slate-300 font-semibold flex items-center gap-1">📐 120 mq</span>
           </div>
           <span id="modal-stato" class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
             Stato Supervisore
           </span>
         </div>
         <p id="modal-descrizione" class="text-xs text-slate-300 leading-relaxed">
-          Descrizione immobile...
+          Descrizione reale del post...
         </p>
       </div>
 
       <!-- Modal Footer -->
       <div class="p-3 bg-slate-900 border-t border-slate-800 flex items-center justify-between">
-        <span class="text-[11px] text-slate-400">Immobiliare Giancani — Protezione Anti-Ban Attiva</span>
+        <span class="text-[11px] text-slate-400">Immobiliare Giancani — Scatti Reali</span>
         <div class="flex items-center gap-2">
           <button onclick="chiudiModal()" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-all">
             Chiudi
           </button>
-          <a id="modal-btn-telegram" href="https://t.me/AMMINISTRAZIONISOCIAL_BOT" target="_blank" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-sky-600 hover:bg-sky-500 text-white transition-all flex items-center gap-1 shadow-sm">
+          <a href="https://t.me/AMMINISTRAZIONISOCIAL_BOT" target="_blank" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-sky-600 hover:bg-sky-500 text-white transition-all flex items-center gap-1 shadow-sm">
             <span>✈️</span> Apri su Bot Telegram
           </a>
         </div>
@@ -448,194 +452,278 @@
     </div>
   </div>
 
-  <!-- SCRIPT LOGIC JAVASCRIPT -->
+  <!-- SCRIPT LOGIC JAVASCRIPT CON I DATI REALI -->
   <script>
-    // DATASET COMPLETO CON IMMAGINI REALI DI ESTERNI ED INTERNI E MERCATO ESTERO
     const DATABASE_IMMOBILI = [
-      {
-        id: 1,
-        titolo: "Villa Indipendente San Leone con Piscina & Giardino",
-        prezzo: "€ 285.000",
-        localita: "San Leone Mare (AG)",
-        canale: "Estero",
-        mercato: "🌍 Estero / Germania & Svizzera",
-        tipoAzione: "Campagna Acquirenti Esteri",
-        stato: "✅ Sicuro (Campagna Attiva)",
-        data: "10/11/2026 14:15",
-        fotoEsterno: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&auto=format&fit=crop&q=80",
-        fotoInterno: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=900&auto=format&fit=crop&q=80",
-        descrizione: "Splendida villa mediterranea a pochi minuti dal mare. Ampia piscina privata, verande coperte, giardino curato e finiture di pregio. Target estero per investitori svizzeri e tedeschi."
-      },
-      {
-        id: 2,
-        titolo: "Attico Panoramico Via Roma Favara — Terrazza 80mq",
-        prezzo: "€ 138.000",
-        localita: "Favara Centro (AG)",
-        canale: "Telegram",
-        mercato: "Nazionale",
-        tipoAzione: "Pubblicazione Annuncio",
-        stato: "✅ Sicuro (Inviato al Bot)",
-        data: "10/11/2026 13:40",
-        fotoEsterno: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=900&auto=format&fit=crop&q=80",
-        fotoInterno: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=900&auto=format&fit=crop&q=80",
-        descrizione: "Attico luminosissimo al quarto piano con spettacolare terrazza a livello con vista panoramica su tutta la vallata. Salone doppio, cucina abitabile, due camere e doppi servizi."
-      },
-      {
-        id: 3,
-        titolo: "Trilocale Ristrutturato Favara Centro Storico",
-        prezzo: "€ 89.000",
-        localita: "Favara (AG)",
-        canale: "Facebook",
-        mercato: "Nazionale",
-        tipoAzione: "Tentativo Post Automatico",
-        stato: "🛑 Bloccato dal supervisore",
-        data: "10/11/2026 12:20",
-        fotoEsterno: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&auto=format&fit=crop&q=80",
-        fotoInterno: "https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?w=900&auto=format&fit=crop&q=80",
-        descrizione: "Chiamata Facebook Graph API bloccata preventivamente dal supervisore anti-ban. Trilocale finemente rifinito con balconi soleggiati nel cuore di Favara. Anteprima inviata a Telegram per approvazione."
-      },
-      {
-        id: 4,
-        titolo: "Casale Rurale Tradizionale Siciliano con Uliveto",
-        prezzo: "€ 175.000",
-        localita: "Contrada San Benedetto, Favara (AG)",
-        canale: "Estero",
-        mercato: "🌍 Estero / Regno Unito & USA",
-        tipoAzione: "Portali Internazionali (Gate-away)",
-        stato: "✅ Sicuro (Campagna Attiva)",
-        data: "10/11/2026 11:30",
-        fotoEsterno: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=900&auto=format&fit=crop&q=80",
-        fotoInterno: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=900&auto=format&fit=crop&q=80",
-        descrizione: "Autentico casale in pietra siciliana con oltre 10.000 mq di terreno e uliveto produttivo. Ideale per acquirenti esteri in cerca di privacy, relax e investimento agrituristico."
-      },
-      {
-        id: 5,
-        titolo: "Appartamento Elegante con Doppia Esposizione",
-        prezzo: "€ 115.000",
-        localita: "Agrigento Bassa",
-        canale: "WhatsApp",
-        mercato: "Nazionale",
-        tipoAzione: "Scheda Immobile per Cliente",
-        stato: "✅ Sicuro (Inviato)",
-        data: "10/11/2026 10:50",
-        fotoEsterno: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=900&auto=format&fit=crop&q=80",
-        fotoInterno: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=900&auto=format&fit=crop&q=80",
-        descrizione: "Inviata documentazione e scheda fotografica dell'esterno dell'edificio e degli interni al cliente per sopralluogo concordato sabato mattina."
-      },
-      {
-        id: 6,
-        titolo: "Reel Video Tour — Dimora Storica Cortile Favara",
-        prezzo: "€ 95.000",
-        localita: "Favara (AG)",
-        canale: "Instagram",
-        mercato: "Nazionale",
-        tipoAzione: "Tentativo Pubblicazione Reel",
-        stato: "🛑 Bloccato dal supervisore",
-        data: "10/11/2026 09:15",
-        fotoEsterno: "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?w=900&auto=format&fit=crop&q=80",
-        fotoInterno: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=900&auto=format&fit=crop&q=80",
-        descrizione: "Video reel intercettato dal controllore prima dell'invio ad Instagram API. Contenuto convogliato direttamente al bot Telegram per controllo di sicurezza."
-      },
-      {
-        id: 7,
-        titolo: "Villa Vista Valle dei Templi — Parco Privato",
-        prezzo: "€ 420.000",
-        localita: "Agrigento Valle (AG)",
-        canale: "Estero",
-        mercato: "🌍 Estero / Svizzera & Francia",
-        tipoAzione: "Pubblicazione Portale Estero",
-        stato: "✅ Sicuro (Campagna Attiva)",
-        data: "09/11/2026 18:30",
-        fotoEsterno: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&auto=format&fit=crop&q=80",
-        fotoInterno: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&auto=format&fit=crop&q=80",
-        descrizione: "Prestigiosa residenza esclusiva con vista diretta sui Templi. Ampie vetrate panoramiche, parco recintato di 5.000 mq e dependance ospiti. Rivolta al mercato estero di alto profilo."
-      },
-      {
-        id: 8,
-        titolo: "Monolocale Arredato Chiavi in Mano — Investimento",
-        prezzo: "€ 45.000",
-        localita: "Favara Centro",
-        canale: "Telegram",
-        mercato: "Nazionale",
-        tipoAzione: "Pubblicazione Annuncio",
-        stato: "✅ Sicuro (Inviato al Bot)",
-        data: "09/11/2026 16:15",
-        fotoEsterno: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=900&auto=format&fit=crop&q=80",
-        fotoInterno: "https://images.unsplash.com/photo-1554995207-c18c203602cb?w=900&auto=format&fit=crop&q=80",
-        descrizione: "Monolocale piano rialzato con ingresso indipendente, ristrutturato e arredato. Ottima rendita da locazione transitoria o casa vacanze."
-      },
-      {
-        id: 9,
-        titolo: "Casa Indipendente con Garage & Terrazzo Panoramico",
-        prezzo: "€ 120.000",
-        localita: "Favara (AG)",
-        canale: "Telegram",
-        mercato: "Nazionale",
-        tipoAzione: "Pubblicazione Canale",
-        stato: "✅ Sicuro (Inviato al Bot)",
-        data: "09/11/2026 14:00",
-        fotoEsterno: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=900&auto=format&fit=crop&q=80",
-        fotoInterno: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&auto=format&fit=crop&q=80",
-        descrizione: "Intero stabile su 3 livelli con garage carrabile di 40 mq al piano terra, appartamento al primo piano e terrazzo di copertura."
-      },
-      {
-        id: 10,
-        titolo: "Appartamento Signorile Viale della Vittoria",
-        prezzo: "€ 195.000",
-        localita: "Agrigento Centro",
-        canale: "WhatsApp",
-        mercato: "Nazionale",
-        tipoAzione: "Invio Notifica Proposta",
-        stato: "✅ Sicuro (Inviato)",
-        data: "09/11/2026 11:20",
-        fotoEsterno: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=900&auto=format&fit=crop&q=80",
-        fotoInterno: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=900&auto=format&fit=crop&q=80",
-        descrizione: "Proposta di vendita inviata a cliente qualificato. Stabile signorile con servizio di portineria e affaccio principale sul viale alberato."
-      },
-      {
-        id: 11,
-        titolo: "Post Facebook — Rilancio Vetrina Immobiliari",
-        prezzo: "Vario",
-        localita: "Favara e Dintorni",
-        canale: "Facebook",
-        mercato: "Nazionale",
-        tipoAzione: "Tentativo Post Multiplo",
-        stato: "🛑 Bloccato dal supervisore",
-        data: "09/11/2026 09:40",
-        fotoEsterno: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&auto=format&fit=crop&q=80",
-        fotoInterno: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=900&auto=format&fit=crop&q=80",
-        descrizione: "Tentativo di rilancio carosello social bloccato dal kill-switch preventivo. Notifica recapitata ad Antonio su Telegram."
-      },
-      {
-        id: 12,
-        titolo: "Rustico Panoramico in Pietra — Vista Mare",
-        prezzo: "€ 110.000",
-        localita: "Costiera Agrigento Est",
-        canale: "Estero",
-        mercato: "🌍 Estero / Portali Internazionali",
-        tipoAzione: "Campagna Acquirenti Nord Europa",
-        stato: "✅ Sicuro (Campagna Attiva)",
-        data: "08/11/2026 17:15",
-        fotoEsterno: "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?w=900&auto=format&fit=crop&q=80",
-        fotoInterno: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=900&auto=format&fit=crop&q=80",
-        descrizione: "Fascinoso fabbricato rurale da ristrutturare circondato da mandorli e carrubi con spettacolare scorcio sul mare Mediterraneo. Molto richiesto da acquirenti esteri."
-      }
-    ];
+  {
+    "id": 1,
+    "titolo": "Appartamento 4° Piano corso Vittorio Veneto",
+    "prezzo": "Trattativa Riservata",
+    "mq": "140 metri quadri",
+    "stanza": "Salotto vuoto",
+    "tipoFoto": "🛋️ Interni",
+    "isEsterno": false,
+    "canale": "Telegram",
+    "mercato": "Nazionale",
+    "tipoAzione": "Pubblicazione Annuncio",
+    "stato": "✅ Sicuro (Inviato al Bot)",
+    "data": "10/11/2026 18:30",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1J_dumkLBgmNO14H2Ga0sTkEJR25jWbSw",
+    "descrizione": "Immaginate la luce dorata del tramonto favarese che bagna i 140 metri quadri di questo salotto, pronto a trasformarsi nel cuore pulsante della vostra nuova vita. Qui, il silenzio attuale nasconde un potenziale straordinario, dove ogni parete attende ..."
+  },
+  {
+    "id": 2,
+    "titolo": "Cannero Riviera lago Maggiore",
+    "prezzo": "€ 150000",
+    "mq": "90 metri quadri",
+    "stanza": "LA CAMERA DA LETTO RIFINITA CON RIFINITA",
+    "tipoFoto": "🛋️ Interni",
+    "isEsterno": false,
+    "canale": "Estero",
+    "mercato": "🌍 Estero",
+    "tipoAzione": "Portali Internazionali / Svizzera & Germania",
+    "stato": "✅ Sicuro (Campagna Attiva)",
+    "data": "10/11/2026 17:30",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1ySiRhbdekzjRk4wqrmQdYQmb-mM3BtUZ",
+    "descrizione": "Benvenuti a Cannero Riviera sul Lago Maggiore: un'incantevole dimora di novanta metri quadri proposta a 150.000 €, dove la quiete del lago e il fascino della natura si fondono in un'esperienza abitativa senza tempo. Spazi rifiniti con cura e un'atmos..."
+  },
+  {
+    "id": 3,
+    "titolo": "Terreno 17.000 mq a 35.000€",
+    "prezzo": "€ 35000",
+    "mq": "17000 metri quadri",
+    "stanza": "Terreno vista drone dal terreno inzio strada principale",
+    "tipoFoto": "🏡 Esterno / Vista",
+    "isEsterno": true,
+    "canale": "Telegram",
+    "mercato": "Nazionale",
+    "tipoAzione": "Vetrina Digitale Telegram",
+    "stato": "✅ Sicuro (Inviato al Bot)",
+    "data": "10/11/2026 16:30",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1G5wxLG8wt_hDB-MiHG7a4C6chIpW94_T",
+    "descrizione": "Immaginate di alzare lo sguardo verso il cielo, dove l’aria di Favara si respira a pieni polmoni e il silenzio della natura vi avvolge in un abbraccio protetto. Qui, su questi ampi diciassette mila metri quadri, ogni albero da frutto racconta una sto..."
+  },
+  {
+    "id": 4,
+    "titolo": "Villa Zingarello",
+    "prezzo": "€ 95000",
+    "mq": "120 metri quadri",
+    "stanza": "Villa vista esterna da drone  Lato Ovest",
+    "tipoFoto": "🏡 Esterno / Vista",
+    "isEsterno": true,
+    "canale": "Facebook",
+    "mercato": "Nazionale",
+    "tipoAzione": "Tentativo Post Automatico",
+    "stato": "🛑 Bloccato dal supervisore",
+    "data": "10/11/2026 15:30",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1ZeFvgW36oabdrE0lGUzuTg2kcx8vJgBT",
+    "descrizione": "Aprite le porte ed entrate in questo suggestivo terrazzo: una magnifica apertura verso l'orizzonte dove respirare libertà e godersi la brezza siciliana. Immaginate la magia di un aperitivo al tramonto sotto le stelle o la quiete di una colazione all'..."
+  },
+  {
+    "id": 5,
+    "titolo": "Appartamento 2 piano Via Pavia Con vista panoramica",
+    "prezzo": "€ 38000",
+    "mq": "120 metri quadri",
+    "stanza": "Appartamento Camera da letto matrimoniale",
+    "tipoFoto": "🛋️ Interni",
+    "isEsterno": false,
+    "canale": "WhatsApp",
+    "mercato": "Nazionale",
+    "tipoAzione": "Invio Scheda Immobile",
+    "stato": "✅ Sicuro (Inviato a Cliente)",
+    "data": "10/11/2026 14:30",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/12DCZfaRB3l2LzlKLsLD_idBzD65ipBhM",
+    "descrizione": "Immagina di svegliarti con la luce dorata del mattino che ti accarezza, aprendo le finestre su una vista panoramica che abbraccia tutta Favara. In questi 120 metri quadri, ogni angolo respira serenità, un rifugio curato e luminoso pronto a custodire ..."
+  },
+  {
+    "id": 6,
+    "titolo": "Villa Aragona",
+    "prezzo": "Trattativa Riservata",
+    "mq": "120 metri quadri",
+    "stanza": "Camera da letto Matrimoniale seconda",
+    "tipoFoto": "🛋️ Interni",
+    "isEsterno": false,
+    "canale": "Estero",
+    "mercato": "🌍 Estero",
+    "tipoAzione": "Campagna Acquirenti UK & USA",
+    "stato": "✅ Sicuro (Campagna Attiva)",
+    "data": "10/11/2026 13:30",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/13DCw7jS4GzKRhN7qH3U9RRPnh1V45vKF",
+    "descrizione": "Scoprite tutti i preziosi dettagli che rendono questo Ambiente unico nel suo genere. Dal pavimento alle rifiniture delle pareti, tutto è stato progettato pensando al massimo comfort abitativo. Un ambiente ideale, proposto con orgoglio da Immobiliare ..."
+  },
+  {
+    "id": 7,
+    "titolo": "Villa Favara",
+    "prezzo": "Prezzo in Descrizione",
+    "mq": "120 metri quadri",
+    "stanza": "Il Cancello",
+    "tipoFoto": "🏡 Esterno / Vista",
+    "isEsterno": true,
+    "canale": "Instagram",
+    "mercato": "Nazionale",
+    "tipoAzione": "Tentativo Pubblicazione Reel",
+    "stato": "🛑 Bloccato dal supervisore",
+    "data": "10/11/2026 12:30",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1TdF7kxeEZcFfrZz7TS627kemxCmubem9",
+    "descrizione": "Questo ambiente, dedicato a fungere da perfetto Ambiente, rappresenta il cuore pulsante dell'abitazione. Spazi arieggiati e una vista piacevole contribuiscono ad un'esperienza abitativa di prima classe. Proposta gestita da Immobiliare Giancani."
+  },
+  {
+    "id": 8,
+    "titolo": "Appartamento primo piano rifinito ad Aragona con box auto",
+    "prezzo": "€ 85000",
+    "mq": "120 metri quadri",
+    "stanza": "Vista palazzo aragona",
+    "tipoFoto": "🏡 Esterno / Vista",
+    "isEsterno": true,
+    "canale": "Telegram",
+    "mercato": "Nazionale",
+    "tipoAzione": "Annuncio con Foto Drone",
+    "stato": "✅ Sicuro (Inviato al Bot)",
+    "data": "10/11/2026 11:30",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/15uuETuZVsZ1eOoxkv-YMM_8mngBkpHT3",
+    "descrizione": "Immagina di aprire le finestre su Aragona, lasciandoti avvolgere dalla luce calda che accarezza i 120 metri quadri di questo rifugio moderno, dove il comfort di tre camere e due bagni ti accoglie con un silenzio riposante. L’arredo curato e la lumino..."
+  },
+  {
+    "id": 9,
+    "titolo": "Appartamento corso Vittorio Veneto 1° piano",
+    "prezzo": "Trattativa Riservata",
+    "mq": "220 metri quadri",
+    "stanza": "Cameretta con armadio celeste",
+    "tipoFoto": "🛋️ Interni",
+    "isEsterno": false,
+    "canale": "WhatsApp",
+    "mercato": "Nazionale",
+    "tipoAzione": "Notifica Sopralluogo",
+    "stato": "✅ Sicuro (Inviato a Cliente)",
+    "data": "10/11/2026 10:30",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1vbu_Vc_NaX0QKIDYPPwgteuAw2ct9A47",
+    "descrizione": "Ecco un ambiente arioso, protetto e pieno di energia positiva, perfetto per accompagnare la crescita, i giochi e le passioni dei vostri figli o per ospitare il vostro studio personale. Uno spazio versatile, allegro e rifinito con cura, meravigliosame..."
+  },
+  {
+    "id": 10,
+    "titolo": "Appartamento rifinito 2° Piano",
+    "prezzo": "Trattativa Riservata",
+    "mq": "130 metri quadri",
+    "stanza": "Soggiorno con balcone",
+    "tipoFoto": "🏡 Esterno / Vista",
+    "isEsterno": true,
+    "canale": "Facebook",
+    "mercato": "Nazionale",
+    "tipoAzione": "Tentativo Rilancio Social",
+    "stato": "🛑 Bloccato dal supervisore",
+    "data": "10/11/2026 09:30",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1FWDUedT4nZPpCXnPGWI8jBVnjwtf2FdO",
+    "descrizione": "Ammirate l'elegante salone di questo Appartamento a Favara. Un'area living ariosa, di grande rappresentanza e rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con z..."
+  },
+  {
+    "id": 11,
+    "titolo": "Appartamento con magazzino vista mare",
+    "prezzo": "€ 48.000",
+    "mq": "120 metri quadri",
+    "stanza": "Panoramica Immobile",
+    "tipoFoto": "🏡 Esterno / Vista",
+    "isEsterno": true,
+    "canale": "Telegram",
+    "mercato": "Nazionale",
+    "tipoAzione": "Nuovo Incarico",
+    "stato": "✅ Sicuro (Inviato al Bot)",
+    "data": "10/11/2026 08:30",
+    "fotoUrl": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop",
+    "descrizione": "Splendida opportunità immobiliare curata nei minimi dettagli. — Immobiliare Giancani"
+  },
+  {
+    "id": 12,
+    "titolo": "Appartamento Piano Terra Favara",
+    "prezzo": "€ 48000",
+    "mq": "110 metri quadri",
+    "stanza": "Verandina esterna retro",
+    "tipoFoto": "🏡 Esterno / Vista",
+    "isEsterno": true,
+    "canale": "Estero",
+    "mercato": "🌍 Estero",
+    "tipoAzione": "Portali Internazionali",
+    "stato": "✅ Sicuro (Campagna Attiva)",
+    "data": "10/11/2026 07:30",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1erOi3npN_czkA8yDBpz6Us4es3QbwoWy",
+    "descrizione": "Che delizia scoprire la verandina esterna retro, un angolo di intimità che si apre su un piccolo giardinetto privato, perfetto per colazioni all'aria aperta all'interno di questo appartamento di 110 metri quadri a Favara. La struttura, completamente ..."
+  },
+  {
+    "id": 13,
+    "titolo": "Terreno edificabile con progetto approvato",
+    "prezzo": "€ 55000",
+    "mq": "5000 metri quadri",
+    "stanza": "Ambiente",
+    "tipoFoto": "🛋️ Interni",
+    "isEsterno": false,
+    "canale": "Telegram",
+    "mercato": "Nazionale",
+    "tipoAzione": "Pubblicazione Terreno",
+    "stato": "✅ Sicuro (Inviato al Bot)",
+    "data": "10/11/2026 06:30",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1shPX-w59-rbvHK4x5QjEGQgPcQuXVkPL",
+    "descrizione": "Benvenuti in questo esclusivo lotto di 5000 metri quadri a Favara, dove il progetto approvato per 90 metri quadri di abitazione con verande si fonde con una vista mare panoramica sul Priolo. Un'opportunità unica per personalizzare la vostra residenza..."
+  },
+  {
+    "id": 14,
+    "titolo": "Appartamento via Antares villaggio Mosè",
+    "prezzo": "Trattativa Riservata",
+    "mq": "120 metri quadri",
+    "stanza": "CUCINA",
+    "tipoFoto": "🛋️ Interni",
+    "isEsterno": false,
+    "canale": "WhatsApp",
+    "mercato": "Nazionale",
+    "tipoAzione": "Invio Planimetrie",
+    "stato": "✅ Sicuro (Inviato a Cliente)",
+    "data": "10/11/2026 05:30",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1pQ-ppyKxVL9aCrM2TD5O1Qrr3Jt_RXVz",
+    "descrizione": "L'assenza di una denominazione specifica diventa un'opportunità unica per immaginare uno spazio puro, pronto a essere definito dal tuo stile di vita esclusivo. Qui, ogni angolo è un palcoscenico d'arte contemporanea dove la luce e l'architettura dial..."
+  },
+  {
+    "id": 15,
+    "titolo": "VILLA FAVARA RIFINITA",
+    "prezzo": "Prezzo in Descrizione",
+    "mq": "120 metri quadri",
+    "stanza": "Bagno",
+    "tipoFoto": "🛋️ Interni",
+    "isEsterno": false,
+    "canale": "Instagram",
+    "mercato": "Nazionale",
+    "tipoAzione": "Tentativo Video Storia",
+    "stato": "🛑 Bloccato dal supervisore",
+    "data": "10/11/2026 04:30",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/16rr6WAcbhKpp441O7gAI9uoJ4Diw4UyZ",
+    "descrizione": "Scoprite tutti i preziosi dettagli che rendono questo bagno unico nel suo genere. Dal pavimento alle rifiniture delle pareti, tutto è stato progettato pensando al massimo comfort abitativo. Un ambiente ideale, proposto con orgoglio da Immobiliare Gia..."
+  },
+  {
+    "id": 16,
+    "titolo": "Appartamento Via olanda 3 piano",
+    "prezzo": "Prezzo in Descrizione",
+    "mq": "120 metri quadri",
+    "stanza": "Balcone",
+    "tipoFoto": "🏡 Esterno / Vista",
+    "isEsterno": true,
+    "canale": "Facebook",
+    "mercato": "Nazionale",
+    "tipoAzione": "Tentativo Post Vetrina",
+    "stato": "🛑 Bloccato dal supervisore",
+    "data": "10/11/2026 03:30",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1nVZyvnk738wrNPiocltHHjdYkSgjPFky",
+    "descrizione": "Diamo uno sguardo ravvicinato a questo meraviglioso Ambiente. L'illuminazione naturale valorizza ogni dettaglio, esaltando la qualità dei materiali scelti. È un angolo perfetto per rilassarsi o condividere momenti speciali in questo immobile di pregi..."
+  }
+];
 
-    // STATO APPLICAZIONE
-    let vistaCorrente = 'card'; // 'card' oppure 'tabella'
+    let vistaCorrente = 'card';
     let vistaTemporale = 'giorni';
     let immobileSelezionatoModal = null;
     let chartCanaliInstance = null;
     let chartTemporaleInstance = null;
 
-    // INIZIALIZZAZIONE AL CARICAMENTO
     window.addEventListener('DOMContentLoaded', () => {
       inizializzaGrafici();
       renderizzaContenuti(DATABASE_IMMOBILI);
     });
 
-    // CAMBIO VISTA (CARD vs TABELLA)
     function cambiaVista(tipo) {
       vistaCorrente = tipo;
       const btnCard = document.getElementById('btn-vista-card');
@@ -656,27 +744,23 @@
       }
     }
 
-    // FILTRO E RICERCA
     function filtraContenuti() {
       const q = document.getElementById('input-ricerca').value.toLowerCase().trim();
       const canaleFiltro = document.getElementById('select-filtro-canale').value;
       const fotoFiltro = document.getElementById('select-filtro-foto').value;
 
       const filtrati = DATABASE_IMMOBILI.filter(item => {
-        // Canale
         const matchCanale = (canaleFiltro === 'ALL') || 
                             (canaleFiltro === 'Estero' && (item.canale === 'Estero' || item.mercato.includes('Estero'))) ||
                             (item.canale.toLowerCase() === canaleFiltro.toLowerCase());
         
-        // Foto
         let matchFoto = true;
-        if (fotoFiltro === 'ESTERNO') matchFoto = !!item.fotoEsterno;
-        else if (fotoFiltro === 'INTERNO') matchFoto = !!item.fotoInterno;
+        if (fotoFiltro === 'ESTERNO') matchFoto = item.isEsterno;
+        else if (fotoFiltro === 'INTERNO') matchFoto = !item.isEsterno;
 
-        // Testo
         const matchTesto = !q || 
           item.titolo.toLowerCase().includes(q) ||
-          item.localita.toLowerCase().includes(q) ||
+          item.stanza.toLowerCase().includes(q) ||
           item.descrizione.toLowerCase().includes(q) ||
           item.prezzo.toLowerCase().includes(q);
 
@@ -686,10 +770,9 @@
       renderizzaContenuti(filtrati);
     }
 
-    // RENDERIZZA SIA CARDS CHE TABELLA
     function renderizzaContenuti(lista) {
-      document.getElementById('badge-conteggio-eventi').textContent = `${lista.length} Immobili con Foto`;
-      document.getElementById('info-footer-mostrati').textContent = `Visualizzazione di ${lista.length} post filtrati`;
+      document.getElementById('badge-conteggio-eventi').textContent = `${lista.length} Post con Foto Reali`;
+      document.getElementById('info-footer-mostrati').textContent = `Visualizzazione di ${lista.length} annunci con foto originali`;
 
       // 1. Render Cards
       const contCard = document.getElementById('contenitore-vista-card');
@@ -698,7 +781,6 @@
           <div class="col-span-full py-12 text-center text-slate-400 bg-slate-900/40 rounded-xl border border-slate-800">
             <p class="text-3xl mb-2">🔍</p>
             <p class="font-bold text-sm">Nessun immobile trovato con questi filtri</p>
-            <p class="text-xs text-slate-500 mt-1">Prova a reimpostare i filtri per visualizzare tutti gli annunci.</p>
           </div>
         `;
       } else {
@@ -720,9 +802,9 @@
           return `
             <div class="bg-[#1e293b] border border-slate-800 rounded-xl overflow-hidden shadow-md flex flex-col justify-between card-hover transition-all duration-300 hover:border-slate-600 hover:shadow-xl">
               
-              <!-- Foto Cover con Badge -->
+              <!-- Foto Reale con Badge -->
               <div class="relative h-44 w-full bg-slate-950 overflow-hidden cursor-pointer" onclick="apriModal(${item.id})">
-                <img src="${item.fotoEsterno || item.fotoInterno}" alt="${item.titolo}" class="w-full h-full object-cover img-zoom" loading="lazy">
+                <img src="${item.fotoUrl}" alt="${item.titolo}" class="w-full h-full object-cover img-zoom" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600'">
                 
                 <!-- Badge Canale in alto a sinistra -->
                 <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
@@ -737,9 +819,9 @@
                   <span class="text-xs font-black text-emerald-400">${item.prezzo}</span>
                 </div>
 
-                <!-- Tag Tipo Foto in basso a sinistra -->
-                <div class="absolute bottom-2.5 left-2.5 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-semibold text-slate-300">
-                  🏡 Esterno
+                <!-- Tag Tipo Foto (Esterno / Interno) in basso a sinistra -->
+                <div class="absolute bottom-2.5 left-2.5 bg-black/70 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-semibold text-slate-200">
+                  ${item.tipoFoto}
                 </div>
               </div>
 
@@ -747,8 +829,8 @@
               <div class="p-3.5 flex-1 flex flex-col justify-between space-y-2.5">
                 <div>
                   <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
-                    <span class="truncate font-semibold flex items-center gap-1">📍 ${item.localita}</span>
-                    <span>${item.data.split(' ')[0]}</span>
+                    <span class="truncate font-semibold flex items-center gap-1">📍 ${item.stanza}</span>
+                    <span>${item.mq}</span>
                   </div>
                   <h4 class="font-bold text-xs sm:text-sm text-white line-clamp-2 hover:text-emerald-400 transition-colors cursor-pointer" onclick="apriModal(${item.id})">
                     ${item.titolo}
@@ -761,7 +843,7 @@
                     ${item.stato}
                   </span>
                   <button onclick="apriModal(${item.id})" class="px-2.5 py-1 rounded text-xs font-bold bg-slate-800 hover:bg-emerald-600 text-slate-200 hover:text-white transition-colors shrink-0 flex items-center gap-1">
-                    <span>🔍 Foto</span>
+                    <span>🔍 Foto Reale</span>
                   </button>
                 </div>
 
@@ -799,7 +881,7 @@
             <tr class="hover:bg-slate-800/40 transition-colors">
               <td class="py-2.5 px-4">
                 <div class="w-14 h-10 rounded-lg overflow-hidden bg-slate-900 border border-slate-700 cursor-pointer relative group" onclick="apriModal(${item.id})">
-                  <img src="${item.fotoEsterno || item.fotoInterno}" alt="" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
+                  <img src="${item.fotoUrl}" alt="" class="w-full h-full object-cover group-hover:scale-110 transition-transform">
                   <span class="absolute inset-0 bg-black/30 group-hover:bg-transparent transition-colors flex items-center justify-center text-[10px]">🔍</span>
                 </div>
               </td>
@@ -810,10 +892,10 @@
               </td>
               <td class="py-2.5 px-4 max-w-xs">
                 <p class="font-bold text-white truncate cursor-pointer hover:text-emerald-400" onclick="apriModal(${item.id})">${item.titolo}</p>
-                <p class="text-[11px] text-slate-400 truncate">${item.descrizione}</p>
+                <p class="text-[11px] text-slate-400 truncate">${item.stanza}</p>
               </td>
               <td class="py-2.5 px-4 font-extrabold text-emerald-400">${item.prezzo}</td>
-              <td class="py-2.5 px-4 text-slate-300 font-medium">${item.localita}</td>
+              <td class="py-2.5 px-4 text-slate-300 font-medium">${item.mq}</td>
               <td class="py-2.5 px-4">
                 <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold border ${badgeStatoClass}">
                   ${item.stato}
@@ -821,7 +903,7 @@
               </td>
               <td class="py-2.5 px-4 text-center">
                 <button onclick="apriModal(${item.id})" class="px-2.5 py-1 rounded text-xs font-semibold bg-slate-800 hover:bg-emerald-600 text-slate-200 hover:text-white transition-colors">
-                  Dettagli
+                  Foto
                 </button>
               </td>
             </tr>
@@ -830,7 +912,6 @@
       }
     }
 
-    // GESTIONE MODAL LIGHTBOX
     function apriModal(id) {
       const item = DATABASE_IMMOBILI.find(x => x.id === id);
       if (!item) return;
@@ -839,12 +920,12 @@
       document.getElementById('modal-titolo').textContent = item.titolo;
       document.getElementById('modal-badge-canale').textContent = `${item.canale} • ${item.mercato}`;
       document.getElementById('modal-prezzo').textContent = item.prezzo;
-      document.getElementById('modal-localita').textContent = `📍 ${item.localita}`;
+      document.getElementById('modal-mq').textContent = `📐 ${item.mq}`;
+      document.getElementById('modal-stanza').textContent = item.stanza;
+      document.getElementById('modal-tag-foto').textContent = item.tipoFoto;
       document.getElementById('modal-descrizione').textContent = item.descrizione;
       document.getElementById('modal-stato').textContent = item.stato;
-
-      // Mostra di default foto esterno
-      mostraFotoModal('esterno');
+      document.getElementById('modal-img-display').src = item.fotoUrl;
 
       const modal = document.getElementById('modal-lightbox');
       modal.classList.remove('hidden');
@@ -857,24 +938,6 @@
       modal.classList.remove('flex');
     }
 
-    function mostraFotoModal(tipo) {
-      if (!immobileSelezionatoModal) return;
-      const img = document.getElementById('modal-img-display');
-      const btnEst = document.getElementById('btn-modal-foto-est');
-      const btnInt = document.getElementById('btn-modal-foto-int');
-
-      if (tipo === 'esterno') {
-        img.src = immobileSelezionatoModal.fotoEsterno || immobileSelezionatoModal.fotoInterno;
-        btnEst.className = 'px-3 py-1 rounded-full text-xs font-bold bg-emerald-600 text-white transition-all';
-        btnInt.className = 'px-3 py-1 rounded-full text-xs font-bold text-slate-300 hover:text-white transition-all';
-      } else {
-        img.src = immobileSelezionatoModal.fotoInterno || immobileSelezionatoModal.fotoEsterno;
-        btnInt.className = 'px-3 py-1 rounded-full text-xs font-bold bg-emerald-600 text-white transition-all';
-        btnEst.className = 'px-3 py-1 rounded-full text-xs font-bold text-slate-300 hover:text-white transition-all';
-      }
-    }
-
-    // CHIUSURA MODAL CON TASTO ESC O CLICK ESTERNO
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') chiudiModal();
     });
@@ -882,9 +945,7 @@
       if (e.target.id === 'modal-lightbox') chiudiModal();
     });
 
-    // GRAFICI CHART.JS
     function inizializzaGrafici() {
-      // 1. Chart Canali
       const ctxCanali = document.getElementById('chart-canali').getContext('2d');
       chartCanaliInstance = new Chart(ctxCanali, {
         type: 'bar',
@@ -916,7 +977,6 @@
         }
       });
 
-      // 2. Chart Temporale
       mostraGraficoTemporale('giorni');
     }
 
@@ -969,7 +1029,6 @@
       });
     }
 
-    // AGGIORNA DATI MANUALE
     function aggiornaDatiManuale() {
       const icon = document.getElementById('icon-refresh');
       const txt = document.getElementById('txt-aggiorna');
@@ -981,7 +1040,7 @@
         txt.textContent = 'Aggiorna';
         document.getElementById('label-ultimo-aggiornamento').textContent = new Date().toLocaleTimeString('it-IT');
         filtraContenuti();
-      }, 500);
+      }, 400);
     }
   </script>
 
