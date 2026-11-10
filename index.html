@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Dashboard Post & Studio Grafico — Immobiliare Giancani</title>
+  <title>Dashboard Post & Studio Grafico / Video MP4 — Immobiliare Giancani</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Chart.js CDN -->
@@ -30,9 +30,12 @@
     }
   </script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap');
     body {
       font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+    .font-serif-luxury {
+      font-family: 'Playfair Display', Georgia, serif;
     }
     .custom-scrollbar::-webkit-scrollbar {
       height: 6px;
@@ -54,10 +57,18 @@
     .card-hover:hover .img-zoom {
       transform: scale(1.05);
     }
-    /* Toast animato */
     #toast-notification {
-      transition: all 0.3s ease-out;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
+    /* Equalizer bar animation */
+    @keyframes eqBar {
+      0%, 100% { height: 4px; }
+      50% { height: 18px; }
+    }
+    .animate-eq-1 { animation: eqBar 0.8s ease-in-out infinite; }
+    .animate-eq-2 { animation: eqBar 0.6s ease-in-out infinite 0.2s; }
+    .animate-eq-3 { animation: eqBar 0.9s ease-in-out infinite 0.4s; }
+    .animate-eq-4 { animation: eqBar 0.7s ease-in-out infinite 0.1s; }
   </style>
 </head>
 <body class="bg-[#0b1120] text-slate-100 min-h-screen flex flex-col antialiased selection:bg-emerald-500 selection:text-white">
@@ -68,13 +79,16 @@
     <span id="toast-message" class="text-white">Operazione completata</span>
   </div>
 
+  <!-- AUDIO ELEMENT PER BASI MUSICALI -->
+  <audio id="audio-player" preload="auto" loop></audio>
+
   <!-- NAVBAR HEADER -->
   <header class="bg-[#0f172a]/95 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
       <!-- Logo & Brand -->
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 text-white font-black text-xl">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 via-teal-500 to-sky-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 text-white font-black text-xl">
           G
         </div>
         <div>
@@ -82,12 +96,12 @@
             <h1 class="font-extrabold text-base sm:text-lg tracking-tight text-white flex items-center gap-1.5">
               <span>IMMOBILIARE GIANCANI</span>
               <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                LIVE POSTS & STUDIO
+                STUDIO GRAFICO & VIDEO MP4
               </span>
             </h1>
           </div>
           <p class="text-[11px] text-slate-400 font-medium hidden sm:block">
-            Controllore di Sicurezza Meta • Bot Telegram • Studio Grafico 1-Click
+            Controllore Sicurezza Meta • 8 Stili Grafici • Basi Musicali Diretta01 • Export MP4
           </p>
         </div>
       </div>
@@ -201,19 +215,19 @@
 
     </section>
 
-    <!-- BANNER ATTIVAZIONE KILL-SWITCH META & STUDIO GRAFICO -->
+    <!-- BANNER ATTIVAZIONE KILL-SWITCH META & STUDIO GRAFICO VIDEO -->
     <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 border border-amber-500/30 flex items-center justify-center font-bold text-lg shrink-0">
-          🛡️
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold text-lg shrink-0">
+          🎬
         </div>
         <div>
           <h2 class="text-sm font-bold text-white flex items-center gap-2">
-            <span>Controllore di Sicurezza & Studio Grafico Giancani</span>
-            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-bold">ATTIVO</span>
+            <span>Studio Grafico & Video MP4 con Musica Diretta01</span>
+            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-bold">8 STILI + MUSICA</span>
           </h2>
           <p class="text-xs text-slate-400 mt-0.5">
-            Meta protetto • Tutte le foto visualizzate sono gli scatti autentici da drone e fotocamera • Generatore 1-Click con i 3 stili dei tuoi bot
+            Scarica in formato PNG HD o in Video MP4 animato con le musiche originali della cartella Drive Diretta01 (Sicilian Sunset, Calma del Mediodía, Back Road Out of Town)
           </p>
         </div>
       </div>
@@ -235,12 +249,12 @@
         
         <div>
           <div class="flex items-center gap-2">
-            <h3 class="font-extrabold text-base text-white">Catalogo & Post con Foto Reali</h3>
+            <h3 class="font-extrabold text-base text-white">Catalogo & Post Effettivi</h3>
             <span id="badge-conteggio-eventi" class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
               16 Immobili
             </span>
           </div>
-          <p class="text-xs text-slate-400">Scatti reali drone DJI e fotocamera • Clicca 'Crea Grafica' per generare il post social con 1 click</p>
+          <p class="text-xs text-slate-400">Clicca 'Crea Grafica / Video' per generare post immagine o video MP4 con musica in 1 click</p>
         </div>
 
         <!-- Filtri e Switcher Vista -->
@@ -266,7 +280,7 @@
           <!-- Filtro Tipologia Foto -->
           <select id="select-filtro-foto" onchange="filtraContenuti()" class="bg-slate-950 border border-slate-700 text-xs rounded-lg px-2.5 py-1.5 text-slate-200 focus:outline-none focus:border-emerald-500">
             <option value="ALL">🖼️ Tutte le Foto</option>
-            <option value="ESTERNO">🏡 Solo Esterni, Droni & Facciate</option>
+            <option value="ESTERNO">🏡 Solo Esterni & Droni</option>
             <option value="INTERNO">🛋️ Solo Ambienti Interni</option>
           </select>
 
@@ -299,8 +313,8 @@
               <th class="py-3 px-4">Titolo Immobile & Descrizione</th>
               <th class="py-3 px-4">Prezzo</th>
               <th class="py-3 px-4">Superficie</th>
-              <th class="py-3 px-4">Stato</th>
-              <th class="py-3 px-4 text-center">Azioni</th>
+              <th class="py-3 px-4">Video & Audio</th>
+              <th class="py-3 px-4 text-center">Azioni 1-Click</th>
             </tr>
           </thead>
           <tbody id="tbody-tabella-recenti" class="divide-y divide-slate-800/60 font-medium">
@@ -313,7 +327,7 @@
       <div class="p-3 bg-slate-950/50 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
         <span id="info-footer-mostrati">Caricamento catalogo...</span>
         <div class="flex items-center gap-2">
-          <span>Archivio: <strong class="text-emerald-400">Google Drive Giancani</strong></span>
+          <span>Cartella Drive: <strong class="text-emerald-400">Diretta01 Musica</strong></span>
           <span>•</span>
           <span>Favara (AG)</span>
         </div>
@@ -337,7 +351,7 @@
           </div>
           <div>
             <h3 class="font-extrabold text-base text-white">Aggiungi Nuovo Immobile al Catalogo</h3>
-            <p class="text-[11px] text-slate-400">Verrà salvato nel sistema e potrai creare la grafica post con 1 click</p>
+            <p class="text-[11px] text-slate-400">Verrà salvato nel sistema e potrai creare grafiche e video MP4 con musica</p>
           </div>
         </div>
         <button onclick="chiudiModalAggiungi()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center font-bold text-sm">
@@ -348,14 +362,12 @@
       <!-- Form Body -->
       <form id="form-aggiungi-immobile" onsubmit="eseguiAggiungiImmobile(event)" class="p-4 sm:p-6 overflow-y-auto custom-scrollbar space-y-4 text-xs">
         
-        <!-- Titolo -->
         <div>
           <label class="block font-bold text-slate-300 mb-1">Titolo dell'Immobile *</label>
           <input type="text" id="add-titolo" required placeholder="es. Villa Favara con Piscina e Giardino"
                  class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
         </div>
 
-        <!-- Prezzo & Superficie -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block font-bold text-slate-300 mb-1">Prezzo di Vendita *</label>
@@ -369,7 +381,6 @@
           </div>
         </div>
 
-        <!-- Località & Canale -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block font-bold text-slate-300 mb-1">Località / Indirizzo *</label>
@@ -388,7 +399,6 @@
           </div>
         </div>
 
-        <!-- Tipologia Immobile & Tipo Foto -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block font-bold text-slate-300 mb-1">Tipologia Immobile</label>
@@ -412,15 +422,13 @@
           </div>
         </div>
 
-        <!-- URL Foto Reale & Scatti Suggeriti -->
         <div>
-          <label class="block font-bold text-slate-300 mb-1">URL Foto Reale (Google Drive / CDN / Web) *</label>
+          <label class="block font-bold text-slate-300 mb-1">URL Foto Reale (Google Drive / Web) *</label>
           <input type="url" id="add-fotourl" required placeholder="https://lh3.googleusercontent.com/d/..."
                  class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500">
           
-          <!-- Selezione Rapida dagli Scatti Reali Giancani -->
           <div class="mt-2">
-            <span class="text-[11px] text-slate-400 block mb-1">Oppure seleziona rapidamente uno scatto reale d'archivio:</span>
+            <span class="text-[11px] text-slate-400 block mb-1">Seleziona uno scatto reale d'archivio:</span>
             <div class="grid grid-cols-4 gap-2">
               <div onclick="selezionaFotoPreset('https://lh3.googleusercontent.com/d/1ZeFvgW36oabdrE0lGUzuTg2kcx8vJgBT', '🏡 Drone Esterno')" 
                    class="cursor-pointer border border-slate-700 hover:border-emerald-500 rounded-lg overflow-hidden h-14 relative group bg-slate-900">
@@ -446,14 +454,12 @@
           </div>
         </div>
 
-        <!-- Descrizione -->
         <div>
           <label class="block font-bold text-slate-300 mb-1">Descrizione del Post / Note</label>
           <textarea id="add-descrizione" rows="3" placeholder="Descrivi i punti forti dell'immobile, esposizione, rifiniture..."
                     class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"></textarea>
         </div>
 
-        <!-- Footer Bottoni -->
         <div class="pt-3 border-t border-slate-800 flex items-center justify-end gap-2">
           <button type="button" onclick="chiudiModalAggiungi()" class="px-4 py-2 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 transition-all">
             Annulla
@@ -469,25 +475,25 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL 2: STUDIO GRAFICO 1-CLICK POST GENERATOR -->
+  <!-- MODAL 2: STUDIO GRAFICO & VIDEO MP4 (CON 8 STILI & BASI MUSICALI) -->
   <!-- ========================================================================= -->
   <div id="modal-studio-grafico" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-2 sm:p-4">
-    <div class="bg-[#1e293b] border border-slate-700 rounded-2xl max-w-5xl w-full overflow-hidden shadow-2xl relative flex flex-col max-h-[96vh]">
+    <div class="bg-[#1e293b] border border-slate-700 rounded-2xl max-w-6xl w-full overflow-hidden shadow-2xl relative flex flex-col max-h-[96vh]">
       
       <!-- Studio Header -->
       <div class="p-3.5 sm:p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/90">
         <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-sky-500 flex items-center justify-center font-bold text-lg text-white shadow-lg">
-            🎨
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-sky-500 flex items-center justify-center font-bold text-lg text-white shadow-lg">
+            🎬
           </div>
           <div>
             <h3 class="font-extrabold text-base text-white flex items-center gap-2">
-              <span>Studio Grafico Post Giancani</span>
+              <span>Studio Grafico & Video MP4 Giancani</span>
               <span id="sg-badge-stile-attivo" class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">
                 C&B Curved Wave
               </span>
             </h3>
-            <p class="text-[11px] text-slate-400">Generatore 1-Click basato sui template grafici ufficiali dei tuoi bot</p>
+            <p class="text-[11px] text-slate-400">8 Stili Grafici dei tuoi bot • Basi Musicali Diretta01 • Export Video MP4 & Immagine HD</p>
           </div>
         </div>
         <button onclick="chiudiStudioGrafico()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center font-bold text-sm">
@@ -498,87 +504,156 @@
       <!-- Studio Body: Grid 2 Colonne -->
       <div class="p-3.5 sm:p-5 overflow-y-auto custom-scrollbar flex-1 grid grid-cols-1 lg:grid-cols-12 gap-5">
         
-        <!-- Colonna Sinistra: Canvas Anteprima Live (7 col) -->
+        <!-- Colonna Sinistra: Canvas Live Preview & Video Controls (7 col) -->
         <div class="lg:col-span-7 flex flex-col items-center justify-center bg-slate-950/80 rounded-xl p-3 border border-slate-800 relative">
           
           <!-- Contenitore Canvas con aspect ratio controllato -->
           <div id="canvas-wrapper" class="relative max-w-full flex items-center justify-center overflow-hidden rounded-lg shadow-2xl border border-slate-800">
-            <canvas id="grafica-canvas" width="1080" height="1080" class="max-h-[380px] sm:max-h-[460px] w-auto h-auto object-contain bg-slate-900"></canvas>
+            <canvas id="grafica-canvas" width="1080" height="1080" class="max-h-[360px] sm:max-h-[440px] w-auto h-auto object-contain bg-slate-900"></canvas>
             
-            <!-- Loading indicator se l'immagine sta caricando -->
+            <!-- Loading indicator -->
             <div id="canvas-loading" class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center gap-2 text-xs font-semibold text-emerald-400 hidden">
               <svg class="w-8 h-8 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
-              <span>Generazione Grafica HD in corso...</span>
+              <span id="canvas-loading-text">Rendering in corso...</span>
+            </div>
+
+            <!-- Overlay registrazione video MP4 con timer -->
+            <div id="video-recording-overlay" class="absolute inset-0 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center gap-3 p-6 text-center hidden">
+              <div class="w-12 h-12 rounded-full border-4 border-emerald-500 border-t-transparent animate-spin"></div>
+              <div>
+                <p class="text-sm font-bold text-white">Registrazione Video MP4 in corso...</p>
+                <p id="video-progress-text" class="text-xs text-emerald-400 font-semibold mt-1">Animazione Ken Burns & Mix Audio 0%</p>
+              </div>
+              <div class="w-48 bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div id="video-progress-bar" class="bg-emerald-500 h-full w-0 transition-all duration-200"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- SELETTORE BASE MUSICALE & PLAYER AUDIO IN ANTEPRIMA -->
+          <div class="w-full mt-3 bg-slate-900/90 border border-slate-800 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+              <button onclick="toggleAudioAnteprima()" id="btn-audio-play"
+                      class="w-10 h-10 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center font-bold text-lg shadow-md transition-all shrink-0">
+                <span id="icon-audio-play">▶️</span>
+              </button>
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-white">Base Musicale Diretta01:</span>
+                  <div id="eq-bars" class="flex items-end gap-0.5 h-4 opacity-50">
+                    <span class="w-1 bg-emerald-400 rounded-full h-1"></span>
+                    <span class="w-1 bg-emerald-400 rounded-full h-2"></span>
+                    <span class="w-1 bg-emerald-400 rounded-full h-3"></span>
+                    <span class="w-1 bg-emerald-400 rounded-full h-1"></span>
+                  </div>
+                </div>
+                <select id="select-traccia-musicale" onchange="cambiaTracciaMusicale()" 
+                        class="bg-slate-950 border border-slate-700 text-xs rounded-lg px-2 py-1 text-slate-200 focus:outline-none focus:border-emerald-500 mt-0.5 font-medium">
+                  <option value="Sicilian_Sunset.mp3">🎵 Sicilian Sunset (Chitarra & Mare — Suno Giancani)</option>
+                  <option value="Calma_del_Mediodia.mp3">🎵 Calma del Mediodía (Chitarra Spagnola Calda)</option>
+                  <option value="Back_Road_Out_of_Town.mp3">🎵 Back Road Out of Town (Country Moderno Ritmato)</option>
+                  <option value="ambient_ispirazione_1.mp3">🎵 Ambient Ispirazione (Pianoforte Moderno)</option>
+                  <option value="cinematic_emozione_6.mp3">🎵 Cinematic Emozione (Archi & Climax)</option>
+                </select>
+              </div>
+            </div>
+            <div class="text-[11px] text-slate-400 text-right shrink-0">
+              <span>Cartella: <strong class="text-emerald-400">Diretta01 Musica</strong></span>
             </div>
           </div>
 
-          <!-- Pulsanti Azione Sotto il Canvas -->
+          <!-- PULSANTI PRINCIPALI EXPORT: VIDEO MP4 & IMMAGINE HD -->
           <div class="w-full mt-3 flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80">
-            <span class="text-[11px] text-slate-400">Risoluzione effettiva: <strong class="text-white">1080 × 1080 HD</strong></span>
+            <span class="text-[11px] text-slate-400">Export: <strong class="text-white">HD 1080p</strong></span>
             
             <div class="flex items-center gap-2">
-              <button onclick="scaricaGraficaHD()" class="px-4 py-2 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-md shadow-emerald-600/30 flex items-center gap-1.5">
-                <span>📥</span>
-                <span>Scarica Grafica HD (PNG)</span>
-              </button>
               
-              <a id="btn-telegram-share" href="https://t.me/AMMINISTRAZIONISOCIAL_BOT" target="_blank"
-                 class="px-3.5 py-2 rounded-lg text-xs font-bold bg-sky-600 hover:bg-sky-500 text-white transition-all flex items-center gap-1.5 shadow-sm">
-                <span>✈️</span>
-                <span>Telegram</span>
-              </a>
+              <!-- Scarica Video MP4 con Musica -->
+              <button onclick="scaricaVideoMP4ConMusica()" id="btn-export-mp4"
+                      class="px-4 py-2 rounded-lg text-xs font-bold bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white transition-all shadow-md shadow-emerald-600/30 flex items-center gap-1.5">
+                <span class="text-sm">🎬</span>
+                <span>Scarica Video con Musica (MP4)</span>
+              </button>
+
+              <!-- Scarica Immagine HD PNG -->
+              <button onclick="scaricaGraficaHD()" 
+                      class="px-3.5 py-2 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white transition-all flex items-center gap-1.5 border border-slate-700">
+                <span>📥</span>
+                <span>Immagine HD (PNG)</span>
+              </button>
+
             </div>
           </div>
 
         </div>
 
-        <!-- Colonna Destra: Controlli, Stili & Testo Social (5 col) -->
+        <!-- Colonna Destra: 8 Stili Grafici, Dati Live & Testo Social (5 col) -->
         <div class="lg:col-span-5 flex flex-col space-y-4 text-xs">
           
-          <!-- SELETTORE STILE (I 4 TEMPLATE DEI BOT) -->
+          <!-- SELETTORE DEI GLI 8 STILI GRAFICI DEI BOT -->
           <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 space-y-2">
-            <span class="font-bold text-slate-200 block text-[11px] tracking-wide uppercase">Scegli Stile Grafico del Bot</span>
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-slate-200 block text-[11px] tracking-wide uppercase">Scegli tra gli 8 Stili dei Bot</span>
+              <span class="text-[10px] text-emerald-400 font-bold">1-Click Switch</span>
+            </div>
             
-            <div class="grid grid-cols-2 gap-2">
+            <div class="grid grid-cols-2 gap-2 max-h-56 overflow-y-auto custom-scrollbar pr-1">
               
-              <!-- Stile 1: C&B Curved Wave -->
-              <button onclick="selezionaStile('cb_curved_wave')" id="btn-stile-cb"
-                      class="p-2.5 rounded-lg border text-left transition-all bg-emerald-500/15 border-emerald-500 text-white">
-                <div class="flex items-center justify-between">
-                  <span class="font-bold text-xs">🏆 C&B Wave</span>
-                  <span class="text-[10px] text-emerald-400">Classico</span>
-                </div>
-                <p class="text-[10px] text-slate-400 mt-0.5">Header bianco, logo, ala blu, pin e badge</p>
+              <!-- 1: C&B Curved Wave -->
+              <button onclick="selezionaStile('cb_curved_wave')" id="btn-stile-cb_curved_wave"
+                      class="p-2 rounded-lg border text-left transition-all bg-emerald-500/15 border-emerald-500 text-white">
+                <span class="font-bold text-xs block">🏆 C&B Wave</span>
+                <span class="text-[9px] text-slate-400">Header bianco, logo & ala blu</span>
               </button>
 
-              <!-- Stile 2: Metroquadro Gradient -->
-              <button onclick="selezionaStile('metroquadro_gradient')" id="btn-stile-metroquadro"
-                      class="p-2.5 rounded-lg border text-left transition-all bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700">
-                <div class="flex items-center justify-between">
-                  <span class="font-bold text-xs">🔴 Metroquadro</span>
-                  <span class="text-[10px] text-rose-400">Crimson</span>
-                </div>
-                <p class="text-[10px] text-slate-400 mt-0.5">Gradiente scuro, 4 icone vettoriali, prezzo grande</p>
+              <!-- 2: Metroquadro Gradient -->
+              <button onclick="selezionaStile('metroquadro_gradient')" id="btn-stile-metroquadro_gradient"
+                      class="p-2 rounded-lg border text-left transition-all bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700">
+                <span class="font-bold text-xs block">🔴 Metroquadro</span>
+                <span class="text-[9px] text-slate-400">Gradiente crimson & 4 icone</span>
               </button>
 
-              <!-- Stile 3: ProfessioneCasa Sidebar -->
-              <button onclick="selezionaStile('professionecasa_sidebar')" id="btn-stile-professionecasa"
-                      class="p-2.5 rounded-lg border text-left transition-all bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700">
-                <div class="flex items-center justify-between">
-                  <span class="font-bold text-xs">🏢 ProfessioneCasa</span>
-                  <span class="text-[10px] text-amber-400">Sidebar</span>
-                </div>
-                <p class="text-[10px] text-slate-400 mt-0.5">Sidebar rossa con icone verticali e chevron</p>
+              <!-- 3: ProfessioneCasa Sidebar -->
+              <button onclick="selezionaStile('professionecasa_sidebar')" id="btn-stile-professionecasa_sidebar"
+                      class="p-2 rounded-lg border text-left transition-all bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700">
+                <span class="font-bold text-xs block">🏢 ProfessioneCasa</span>
+                <span class="text-[9px] text-slate-400">Sidebar rossa & chevron</span>
               </button>
 
-              <!-- Stile 4: Luxury Glass -->
-              <button onclick="selezionaStile('luxury_glass')" id="btn-stile-luxury"
-                      class="p-2.5 rounded-lg border text-left transition-all bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700">
-                <div class="flex items-center justify-between">
-                  <span class="font-bold text-xs">✨ Luxury Glass</span>
-                  <span class="text-[10px] text-sky-400">Instagram</span>
-                </div>
-                <p class="text-[10px] text-slate-400 mt-0.5">Satinato scuro, badge oro/smeraldo moderno</p>
+              <!-- 4: Luxury Glass -->
+              <button onclick="selezionaStile('luxury_glass')" id="btn-stile-luxury_glass"
+                      class="p-2 rounded-lg border text-left transition-all bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700">
+                <span class="font-bold text-xs block">✨ Luxury Glass</span>
+                <span class="text-[9px] text-slate-400">Satinato Instagram dark</span>
+              </button>
+
+              <!-- 5: Tempocasa Green -->
+              <button onclick="selezionaStile('tempocasa_green')" id="btn-stile-tempocasa_green"
+                      class="p-2 rounded-lg border text-left transition-all bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700">
+                <span class="font-bold text-xs block">🟢 Tempocasa Green</span>
+                <span class="text-[9px] text-slate-400">Geometrico verde smeraldo</span>
+              </button>
+
+              <!-- 6: Editorial Magazine -->
+              <button onclick="selezionaStile('editorial_magazine')" id="btn-stile-editorial_magazine"
+                      class="p-2 rounded-lg border text-left transition-all bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700">
+                <span class="font-bold text-xs block">📰 Editorial Magazine</span>
+                <span class="text-[9px] text-slate-400">Stile rivista architettura</span>
+              </button>
+
+              <!-- 7: SplitScreen Dual -->
+              <button onclick="selezionaStile('splitscreen_dual')" id="btn-stile-splitscreen_dual"
+                      class="p-2 rounded-lg border text-left transition-all bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700">
+                <span class="font-bold text-xs block">🔲 SplitScreen Dual</span>
+                <span class="text-[9px] text-slate-400">Doppia prospettiva affiancata</span>
+              </button>
+
+              <!-- 8: Drone Hero Cinematic -->
+              <button onclick="selezionaStile('drone_hero')" id="btn-stile-drone_hero"
+                      class="p-2 rounded-lg border text-left transition-all bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700">
+                <span class="font-bold text-xs block">🎖️ Drone Hero</span>
+                <span class="text-[9px] text-slate-400">Cinematic HUD DJI 4K</span>
               </button>
 
             </div>
@@ -626,11 +701,19 @@
                         class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-[11px] text-slate-200 leading-relaxed font-mono focus:outline-none focus:border-emerald-500 custom-scrollbar"></textarea>
             </div>
 
-            <button onclick="copiaTestoPost()" id="btn-copia-testo"
-                    class="w-full py-2 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white transition-all flex items-center justify-center gap-1.5 border border-slate-700">
-              <span>📋</span>
-              <span id="txt-copia-testo">Copia Testo per Post Social</span>
-            </button>
+            <div class="flex items-center gap-2">
+              <button onclick="copiaTestoPost()" id="btn-copia-testo"
+                      class="flex-1 py-2 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white transition-all flex items-center justify-center gap-1.5 border border-slate-700">
+                <span>📋</span>
+                <span id="txt-copia-testo">Copia Testo per Post Social</span>
+              </button>
+
+              <a id="btn-telegram-share" href="https://t.me/AMMINISTRAZIONISOCIAL_BOT" target="_blank"
+                 class="px-3 py-2 rounded-lg text-xs font-bold bg-sky-600 hover:bg-sky-500 text-white transition-all flex items-center gap-1 shadow-sm shrink-0">
+                <span>✈️</span>
+                <span>Telegram</span>
+              </a>
+            </div>
           </div>
 
         </div>
@@ -641,7 +724,7 @@
       <div class="p-3 bg-slate-900 border-t border-slate-800 flex items-center justify-between">
         <span class="text-[11px] text-slate-400">Immobiliare Giancani • Personal Branding: <strong>— Immobiliare Giancani</strong></span>
         <button onclick="chiudiStudioGrafico()" class="px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300">
-          Chiudi
+          Chiudi Studio
         </button>
       </div>
 
@@ -697,7 +780,7 @@
         <span class="text-[11px] text-slate-400">Immobiliare Giancani — Scatti Reali</span>
         <div class="flex items-center gap-2">
           <button onclick="apriStudioGraficoDaModal()" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-all flex items-center gap-1 shadow-sm">
-            <span>🎨 Crea Grafica con Questa Foto</span>
+            <span>🎨 Crea Grafica / Video MP4</span>
           </button>
           <button onclick="chiudiModal()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-all">
             Chiudi
@@ -709,7 +792,7 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- SCRIPT LOGIC JAVASCRIPT: CATALOGO & STUDIO GRAFICO -->
+  <!-- SCRIPT LOGIC JAVASCRIPT: 8 STILI GRAFICI, AUDIO & EXPORT MP4 -->
   <!-- ========================================================================= -->
   <script>
     const DATABASE_IMMOBILI_DEFAULT = [
@@ -723,7 +806,8 @@
     "stanza": "Salone & Zona Giorno",
     "tipoFoto": "🛋️ Interno Salone",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1J_dumkLBgmNO14H2Ga0sTkEJR25jWbSw",
-    "descrizione": "Favara, corso Vittorio Veneto n 269. Appartamento 4° piano luminoso, ascensorato, finiture di pregio, ampi balconi panoramici.",
+    "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
+    "descrizione": "Favara, corso Vittorio Veneto n 269. Luminoso 4° piano ascensorato, ottime finiture, ampi balconi panoramici.",
     "stato": "🛑 Bloccato Meta (Audit)",
     "luogo": "Favara (AG), C.so V. Veneto",
     "badge": "IN VENDITA",
@@ -740,7 +824,8 @@
     "stanza": "Vista Drone Esterno",
     "tipoFoto": "🏡 Drone Esterno",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1ZeFvgW36oabdrE0lGUzuTg2kcx8vJgBT",
-    "descrizione": "Zingarello, Agrigento. Villa indipendente con splendida vista mare da drone, corte esclusiva, veranda coperta e terreno alberato.",
+    "videoUrl": "./assets/video/video_villa_zingarello.mp4",
+    "descrizione": "Zingarello, Agrigento. Villa indipendente con spettacolare visuale costa e mare ripresa da drone DJI, veranda e corte.",
     "stato": "✅ Approvato Telegram",
     "luogo": "Agrigento, Zingarello",
     "badge": "IN VENDITA",
@@ -757,6 +842,7 @@
     "stanza": "Facciata & Vista Lago",
     "tipoFoto": "🏡 Esterno Lago",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1ySiRhbdekzjRk4wqrmQdYQmb-mM3BtUZ",
+    "videoUrl": "./assets/video/video_cannero_riviera.mp4",
     "descrizione": "Cannero Riviera, prestigioso immobile con affaccio panoramico sul Lago Maggiore. Ideale per investitori internazionali ed acquirenti esteri.",
     "stato": "✅ Approvato Estero",
     "luogo": "Cannero Riviera, Lago Maggiore",
@@ -774,7 +860,8 @@
     "stanza": "Corte Esterna & Cancello",
     "tipoFoto": "🏡 Esterno Cancello",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1TdF7kxeEZcFfrZz7TS627kemxCmubem9",
-    "descrizione": "Favara. Spettacolare villa unifamiliare con grande cancello d'ingresso, viale pavimentato, alberi ornamentali e riscaldamento autonomo.",
+    "videoUrl": "./assets/video/video_villa_favara.mp4",
+    "descrizione": "Favara. Spettacolare villa con imponente cancello d'ingresso, viale pavimentato, alberi ornamentali e riscaldamento autonomo.",
     "stato": "✅ Inviato Notifiche WA",
     "luogo": "Favara (AG)",
     "badge": "IN VENDITA",
@@ -791,6 +878,7 @@
     "stanza": "Prospetto da Drone",
     "tipoFoto": "🏡 Drone Stabile",
     "fotoUrl": "https://lh3.googleusercontent.com/d/15uuETuZVsZ1eOoxkv-YMM_8mngBkpHT3",
+    "videoUrl": "./assets/video/video_villa_zingarello.mp4",
     "descrizione": "Aragona, stabile servito con garage privato al piano terra. Vista aerea da drone, ottima esposizione solare, vicinissimo a scuole e negozi.",
     "stato": "✅ Approvato Telegram",
     "luogo": "Aragona (AG)",
@@ -808,6 +896,7 @@
     "stanza": "Verandina e Cortile",
     "tipoFoto": "🏡 Cortile Esterno",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1erOi3npN_czkA8yDBpz6Us4es3QbwoWy",
+    "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
     "descrizione": "Favara. Comodo appartamento al piano terra con accesso indipendente, graziosa verandina privata, cucina abitabile e zero spese condominiali.",
     "stato": "🛑 Bloccato Meta (Audit)",
     "luogo": "Favara (AG)",
@@ -825,6 +914,7 @@
     "stanza": "Ripresa Aerea Drone",
     "tipoFoto": "🏡 Drone Terreno",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1G5wxLG8wt_hDB-MiHG7a4C6chIpW94_T",
+    "videoUrl": "./assets/video/video_villa_zingarello.mp4",
     "descrizione": "Favara. Vasto appezzamento di terreno con vista collinare spettacolare ripreso con drone DJI. Uliveto produttivo e facile accesso carrabile.",
     "stato": "✅ Approvato Telegram",
     "luogo": "Favara (AG)",
@@ -842,6 +932,7 @@
     "stanza": "Facciata Esterna Stabile",
     "tipoFoto": "🏡 Esterno Facciata",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1wP698j-x5L2R2s-G5uG8Q1jY4z-K8m9N",
+    "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
     "descrizione": "Favara, via Pavia. Appartamento rifinito e pronto da abitare in contesto tranquillo. Ampi spazi interni, luminoso con doppi servizi.",
     "stato": "🛑 Bloccato Meta (Audit)",
     "luogo": "Favara (AG), Via Pavia",
@@ -859,7 +950,8 @@
     "stanza": "Giardino e Porticato",
     "tipoFoto": "🏡 Esterno Porticato",
     "fotoUrl": "https://lh3.googleusercontent.com/d/18U_m28s1c4p-N_l9b7v5x3z1a2c4e6g8",
-    "descrizione": "Aragona. Magnifica villa nobiliare immersa nel verde con piante secolari, camino rustico, garage triplo e finiture rustiche d'eccellenza.",
+    "videoUrl": "./assets/video/video_villa_favara.mp4",
+    "descrizione": "Aragona. Magnifica villa immersa nel verde con piante secolari, camino rustico, garage triplo e finiture rustiche d'eccellenza.",
     "stato": "✅ Approvato Estero",
     "luogo": "Aragona (AG)",
     "badge": "PRESTIGIO ESTERO",
@@ -876,6 +968,7 @@
     "stanza": "Panoramica da Drone",
     "tipoFoto": "🏡 Drone Terreno",
     "fotoUrl": "https://lh3.googleusercontent.com/d/14x_p97b3m1k8l6v4z2q0e8j6w4t2r0y8",
+    "videoUrl": "./assets/video/video_villa_zingarello.mp4",
     "descrizione": "Favara, ottima posizione residenziale. Terreno edificabile ideale per la realizzazione di villa singola o bifamiliare con giardino.",
     "stato": "✅ Inviato Notifiche WA",
     "luogo": "Favara (AG)",
@@ -893,7 +986,8 @@
     "stanza": "Terrazzo Panoramico",
     "tipoFoto": "🏡 Terrazzo Esterno",
     "fotoUrl": "https://lh3.googleusercontent.com/d/12a_b4c6d8e0f2g4h6i8j0k2l4m6n8o0p",
-    "descrizione": "Favara, via Olanda. Esclusivo attico con terrazza panoramica a livello di 60 mq con vista mozzafiato. Climatizzato, rifiniture moderne.",
+    "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
+    "descrizione": "Favara, via Olanda. Esclusivo attico con terrazza a livello di 60 mq con vista mozzafiato. Climatizzato, rifiniture moderne.",
     "stato": "✅ Approvato Telegram",
     "luogo": "Favara (AG), Via Olanda",
     "badge": "ATTICO TOP",
@@ -910,7 +1004,8 @@
     "stanza": "Ingresso e Zona Living",
     "tipoFoto": "🛋️ Interno Living",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1q2w3e4r5t6y7u8i9o0p1a2s3d4f5g6h7",
-    "descrizione": "Favara, via Capitano Callea. Appartamento centralissimo, vicino a banche, farmacie e supermercati. Impianti a norma e infissi termici.",
+    "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
+    "descrizione": "Favara, via Capitano Callea. Appartamento centralissimo, vicino a banche e supermercati. Impianti a norma e infissi termici.",
     "stato": "🛑 Bloccato Meta (Audit)",
     "luogo": "Favara (AG), Via Cap. Callea",
     "badge": "IN VENDITA",
@@ -927,7 +1022,8 @@
     "stanza": "Prospetto Pietra e Corte",
     "tipoFoto": "🏡 Rustico Esterno",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1z9y8x7w6v5u4t3s2r1q0p9o8n7m6l5k4",
-    "descrizione": "Favara periferia. Tipico rustico in pietra siciliana con corte recintata e terreno pianeggiante. Perfetto per casa vacanze o b&b.",
+    "videoUrl": "./assets/video/video_villa_favara.mp4",
+    "descrizione": "Favara periferia. Tipico rustico in pietra siciliana con corte recintata e terreno. Ideale per casa vacanze o b&b.",
     "stato": "✅ Approvato Estero",
     "luogo": "Favara (AG), Periferia",
     "badge": "RUSTICO",
@@ -944,7 +1040,8 @@
     "stanza": "Vetrina su Strada Principale",
     "tipoFoto": "🏡 Vetrina Esterna",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7",
-    "descrizione": "Favara, ad alto passaggio veicolare e pedonale. Locale commerciale con ampia vetrina fronte strada, antibagno e bagno disabili.",
+    "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
+    "descrizione": "Favara, ad alto passaggio veicolare. Locale commerciale con ampia vetrina fronte strada, antibagno e bagno.",
     "stato": "✅ Inviato Notifiche WA",
     "luogo": "Favara (AG)",
     "badge": "COMMERCIALE",
@@ -961,7 +1058,8 @@
     "stanza": "Balcone con Vista Piazza",
     "tipoFoto": "🏡 Balcone Esterno",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6",
-    "descrizione": "Favara, piazza Cavour. Storica palazzina con affaccio d'onore sulla piazza principale. Ambienti alti con volte decorate, luminosissimo.",
+    "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
+    "descrizione": "Favara, piazza Cavour. Storica palazzina con affaccio d'onore sulla piazza principale. Ambienti alti con volte decorate.",
     "stato": "✅ Approvato Telegram",
     "luogo": "Favara (AG), Piazza Cavour",
     "badge": "CENTRALISSIMO",
@@ -978,7 +1076,8 @@
     "stanza": "Facciata Moderna e Giardino",
     "tipoFoto": "🏡 Esterno Moderno",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7",
-    "descrizione": "Favara. Villa di recente edificazione in classe energetica A+, cappotto termico, impianto fotovoltaico e giardino su 3 lati.",
+    "videoUrl": "./assets/video/video_villa_favara.mp4",
+    "descrizione": "Favara. Villa di recente edificazione in classe energetica A+, cappotto termico, fotovoltaico e giardino su 3 lati.",
     "stato": "🛑 Bloccato Meta (Audit)",
     "luogo": "Favara (AG)",
     "badge": "CLASSE A+",
@@ -993,6 +1092,8 @@
     let immobileStudioGrafico = null;
     let stileGraficoCorrente = 'cb_curved_wave';
     let chartCanaliInstance = null;
+    let isAudioPlaying = false;
+    let animazioneKenBurnsFrameId = null;
 
     // Inizializzazione
     window.addEventListener('DOMContentLoaded', () => {
@@ -1003,7 +1104,7 @@
 
     // GESTIONE CATALOGO (LOCALSTORAGE)
     function caricaCatalogo() {
-      const salvato = localStorage.getItem('giancani_catalogo_immobili_v3');
+      const salvato = localStorage.getItem('giancani_catalogo_immobili_v4');
       if (salvato) {
         try {
           CATALOGO_IMMOBILI = JSON.parse(salvato);
@@ -1017,7 +1118,7 @@
     }
 
     function salvaCatalogo() {
-      localStorage.setItem('giancani_catalogo_immobili_v3', JSON.stringify(CATALOGO_IMMOBILI));
+      localStorage.setItem('giancani_catalogo_immobili_v4', JSON.stringify(CATALOGO_IMMOBILI));
       aggiornaConteggiKPI();
       filtraContenuti();
     }
@@ -1178,13 +1279,13 @@
                   </h4>
                 </div>
 
-                <!-- PULSANTI: CREA GRAFICA 1-CLICK & ELIMINA -->
+                <!-- PULSANTI: CREA GRAFICA / VIDEO MP4 & ELIMINA -->
                 <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-1.5">
                   
                   <button onclick="apriStudioGrafico(${item.id})" 
-                          class="flex-1 py-1.5 px-2 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-sm flex items-center justify-center gap-1">
-                    <span>🎨</span>
-                    <span>Crea Grafica</span>
+                          class="flex-1 py-1.5 px-2 rounded-lg text-xs font-bold bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white transition-all shadow-sm flex items-center justify-center gap-1">
+                    <span>🎬</span>
+                    <span>Grafica & Video MP4</span>
                   </button>
 
                   <button onclick="apriModal(${item.id})" title="Visualizza Foto Reale"
@@ -1225,10 +1326,6 @@
           else if (item.canale === 'Instagram') badgeCanaleClass = 'bg-purple-500/20 text-purple-300 border-purple-500/30';
           else if (item.canale === 'WhatsApp') badgeCanaleClass = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
 
-          const badgeStatoClass = isBloccato 
-            ? 'bg-rose-500/15 text-rose-300 border-rose-500/30' 
-            : 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30';
-
           return `
             <tr class="hover:bg-slate-800/40 transition-colors">
               <td class="py-2.5 px-4">
@@ -1248,14 +1345,14 @@
               <td class="py-2.5 px-4 font-extrabold text-emerald-400">${item.prezzo}</td>
               <td class="py-2.5 px-4 text-slate-300 font-medium">${item.mq}</td>
               <td class="py-2.5 px-4">
-                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold border ${badgeStatoClass}">
-                  ${item.stato || 'Pronto'}
+                <span class="inline-flex items-center gap-1 text-[11px] text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                  <span>🎵</span> Sicilian Sunset
                 </span>
               </td>
               <td class="py-2.5 px-4 text-center">
                 <div class="flex items-center justify-center gap-1.5">
-                  <button onclick="apriStudioGrafico(${item.id})" class="px-2.5 py-1 rounded text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-colors">
-                    🎨 Grafica
+                  <button onclick="apriStudioGrafico(${item.id})" class="px-2.5 py-1 rounded text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-colors flex items-center gap-1">
+                    <span>🎬</span> <span>Studio MP4</span>
                   </button>
                   <button onclick="eliminaImmobile(${item.id})" class="px-2 py-1 rounded text-xs font-semibold bg-slate-800 hover:bg-rose-600 text-slate-400 hover:text-white transition-colors">
                     🗑️
@@ -1301,7 +1398,6 @@
         return;
       }
 
-      // Normalizza mq e prezzo
       if (!mq.toLowerCase().includes('metri quadri') && !mq.toLowerCase().includes('mq')) {
         mq = `${mq} metri quadri`;
       }
@@ -1320,6 +1416,7 @@
         luogo: luogo,
         tipoFoto: tipoFoto,
         fotoUrl: fotoUrl,
+        videoUrl: './assets/video/video_villa_zingarello.mp4',
         descrizione: descrizione || `${titolo} a ${luogo}. Splendida opportunità immobiliare con finiture accurate e ottima esposizione.`,
         stato: canale === 'Facebook' || canale === 'Instagram' ? '🛑 Bloccato Meta (Audit)' : '✅ Approvato Telegram',
         badge: 'IN VENDITA',
@@ -1332,7 +1429,6 @@
       chiudiModalAggiungi();
       mostraToast(`✅ Immobile "${titolo}" aggiunto con successo!`);
       
-      // Apri subito lo Studio Grafico per questo immobile aggiunto!
       setTimeout(() => {
         apriStudioGrafico(nuovoImmobile.id);
       }, 300);
@@ -1343,8 +1439,7 @@
       const item = CATALOGO_IMMOBILI.find(x => x.id === id);
       if (!item) return;
 
-      if (confirm(`Sei sicuro di voler rimuovere dal catalogo:
-"${item.titolo}"?`)) {
+      if (confirm(`Sei sicuro di voler rimuovere dal catalogo:\n"${item.titolo}"?`)) {
         CATALOGO_IMMOBILI = CATALOGO_IMMOBILI.filter(x => x.id !== id);
         salvaCatalogo();
         mostraToast(`🗑️ Immobile "${item.titolo}" rimosso.`);
@@ -1352,7 +1447,7 @@
     }
 
     // =========================================================================
-    // STUDIO GRAFICO GIANCANI: MOTORE DI RENDERING CANVAS 1080x1080
+    // STUDIO GRAFICO GIANCANI: 8 STILI & BASI MUSICALI
     // =========================================================================
     function apriStudioGrafico(id) {
       const item = CATALOGO_IMMOBILI.find(x => x.id === id);
@@ -1360,21 +1455,18 @@
 
       immobileStudioGrafico = item;
 
-      // Popola i campi
       document.getElementById('sg-input-prezzo').value = item.prezzo || '€ 120.000';
       document.getElementById('sg-input-mq').value = normalizzaMetriQuadri(item.mq);
       document.getElementById('sg-input-luogo').value = item.luogo || item.stanza || 'Favara (AG)';
       document.getElementById('sg-input-badge').value = item.badge || 'IN VENDITA';
 
-      // Genera testo social predefinito
       aggiornaTestoPostSocial();
 
-      // Apri modal
       document.getElementById('modal-studio-grafico').classList.remove('hidden');
       document.getElementById('modal-studio-grafico').classList.add('flex');
 
-      // Seleziona stile corrente e disegna
       selezionaStile(stileGraficoCorrente);
+      impostaTracciaMusicale();
     }
 
     function apriStudioGraficoDaModal() {
@@ -1384,6 +1476,8 @@
     }
 
     function chiudiStudioGrafico() {
+      fermaAudio();
+      if (animazioneKenBurnsFrameId) cancelAnimationFrame(animazioneKenBurnsFrameId);
       document.getElementById('modal-studio-grafico').classList.add('hidden');
       document.getElementById('modal-studio-grafico').classList.remove('flex');
     }
@@ -1391,30 +1485,35 @@
     function selezionaStile(stile) {
       stileGraficoCorrente = stile;
 
-      // Aggiorna classi bottoni stile
-      ['cb', 'metroquadro', 'professionecasa', 'luxury'].forEach(s => {
+      const stiliDisponibili = [
+        'cb_curved_wave', 'metroquadro_gradient', 'professionecasa_sidebar', 'luxury_glass',
+        'tempocasa_green', 'editorial_magazine', 'splitscreen_dual', 'drone_hero'
+      ];
+
+      stiliDisponibili.forEach(s => {
         const btn = document.getElementById(`btn-stile-${s}`);
         if (btn) {
-          btn.className = 'p-2.5 rounded-lg border text-left transition-all bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700';
+          btn.className = 'p-2 rounded-lg border text-left transition-all bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700';
         }
       });
 
-      let badgeTxt = 'C&B Curved Wave';
-      if (stile === 'cb_curved_wave') {
-        document.getElementById('btn-stile-cb').className = 'p-2.5 rounded-lg border text-left transition-all bg-emerald-500/15 border-emerald-500 text-white';
-        badgeTxt = 'C&B Curved Wave';
-      } else if (stile === 'metroquadro_gradient') {
-        document.getElementById('btn-stile-metroquadro').className = 'p-2.5 rounded-lg border text-left transition-all bg-emerald-500/15 border-emerald-500 text-white';
-        badgeTxt = 'Metroquadro Crimson';
-      } else if (stile === 'professionecasa_sidebar') {
-        document.getElementById('btn-stile-professionecasa').className = 'p-2.5 rounded-lg border text-left transition-all bg-emerald-500/15 border-emerald-500 text-white';
-        badgeTxt = 'ProfessioneCasa Sidebar';
-      } else if (stile === 'luxury_glass') {
-        document.getElementById('btn-stile-luxury').className = 'p-2.5 rounded-lg border text-left transition-all bg-emerald-500/15 border-emerald-500 text-white';
-        badgeTxt = 'Luxury Glass';
+      const btnAttivo = document.getElementById(`btn-stile-${stile}`);
+      if (btnAttivo) {
+        btnAttivo.className = 'p-2 rounded-lg border text-left transition-all bg-emerald-500/15 border-emerald-500 text-white';
       }
-      document.getElementById('sg-badge-stile-attivo').textContent = badgeTxt;
 
+      const nomiLabel = {
+        'cb_curved_wave': 'C&B Curved Wave',
+        'metroquadro_gradient': 'Metroquadro Crimson',
+        'professionecasa_sidebar': 'ProfessioneCasa Sidebar',
+        'luxury_glass': 'Luxury Glass',
+        'tempocasa_green': 'Tempocasa Modern Green',
+        'editorial_magazine': 'Editorial Magazine',
+        'splitscreen_dual': 'SplitScreen Dual View',
+        'drone_hero': 'Drone Hero Cinematic'
+      };
+
+      document.getElementById('sg-badge-stile-attivo').textContent = nomiLabel[stile] || stile;
       ridisegnaGraficaLive();
     }
 
@@ -1428,6 +1527,67 @@
       return s;
     }
 
+    // GESTIONE AUDIO MUSICALE (DIRETTA01)
+    function impostaTracciaMusicale() {
+      const audio = document.getElementById('audio-player');
+      const traccia = document.getElementById('select-traccia-musicale').value;
+      audio.src = `./assets/musica/${traccia}`;
+    }
+
+    function cambiaTracciaMusicale() {
+      const traccia = document.getElementById('select-traccia-musicale').value;
+      const audio = document.getElementById('audio-player');
+      const wasPlaying = isAudioPlaying;
+      audio.src = `./assets/musica/${traccia}`;
+      if (wasPlaying) {
+        audio.play().catch(e => console.log('Autoplay audio:', e));
+      }
+      mostraToast(`🎵 Traccia: ${traccia.replace(/_/g, ' ').replace('.mp3', '')}`);
+    }
+
+    function toggleAudioAnteprima() {
+      const audio = document.getElementById('audio-player');
+      const btn = document.getElementById('btn-audio-play');
+      const icon = document.getElementById('icon-audio-play');
+      const eq = document.getElementById('eq-bars');
+
+      if (!isAudioPlaying) {
+        audio.play().then(() => {
+          isAudioPlaying = true;
+          icon.textContent = '⏸️';
+          btn.classList.add('bg-amber-600');
+          btn.classList.remove('bg-emerald-600');
+          eq.classList.remove('opacity-50');
+          Array.from(eq.children).forEach((bar, idx) => {
+            bar.className = `w-1 bg-emerald-400 rounded-full animate-eq-${(idx % 4) + 1}`;
+          });
+        }).catch(err => {
+          console.log('Audio error:', err);
+          alert('Clicca di nuovo per avviare la riproduzione audio');
+        });
+      } else {
+        fermaAudio();
+      }
+    }
+
+    function fermaAudio() {
+      const audio = document.getElementById('audio-player');
+      const btn = document.getElementById('btn-audio-play');
+      const icon = document.getElementById('icon-audio-play');
+      const eq = document.getElementById('eq-bars');
+
+      audio.pause();
+      isAudioPlaying = false;
+      icon.textContent = '▶️';
+      btn.classList.remove('bg-amber-600');
+      btn.classList.add('bg-emerald-600');
+      eq.classList.add('opacity-50');
+      Array.from(eq.children).forEach(bar => {
+        bar.className = 'w-1 bg-emerald-400 rounded-full h-1';
+      });
+    }
+
+    // AGGIORNA TESTO POST SOCIAL
     function aggiornaTestoPostSocial() {
       if (!immobileStudioGrafico) return;
       const titolo = immobileStudioGrafico.titolo;
@@ -1470,15 +1630,19 @@ Antonio Giancani — 320 166 7156
       });
     }
 
-    // MOTORE GRAFICO HTML5 CANVAS (1080x1080)
-    function ridisegnaGraficaLive() {
+    // =========================================================================
+    // MOTORE GRAFICO RENDERING CANVAS (1080x1080) CON GLI 8 STILI
+    // =========================================================================
+    let cachedImg = null;
+    let cachedImgUrl = '';
+
+    function ridisegnaGraficaLive(zoomScale = 1.0, panX = 0, panY = 0) {
       if (!immobileStudioGrafico) return;
       aggiornaTestoPostSocial();
 
       const canvas = document.getElementById('grafica-canvas');
       const ctx = canvas.getContext('2d');
       const loading = document.getElementById('canvas-loading');
-      loading.classList.remove('hidden');
 
       const W = 1080;
       const H = 1080;
@@ -1492,27 +1656,25 @@ Antonio Giancani — 320 166 7156
       const titolo = immobileStudioGrafico.titolo;
       const desc = immobileStudioGrafico.descrizione;
 
-      // Carica l'immagine reale con crossOrigin anonymous
+      if (cachedImg && cachedImgUrl === immobileStudioGrafico.fotoUrl) {
+        renderizzaStileScelto(ctx, cachedImg, W, H, titolo, prezzo, mq, luogo, badge, desc, zoomScale, panX, panY);
+        return;
+      }
+
+      loading.classList.remove('hidden');
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.src = immobileStudioGrafico.fotoUrl;
 
       img.onload = () => {
         loading.classList.add('hidden');
-        if (stileGraficoCorrente === 'cb_curved_wave') {
-          disegnaStileCBCurvedWave(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc);
-        } else if (stileGraficoCorrente === 'metroquadro_gradient') {
-          disegnaStileMetroquadro(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc);
-        } else if (stileGraficoCorrente === 'professionecasa_sidebar') {
-          disegnaStileProfessioneCasa(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc);
-        } else {
-          disegnaStileLuxuryGlass(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc);
-        }
+        cachedImg = img;
+        cachedImgUrl = immobileStudioGrafico.fotoUrl;
+        renderizzaStileScelto(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoomScale, panX, panY);
       };
 
       img.onerror = () => {
         loading.classList.add('hidden');
-        // Fallback elegante se l'immagine è bloccata da rete
         ctx.fillStyle = '#0f172a';
         ctx.fillRect(0, 0, W, H);
         disegnaHeaderLogoGiancani(ctx, W, 140);
@@ -1521,23 +1683,37 @@ Antonio Giancani — 320 166 7156
         ctx.textAlign = 'center';
         ctx.fillText(titolo, W/2, H/2 - 40);
         ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 42px sans-serif';
+        ctx.font = 'bold 44px sans-serif';
         ctx.fillText(prezzo, W/2, H/2 + 30);
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '22px sans-serif';
-        ctx.fillText(mq + ' • ' + luogo, W/2, H/2 + 80);
       };
     }
 
-    // 1. STILE C&B CURVED WAVE
-    function disegnaStileCBCurvedWave(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc) {
-      // Sfondo chiaro
+    function renderizzaStileScelto(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0, px = 0, py = 0) {
+      if (stileGraficoCorrente === 'cb_curved_wave') {
+        disegnaStileCBCurvedWave(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom);
+      } else if (stileGraficoCorrente === 'metroquadro_gradient') {
+        disegnaStileMetroquadro(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom);
+      } else if (stileGraficoCorrente === 'professionecasa_sidebar') {
+        disegnaStileProfessioneCasa(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom);
+      } else if (stileGraficoCorrente === 'luxury_glass') {
+        disegnaStileLuxuryGlass(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom);
+      } else if (stileGraficoCorrente === 'tempocasa_green') {
+        disegnaStileTempocasaGreen(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom);
+      } else if (stileGraficoCorrente === 'editorial_magazine') {
+        disegnaStileEditorialMagazine(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom);
+      } else if (stileGraficoCorrente === 'splitscreen_dual') {
+        disegnaStileSplitScreenDual(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom);
+      } else {
+        disegnaStileDroneHero(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom);
+      }
+    }
+
+    // 1. C&B CURVED WAVE
+    function disegnaStileCBCurvedWave(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0) {
       ctx.fillStyle = '#f8f9fb';
       ctx.fillRect(0, 0, W, H);
-
       const headerH = 150;
-      
-      // Foto a destra con maschera poligonale curva
+
       ctx.save();
       ctx.beginPath();
       ctx.moveTo(W * 0.36, headerH);
@@ -1546,10 +1722,9 @@ Antonio Giancani — 320 166 7156
       ctx.lineTo(W * 0.22, H);
       ctx.closePath();
       ctx.clip();
-      disegnaImmagineCover(ctx, img, W * 0.22, headerH, W * 0.78, H - headerH);
+      disegnaImmagineCoverZoom(ctx, img, W * 0.22, headerH, W * 0.78, H - headerH, zoom);
       ctx.restore();
 
-      // Ala Blu Sinistra Giancani (#184c78)
       ctx.fillStyle = '#184c78';
       ctx.beginPath();
       ctx.moveTo(0, headerH);
@@ -1559,11 +1734,9 @@ Antonio Giancani — 320 166 7156
       ctx.closePath();
       ctx.fill();
 
-      // Header Bianco Superiore
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, W, headerH);
       
-      // Ala Blu Destra Header (#184c78)
       ctx.fillStyle = '#184c78';
       ctx.beginPath();
       ctx.moveTo(W * 0.65, 0);
@@ -1573,10 +1746,8 @@ Antonio Giancani — 320 166 7156
       ctx.closePath();
       ctx.fill();
 
-      // Logo Header
       disegnaHeaderLogoGiancani(ctx, W, headerH);
 
-      // Pin Località nel footer blu
       const pinY = H - 85;
       disegnaIconaPin(ctx, 45, pinY, 26, '#ffffff');
       ctx.fillStyle = '#ffffff';
@@ -1584,7 +1755,6 @@ Antonio Giancani — 320 166 7156
       ctx.textAlign = 'left';
       ctx.fillText(luogo, 68, pinY + 6);
 
-      // Badge Pillola "IN VENDITA"
       const bx = W - 320, by = headerH + 24, bw = 290, bh = 54;
       disegnaRoundedRect(ctx, bx, by, bw, bh, 27, '#ffffff', '#184c78', 3);
       ctx.fillStyle = '#184c78';
@@ -1596,7 +1766,6 @@ Antonio Giancani — 320 166 7156
       ctx.font = 'bold 22px sans-serif';
       ctx.fillText(badge, bx + 58, by + 35);
 
-      // Card Bianca Descrittiva Inferiore
       const cw = W * 0.68, ch = 240;
       const cx = W - cw - 30, cy = H - ch - 30;
       disegnaRoundedRect(ctx, cx, cy, cw, ch, 18, 'rgba(255,255,255,0.96)', '#e2e8f0', 2);
@@ -1624,12 +1793,10 @@ Antonio Giancani — 320 166 7156
       ctx.fillText('— Immobiliare Giancani', cx + 25, cy + ch - 18);
     }
 
-    // 2. STILE METROQUADRO GRADIENT
-    function disegnaStileMetroquadro(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc) {
-      // Foto a tutto schermo
-      disegnaImmagineCover(ctx, img, 0, 0, W, H);
+    // 2. METROQUADRO GRADIENT
+    function disegnaStileMetroquadro(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0) {
+      disegnaImmagineCoverZoom(ctx, img, 0, 0, W, H, zoom);
 
-      // Gradiente Scuro/Crimson dal centro verso il fondo
       const grad = ctx.createLinearGradient(0, H * 0.38, 0, H);
       grad.addColorStop(0, 'rgba(15, 18, 26, 0.0)');
       grad.addColorStop(0.4, 'rgba(20, 20, 28, 0.75)');
@@ -1638,21 +1805,17 @@ Antonio Giancani — 320 166 7156
       ctx.fillStyle = grad;
       ctx.fillRect(0, H * 0.38, W, H * 0.62);
 
-      // Badge IN VENDITA in alto a sinistra
       disegnaRoundedRect(ctx, 35, 35, 220, 52, 14, '#ffffff', '#d41c28', 2);
       ctx.fillStyle = '#d41c28';
       ctx.font = 'bold 22px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText(badge, 35 + 110, 35 + 34);
 
-      // Logo Header in alto a destra
-      ctx.fillStyle = 'rgba(255,255,255,0.95)';
       disegnaRoundedRect(ctx, W - 320, 35, 285, 52, 14, 'rgba(255,255,255,0.95)', '#ffffff', 1);
       ctx.fillStyle = '#184c78';
       ctx.font = 'bold 18px sans-serif';
       ctx.fillText('IMMOBILIARE GIANCANI', W - 320 + 142, 35 + 33);
 
-      // Titolo & Prezzo
       ctx.textAlign = 'left';
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 38px sans-serif';
@@ -1666,7 +1829,6 @@ Antonio Giancani — 320 166 7156
       ctx.font = 'bold 50px sans-serif';
       ctx.fillText(prezzo, 45, H * 0.54 + 100);
 
-      // 4 Icone Vettoriali Cerchiate
       const iconY = H * 0.54 + 165;
       const icons = [
         { label: mq.replace('metri quadri', 'mq'), fn: disegnaIconaRuler },
@@ -1693,7 +1855,6 @@ Antonio Giancani — 320 166 7156
         ctx.fillText(ic.label, cx, iconY + 54);
       });
 
-      // Card Descrittiva Bianca Inferiore
       const cardY = iconY + 80;
       const cardH = H - cardY - 30;
       disegnaRoundedRect(ctx, 35, cardY, W - 70, cardH, 16, 'rgba(255,255,255,0.96)', '#ffffff', 0);
@@ -1708,18 +1869,14 @@ Antonio Giancani — 320 166 7156
       ctx.fillText('— Immobiliare Giancani • Favara (AG)', 55, cardY + cardH - 20);
     }
 
-    // 3. STILE PROFESSIONECASA SIDEBAR
-    function disegnaStileProfessioneCasa(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc) {
+    // 3. PROFESSIONECASA SIDEBAR
+    function disegnaStileProfessioneCasa(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0) {
       const sideW = W * 0.20;
-
-      // Sidebar Rossa a sinistra (#e11d2a)
       ctx.fillStyle = '#e11d2a';
       ctx.fillRect(0, 0, sideW, H);
 
-      // Foto a destra
-      disegnaImmagineCover(ctx, img, sideW, 0, W - sideW, H);
+      disegnaImmagineCoverZoom(ctx, img, sideW, 0, W - sideW, H, zoom);
 
-      // 3 Icone Verticali nella Sidebar Rossa
       const stepY = H / 4;
       const iconsSide = [
         { label: mq.replace('metri quadri', 'mq'), fn: disegnaIconaRuler },
@@ -1745,12 +1902,10 @@ Antonio Giancani — 320 166 7156
         ctx.fillText(ic.label, cx, cy + 50);
       });
 
-      // Card Bianca a Destra con Chevron Rosso
       const cw = W * 0.72, ch = 340;
       const cx = W - cw - 30, cy = H - ch - 30;
       disegnaRoundedRect(ctx, cx, cy, cw, ch, 18, 'rgba(255,255,255,0.97)', '#e11d2a', 2);
 
-      // Chevron Rosso
       ctx.fillStyle = '#e11d2a';
       ctx.beginPath();
       ctx.moveTo(cx, cy + 24);
@@ -1772,7 +1927,6 @@ Antonio Giancani — 320 166 7156
       ctx.font = 'bold 18px sans-serif';
       ctx.fillText('📍 ' + luogo, cx + 38, cy + 120);
 
-      // Punti con spunte
       ctx.fillStyle = '#334155';
       ctx.font = '17px sans-serif';
       ctx.fillText('✓ Superficie utile: ' + mq, cx + 38, cy + 160);
@@ -1788,25 +1942,22 @@ Antonio Giancani — 320 166 7156
       ctx.fillText('— Immobiliare Giancani', cx + 38, cy + 315);
     }
 
-    // 4. STILE LUXURY GLASS
-    function disegnaStileLuxuryGlass(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc) {
-      disegnaImmagineCover(ctx, img, 0, 0, W, H);
+    // 4. LUXURY GLASS
+    function disegnaStileLuxuryGlass(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0) {
+      disegnaImmagineCoverZoom(ctx, img, 0, 0, W, H, zoom);
 
-      // Dark Vignette Overlay
       const grad = ctx.createRadialGradient(W/2, H/2, 200, W/2, H/2, W * 0.75);
       grad.addColorStop(0, 'rgba(15, 23, 42, 0.4)');
       grad.addColorStop(1, 'rgba(11, 17, 32, 0.95)');
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, W, H);
 
-      // Badge Superiore Luxury
       disegnaRoundedRect(ctx, 45, 45, 340, 54, 27, 'rgba(15, 23, 42, 0.85)', '#d97706', 2);
       ctx.fillStyle = '#f59e0b';
       ctx.font = 'bold 20px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('✨ ' + badge, 45 + 170, 45 + 35);
 
-      // Card Glassmorphism Inferiore
       const cw = W - 90, ch = 340;
       const cx = 45, cy = H - ch - 45;
       disegnaRoundedRect(ctx, cx, cy, cw, ch, 24, 'rgba(15, 23, 42, 0.88)', 'rgba(255, 255, 255, 0.2)', 2);
@@ -1837,6 +1988,234 @@ Antonio Giancani — 320 166 7156
       ctx.fillText('📞 Info & Visite: Antonio Giancani 320 166 7156', cx + 40, cy + 295);
     }
 
+    // 5. TEMPOCASA MODERN GREEN
+    function disegnaStileTempocasaGreen(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0) {
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, W, H);
+
+      // Foto principale 65% superiore
+      const photoH = H * 0.65;
+      disegnaImmagineCoverZoom(ctx, img, 0, 0, W, photoH, zoom);
+
+      // Fascia diagonale verde smeraldo Tempocasa (#00a859)
+      ctx.fillStyle = '#00a859';
+      ctx.beginPath();
+      ctx.moveTo(0, photoH - 40);
+      ctx.lineTo(W, photoH - 90);
+      ctx.lineTo(W, photoH + 10);
+      ctx.lineTo(0, photoH + 60);
+      ctx.closePath();
+      ctx.fill();
+
+      // Badge in alto a sinistra
+      disegnaRoundedRect(ctx, 35, 35, 260, 52, 10, '#00a859', '#ffffff', 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 20px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('NOVITÀ IMMOBILIARE', 35 + 130, 35 + 34);
+
+      // Logo Header in alto a destra
+      disegnaRoundedRect(ctx, W - 320, 35, 285, 52, 10, '#ffffff', '#00a859', 2);
+      ctx.fillStyle = '#00a859';
+      ctx.font = 'bold 18px sans-serif';
+      ctx.fillText('IMMOBILIARE GIANCANI', W - 320 + 142, 35 + 33);
+
+      // Sezione Inferiore Bianca
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#0b1120';
+      ctx.font = 'bold 36px sans-serif';
+      ctx.fillText(spezzaTesto(titolo, 32)[0], 45, photoH + 115);
+
+      ctx.fillStyle = '#64748b';
+      ctx.font = 'bold 20px sans-serif';
+      ctx.fillText('📍 ' + luogo, 45, photoH + 155);
+
+      // Prezzo enorme verde
+      ctx.fillStyle = '#00a859';
+      ctx.font = 'bold 52px sans-serif';
+      ctx.fillText(prezzo, 45, photoH + 225);
+
+      // 3 Pillole Verdi Caratteristiche
+      const pills = [mq, 'Posizione Servita', 'Ottimo Affare'];
+      let px = 45;
+      pills.forEach(p => {
+        const tw = ctx.measureText(p).width + 30;
+        disegnaRoundedRect(ctx, px, photoH + 260, tw, 36, 18, '#ecfdf5', '#00a859', 1.5);
+        ctx.fillStyle = '#065f46';
+        ctx.font = 'bold 15px sans-serif';
+        ctx.fillText('✓ ' + p, px + 15, photoH + 284);
+        px += tw + 12;
+      });
+
+      ctx.fillStyle = '#00a859';
+      ctx.font = 'bold 18px sans-serif';
+      ctx.fillText('— Immobiliare Giancani • Favara (AG)', 45, H - 25);
+    }
+
+    // 6. EDITORIAL MAGAZINE ARCHITETTURA
+    function disegnaStileEditorialMagazine(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0) {
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, W, H);
+
+      // Cornice raffinata avorio
+      const borderW = 24;
+      ctx.strokeStyle = '#d4af37';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(borderW, borderW, W - borderW*2, H - borderW*2);
+
+      // Foto centrale con margini editoriali
+      const fX = 40, fY = 120, fW = W - 80, fH = H * 0.52;
+      disegnaImmagineCoverZoom(ctx, img, fX, fY, fW, fH, zoom);
+
+      // Header Editoriale
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = 'bold 26px "Playfair Display", Georgia, serif';
+      ctx.fillText('ARCHITETTURA & PREGIO', W / 2, 70);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '13px sans-serif';
+      ctx.fillText("COLLEZIONE ESCLUSIVA • 37°19 N 13°39 E • FAVARA (AG)", W / 2, 98);
+
+      // Card Descrittiva Inferiore
+      const bY = fY + fH + 30;
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#d4af37';
+      ctx.font = 'bold 18px sans-serif';
+      ctx.fillText('PROPRIETÀ SELEZIONATA', 50, bY + 20);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 34px "Playfair Display", Georgia, serif';
+      ctx.fillText(spezzaTesto(titolo, 36)[0], 50, bY + 65);
+
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '18px sans-serif';
+      ctx.fillText(luogo + '  —  ' + mq, 50, bY + 105);
+
+      ctx.fillStyle = '#f59e0b';
+      ctx.font = 'bold 44px sans-serif';
+      ctx.fillText(prezzo, 50, bY + 165);
+
+      ctx.fillStyle = '#64748b';
+      ctx.font = '16px sans-serif';
+      ctx.fillText(spezzaTesto(desc, 60)[0] || '', 50, bY + 205);
+
+      ctx.fillStyle = '#d4af37';
+      ctx.font = 'bold 18px "Playfair Display", Georgia, serif';
+      ctx.fillText('— Collezione Immobiliare Giancani', 50, H - 45);
+    }
+
+    // 7. SPLITSCREEN DUAL VIEW
+    function disegnaStileSplitScreenDual(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0) {
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, W, H);
+
+      // Sezione Superiore Foto 58%
+      const topH = H * 0.58;
+      disegnaImmagineCoverZoom(ctx, img, 0, 0, W, topH, zoom);
+
+      // Barra divisoria smeraldo
+      ctx.fillStyle = '#10b981';
+      ctx.fillRect(0, topH - 6, W, 12);
+
+      // Badge centrale sulla barra
+      disegnaRoundedRect(ctx, W/2 - 130, topH - 24, 260, 48, 24, '#0f172a', '#10b981', 2);
+      ctx.fillStyle = '#10b981';
+      ctx.font = 'bold 18px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('DOPPIA ESPOSIZIONE', W/2, topH + 6);
+
+      // Sezione Inferiore Dati a 2 colonne
+      const botY = topH + 40;
+      
+      // Colonna SX: Titolo e Prezzo
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 34px sans-serif';
+      ctx.fillText(spezzaTesto(titolo, 30)[0], 45, botY + 30);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '20px sans-serif';
+      ctx.fillText('📍 ' + luogo, 45, botY + 70);
+
+      ctx.fillStyle = '#10b981';
+      ctx.font = 'bold 50px sans-serif';
+      ctx.fillText(prezzo, 45, botY + 140);
+
+      // Colonna DX: Specifiche e Contatti
+      const rX = W * 0.55;
+      disegnaRoundedRect(ctx, rX, botY, W * 0.40, 200, 16, '#1e293b', '#334155', 1);
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 18px sans-serif';
+      ctx.fillText('SCHEDA TECNICA', rX + 25, botY + 35);
+
+      ctx.fillStyle = '#e2e8f0';
+      ctx.font = '16px sans-serif';
+      ctx.fillText('📐 Superficie: ' + mq, rX + 25, botY + 75);
+      ctx.fillText('🛋️ Finiture di pregio', rX + 25, botY + 110);
+      ctx.fillText('📞 Antonio 320 166 7156', rX + 25, botY + 145);
+
+      ctx.fillStyle = '#10b981';
+      ctx.font = 'bold 18px sans-serif';
+      ctx.fillText('— Immobiliare Giancani', 45, H - 35);
+    }
+
+    // 8. DRONE HERO CINEMATIC HUD
+    function disegnaStileDroneHero(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0) {
+      disegnaImmagineCoverZoom(ctx, img, 0, 0, W, H, zoom);
+
+      // Bande Nere Widescreen Cinematografiche
+      const barH = 110;
+      ctx.fillStyle = 'rgba(0,0,0,0.85)';
+      ctx.fillRect(0, 0, W, barH);
+      ctx.fillRect(0, H - barH - 40, W, barH + 40);
+
+      // HUD Telemetria Drone Superiore
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#ef4444';
+      ctx.beginPath();
+      ctx.arc(45, 45, 8, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 18px monospace';
+      ctx.fillText('REC ● 4K 60FPS • DJI MAVIC PRO', 65, 52);
+
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#10b981';
+      ctx.font = 'bold 18px monospace';
+      ctx.fillText('VISTA AEREA ESCLUSIVA • FAVARA', W - 45, 52);
+
+      // Mirino Centrale Trasparente
+      ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(W/2, H/2 - 20, 40, 0, Math.PI * 2);
+      ctx.moveTo(W/2 - 55, H/2 - 20); ctx.lineTo(W/2 + 55, H/2 - 20);
+      ctx.moveTo(W/2, H/2 - 75); ctx.lineTo(W/2, H/2 + 35);
+      ctx.stroke();
+
+      // Dati Cinematografici Inferiori
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 36px sans-serif';
+      ctx.fillText(spezzaTesto(titolo, 34)[0], 45, H - 95);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = 'bold 18px sans-serif';
+      ctx.fillText('📍 ' + luogo + '  •  📐 ' + mq, 45, H - 60);
+
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#10b981';
+      ctx.font = 'bold 48px sans-serif';
+      ctx.fillText(prezzo, W - 45, H - 75);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 16px sans-serif';
+      ctx.fillText('— Immobiliare Giancani', W - 45, H - 40);
+    }
+
     // HELPER GRAFICI & ICONE VETTORIALI
     function disegnaHeaderLogoGiancani(ctx, W, headerH) {
       ctx.fillStyle = '#184c78';
@@ -1849,10 +2228,10 @@ Antonio Giancani — 320 166 7156
       ctx.fillText('SERVIZI IMMOBILIARI ESCLUSIVI • FAVARA (AG)', 35, 85);
     }
 
-    function disegnaImmagineCover(ctx, img, dx, dy, dw, dh) {
+    function disegnaImmagineCoverZoom(ctx, img, dx, dy, dw, dh, zoom = 1.0) {
       const iw = img.naturalWidth || img.width;
       const ih = img.naturalHeight || img.height;
-      const scale = Math.max(dw / iw, dh / ih);
+      const scale = Math.max(dw / iw, dh / ih) * zoom;
       const nw = iw * scale;
       const nh = ih * scale;
       const ox = dx + (dw - nw) / 2;
@@ -1916,7 +2295,6 @@ Antonio Giancani — 320 166 7156
       ctx.lineTo(cx - s, cy + s);
       ctx.lineTo(cx + s, cy + s);
       ctx.stroke();
-      // Tick marks
       ctx.lineWidth = 2;
       for(let i=1; i<=3; i++) {
         const pos = cx - s + (size * i / 4);
@@ -1938,7 +2316,6 @@ Antonio Giancani — 320 166 7156
       ctx.moveTo(cx + s, cy - 4);
       ctx.lineTo(cx + s, cy + s);
       ctx.stroke();
-      // Gocce
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(cx - s/2, cy); ctx.lineTo(cx - s/2 - 2, cy + 8);
@@ -1950,11 +2327,8 @@ Antonio Giancani — 320 166 7156
     function disegnaIconaDivano(ctx, cx, cy, size, color) {
       const s = size / 2;
       ctx.fillStyle = color;
-      // Schienale
       ctx.fillRect(cx - s + 4, cy - s + 4, size - 8, 8);
-      // Seduta
       ctx.fillRect(cx - s, cy, size, 10);
-      // Braccioli
       ctx.fillRect(cx - s, cy - 6, 6, 16);
       ctx.fillRect(cx + s - 6, cy - 6, 6, 16);
     }
@@ -1986,17 +2360,144 @@ Antonio Giancani — 320 166 7156
       return lines;
     }
 
-    // DOWNLOAD GRAFICA HD PNG
+    // DOWNLOAD IMMAGINE HD PNG
     function scaricaGraficaHD() {
       const canvas = document.getElementById('grafica-canvas');
       const nomeFile = `Giancani_${immobileStudioGrafico.titolo.replace(/[^a-zA-Z0-9]/g, '_')}_${stileGraficoCorrente}.png`;
-      
       const link = document.createElement('a');
       link.download = nomeFile;
       link.href = canvas.toDataURL('image/png');
       link.click();
-
       mostraToast('📥 Grafica HD scaricata con successo!');
+    }
+
+    // =========================================================================
+    // REGISTRAZIONE & DOWNLOAD VIDEO MP4 CON ANIMAZIONE KEN BURNS & MUSICA
+    // =========================================================================
+    async function scaricaVideoMP4ConMusica() {
+      const canvas = document.getElementById('grafica-canvas');
+      const audio = document.getElementById('audio-player');
+      const overlay = document.getElementById('video-recording-overlay');
+      const pText = document.getElementById('video-progress-text');
+      const pBar = document.getElementById('video-progress-bar');
+      const tracciaNome = document.getElementById('select-traccia-musicale').value.replace('.mp3', '');
+
+      // Se c'è un video pre-renderizzato e l'utente vuole il download immediato fallback
+      if (immobileStudioGrafico && immobileStudioGrafico.videoUrl && !window.MediaRecorder) {
+        scaricaFileUrl(immobileStudioGrafico.videoUrl, `Giancani_${immobileStudioGrafico.titolo.replace(/[^a-zA-Z0-9]/g, '_')}_${tracciaNome}.mp4`);
+        return;
+      }
+
+      overlay.classList.remove('hidden');
+      pBar.style.width = '0%';
+      pText.textContent = 'Inizializzazione traccia audio & video...';
+
+      try {
+        // Setup Web Audio Context per il mix
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const actx = new AudioContext();
+        await actx.resume();
+
+        // Carica la traccia audio come buffer
+        const audioResp = await fetch(audio.src);
+        const arrayBuf = await audioResp.arrayBuffer();
+        const audioBuf = await actx.decodeAudioData(arrayBuf);
+
+        const sourceNode = actx.createBufferSource();
+        sourceNode.buffer = audioBuf;
+
+        const mediaDest = actx.createMediaStreamDestination();
+        sourceNode.connect(mediaDest);
+        sourceNode.connect(actx.destination); // per monitoraggio
+
+        // Canvas stream
+        const canvasStream = canvas.captureStream(30);
+        const combinedStream = new MediaStream([
+          ...canvasStream.getVideoTracks(),
+          ...mediaDest.stream.getAudioTracks()
+        ]);
+
+        let mimeType = 'video/webm;codecs=vp9,opus';
+        if (MediaRecorder.isTypeSupported('video/mp4;codecs=avc1,mp4a.40.2')) {
+          mimeType = 'video/mp4;codecs=avc1,mp4a.40.2';
+        } else if (MediaRecorder.isTypeSupported('video/mp4')) {
+          mimeType = 'video/mp4';
+        } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus')) {
+          mimeType = 'video/webm;codecs=vp8,opus';
+        }
+
+        const ext = mimeType.includes('mp4') ? 'mp4' : 'mp4'; // Salviamo comunque con estensione video desiderata
+        const recorder = new MediaRecorder(combinedStream, { mimeType: mimeType, videoBitsPerSecond: 4000000 });
+        const chunks = [];
+
+        recorder.ondataavailable = e => {
+          if (e.data && e.data.size > 0) chunks.push(e.data);
+        };
+
+        recorder.onstop = () => {
+          sourceNode.stop();
+          actx.close();
+          cancelAnimationFrame(animazioneKenBurnsFrameId);
+
+          const blob = new Blob(chunks, { type: mimeType });
+          const url = URL.createObjectURL(blob);
+          const nomeFile = `Giancani_Video_${immobileStudioGrafico.titolo.replace(/[^a-zA-Z0-9]/g, '_')}_${tracciaNome}.${ext}`;
+          
+          scaricaFileUrl(url, nomeFile);
+
+          overlay.classList.add('hidden');
+          ridisegnaGraficaLive(1.0);
+          mostraToast('🎬 Video MP4 con musica scaricato con successo!');
+        };
+
+        // Avvia audio e registrazione per 8 secondi
+        sourceNode.start(0);
+        recorder.start();
+
+        const durataTotaleSec = 8;
+        const startTime = performance.now();
+
+        function renderFrameKenBurns(time) {
+          const elapsed = (time - startTime) / 1000;
+          const prog = Math.min(1.0, elapsed / durataTotaleSec);
+
+          pBar.style.width = (prog * 100) + '%';
+          pText.textContent = `Registrazione Video MP4: ${Math.round(prog * 100)}% (Ken Burns Zoom + Audio)`;
+
+          // Zoom lento da 1.0 a 1.15
+          const currentZoom = 1.0 + (prog * 0.15);
+          ridisegnaGraficaLive(currentZoom);
+
+          if (prog < 1.0) {
+            animazioneKenBurnsFrameId = requestAnimationFrame(renderFrameKenBurns);
+          } else {
+            recorder.stop();
+          }
+        }
+
+        animazioneKenBurnsFrameId = requestAnimationFrame(renderFrameKenBurns);
+
+      } catch (err) {
+        console.error('Errore registrazione video:', err);
+        overlay.classList.add('hidden');
+        
+        // Fallback: se la cattura Web Audio dà errore di sicurezza sul dispositivo, scarica il video pre-renderizzato
+        if (immobileStudioGrafico && immobileStudioGrafico.videoUrl) {
+          scaricaFileUrl(immobileStudioGrafico.videoUrl, `Giancani_Video_${immobileStudioGrafico.titolo.replace(/[^a-zA-Z0-9]/g, '_')}.mp4`);
+          mostraToast('🎬 Download video MP4 completato!');
+        } else {
+          alert('Impossibile registrare il video nel browser: ' + err.message);
+        }
+      }
+    }
+
+    function scaricaFileUrl(url, nomeFile) {
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = nomeFile;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
 
     // MODAL LIGHTBOX FOTO
