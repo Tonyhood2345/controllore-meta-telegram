@@ -531,6 +531,78 @@
 
           </div>
 
+          <!-- SELETTORE FOTO & TESTI DALLO SHEET (CAROSELLO SCORREVOLE A DESTRA E SINISTRA) -->
+          <div class="w-full mt-3 bg-slate-900/90 border border-slate-800 rounded-xl p-3 space-y-2">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="font-bold text-slate-200 block text-xs tracking-wide uppercase flex items-center gap-1.5">
+                  <span>📸</span> Galleria Foto & Testi Sheet (Colonna F)
+                </span>
+                <span class="text-[10px] text-slate-400">Scorri a destra e a sinistra per scegliere quale scatto e testo usare</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="scorriGalleriaStudioGrafico(-1)" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-emerald-600 text-white flex items-center justify-center transition-colors text-xs font-bold shadow" title="Scorri a sinistra">◀</button>
+                <span id="sg-gallery-counter" class="text-xs font-mono font-bold text-emerald-400 px-1">1 / 1</span>
+                <button onclick="scorriGalleriaStudioGrafico(1)" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-emerald-600 text-white flex items-center justify-center transition-colors text-xs font-bold shadow" title="Scorri a destra">▶</button>
+              </div>
+            </div>
+
+            <!-- Nastro Orizzontale Thumbnails con scroll a scorrimento -->
+            <div id="sg-thumbnails-container" class="flex items-center gap-2.5 overflow-x-auto py-2 custom-scrollbar scroll-smooth">
+              <!-- Renderizzato dinamicamente con renderGalleriaStudioGrafico() -->
+            </div>
+
+            <!-- Box Anteprima Descrizione Riga Sheet Corrente -->
+            <div class="bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-[11px] text-slate-300 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 text-[10px] text-emerald-400 font-bold mb-0.5">
+                  <span id="sg-stanza-titolo">📍 Ambiente: Salotto</span>
+                  <span class="text-slate-500">• Testo riga adiacente (Colonna F)</span>
+                </div>
+                <p id="sg-stanza-descrizione" class="italic line-clamp-2 text-slate-200 leading-snug">Descrizione...</p>
+              </div>
+              <button onclick="applicaTestoStanzaCorrente()" class="shrink-0 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600/30 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/40 shadow transition-colors flex items-center gap-1">
+                <span>✓</span> <span>Usa Questo Testo</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- SELETTORE FOTO & TESTI DALLO SHEET (CAROSELLO SCORREVOLE A DESTRA E SINISTRA) -->
+          <div class="w-full mt-3 bg-slate-900/90 border border-slate-800 rounded-xl p-3 space-y-2">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="font-bold text-slate-200 block text-xs tracking-wide uppercase flex items-center gap-1.5">
+                  <span>📸</span> Galleria Foto & Testi Sheet (Colonna F)
+                </span>
+                <span class="text-[10px] text-slate-400">Scorri a destra e a sinistra per scegliere quale scatto e testo usare</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="scorriGalleriaStudioGrafico(-1)" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-emerald-600 text-white flex items-center justify-center transition-colors text-xs font-bold shadow" title="Scorri a sinistra">◀</button>
+                <span id="sg-gallery-counter" class="text-xs font-mono font-bold text-emerald-400 px-1">1 / 1</span>
+                <button onclick="scorriGalleriaStudioGrafico(1)" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-emerald-600 text-white flex items-center justify-center transition-colors text-xs font-bold shadow" title="Scorri a destra">▶</button>
+              </div>
+            </div>
+
+            <!-- Nastro Orizzontale Thumbnails con scroll a scorrimento -->
+            <div id="sg-thumbnails-container" class="flex items-center gap-2.5 overflow-x-auto py-2 custom-scrollbar scroll-smooth">
+              <!-- Renderizzato dinamicamente con renderGalleriaStudioGrafico() -->
+            </div>
+
+            <!-- Box Anteprima Descrizione Riga Sheet Corrente -->
+            <div class="bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-[11px] text-slate-300 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 text-[10px] text-emerald-400 font-bold mb-0.5">
+                  <span id="sg-stanza-titolo">📍 Ambiente: Salotto</span>
+                  <span class="text-slate-500">• Testo riga adiacente (Colonna F)</span>
+                </div>
+                <p id="sg-stanza-descrizione" class="italic line-clamp-2 text-slate-200 leading-snug">Descrizione...</p>
+              </div>
+              <button onclick="applicaTestoStanzaCorrente()" class="shrink-0 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600/30 hover:bg-emerald-600 text-emerald-300 hover:text-white border border-emerald-500/40 shadow transition-colors flex items-center gap-1">
+                <span>✓</span> <span>Usa Questo Testo</span>
+              </button>
+            </div>
+          </div>
+
           <!-- SELETTORE BASE MUSICALE & PLAYER AUDIO IN ANTEPRIMA -->
           <div class="w-full mt-3 bg-slate-900/90 border border-slate-800 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div class="flex items-center gap-2.5">
@@ -754,15 +826,36 @@
         </button>
       </div>
 
-      <!-- Modal Image Viewer -->
-      <div class="relative bg-slate-950 flex items-center justify-center min-h-[300px] sm:min-h-[420px] overflow-hidden">
-        <img id="modal-img-display" src="" alt="Foto Reale Immobile" class="max-h-[420px] w-full object-contain">
+      <!-- Modal Image Viewer con Frecce di Scorrimento SX e DX -->
+      <div class="relative bg-slate-950 flex items-center justify-center min-h-[320px] sm:min-h-[440px] overflow-hidden group">
+        <img id="modal-img-display" src="" alt="Foto Reale Immobile" class="max-h-[440px] w-full object-contain transition-opacity duration-200">
         
-        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 flex items-center gap-2 shadow-lg">
+        <!-- Frecce Navigazione Modal SX / DX -->
+        <button onclick="scorriFotoModal(-1)" 
+                class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-950/80 hover:bg-emerald-600 text-white flex items-center justify-center backdrop-blur-md transition-all shadow-xl text-sm font-bold border border-white/20 hover:scale-110 z-20 cursor-pointer" 
+                title="Foto Precedente (o Freccia Sinistra della tastiera)">
+          ◀
+        </button>
+        <button onclick="scorriFotoModal(1)" 
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-slate-950/80 hover:bg-emerald-600 text-white flex items-center justify-center backdrop-blur-md transition-all shadow-xl text-sm font-bold border border-white/20 hover:scale-110 z-20 cursor-pointer" 
+                title="Foto Successiva (o Freccia Destra della tastiera)">
+          ▶
+        </button>
+
+        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/85 backdrop-blur-md px-3.5 py-1 rounded-full border border-white/10 flex items-center gap-2 shadow-lg z-20 whitespace-nowrap">
           <span id="modal-tag-foto" class="text-xs font-bold text-emerald-400">🏡 Foto Originale Post</span>
           <span class="text-slate-500">•</span>
           <span id="modal-stanza" class="text-xs text-slate-300">Ambiente</span>
+          <span id="modal-photo-counter" class="text-xs font-mono font-bold text-emerald-300 ml-1">📸 1/1</span>
         </div>
+      </div>
+
+      <!-- Striscia Thumbnails Scorrevole a Destra e Sinistra nel Lightbox -->
+      <div class="bg-slate-900/95 px-4 py-2 border-b border-slate-800 flex items-center justify-between gap-3">
+        <div class="text-[11px] text-slate-400 shrink-0 flex items-center gap-1 font-semibold">
+          <span>📸</span> <span>Tutte le Foto Sheet:</span>
+        </div>
+        <div id="modal-thumbs-strip" class="flex items-center gap-2 overflow-x-auto py-1 custom-scrollbar scroll-smooth flex-1"></div>
       </div>
 
       <!-- Modal Body Dettagli -->
@@ -801,7 +894,7 @@
   <!-- SCRIPT LOGIC JAVASCRIPT: 8 STILI GRAFICI, AUDIO & EXPORT MP4 -->
   <!-- ========================================================================= -->
   <script>
-        const DATABASE_IMMOBILI_DEFAULT = [
+                const DATABASE_IMMOBILI_DEFAULT = [
   {
     "id": 1,
     "sheet": "Appartamento_4°_Piano_corso_Vittorio_Veneto_",
@@ -810,7 +903,7 @@
     "mq": "140 metri quadri",
     "canale": "Facebook",
     "mercato": "Italia • Nazionale",
-    "stanza": "Salotto Vuoto",
+    "stanza": "Salotto vuoto",
     "tipoFoto": "🛋️ Interno Salone",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1J_dumkLBgmNO14H2Ga0sTkEJR25jWbSw",
     "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
@@ -819,7 +912,110 @@
     "luogo": "Favara (AG), C.so V. Veneto 269",
     "badge": "IN VENDITA",
     "vani": "5 Vani",
-    "bagni": "2 Bagni"
+    "bagni": "2 Bagni",
+    "galleria": [
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1J_dumkLBgmNO14H2Ga0sTkEJR25jWbSw",
+        "stanza": "Salotto vuoto",
+        "desc": "Immaginate la luce dorata del tramonto favarese che bagna i 140 metri quadri di questo salotto, pronto a trasformarsi nel cuore pulsante della vostra nuova vita. Qui, il silenzio attuale nasconde un potenziale straordinario, dove ogni parete attende di accogliere le vostre storie e il calore dei pranzi in famiglia. Lasciatevi ispirare da questa vista panoramica e dalla comodità del terzo piano con ascensore — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/170yypPcEYWlBMJFlOHNU8u3Ox8c_64Yv",
+        "stanza": "Elemento di riscaldamento salotto",
+        "desc": "Immagina il calore avvolgente di questo salotto ristrutturato a nuovo, dove ogni dettaglio invita al relax e all'intimità familiare. La cura dei materiali riflette l'eleganza di un'abitazione di centoventi metri quadri, pronta a coccolarti con comfort sofisticato. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1l8X5Qpzh-mP_G4fHbWH-lckNuSAzthvM",
+        "stanza": "Ripostiglio vuoto",
+        "desc": "Qui, in questi dodici metri quadri di ordine nascosto, il silenzio custodisce la serenità di una casa che ha trovato la sua perfetta armonia. È lo spazio dove ogni oggetto trova il suo posto, lasciando libero il cuore di respirare la luce calda del sole agrigentino che illumina la vostra dimora di centocinquantadue metri quadri, ristrutturata a nuovo. Lasciatevi avvolgere da questa eleganza discreta — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1DnjATB-W8eAXJqFQPT_LAyHjmHpyvAiT",
+        "stanza": "Camera matrimoniale vuota",
+        "desc": "Qui, nel cuore del vostro rifugio di centoventi metri quadri, il silenzio avvolge ogni pensiero, promettendo notti di riposo profondo in una location appena ristrutturata a nuovo. Lasciatevi cullare dalla serenità di uno spazio pensato per la vostra intimità, dove l'eleganza dei dettagli incontra la quiete di Favara ed Agrigento. Un invito al benessere totale, riservato a chi cerca l'essenziale — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1ALPc_WIGj8LcF0Uwboi1PUpvDDCW29-W",
+        "stanza": "Corridoio",
+        "desc": ", metri quadri — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1gnxYQaeudYW3RxnipcIEC5doil6-t3kt",
+        "stanza": "Cameretta bianca con finestra",
+        "desc": "Immagina la delicatezza di una cameretta bianca dove la luce di Favara danza sulle pareti, creando un nido di sogni e tranquillità per i tuoi bambini. In questo appartamento di 120 metri quadri, ristrutturato a nuovo, ogni dettaglio respira cura e serenità, trasformando il riposo in un rituale di pura magia. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/14fF-NY1AXAIU2Y50KRHRSpKWQZ0KOiVe",
+        "stanza": "Cameretta bianca con disegno albero",
+        "desc": "Chiudete gli occhi e immaginate il soffio leggero della brezza agrigentina che accarezza le pareti bianche, dove un delicatissimo albero dipinto a mano racconta storie di crescita e sogni infiniti. In questo angolo di pura magia, all'interno di un appartamento di 120 metri quadri ristrutturato a nuovo, ogni risveglio è una carezza che invita al gioco e alla serenità. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/153hINmFEEpuw2yqA5z8Pqm-tXlmnZ_wL",
+        "stanza": "Cameretta singola  con albero disegnato nella parete",
+        "desc": "Immagina lo sguardo incantato di un bambino che si addormenta osservando l'albero disegnato sulla parete, un simbolo di crescita e sogni che si realizzano in questo nido intimo e sicuro. La luce morbida che filtra dalle finestre avvolge questo spazio di serenità, trasformando ogni sera in un racconto magico all'interno del nostro appartamento di 120 metri quadri, rifinito a nuovo. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1IjI92M5h3nSJCfmYskdQzYphAMbvjflS",
+        "stanza": "Vista panoramica mozzafiato sul retro dell'immobile",
+        "desc": "Chiudete gli occhi e immaginate la luce dorata del tramonto siciliano che bagna i 120 metri quadri di questo rifugio ristrutturato, dove il silenzio di Favara si fonde con la vastità dell'orizzonte agrigentino. È qui che il respiro si fa lento, cradellato da una vista panoramica che trasforma ogni sera in un rito di pace e meraviglia assoluta. Un lusso senza tempo, offerto con cuore — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1O6QMJ_vBXZ2dBtdyuUUM69YSk6i7sMsT",
+        "stanza": "Cameretta rosa",
+        "desc": "Immagina l'incanto di una cameretta rosa, un rifugio di dolcezza e sogni dove la luce filtra delicatamente, avvolgendo ogni angolo in una serenità materna. Qui, all'interno di un appartamento di 120 metri quadri rifinito a nuovo a Favara e Agrigento, ogni dettaglio racconta una storia di cura e amore puro — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/18oQkf6dumMN7dRGmuwYOUBCCM7S57nHl",
+        "stanza": "Cameretta rosa doppia",
+        "desc": "Immaginate il sussurro tenero di due risate felici che si rincorrono in questo nido di dolcezza, dove le tonalità rosa accolgono l’alba con una luce soffusa e rassicurante. In questi quarantaquattro metri quadri di pure armonia, ogni dettaglio rifinito a nuovo racconta una storia di cura infinita, trasformando il riposo in un sogno a occhi aperti. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1I8Hlh7FX45Tz7aTZzKkgkpPDsHa6ywHq",
+        "stanza": "Cameretta rosa doppia con finestra",
+        "desc": "Immagina la luce dorata del mattino che danza sulle tonalità rosa, avvolgendo due cuori nel silenzio protetto di una cameretta dove ogni sogno si accende con delicatezza. In questo rifugio di 120 metri quadri, perfettamente ristrutturato, l'aria profuma di dolcezza e serenità, creando un nido intimo sotto il cielo di Favara e Agrigento. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1Eel3iIQUH1IUjhG760XuZFc5cF_IOdAb",
+        "stanza": "Corridoio con elemento di riscaldamento e citofono e porta",
+        "desc": ", metri quadri — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/15kGN1hjgTQ_3G8xKDyshwDyT31o9Hz07",
+        "stanza": "Bagno blu dove si vede lavabo doccia bidè wc",
+        "desc": "Immergetevi in un'atmosfera di pura serenità, dove le tonalità del blu abbracciano la vostra intimità in uno spazio di benessere curato nei minimi dettagli. Qui, tra la luce soffusa e le finiture impeccabili di questo appartamento di 120 metri quadri a Favara, ogni gesto quotidiano diventa un rituale di pace e comfort assoluto. Un rifugio di eleganza moderna e riposo profondo, pensato per voi — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1vxVnZniN2mvmjNFikWSDSHI_wK8moLlC",
+        "stanza": "Bagno blu vista porta finestra lavabo e bidè",
+        "desc": ", metri quadri — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1NqQrCPWw1A-M05ItX0tnvyG5qFYFY_Ig",
+        "stanza": "Bagno blu doccia lavabo e bidè",
+        "desc": "Immersa in un blu profondo che evoca calma e purezza, questa zona bagno rigenera i sensi con la freschezza dell’acqua e la luce soffusa del ristrutturato a nuovo. Nel cuore di Favara ed Agrigento, questi 120 metri quadri accolgono la tua cura di sé quotidiana con un’eleganza moderna e funzionale. Un rifugio di benessere privato — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/14arf3o93rjkfRGY7IKz9L_Em1wbBvGCR",
+        "stanza": "Bagno blu doccia e lavabo",
+        "desc": "Immergetevi in un'oasi di puro benessere dove il tocco del legno e la morbidezza delle superfici trasformano la routine quotidiana in un rituale di spa privata. Questo spazio, parte di un appartamento di 120 metri quadri ristrutturato a nuovo, accoglie i vostri sensi con una luminosità curata che riflette la cura maniacale dei dettagli. Lasciatevi avvolgere da questa armonia esclusiva — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1AvaXbZjQpdq9jJeeXjFIOeolg92KzIXh",
+        "stanza": "Bagno blu set bidè wc e finestra",
+        "desc": "Immergiti nella serenità di questo bagno, dove il blu profondo accoglie la tua cura di sé con la luce naturale che entra dalla finestra, creando un’atmosfera di puro benessere. In un appartamento di 120 metri quadri, completamente ristrutturato a nuovo, ogni dettaglio riflette un’eleganza pensata per il tuo relax quotidiano. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1sJzU1mUCiF68zlVgLl1dM8Pr7go-vDn6",
+        "stanza": "Salotto vuoto e balcone",
+        "desc": "Qui la luce del sole si fonde con la frescura della brezza, trasformando questi 120 metri quadri in un rifugio di pura serenità dove il silenzio parla al cuore. Immagina l’armonia di uno spazio rifinito a nuovo, pronto a custodire i tuoi momenti più preziosi tra la tranquillità di Favara e la magia di Agrigento. Lasciati avvolgere da questa eleganza senza tempo — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1NOGTz8gJ9Za6gLhWAN5OMdR0J05cTfyy",
+        "stanza": "Salotto e elementi di riscaldamento e controsoffitto",
+        "desc": "Immaginate di avvolgere i vostri cari in un abbraccio di calore, dove la luce soffusa del controsoffitto accarezza ogni dettaglio di questo salotto di 120 metri quadri, ristrutturato a nuovo nel cuore di Favara. È qui che il tempo si ferma, lasciando spazio solo al benessere e all'intimità delle vostre serate più preziose. — Immobiliare Giancani"
+      }
+    ],
+    "fotoAttivaIndex": 0
   },
   {
     "id": 2,
@@ -829,7 +1025,7 @@
     "mq": "90 metri quadri",
     "canale": "Estero",
     "mercato": "🌍 Portali Internazionali (Svizzera/Germania)",
-    "stanza": "Camera da Letto Rifinita",
+    "stanza": "LA CAMERA DA LETTO RIFINITA CON RIFINITA",
     "tipoFoto": "🏡 Esterno Lago",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1ySiRhbdekzjRk4wqrmQdYQmb-mM3BtUZ",
     "videoUrl": "./assets/video/video_cannero_riviera.mp4",
@@ -838,7 +1034,85 @@
     "luogo": "Cannero Riviera, Lago Maggiore",
     "badge": "ESCLUSIVA ESTERO",
     "vani": "4 Vani",
-    "bagni": "1 Bagno"
+    "bagni": "1 Bagno",
+    "galleria": [
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1ySiRhbdekzjRk4wqrmQdYQmb-mM3BtUZ",
+        "stanza": "LA CAMERA DA LETTO RIFINITA CON RIFINITA",
+        "desc": "Benvenuti a Cannero Riviera sul Lago Maggiore: un'incantevole dimora di novanta metri quadri proposta a 150.000 €, dove la quiete del lago e il fascino della natura si fondono in un'esperienza abitativa senza tempo. Spazi rifiniti con cura e un'atmosfera unica, ideali per chi cerca relax o un investimento prestigioso. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1sgwrQfV492iyQBnS0506zzaU02XnGooK",
+        "stanza": "Cannero",
+        "desc": "Benvenuti a Cannero Riviera sul Lago Maggiore: un'incantevole dimora di novanta metri quadri proposta a 150.000 €, dove la quiete del lago e il fascino della natura si fondono in un'esperienza abitativa senza tempo. Spazi rifiniti con cura e un'atmosfera unica, ideali per chi cerca relax o un investimento prestigioso. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1HQuROGXZfUYd8efNpnqXrMmq_a417aLD",
+        "stanza": "BAGNO CON DOCCIA,WC E BIDE",
+        "desc": "Benvenuti a Cannero Riviera sul Lago Maggiore: un'incantevole dimora di novanta metri quadri proposta a 150.000 €, dove la quiete del lago e il fascino della natura si fondono in un'esperienza abitativa senza tempo. Spazi rifiniti con cura e un'atmosfera unica, ideali per chi cerca relax o un investimento prestigioso. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1TndjnmyiaCWqse4FqW0HYkcibvxotV5W",
+        "stanza": "CAMERA DA LETTO MATRIMONIALE CON VISTA BALCONATA SUL LAGO VERAMENTE SUGGESTIVA",
+        "desc": "Benvenuti a Cannero Riviera sul Lago Maggiore: un'incantevole dimora di novanta metri quadri proposta a 150.000 €, dove la quiete del lago e il fascino della natura si fondono in un'esperienza abitativa senza tempo. Spazi rifiniti con cura e un'atmosfera unica, ideali per chi cerca relax o un investimento prestigioso. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1SYglbVl6-z9V5tgo_kCB2lvr3DwiKrEZ",
+        "stanza": "VISTA SUL LAGO E MONTAGNE SULLO SFONDO",
+        "desc": "Benvenuti a Cannero Riviera sul Lago Maggiore: un'incantevole dimora di novanta metri quadri proposta a 150.000 €, dove la quiete del lago e il fascino della natura si fondono in un'esperienza abitativa senza tempo. Spazi rifiniti con cura e un'atmosfera unica, ideali per chi cerca relax o un investimento prestigioso. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1G2PadW72YXjwZ324lPIWkYTJi7HTI3Xi",
+        "stanza": "VISTA SUL LAGO E MONTAGNE SULLO SFONDO",
+        "desc": "Benvenuti a Cannero Riviera sul Lago Maggiore: un'incantevole dimora di novanta metri quadri proposta a 150.000 €, dove la quiete del lago e il fascino della natura si fondono in un'esperienza abitativa senza tempo. Spazi rifiniti con cura e un'atmosfera unica, ideali per chi cerca relax o un investimento prestigioso. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1veFBKLEi1KiTsFg3gC9DuNH4Z8TtPgIX",
+        "stanza": "VISTA SUL LAGO E MONTAGNE SULLO SFONDO",
+        "desc": "Benvenuti a Cannero Riviera sul Lago Maggiore: un'incantevole dimora di novanta metri quadri proposta a 150.000 €, dove la quiete del lago e il fascino della natura si fondono in un'esperienza abitativa senza tempo. Spazi rifiniti con cura e un'atmosfera unica, ideali per chi cerca relax o un investimento prestigioso. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1sT7bmsa1F1OzBIPBaY2iToyIT0T1gDog",
+        "stanza": "VISTA ESTERNA DELLO STABILE SUL LAGO",
+        "desc": "Benvenuti a Cannero Riviera sul Lago Maggiore: un'incantevole dimora di novanta metri quadri proposta a 150.000 €, dove la quiete del lago e il fascino della natura si fondono in un'esperienza abitativa senza tempo. Spazi rifiniti con cura e un'atmosfera unica, ideali per chi cerca relax o un investimento prestigioso. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1RHvU9KC8pQFYd-P_h2P15v8EORrP9Nm3",
+        "stanza": "SOFFITTA IN LEGNO CON RIFINITURE ECOSOSTENIBILI PER UN ASSORBIMENTO E UN ISOLAMENTO UNICO",
+        "desc": "Benvenuti a Cannero Riviera sul Lago Maggiore: un'incantevole dimora di novanta metri quadri proposta a 150.000 €, dove la quiete del lago e il fascino della natura si fondono in un'esperienza abitativa senza tempo. Spazi rifiniti con cura e un'atmosfera unica, ideali per chi cerca relax o un investimento prestigioso. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1ectCnDxpIZ5SnWWKJCuvtOa6-OAuDjwO",
+        "stanza": "CUCINA CON FINESTRA SUL LAGO DOVE è POSSIBILE AMMIRARE LIL LAGO MENTRE SI PRANZA O SI CENA",
+        "desc": "Benvenuti a Cannero Riviera sul Lago Maggiore: un'incantevole dimora di novanta metri quadri proposta a 150.000 €, dove la quiete del lago e il fascino della natura si fondono in un'esperienza abitativa senza tempo. Spazi rifiniti con cura e un'atmosfera unica, ideali per chi cerca relax o un investimento prestigioso. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/12EGV-lPPj1ktxrrMRc2gbHLusTOoJ5yi",
+        "stanza": "PLANIMETRIA DEL DEPOSITO",
+        "desc": "Benvenuti a Cannero Riviera sul Lago Maggiore: un'incantevole dimora di novanta metri quadri proposta a 150.000 €, dove la quiete del lago e il fascino della natura si fondono in un'esperienza abitativa senza tempo. Spazi rifiniti con cura e un'atmosfera unica, ideali per chi cerca relax o un investimento prestigioso. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1KC6t0_OAcSgC3GIikdhojC74XvPV1OWQ",
+        "stanza": "CUCINA RIFINITA STILE MODERNO",
+        "desc": "Benvenuti a Cannero Riviera sul Lago Maggiore: un'incantevole dimora di novanta metri quadri proposta a 150.000 €, dove la quiete del lago e il fascino della natura si fondono in un'esperienza abitativa senza tempo. Spazi rifiniti con cura e un'atmosfera unica, ideali per chi cerca relax o un investimento prestigioso. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1QTy6ZZi6VvU6WO4wMr0dhMieLAvM5Jwa",
+        "stanza": "VISTA SUL LAGO E MONTAGNE SULLO SFONDO",
+        "desc": "Benvenuti a Cannero Riviera sul Lago Maggiore: un'incantevole dimora di novanta metri quadri proposta a 150.000 €, dove la quiete del lago e il fascino della natura si fondono in un'esperienza abitativa senza tempo. Spazi rifiniti con cura e un'atmosfera unica, ideali per chi cerca relax o un investimento prestigioso. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1b5JucvkJR2k3Hrn0ycNPJt_4K_wnNwbN",
+        "stanza": "ENTRATA IN LEGNO CON MURI TIPICI IN PIETRA VIVA",
+        "desc": "Benvenuti a Cannero Riviera sul Lago Maggiore: un'incantevole dimora di novanta metri quadri proposta a 150.000 €, dove la quiete del lago e il fascino della natura si fondono in un'esperienza abitativa senza tempo. Spazi rifiniti con cura e un'atmosfera unica, ideali per chi cerca relax o un investimento prestigioso. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1ObLMqUP2l2z7_j6C17ZItlkqWbUYGMmH",
+        "stanza": "VISTA DELLA CASA SINGOLA ESTERNA CON BALCONE E FINESTRE IN PIETRA VIVA",
+        "desc": "Benvenuti a Cannero Riviera sul Lago Maggiore: un'incantevole dimora di novanta metri quadri proposta a 150.000 €, dove la quiete del lago e il fascino della natura si fondono in un'esperienza abitativa senza tempo. Spazi rifiniti con cura e un'atmosfera unica, ideali per chi cerca relax o un investimento prestigioso. — Immobiliare Giancani"
+      }
+    ],
+    "fotoAttivaIndex": 0
   },
   {
     "id": 3,
@@ -848,7 +1122,7 @@
     "mq": "17.000 metri quadri",
     "canale": "Telegram",
     "mercato": "Investimenti / Agricolo",
-    "stanza": "Vista Drone dal Terreno",
+    "stanza": "Terreno vista drone dal terreno inzio strada principale",
     "tipoFoto": "🏡 Drone Terreno",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1G5wxLG8wt_hDB-MiHG7a4C6chIpW94_T",
     "videoUrl": "./assets/video/video_villa_zingarello.mp4",
@@ -857,7 +1131,60 @@
     "luogo": "Favara (AG)",
     "badge": "OPPORTUNITÀ",
     "vani": "Terreno Agricolo",
-    "bagni": "-"
+    "bagni": "-",
+    "galleria": [
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1G5wxLG8wt_hDB-MiHG7a4C6chIpW94_T",
+        "stanza": "Terreno vista drone dal terreno inzio strada principale",
+        "desc": "Immaginate di alzare lo sguardo verso il cielo, dove l’aria di Favara si respira a pieni polmoni e il silenzio della natura vi avvolge in un abbraccio protetto. Qui, su questi ampi diciassette mila metri quadri, ogni albero da frutto racconta una storia di radici profonde e di futuro luminoso da costruire. È il vostro spazio per un sogno concreto, tra ulivi secolari e nuovi orizzonti — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1PlWUlSWvp7ns6FDxlmlolKQx_meUsttH",
+        "stanza": "Terreno vista drone dal terreno inzio strada principale",
+        "desc": "Dal cielo, in sedici e novanta metri quadri di pura bellezza a Favara Contrata Casena, l'uliveto e il frutteto sussurrano la promessa di un futuro costruito con le proprie mani. Qui, ogni albero e ogni raggio di sole diventa materia prima per la tua abitazione o il tuo parco fotovoltaico, trasformando il paesaggio in un investimento vivente. Un orizzonte senza limiti da plasmare a tua immagine — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1XgsRgxUGybUL32mm7qjDZvukYuPUwHGw",
+        "stanza": "Terreno vista drone dal terreno inzio strada principale",
+        "desc": "Immaginate il volo silenzioso del drone che svela quattordicimila metri quadri di terra viva, dove ulivi secolari e mandorli sussurrano la promessa di un futuro radicato nella natura. Qui, a Favara, ogni albero è un invito a costruire la vostra casa dei sogni o a far fiorire un parco fotovoltaico, trasformando la luce del sole in energia per la vita. Un’eredità verde dal valore inestimabile, offerta a soli trentacinquemila euro — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/11CyeeBXB7nOIvr-9GezFQbBZ1_ogA4fw",
+        "stanza": "Terreno vista drone dal terreno inzio strada principale",
+        "desc": "Dal drone, il cuore verde di Favara si svela in tutta la sua maestosa estensione, dove l'aria profuma di ulivo e mandorlo. Qui, su diciassettemila metri quadri, non acquistate solo un terreno, ma il possibile: il luogo dove costruirete la vostra casa o dove i raggi del sole si trasformeranno in energia pulita. Un futuro che ha già radici profonde — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1YBEqxrNx37-QK9XT101-IWwzZom2wetx",
+        "stanza": "Terreno vista drone dal terreno inzio strada principale",
+        "desc": "Immagina di camminare su questi seimilasettecento metri quadri, respirando il profumo intenso degli ulivi e delle mandorle che già adornano questa terra a Favara, Contrata Casena. Qui non acquisti solo un capoluogo agricolo, ma il palco perfetto per costruire la tua dimora dei sogni o per abbracciare il futuro con un impianto fotovoltaico, sotto la luce calda del sole. Un investimento radicato nella natura e nel progresso — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1xO3T-8-IOghJxCxu8sA5SSbhF80Mm0oU",
+        "stanza": "Terreno vista drone dal terreno inzio strada principale",
+        "desc": "Immagina di camminare su quindicimila metri quadri di terra viva, dove l'aria è impregnata del profumo inconfondibile di ulivi e mandorli che custodiscono il tuo futuro. È qui che il sogno di una casa unifamiliare o l'energia pulita di un impianto fotovoltaico prendono forma sotto il sole di Favara Contrata Casena. Un patrimonio verde da personalizzare, un investimento sostenibile a soli trentacinquemila euro — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1BXSTCufsR7vujJGyCbvLoFwL5tF_Eca9",
+        "stanza": "Terreno vista drone dal terreno inzio strada principale",
+        "desc": "Chiudete gli occhi e immaginate il sole che bacia gli ulivi secolari, mentre la brezza porta con sé il profumo dolce delle mandorle e del frutteto rigoglioso. Qui, su questi diciassettemila metri quadri di Favara, non acquistate solo un terreno al grezzo, ma il palcoscenico per costruire la casa dei vostri sogni o un parco fotovoltaico che trasforma la natura in energia. È il momento di dare forma al vostro futuro tra le vigne e il cielo — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1Tr3pxr_mEp1qED42pNXvogMoC_tJ01NZ",
+        "stanza": "Terreno vista drone dal terreno inzio strada principale",
+        "desc": "Immaginate il volo planato dal drone: qui, tra gli ulivi secolari e i mandorli di Favara Contrata Casena, si apre un orizzonte di quindicimilasettecento metri quadri che profuma di terra e di possibilità. È il luogo dove la luce del sole diventa energia pulita, trasformando il vostro sogno di indipendenza in un futuro concreto e sostenibile. Un patrimonio da scoprire — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1RNGHFL5SZxm4bSXXjRW3JY8LIyjZNaJz",
+        "stanza": "Terreno vista drone dal terreno inzio strada principale",
+        "desc": "Immagina la brezza serale che accarezza i rami dei tuoi ulivi e mandorli, mentre il tramonto tinge d'oro questi diecimila e settemila metri quadri di pura natura a Favara. Qui, tra il profumo del frutteto e il silenzio rigenerante, hai la possibilità di costruire la casa dei tuoi sogni o di dare vita al tuo parco fotovoltaico, trasformando la terra in energia e futuro. Un investimento prezioso, acceso a soli trentacinquemila euro, che ti attende — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1r0JelqiJ8le-743a6I3KvUya2qSaCCuf",
+        "stanza": "Terreno vista drone dal terreno inzio strada principale",
+        "desc": "Immaginate di camminare su questi sedicimila metri quadri di terra viva, dove il profumo degli ulivi e dei mandorli si mescola alla brezza che accarezza il frutteto, evocando la promessa di un futuro costruito a misura vostra. È qui che il vostro sogno prende forma, tra la possibilità di erigere la casa dei vostri ricordi o di abbracciare l'energia pulita del sole con un vostro parco fotovoltaico. Un angolo di paradiso in Contrata Casena, a Favara, che vi aspetta — Immobiliare Giancani. — Immobiliare Giancani"
+      }
+    ],
+    "fotoAttivaIndex": 0
   },
   {
     "id": 4,
@@ -867,7 +1194,7 @@
     "mq": "120 metri quadri",
     "canale": "Telegram",
     "mercato": "Sicilia / Agrigento",
-    "stanza": "Vista Esterna Drone Ovest",
+    "stanza": "Villa vista esterna da drone  Lato Ovest",
     "tipoFoto": "🏡 Drone Esterno",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1ZeFvgW36oabdrE0lGUzuTg2kcx8vJgBT",
     "videoUrl": "./assets/video/video_villa_zingarello.mp4",
@@ -876,7 +1203,45 @@
     "luogo": "Agrigento, Zingarello",
     "badge": "IN VENDITA",
     "vani": "4 Vani",
-    "bagni": "2 Bagni"
+    "bagni": "2 Bagni",
+    "galleria": [
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1ZeFvgW36oabdrE0lGUzuTg2kcx8vJgBT",
+        "stanza": "Villa vista esterna da drone  Lato Ovest",
+        "desc": "Aprite le porte ed entrate in questo suggestivo terrazzo: una magnifica apertura verso l'orizzonte dove respirare libertà e godersi la brezza siciliana. Immaginate la magia di un aperitivo al tramonto sotto le stelle o la quiete di una colazione all'aperto, un plus irrinunciabile che valorizza i 120 metri quadri di questo Villa a Zingarello, proposto a € 95000. Lo sfogo all'aperto che trasforma ogni bella giornata in un momento di vacanza quotidiana. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1zeOZS7u0IrqpowjDcFkzcUpB0L8fDfdz",
+        "stanza": "Villa vista esterna da drone  Lato Est",
+        "desc": "Aprite le porte ed entrate in questo suggestivo terrazzo: una magnifica apertura verso l'orizzonte dove respirare libertà e godersi la brezza siciliana. Immaginate la magia di un aperitivo al tramonto sotto le stelle o la quiete di una colazione all'aperto, un plus irrinunciabile che valorizza i 120 metri quadri di questo Villa a Zingarello, proposto a € 95000. Lo sfogo all'aperto che trasforma ogni bella giornata in un momento di vacanza quotidiana. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1bdWxGipaaxYtWDVtJQj0lCwteIt3WdZ0",
+        "stanza": "Villa vista esterna da drone  Lato est",
+        "desc": "Aprite le porte ed entrate in questo suggestivo terrazzo: una magnifica apertura verso l'orizzonte dove respirare libertà e godersi la brezza siciliana. Immaginate la magia di un aperitivo al tramonto sotto le stelle o la quiete di una colazione all'aperto, un plus irrinunciabile che valorizza i 120 metri quadri di questo Villa a Zingarello, proposto a € 95000. Lo sfogo all'aperto che trasforma ogni bella giornata in un momento di vacanza quotidiana. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1xPHSBj3M6kMdpHp0Z7oEKFnOXucZT7qp",
+        "stanza": "Villa vista esterna da drone  Lato Est",
+        "desc": "Aprite le porte ed entrate in questo suggestivo terrazzo: una magnifica apertura verso l'orizzonte dove respirare libertà e godersi la brezza siciliana. Immaginate la magia di un aperitivo al tramonto sotto le stelle o la quiete di una colazione all'aperto, un plus irrinunciabile che valorizza i 120 metri quadri di questo Villa a Zingarello, proposto a € 95000. Lo sfogo all'aperto che trasforma ogni bella giornata in un momento di vacanza quotidiana. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1QvKjG4931__KaSvE2f-l6xt7PVjBC50C",
+        "stanza": "Villa",
+        "desc": "Ammirate l'atmosfera calda e curata di Villa in questo splendido Villa a Zingarello. Un ambiente rifinito e ristrutturato a nuovo con Ceramica, porte in legno e ricco di fascino, studiato per regalarvi emozioni autentiche e massimo comfort all'interno dei suoi 120 metri quadri complessivi, proposto a € 95000. Un'opportunità immobiliare esclusiva presentata con passione e competenza da Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1zVqIQHfQltL7-UWczLGSX4GBV9-DMFET",
+        "stanza": "Villa",
+        "desc": "Ammirate l'atmosfera calda e curata di Villa in questo splendido Villa a Zingarello. Un ambiente rifinito e ristrutturato a nuovo con Ceramica, porte in legno e ricco di fascino, studiato per regalarvi emozioni autentiche e massimo comfort all'interno dei suoi 120 metri quadri complessivi, proposto a € 95000. Un'opportunità immobiliare esclusiva presentata con passione e competenza da Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1pFzKXACUC5Q3idF1oaeQHx0GSihp8q4w",
+        "stanza": "Villa vista esterna da drone  Lato Est",
+        "desc": "Aprite le porte ed entrate in questo suggestivo terrazzo: una magnifica apertura verso l'orizzonte dove respirare libertà e godersi la brezza siciliana. Immaginate la magia di un aperitivo al tramonto sotto le stelle o la quiete di una colazione all'aperto, un plus irrinunciabile che valorizza i 120 metri quadri di questo Villa a Zingarello, proposto a € 95000. Lo sfogo all'aperto che trasforma ogni bella giornata in un momento di vacanza quotidiana. — Immobiliare Giancani"
+      }
+    ],
+    "fotoAttivaIndex": 0
   },
   {
     "id": 5,
@@ -886,7 +1251,7 @@
     "mq": "120 metri quadri",
     "canale": "Instagram",
     "mercato": "Prima Casa / Affare",
-    "stanza": "Camera da Letto Matrimoniale",
+    "stanza": "Appartamento Camera da letto matrimoniale",
     "tipoFoto": "🛋️ Camera Panoramica",
     "fotoUrl": "https://lh3.googleusercontent.com/d/12DCZfaRB3l2LzlKLsLD_idBzD65ipBhM",
     "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
@@ -895,7 +1260,110 @@
     "luogo": "Favara (AG), Via Pavia",
     "badge": "OTTIMO AFFARE",
     "vani": "5 Vani",
-    "bagni": "2 Bagni"
+    "bagni": "2 Bagni",
+    "galleria": [
+      {
+        "foto": "https://lh3.googleusercontent.com/d/12DCZfaRB3l2LzlKLsLD_idBzD65ipBhM",
+        "stanza": "Appartamento Camera da letto matrimoniale",
+        "desc": "Immagina di svegliarti con la luce dorata del mattino che ti accarezza, aprendo le finestre su una vista panoramica che abbraccia tutta Favara. In questi 120 metri quadri, ogni angolo respira serenità, un rifugio curato e luminoso pronto a custodire i tuoi momenti più preziosi. Vivi l’equilibrio perfetto tra comfort e bellezza — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1PRIpYU4393BOh59fKf35eAVx0ltt2Wh9",
+        "stanza": "Vista panoromica dettaglio",
+        "desc": "Qui la luce del tramonto si espande in un’infinita tavolozza dorata, avvolgendoti con la vista panoramica sulla città di Favara che trasforma ogni sera in un momento di pura contemplazione. Sono centoventi metri quadri di respiro ampio e armonioso, dove lo stato curato e le finiture di qualità accolgono la tua quotidianità con un’eleganza serena e senza tempo. Un rifugio di pace a trentottomila euro, dove il lusso è lo spazio che ti allarga l’anima — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1fFhSisL6d4mYTFaW_GpBo_b2Iew21-ud",
+        "stanza": "vista panoramica dal balcone camera da letto",
+        "desc": "Qui a Favara, la luce dorata abbraccia questi 120 metri quadri, offrendo una vista panoramica sulla città che trasforma ogni tramonto in un ricordo indelebile. L'atmosfera, resa viva dai rifacimenti curati, accoglie chi cerca un nido sereno dove il benessere quotidiano incontra il comfort di spazi ampi e luminosi. Un'opportunità unica, firmata da — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1gw9c_SoAkCqulv0kxUGsQQ5k6xNuNfE3",
+        "stanza": "vista panoramica dal balcone camera da letto",
+        "desc": "Immaginate di sintonizzarvi con l'anima di Favara da questo appartamento di 120 metri quadri, dove la luce naturale accarezza spazi curati e parzialmente ristrutturati che emanano una quiete rigenerante. Ogni sguardo si perde nella vista panoramica sulla città, trasformando il quotidiano in uno spettacolo di vita che avvolge il cuore. Un rifugio prezioso, pronto a custodire i vostri sogni — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1OOvekrkuqsG5th9ia9idVGm9W7E7MZAw",
+        "stanza": "vista panoramica dal balcone camera da letto",
+        "desc": "Qui, su questi centoventi metri quadri in perfetto stato, la luce del tramonto bagna l'aria e la vista panoramica su Favara diventa un abbraccio infinito. È il luogo dove il quotidiano si trasforma in poesia, con spazi curati che raccontano una storia di serenità e comfort. Un rifugio d'eccezione a soli trentottomila euro — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1-SFukmXSEvJnXrVyMgAw4TW6wgoqsUu7",
+        "stanza": "vista panoramica dal balcone camera da letto",
+        "desc": "Immagina di aprire le porte su un orizzonte dorato, dove la luce di Favara accarezza i 120 metri quadri di questo appartamento parzialmente ristrutturato, trasformandoli in un rifugio di serenità e stile. Ogni angolo respira un'atmosfera calda e accogliente, perfetta per vivere istanti di pura armonia quotidiana, avvolti dalla bellezza di una vista panoramica mozzafiato. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1eKIwXq867oKbMHpqjN0-GY4togfLwjER",
+        "stanza": "vista panoramica dal balcone camera da letto",
+        "desc": "Immaginate di aprire le porte su una panoramica mozzafiato di Favara, dove la luce del sole accarezza i 120 metri quadri di questo appartamento parzialmente ristrutturato, avvolgendovi in un calore accogliente e moderno. Qui, ogni angolo racconta la serenità di una vita elegante e curata, dove il profumo della casa incontra la vastità dello sguardo. Un'opportunità rara per vivere il lusso dell'essenziale — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1TBwWfN8GF8eRgfMMcQ3WpWB-K8VsU4mk",
+        "stanza": "vista panoramica dal balcone camera da letto  vista mare",
+        "desc": "Qui, in questi centoventi metri quadri sapientemente rinnovati, la luce del sole accarezza ogni angolo, risvegliando la gioia di vivere nella serenità di Favara. Ogni sguardo si apre all'infinito con una vista panoramica mozzafiato sulla città, trasformando la quotidianità in un privilegio esclusivo. Un rifugio di pace a trentottomila euro — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1znoPAkkG0HBVdelsnISuxLYVTk8Kukxv",
+        "stanza": "vista panoramica dal balcone camera da letto",
+        "desc": "Qui la luce del mattino bagna 120 metri quadri di spazio, dove ogni angolo respira la serenità di una casa accogliente e curata. Lo sguardo si perde nella vista panoramica sulla città di Favara, un abbraccio visivo che trasforma ogni momento del giorno in un ricordo prezioso. Vivi questo equilibrio perfetto tra comfort e bellezza — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1PDIKfB9M-C1zBKsxWS3ExhwUIQHWPdzZ",
+        "stanza": "vista panoramica dal balcone camera da letto",
+        "desc": "Immaginate di aprire le finestre e lasciare che la luce del tramonto inondi questi 120 metri quadri, accogliendovi in uno spazio dove il benessere incontra la cura di sé. La vista panoramica sulla città di Favara diventa il vostro sfondo quotidiano, trasformando ogni momento di relax in un’esperienza di pura serenità. Un rifugio luminoso e curato, pronto a custodire i vostri ricordi più preziosi — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1MmtgqMMY4YDtHCyAWwaQMYLeRNInHQ_v",
+        "stanza": "vista panoramica dal balcone camera da letto",
+        "desc": "Immagina di svegliarti ogni mattina avvolto dalla luce dorata che filtra su questi 120 metri quadri, con lo sguardo che si perde nella panoramica vista su Favara. Qui, in uno stato di cura impeccabile, ogni angolo racconta una storia di comfort e serenità, pronto ad accogliere i tuoi sogni. Un rifugio esclusivo a soli 38.000 euro — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1P_NmTAzKEKQP6xv7nXF0-YigFfIC47oj",
+        "stanza": "vista camera da letto",
+        "desc": "Immagina di aprire le finestre e lasciarvi entrare la luce dorata del tramonto, mentre la vista panoramica su Favara abbraccia la tua vita in questi 120 metri quadri di pura serenità. Qui, ogni giorno diventa una piccola evasione, dove lo stato parzialmente ristrutturato incontra il calore di una casa pronta ad accogliere i tuoi sogni con un valore d'eccezione. Vivi l'armonia di uno spazio che parla al cuore — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1SafK80HiFSgXTexkY9ESHIn22cFi1FOS",
+        "stanza": "vista e camera da letto",
+        "desc": "Immagina di svegliarti in un rifugio di centoventi metri quadri, dove la luce del mattino incornicia una vista panoramica mozzafiato sulla città di Favara. Ogni angolo, curato in ottimo stato e parzialmente ristrutturato, respira un’atmosfera di serenità che trasforma il quotidiano in un piacere sensoriale. Vivi questa armonia senza compromessi — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1bNq5NmCdFprce6tYp_dgccKJuE8Npg4B",
+        "stanza": "vista secondo Bagno Grezzo",
+        "desc": "Immaginate di aprire le finestre e lasciavi avvolgere dalla luce dorata della sera, mentre il panorama sulla città di Favara si dispiega davanti a voi come un dipinto vivente. In questi 120 metri quadri, parzialmente ristrutturati con cura, ogni angolo racconta una storia di comfort e serenità, pronti a ospitare i vostri momenti più preziosi. Una casa che respira armonia, offerta con la passione che ci contraddistingue — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1Qf-iOfPXjSlQmupYt1_PfzhwVqEKoSKa",
+        "stanza": "vista e cameretta da letto",
+        "desc": "Qui, dove la luce dorata di Favara si fonde con il silenzio ristoratore, ogni angolo racconta una storia di vita serena e curata. In questi ampi 120 metri quadri, parzialmente ristrutturati, il comfort si sposa con la vista panoramica che abbraccia la città, trasformando ogni sguardo in un momento di pura pace. Un rifugio esclusivo a soli 38.000 euro, pronto ad accogliere i tuoi sogni — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/12pqQFv2UqPp8aqfBQbSFD9iE5jfVgjSE",
+        "stanza": "vista e cameretta da letto",
+        "desc": "Immagina di svegliarti avvolto nella luce dorata del mattino, con la vista panoramica di Favara che abbraccia i tuoi occhi e il cuore, rendendo ogni alba un momento di pura meraviglia. In questi 120 metri quadri, parzialmente ristrutturati e curati, la vita scorre con una serenità rara, dove ogni angolo respira l'essenza di un benessere autentico e accessibile. Vivi la tua nuova dimensione di eleganza quotidiana — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1RUqwWmz_-zTsCjGV1xGU2_W9I-oucOHx",
+        "stanza": "vista e cameretta da letto",
+        "desc": "Immagina di svegliarti con la luce dorata del mattino che inonda questi 120 metri quadri, dove ogni angolo respira un’armonia curata e rinnovata. Lo sguardo si perde nella vista panoramica sulla città di Favara, trasformando ogni momento di quiete in un ricordo prezioso. Un rifugio esclusivo a soli 38.000 euro — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1Uvq70QOWz1Gx7eaBI1xgowAgmkWFNB77",
+        "stanza": "vista e cameretta da letto",
+        "desc": "Immagina di accogliere l’alba dalla tua finestra, con lo sguardo che scorre libero sulla città di Favara, mentre la luce calda ti avvolge in questi centocventi metri quadri di pura serenità. È qui che la vita si respira a pieno, tra spazi generosi e rifiniti con cura, pronti a custodire i tuoi sogni più preziosi. Un gioiello accessibile che ti aspetta, con la promessa di un futuro luminoso — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1Iqjf-jz2TcHIb1qdNCJGgXd0ecsyuH7b",
+        "stanza": "vista disimpegno",
+        "desc": "Immagina di svegliarti con la luce dorata del mattino che inonda i tuoi 120 metri quadri, avvolgendoti in un abbraccio di calore e serenità. Ogni angolo, curato in condizioni eccellenti, racconta una storia di vita autentica, mentre lo sguardo si perde nella vista panoramica mozzafiato sulla città di Favara. Un rifugio prezioso che diventa casa — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1nItYzESNbNc3NScCA32fgDfNIMoSA6JL",
+        "stanza": "vista e cameretta da letto",
+        "desc": "Immagina di svegliarti avvolto dalla luce dorata di Favara, dove 120 metri quadri di respiro accolgono la tua vita con una vista panoramica indimenticabile. Ogni angolo, curato in un equilibrio perfetto tra charme e modernità, diventa il palcoscenico dei tuoi ricordi più preziosi. Un rifugio d'eccellenza a € 38000 — Immobiliare Giancani. — Immobiliare Giancani"
+      }
+    ],
+    "fotoAttivaIndex": 0
   },
   {
     "id": 6,
@@ -905,7 +1373,7 @@
     "mq": "120 metri quadri",
     "canale": "Estero",
     "mercato": "🌍 Clienti Esteri / Prestigio",
-    "stanza": "Camera da Letto Matrimoniale Seconda",
+    "stanza": "Camera da letto Matrimoniale seconda",
     "tipoFoto": "🛋️ Finiture Pregio",
     "fotoUrl": "https://lh3.googleusercontent.com/d/13DCw7jS4GzKRhN7qH3U9RRPnh1V45vKF",
     "videoUrl": "./assets/video/video_villa_favara.mp4",
@@ -914,7 +1382,110 @@
     "luogo": "Aragona (AG)",
     "badge": "PRESTIGIO",
     "vani": "6 Vani",
-    "bagni": "2 Bagni"
+    "bagni": "2 Bagni",
+    "galleria": [
+      {
+        "foto": "https://lh3.googleusercontent.com/d/13DCw7jS4GzKRhN7qH3U9RRPnh1V45vKF",
+        "stanza": "Camera da letto Matrimoniale seconda",
+        "desc": "Scoprite tutti i preziosi dettagli che rendono questo Ambiente unico nel suo genere. Dal pavimento alle rifiniture delle pareti, tutto è stato progettato pensando al massimo comfort abitativo. Un ambiente ideale, proposto con orgoglio da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1ADwoirhc-X6FcXKeADENjW_AGcdelk4Z",
+        "stanza": "Camera da letto matrimoniale senior",
+        "desc": "Scoprite tutti i preziosi dettagli che rendono questo Ambiente unico nel suo genere. Dal pavimento alle rifiniture delle pareti, tutto è stato progettato pensando al massimo comfort abitativo. Un ambiente ideale, proposto con orgoglio da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1CKre4lzbMb1NydI48Ufm736jcal4Sosx",
+        "stanza": "vista villa dall'esterno",
+        "desc": "Proseguiamo il nostro tour virtuale scoprendo le potenzialità di questo magnifico Ambiente. La sensazione di ampiezza è immediata, e l'atmosfera tranquilla rende l'immobile Villa Aragona la cornice perfetta per la vita quotidiana. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1N2cZJwKcPexoIWUt2zTanRd9OdOt_hak",
+        "stanza": "Vista dalla finestra del salotto sul lotto di terreno",
+        "desc": "Ammirate l'incredibile luminosità e le generose proporzioni di questo Ambiente. Lo stile neutro e sofisticato permette di immaginare facilmente l'arredamento dei vostri sogni. Un'opportunità da non lasciarsi sfuggire. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1R0hvBRbB-q1lJY82wL0d_CnER8GB7gXO",
+        "stanza": "Vista panoramica di Aragona",
+        "desc": "Aprite le porte ed entrate in questo suggestivo terrazzo: una magnifica apertura verso l'orizzonte dove respirare libertà e godersi la brezza siciliana. Immaginate la magia di un aperitivo al tramonto sotto le stelle o la quiete di una colazione all'aperto, un plus irrinunciabile che valorizza i 120 metri quadri di questo Villa Aragona, con trattativa riservata. Lo sfogo all'aperto che trasforma ogni bella giornata in un momento di vacanza quotidiana. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1X-gvqLoIf-uhZM-CQaVFDUL5jGK-B7v8",
+        "stanza": "Vista panoramica delle campagne aragonesi",
+        "desc": "Aprite le porte ed entrate in questo suggestivo terrazzo: una magnifica apertura verso l'orizzonte dove respirare libertà e godersi la brezza siciliana. Immaginate la magia di un aperitivo al tramonto sotto le stelle o la quiete di una colazione all'aperto, un plus irrinunciabile che valorizza i 120 metri quadri di questo Villa Aragona, con trattativa riservata. Lo sfogo all'aperto che trasforma ogni bella giornata in un momento di vacanza quotidiana. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1cLvjpy2RcZ8j63B2Y2tsuekufKLovKlY",
+        "stanza": "piscina con straio e ombrelloni e sul fondo la piscina",
+        "desc": "Ammirate l'atmosfera calda e curata di piscina con straio e ombrelloni e sul fondo la piscina in questo splendido Villa Aragona. Un ambiente rifinito con cura e ricco di fascino, studiato per regalarvi emozioni autentiche e massimo comfort all'interno dei suoi 120 metri quadri complessivi, con trattativa riservata. Un'opportunità immobiliare esclusiva presentata con passione e competenza da Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1nECxvDEy7RM3VjfHGCWECzHEV9lwZXLZ",
+        "stanza": "vista dalla camera da letto sulla piscina",
+        "desc": "Varcate la soglia di questa intima camera padronale: una vera oasi di pace e silenzio dove il riposo diventa un abbraccio rigenerante per mente e corpo. Uno spazio ovattato, morbido e rifinito con cura, progettato per regalarvi privacy totale e risvegli sereni all'interno dei 120 metri quadri di questo Villa Aragona, con trattativa riservata. Il vostro rifugio esclusivo dove ricaricare le energie e sognare in piena tranquillità. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1wcHMuQfvWd7e5QlQxVayz1uJV7DEjrPK",
+        "stanza": "vista panoramica dalla camera da letto sulla piscina e aragona",
+        "desc": "Ammirate l'incredibile luminosità e le generose proporzioni di questo Ambiente. Lo stile neutro e sofisticato permette di immaginare facilmente l'arredamento dei vostri sogni. Un'opportunità da non lasciarsi sfuggire. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1-48NSEeOELpYWbC0P0KUphM2Ilmfu_aS",
+        "stanza": "disimpegno primo piano",
+        "desc": "Siamo davvero lieti di mostrarvi l'attenzione dedicata a questo bellissimo Ambiente. Le finiture moderne, unite a un design classico, offrono un colpo d'occhio impareggiabile. Un vero fiore all'occhiello per l'immobile Villa Aragona, ovviamente garantito dall'esperienza di Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/18ge3E3ie5zr8JD7IzMjctkNl8dvOCRiw",
+        "stanza": "vista balcone camera da letto matrimoniale",
+        "desc": "Questa visuale vi permette di apprezzare pienamente le qualità di questo Ambiente. L'organizzazione intelligente degli spazi garantisce estrema versatilità. Che vogliate usarlo per la famiglia o per accogliere amici, la vivibilità è semplicemente eccezionale. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1BTU3SXkYP9ENVjxkqgGkEWJ2To_myq7_",
+        "stanza": "vista villa albero ulivo tra villa principale e zona barbeque",
+        "desc": "Scoprite tutti i preziosi dettagli che rendono questo Ambiente unico nel suo genere. Dal pavimento alle rifiniture delle pareti, tutto è stato progettato pensando al massimo comfort abitativo. Un ambiente ideale, proposto con orgoglio da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1WFmqqMrlggjmmOcRSxt3rPgVxL91xSmi",
+        "stanza": "vista villa dall'esterno",
+        "desc": "Scoprite tutti i preziosi dettagli che rendono questo Ambiente unico nel suo genere. Dal pavimento alle rifiniture delle pareti, tutto è stato progettato pensando al massimo comfort abitativo. Un ambiente ideale, proposto con orgoglio da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1afziulsiiS12d3gkLgmQ2L3QjVzvYc2J",
+        "stanza": "Piscina",
+        "desc": "Proseguiamo il nostro tour virtuale scoprendo le potenzialità di questo magnifico Ambiente. La sensazione di ampiezza è immediata, e l'atmosfera tranquilla rende l'immobile Villa Aragona la cornice perfetta per la vita quotidiana. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1beCJqvQNypnzOdvRU9JerEkuwLQ4-rnY",
+        "stanza": "vista finestra camera da letto singola",
+        "desc": "In questo spettacolare Ambiente dell'immobile Villa Aragona troviamo una distribuzione degli spazi estremamente funzionale. Le ampie metrature e la disposizione intelligente creano un'atmosfera accogliente e incredibilmente vivibile. Proposta in esclusiva gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1de_4FJjXDzo-nR9zSRRx4Xmb9GeBjYic",
+        "stanza": "salotto con vista scala trionfale",
+        "desc": "Questa visuale vi permette di apprezzare pienamente le qualità di questo Ambiente. L'organizzazione intelligente degli spazi garantisce estrema versatilità. Che vogliate usarlo per la famiglia o per accogliere amici, la vivibilità è semplicemente eccezionale. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1ek-ySSo9SvmQB3vAGJp9veCaQ0gsd3-d",
+        "stanza": "balcone camera da letto",
+        "desc": "Un dettaglio che salta subito all'occhio visitando questo Ambiente è sicuramente la cura per i particolari. L'immobile Villa Aragona è ricco di luce naturale, creando un clima sereno e molto elegante. Affidatevi all'eccellenza dei servizi di Immobiliare Giancani per ogni informazione."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1kwkJITJqanEjLxsOf-b2JnU9dnhWI2ff",
+        "stanza": "Box auto e magazzino attresti vista esterna",
+        "desc": "Questa visuale vi permette di apprezzare pienamente le qualità di questo Ambiente. L'organizzazione intelligente degli spazi garantisce estrema versatilità. Che vogliate usarlo per la famiglia o per accogliere amici, la vivibilità è semplicemente eccezionale. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1mqDGP2ibO9e0X20FpxD6wMb5ZZHMmQsx",
+        "stanza": "zona barbieque con forno tavoli sotto una dolce veranda",
+        "desc": "Un dettaglio che salta subito all'occhio visitando questo Ambiente è sicuramente la cura per i particolari. L'immobile Villa Aragona è ricco di luce naturale, creando un clima sereno e molto elegante. Affidatevi all'eccellenza dei servizi di Immobiliare Giancani per ogni informazione."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1pnMCorLqwDVU8GwYp_eKffM2O3H9JXRg",
+        "stanza": "sentiero pavimentato chc conduce alla villa partendo dalla piscina",
+        "desc": "Siamo davvero lieti di mostrarvi l'attenzione dedicata a questo bellissimo Ambiente. Le finiture moderne, unite a un design classico, offrono un colpo d'occhio impareggiabile. Un vero fiore all'occhiello per l'immobile Villa Aragona, ovviamente garantito dall'esperienza di Immobiliare Giancani."
+      }
+    ],
+    "fotoAttivaIndex": 0
   },
   {
     "id": 7,
@@ -924,7 +1495,7 @@
     "mq": "120 metri quadri",
     "canale": "WhatsApp",
     "mercato": "Clienti Profilati",
-    "stanza": "Il Cancello d Ingresso",
+    "stanza": "Il Cancello",
     "tipoFoto": "🏡 Esterno Cancello",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1TdF7kxeEZcFfrZz7TS627kemxCmubem9",
     "videoUrl": "./assets/video/video_villa_favara.mp4",
@@ -933,7 +1504,110 @@
     "luogo": "Favara (AG)",
     "badge": "IN VENDITA",
     "vani": "6 Vani",
-    "bagni": "2 Bagni"
+    "bagni": "2 Bagni",
+    "galleria": [
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1TdF7kxeEZcFfrZz7TS627kemxCmubem9",
+        "stanza": "Il Cancello",
+        "desc": "Questo ambiente, dedicato a fungere da perfetto Ambiente, rappresenta il cuore pulsante dell'abitazione. Spazi arieggiati e una vista piacevole contribuiscono ad un'esperienza abitativa di prima classe. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1fWa9qOA-i6CMbcfHRV1ZgNanF3A9UqzO",
+        "stanza": "l'Entrata Passo Carraio",
+        "desc": "Proseguiamo il nostro tour virtuale scoprendo le potenzialità di questo magnifico Ambiente. La sensazione di ampiezza è immediata, e l'atmosfera tranquilla rende l'immobile Villa Favara la cornice perfetta per la vita quotidiana. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/15F-kME5zKheaWcxq87JgUvni4dDcjKsV",
+        "stanza": "La Vista Esterno con Campagna",
+        "desc": "Questa visuale vi permette di apprezzare pienamente le qualità di questo Ambiente. L'organizzazione intelligente degli spazi garantisce estrema versatilità. Che vogliate usarlo per la famiglia o per accogliere amici, la vivibilità è semplicemente eccezionale. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1_-4IIDpTLsONwrp4pQ2kWAhxsk0-6rcN",
+        "stanza": "La Camera da letto",
+        "desc": "Diamo uno sguardo ravvicinato a questo meraviglioso Ambiente. L'illuminazione naturale valorizza ogni dettaglio, esaltando la qualità dei materiali scelti. È un angolo perfetto per rilassarsi o condividere momenti speciali in questo immobile di pregio. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1FLyI7fW_Hyh-ihMQ_DIWQHUZokSIlsi1",
+        "stanza": "Il Bagno",
+        "desc": "Vi invitiamo ad ammirare l'eleganza discreta e l'ottimo stato di manutenzione di questo Ambiente. Un ambiente pronto da vivere, progettato per soddisfare anche i clienti più esigenti. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/18wIUDskrEjhLHiSIzRji-V-V3z9XjoR1",
+        "stanza": "la Cucina",
+        "desc": "Un dettaglio che salta subito all'occhio visitando questo Ambiente è sicuramente la cura per i particolari. L'immobile Villa Favara è ricco di luce naturale, creando un clima sereno e molto elegante. Affidatevi all'eccellenza dei servizi di Immobiliare Giancani per ogni informazione."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/14MR9QVuoOv7PJ62g5rtOm4zw0UqmAl8N",
+        "stanza": "Il Soggiorno",
+        "desc": "Siamo davvero lieti di mostrarvi l'attenzione dedicata a questo bellissimo Ambiente. Le finiture moderne, unite a un design classico, offrono un colpo d'occhio impareggiabile. Un vero fiore all'occhiello per l'immobile Villa Favara, ovviamente garantito dall'esperienza di Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1Zg4oeremDvFCTjvPXAswRdwbRkth2epn",
+        "stanza": "Il Magazzino",
+        "desc": "Vi invitiamo ad ammirare l'eleganza discreta e l'ottimo stato di manutenzione di questo Ambiente. Un ambiente pronto da vivere, progettato per soddisfare anche i clienti più esigenti. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1B3Dq1HzYi5WWxnuEnlSLU4hk5digvR5U",
+        "stanza": "La Veranda",
+        "desc": "Questo ambiente, dedicato a fungere da perfetto Ambiente, rappresenta il cuore pulsante dell'abitazione. Spazi arieggiati e una vista piacevole contribuiscono ad un'esperienza abitativa di prima classe. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1nydteH_74fIkMQa1tDiJ1qd_S2rKcIrH",
+        "stanza": "Il Magazzino interno",
+        "desc": "Un dettaglio che salta subito all'occhio visitando questo Ambiente è sicuramente la cura per i particolari. L'immobile Villa Favara è ricco di luce naturale, creando un clima sereno e molto elegante. Affidatevi all'eccellenza dei servizi di Immobiliare Giancani per ogni informazione."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1DNSyESSDRt-0gfBVuNTsIRJDYIdPeLXg",
+        "stanza": "La Veranda Entrata",
+        "desc": "Diamo uno sguardo ravvicinato a questo meraviglioso Ambiente. L'illuminazione naturale valorizza ogni dettaglio, esaltando la qualità dei materiali scelti. È un angolo perfetto per rilassarsi o condividere momenti speciali in questo immobile di pregio. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1lIefntUYGf9coDjB6PFrCDgBsWsWt2xY",
+        "stanza": "La Veranda 2",
+        "desc": "Diamo uno sguardo ravvicinato a questo meraviglioso Ambiente. L'illuminazione naturale valorizza ogni dettaglio, esaltando la qualità dei materiali scelti. È un angolo perfetto per rilassarsi o condividere momenti speciali in questo immobile di pregio. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1MO-ryBb2q6-0xQDbcjtIVcXmP8MMLrDz",
+        "stanza": "L'entrata Villa",
+        "desc": "Scoprite tutti i preziosi dettagli che rendono questo Ambiente unico nel suo genere. Dal pavimento alle rifiniture delle pareti, tutto è stato progettato pensando al massimo comfort abitativo. Un ambiente ideale, proposto con orgoglio da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1sGs_3v9AuENwXU7sXAGPs7gTbPX6iDXi",
+        "stanza": "Foto Salotto",
+        "desc": "Proseguiamo il nostro tour virtuale scoprendo le potenzialità di questo magnifico Ambiente. La sensazione di ampiezza è immediata, e l'atmosfera tranquilla rende l'immobile Villa Favara la cornice perfetta per la vita quotidiana. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1GYBv6BDgEvOZMoOD7T3yVXrbhQfl3lYi",
+        "stanza": "La Foto Salotto",
+        "desc": "Proseguiamo il nostro tour virtuale scoprendo le potenzialità di questo magnifico Ambiente. La sensazione di ampiezza è immediata, e l'atmosfera tranquilla rende l'immobile Villa Favara la cornice perfetta per la vita quotidiana. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/10UJDWLSRaefZY5ycf7VrIAmGbEAkgfZH",
+        "stanza": "Ambiente",
+        "desc": "Vi invitiamo ad ammirare l'eleganza discreta e l'ottimo stato di manutenzione di questo Ambiente. Un ambiente pronto da vivere, progettato per soddisfare anche i clienti più esigenti. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1F1TWn-6_uH1Ii0tA0fvHgGTDgL_UYpA_",
+        "stanza": "Ambiente",
+        "desc": "Siamo davvero lieti di mostrarvi l'attenzione dedicata a questo bellissimo Ambiente. Le finiture moderne, unite a un design classico, offrono un colpo d'occhio impareggiabile. Un vero fiore all'occhiello per l'immobile Villa Favara, ovviamente garantito dall'esperienza di Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1LfPFFtgroHsC35T1Ko5Zj67P_aeD6wWM",
+        "stanza": "Ambiente",
+        "desc": "In questo spettacolare Ambiente dell'immobile Villa Favara troviamo una distribuzione degli spazi estremamente funzionale. Le ampie metrature e la disposizione intelligente creano un'atmosfera accogliente e incredibilmente vivibile. Proposta in esclusiva gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1f77cZ6nORtc6qPQKyEPLC8eBHKmH1jZU",
+        "stanza": "Ambiente",
+        "desc": "Diamo uno sguardo ravvicinato a questo meraviglioso Ambiente. L'illuminazione naturale valorizza ogni dettaglio, esaltando la qualità dei materiali scelti. È un angolo perfetto per rilassarsi o condividere momenti speciali in questo immobile di pregio. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/14p5f7Ai7KOM4kquAhwH01FvihKtzWGyS",
+        "stanza": "Ambiente",
+        "desc": "Ammirate l'incredibile luminosità e le generose proporzioni di questo Ambiente. Lo stile neutro e sofisticato permette di immaginare facilmente l'arredamento dei vostri sogni. Un'opportunità da non lasciarsi sfuggire. Proposta gestita da Immobiliare Giancani."
+      }
+    ],
+    "fotoAttivaIndex": 0
   },
   {
     "id": 8,
@@ -943,7 +1617,7 @@
     "mq": "120 metri quadri",
     "canale": "Telegram",
     "mercato": "Famiglie / Servito",
-    "stanza": "Vista Palazzo Aragona",
+    "stanza": "Vista palazzo aragona",
     "tipoFoto": "🏡 Drone Stabile",
     "fotoUrl": "https://lh3.googleusercontent.com/d/15uuETuZVsZ1eOoxkv-YMM_8mngBkpHT3",
     "videoUrl": "./assets/video/video_villa_zingarello.mp4",
@@ -952,7 +1626,110 @@
     "luogo": "Aragona (AG)",
     "badge": "CON BOX AUTO",
     "vani": "5 Vani",
-    "bagni": "2 Bagni"
+    "bagni": "2 Bagni",
+    "galleria": [
+      {
+        "foto": "https://lh3.googleusercontent.com/d/15uuETuZVsZ1eOoxkv-YMM_8mngBkpHT3",
+        "stanza": "Vista palazzo aragona",
+        "desc": "Immagina di aprire le finestre su Aragona, lasciandoti avvolgere dalla luce calda che accarezza i 120 metri quadri di questo rifugio moderno, dove il comfort di tre camere e due bagni ti accoglie con un silenzio riposante. L’arredo curato e la luminosità del soggiorno diventano il palcoscenico dei tuoi momenti più preziosi, completati dalla praticità esclusiva del box auto su due livelli. Un’oasi di benessere pronta ad accogliere la tua vita — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1wpdhdsPmuHzakMSop_UZ4NLommt9W_N_",
+        "stanza": "Vista esterno palazzo",
+        "desc": "Qui, oltre il vetro, la luce di Aragona danza sui 120 metri quadri di un rifugio perfetto, dove il lusso moderno incontra la calura del sole. Ogni angolo, dai mobili su misura al box auto, racconta una storia di cura maniacale e comfort assoluto. Benvenuti nella vostra nuova vita — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1KAklsEYIarZUWoMzzP60O-pK4ZpSMz7z",
+        "stanza": "Vista palazzo esterno aragona",
+        "desc": "Sentite il profumo di una vita rigenerata in questi 120 metri quadri, dove ogni angolo ristrutturato a nuovo accoglie la luce con la nobiltà dei mobili inclusi e la praticità del box auto su due livelli. È qui che il vostro quotidiano si trasforma in un rituale di benessere, tra la convivialità della zona pranzo e la quiete protetta delle tre camere. Benvenuti nel vostro nuovo inizio — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1lkxt1L8-UosPJ-92-dh5y9VLEvv0DPsk",
+        "stanza": "Ambiente",
+        "desc": "Qui, dove la luce di Aragona accarezza ogni angolo, i 120 metri quadri si trasformano in un rifugio di serenità, pronto a ospitare i tuoi momenti più preziosi con finiture nuove e mobili eleganti. L'apertura della cucina diventa il cuore pulsante della casa, profumata di caffè e di convivialità, mentre le ampie camere promettono notti di riposo profondo e rigenerante. Vivi la magia di un lusso accessibile, l'orgoglio di un'abitazione completa e curata in ogni dettaglio — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1XbJq-_PNHZK5i8lHUiDURVTpMru39PgV",
+        "stanza": "Zona pranzo tavolo e sedie e mobile di prestigio",
+        "desc": "Immagina il calore di una famiglia riunita attorno al tavolo, dove ogni pasto diventa un ricordo prezioso grazie all'eleganza senza tempo del mobile di prestigio. In questi centodiciannove metri quadri di pura armonia, la luce accarezza le superfici rifinite a nuovo, trasformando la quotidianità in un gesto di lusso accessibile. Vivi questa serenità unica — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1ThNIQlZJSf1YoX4l6-fT_WF3RrDEwPzi",
+        "stanza": "Vista dal salotto della zona pranzo con tavolo sedie e lampadario di prestigio",
+        "desc": "Immaginate la luce dorata del tramonto di Aragona che bagna il tavolo apparecchiato, mentre il lampadario di prestigio illumina con eleganza i pranzi in famiglia, trasformando ogni pasto in un ricordo prezioso. In questi centoventi metri quadri, la cura dei dettagli e la freschezza della ristrutturazione avvolgono i vostri sensi in un abbraccio di comfort moderno e stile senza tempo. Un rifugio dove la vita scorre armoniosa, firmato — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/13epOOoRlpodfbPmq1wGxgPHaGnZkdIHn",
+        "stanza": "Zona pranzo tavolo sedie mobile finestra",
+        "desc": "Immaginate il calore della luce del tramonto di Aragona che danza sul legno delle sedie, mentre il profumo del caffè accompagna i pranzi condivisi in uno spazio di 120 metri quadri, dove la cucina e la zona pranzo si fondono in un abbraccio accogliente e moderno. Questa dimora, ristrutturata a nuovo con mobili esclusivi e box auto, trasforma ogni momento di convivialità in un ricordo prezioso, offrendo un rifugio di serenità e stile senza pari. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1bquJZIJxqYFKIpYXdSAv0VuSkagNlbth",
+        "stanza": "Zona pranzo greca su pavimento tavolo sedie con vista sulla cucina",
+        "desc": "Qui ogni pasto diventa un rito di convivialità, dove la luce naturale accarezza il tavolo greco e la vista sulla cucina crea un dialogo intimo con il cuore della casa, in un contesto di 120 metri quadri splendidamente rinnovato. Lasciatevi avvolgere dal comfort di una vita curata nei minimi dettagli, con spazi generosi e finiture d'eccezione che trasformano l'abitare in puro piacere. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/181i6MJReW6tI_MDVuJGl2rLcOwauXtdB",
+        "stanza": "Cucina",
+        "desc": "Immagina il calore avvolgente di una cucina luminosa, dove il profumo del caffè appena macinato si unisce alla gioia dei pranzi in famiglia, grazie a spazi ampi e finiture impeccabili. Questo cuore pulsante di casa, parte di un esclusivo appartamento di 120 metri quadri ristrutturato a nuovo ad Aragona, accoglie i tuoi momenti più preziosi con un'eleganza che dura nel tempo. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/14I1OjohNtZA5p9Xbj01eknN-Ukvpzu-h",
+        "stanza": "Salotto tv divano disegno a terra in greca",
+        "desc": "Immaginate la luce del tramonto su Aragona che danza sul pavimento in marmo a terra in greca, avvolgendo il vostro divano in un abbraccio di comfort assoluto, mentre l'aroma del caffè si fonde con la quiete di un soggiorno impeccabile. In questi 120 metri quadri, ristrutturati a nuovo con mobili esclusivi inclusi, ogni dettaglio racconta una storia di eleganza pronta ad accogliere i vostri momenti più preziosi. Benvenuti nel vostro nuovo rifugio — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1pAUFNexFfT7wc_5fj44rWgCop7mUB5Y5",
+        "stanza": "Disimpegno vista su salotto",
+        "desc": "Immaginate il calore della luce che bagna questo disimpegno, un corridoio elegante che fa da ponte tra la vostra intimità e l’ampio respiro del salotto. Qui, su 120 metri quadri di pura serenità ad Aragona, ogni passo è un invito a vivere lo spazio con calma e stile. Benvenuti nel vostro nuovo rifugio, curato nei minimi dettagli — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1xt4nwiVgj_hY_MoOTHfN3e336mriUYXX",
+        "stanza": "Salotto",
+        "desc": "Immaginate la luce dorata del tramonto aragonese che accarezza i nuovi arredi, creando un nido di calore dove il silenzio della sera si mescola al profumo del caffè e alle risate dei vostri cari. In questo salotto, cuore pulsante di oltre centoventi metri quadri di pura serenità, ogni dettaglio rifinito a nuovo vi avvolge in un abbraccio di eleganza e comfort quotidiano. Benvenuti alla vostra nuova vita — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1Mfc01rwE9rN1ROznh8qPYGgd73ab47LJ",
+        "stanza": "Camera da letto matrimoniale prestigiossimo",
+        "desc": "Lasciatevi avvolgere dall'intimità di questa prestigiosa camera da letto matrimoniale, dove il silenzio riposante e la luce soffusa creano un rifugio sereno per i vostri momenti più privati e intimi. In questo appartamento di 120 metri quadri, ogni dettaglio è curato per l'eccellenza, offrendo un comfort assoluto e una sensazione di lusso accessibile. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1TreKP88hYr7ReCequmtDpHsvqLc4WU_w",
+        "stanza": "Camera da letto matrimoniale",
+        "desc": "Immagina il silenzio avvolgente della tua camera da letto matrimoniale, dove la luce morbida del mattino ti accoglie con la promessa di un risveglio sereno e protetto. Questo rifugio intimo, parte di un appartamento di 120 metri quadri completamente ristrutturato, offre un'esperienza di relax totale grazie alle finiture di pregio e ai mobili già inclusi. Benvenuti nella serenità di Aragona — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1hKDXfDHWOy5WHhvt9SNXSj0kjbn85kHA",
+        "stanza": "Bagno con wc bidè lavabo con rifiniture celesti e inserti geometrici grec",
+        "desc": ", metri quadri — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1yuqk6hbRz5O-Vo0CDUCQUzZfBjAQEUTD",
+        "stanza": "Bagno",
+        "desc": ", metri quadri — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1F9leXjwRmlKCD86MOo4Dg3opj4FwDw0L",
+        "stanza": "Bagno lavabo con mobiletto in muratura e legno prestigio",
+        "desc": "Qui la luce calda accarezza il legno di prestigio, trasformando il momento della cura di sé in un rituale di puro benessere. Avvolto dall'armonia di questo rifugio di 120 metri quadri, ogni dettaglio parla di eleganza e comfort quotidiano. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1oyEFL3XOxvjEVtS3bV6AQpl1W--RZ798",
+        "stanza": "Cameretta",
+        "desc": ", metri quadri — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1llpMzj5SX-Kqq8omeUVAasXnQY3hB3m3",
+        "stanza": "Cameretta",
+        "desc": "La cameretta accoglie il sonno dei più piccoli con una luce delicata e un'atmosfera di serenità, dove ogni dettaglio rifinito a nuovo racconta una promessa di tranquillità. In questo spazio curato, immerso nel comfort di un appartamento di 120 metri quadri completamente ristrutturato, i sogni prendono forma in un nido di sicurezza e calore. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1HU_NUYIGbFlFV68Ec6zNcaDwWiMGd7WK",
+        "stanza": "Bagno con lavanderia e doccia  wc bidè lavabo stile moderno",
+        "desc": "Qui, tra linee moderne e superfici curate, il bagno diventa il vostro santuario privato dove la cura di sé si fonde con la pratica quotidiana, avvolgendovi in un'atmosfera di puro benessere. Immaginate il piacere di una doccia rigenerante o la comodità della lavanderia integrata, elementi che rendono ogni gesto un rituale di relax in questo appartamento di 120 metri quadri a Aragona. Scoprite la perfezione di uno spazio rifinito a nuovo, un'oasi di stile e funzionalità — Immobiliare Giancani. — Immobiliare Giancani"
+      }
+    ],
+    "fotoAttivaIndex": 0
   },
   {
     "id": 9,
@@ -962,7 +1739,7 @@
     "mq": "220 metri quadri",
     "canale": "Facebook",
     "mercato": "Grandi Metrature",
-    "stanza": "Cameretta con Armadio Celeste",
+    "stanza": "Cameretta con armadio celeste",
     "tipoFoto": "🛋️ Cameretta",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1vbu_Vc_NaX0QKIDYPPwgteuAw2ct9A47",
     "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
@@ -971,7 +1748,110 @@
     "luogo": "Favara (AG), C.so V. Veneto",
     "badge": "GRANDE METRATURA",
     "vani": "7 Vani",
-    "bagni": "2 Bagni"
+    "bagni": "2 Bagni",
+    "galleria": [
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1vbu_Vc_NaX0QKIDYPPwgteuAw2ct9A47",
+        "stanza": "Cameretta con armadio celeste",
+        "desc": "Ecco un ambiente arioso, protetto e pieno di energia positiva, perfetto per accompagnare la crescita, i giochi e le passioni dei vostri figli o per ospitare il vostro studio personale. Uno spazio versatile, allegro e rifinito con cura, meravigliosamente integrato nei 220 metri quadri dell'abitazione, con trattativa riservata. Il nido stimolante e sicuro dove coltivare sogni e progetti per il futuro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1yCwbgpvyKCypGnhIe91NdV0PPgaw-Mwi",
+        "stanza": "Cameretta celeste con lettino",
+        "desc": "Ecco un ambiente arioso, protetto e pieno di energia positiva, perfetto per accompagnare la crescita, i giochi e le passioni dei vostri figli o per ospitare il vostro studio personale. Uno spazio versatile, allegro e rifinito con cura, meravigliosamente integrato nei 220 metri quadri dell'abitazione, con trattativa riservata. Il nido stimolante e sicuro dove coltivare sogni e progetti per il futuro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1tZ3Xn-eFtTcQqrdRhrPjB3ezbVOnf6x0",
+        "stanza": "Cameretta celeste con lettino armadio e scrivania",
+        "desc": "Ecco un ambiente arioso, protetto e pieno di energia positiva, perfetto per accompagnare la crescita, i giochi e le passioni dei vostri figli o per ospitare il vostro studio personale. Uno spazio versatile, allegro e rifinito con cura, meravigliosamente integrato nei 220 metri quadri dell'abitazione, con trattativa riservata. Il nido stimolante e sicuro dove coltivare sogni e progetti per il futuro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1TvtU5o1qLXOuUEO75_ip3RtvzlboxvIm",
+        "stanza": "Vista cameretta celeste con lettino armadio scrivania",
+        "desc": "Ecco un ambiente arioso, protetto e pieno di energia positiva, perfetto per accompagnare la crescita, i giochi e le passioni dei vostri figli o per ospitare il vostro studio personale. Uno spazio versatile, allegro e rifinito con cura, meravigliosamente integrato nei 220 metri quadri dell'abitazione, con trattativa riservata. Il nido stimolante e sicuro dove coltivare sogni e progetti per il futuro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1rMfU272Bi_utXE_DUo3aijBVI31g2h5l",
+        "stanza": "Bagno con inserti blu",
+        "desc": "Concedetevi una parentesi di puro benessere e freschezza in questo bagno curato nei minimi dettagli, pensato come una piccola spa privata all'interno della propria casa. Superfici armoniose, igiene impeccabile e comfort moderno in un contesto rifinito con cura, a servizio dei 220 metri quadri complessivi dell'immobile, con trattativa riservata. Lo spazio intimo ideale per iniziare e concludere ogni giornata con energia e serenità. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1I7upgnpl58xIfwn7QUuv7VsGU8jVC5G2",
+        "stanza": "Bagno blu lavabo bidè wc doccia",
+        "desc": "Concedetevi una parentesi di puro benessere e freschezza in questo bagno curato nei minimi dettagli, pensato come una piccola spa privata all'interno della propria casa. Superfici armoniose, igiene impeccabile e comfort moderno in un contesto rifinito con cura, a servizio dei 220 metri quadri complessivi dell'immobile, con trattativa riservata. Lo spazio intimo ideale per iniziare e concludere ogni giornata con energia e serenità. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1Na5zIsNZz2jVe1tCnVI4FyVWLBTAgeey",
+        "stanza": "Cameretta con acquario",
+        "desc": "Ecco un ambiente arioso, protetto e pieno di energia positiva, perfetto per accompagnare la crescita, i giochi e le passioni dei vostri figli o per ospitare il vostro studio personale. Uno spazio versatile, allegro e rifinito con cura, meravigliosamente integrato nei 220 metri quadri dell'abitazione, con trattativa riservata. Il nido stimolante e sicuro dove coltivare sogni e progetti per il futuro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1wguFqI5AA2YlpwCZ_cbPSOI5usALVms-",
+        "stanza": "Cameretta con acquario e armadio",
+        "desc": "Ecco un ambiente arioso, protetto e pieno di energia positiva, perfetto per accompagnare la crescita, i giochi e le passioni dei vostri figli o per ospitare il vostro studio personale. Uno spazio versatile, allegro e rifinito con cura, meravigliosamente integrato nei 220 metri quadri dell'abitazione, con trattativa riservata. Il nido stimolante e sicuro dove coltivare sogni e progetti per il futuro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1LmjNzq7EvUcw3OIbzJLn4ao-bH-wK0-y",
+        "stanza": "Cameretta con acquario letto e balcone",
+        "desc": "Varcate la soglia di questa intima camera padronale: una vera oasi di pace e silenzio dove il riposo diventa un abbraccio rigenerante per mente e corpo. Uno spazio ovattato, morbido e rifinito con cura, progettato per regalarvi privacy totale e risvegli sereni all'interno dei 220 metri quadri di questo Appartamento corso Vittorio Veneto 1° piano (220 metri quadri), con trattativa riservata. Il vostro rifugio esclusivo dove ricaricare le energie e sognare in piena tranquillità. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1RcrjOaG0NGZplkJdR3UFq5kWSHtOL9GP",
+        "stanza": "Bagno con doccia grande lavabo wc bidè bianco",
+        "desc": "Concedetevi una parentesi di puro benessere e freschezza in questo bagno curato nei minimi dettagli, pensato come una piccola spa privata all'interno della propria casa. Superfici armoniose, igiene impeccabile e comfort moderno in un contesto rifinito con cura, a servizio dei 220 metri quadri complessivi dell'immobile, con trattativa riservata. Lo spazio intimo ideale per iniziare e concludere ogni giornata con energia e serenità. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/12pKfvdn0dfxAnJ4Nt037tOkZVooeNnUN",
+        "stanza": "Camera grande con due punti luce",
+        "desc": "Varcate la soglia di questa intima camera padronale: una vera oasi di pace e silenzio dove il riposo diventa un abbraccio rigenerante per mente e corpo. Uno spazio ovattato, morbido e rifinito con cura, progettato per regalarvi privacy totale e risvegli sereni all'interno dei 220 metri quadri di questo Appartamento corso Vittorio Veneto 1° piano (220 metri quadri), con trattativa riservata. Il vostro rifugio esclusivo dove ricaricare le energie e sognare in piena tranquillità. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1vNPIAkYHlk6993gOEhmOYP5hqrglwwRY",
+        "stanza": "Camera grande con 2 punti luce",
+        "desc": "Varcate la soglia di questa intima camera padronale: una vera oasi di pace e silenzio dove il riposo diventa un abbraccio rigenerante per mente e corpo. Uno spazio ovattato, morbido e rifinito con cura, progettato per regalarvi privacy totale e risvegli sereni all'interno dei 220 metri quadri di questo Appartamento corso Vittorio Veneto 1° piano (220 metri quadri), con trattativa riservata. Il vostro rifugio esclusivo dove ricaricare le energie e sognare in piena tranquillità. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1JrOIaiuknMBJouWJZ0eAJ-VqoTVYsbU4",
+        "stanza": "Ambiente",
+        "desc": "Scoprite tutti i preziosi dettagli che rendono questo Ambiente unico nel suo genere. Dal pavimento alle rifiniture delle pareti, tutto è stato progettato pensando al massimo comfort abitativo. Un ambiente ideale, proposto con orgoglio da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1yGrTF4dhZHwUx0SEYESrc1WRcsols3dc",
+        "stanza": "Camera da letto matrimoniale",
+        "desc": "Varcate la soglia di questa intima camera padronale: una vera oasi di pace e silenzio dove il riposo diventa un abbraccio rigenerante per mente e corpo. Uno spazio ovattato, morbido e rifinito con cura, progettato per regalarvi privacy totale e risvegli sereni all'interno dei 220 metri quadri di questo Appartamento corso Vittorio Veneto 1° piano (220 metri quadri), con trattativa riservata. Il vostro rifugio esclusivo dove ricaricare le energie e sognare in piena tranquillità. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1OOeDzRZxhCUi3q2KK4c6VHAWL4JgaLR4",
+        "stanza": "Camera da letto matrimoniale con letto e mobili",
+        "desc": "Varcate la soglia di questa intima camera padronale: una vera oasi di pace e silenzio dove il riposo diventa un abbraccio rigenerante per mente e corpo. Uno spazio ovattato, morbido e rifinito con cura, progettato per regalarvi privacy totale e risvegli sereni all'interno dei 220 metri quadri di questo Appartamento corso Vittorio Veneto 1° piano (220 metri quadri), con trattativa riservata. Il vostro rifugio esclusivo dove ricaricare le energie e sognare in piena tranquillità. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1NQ3oeFn5zGPtN73nMbGrJGM1Gl03AYhx",
+        "stanza": "Entrata camera da letto matrimoniale",
+        "desc": "Varcate la soglia di questa intima camera padronale: una vera oasi di pace e silenzio dove il riposo diventa un abbraccio rigenerante per mente e corpo. Uno spazio ovattato, morbido e rifinito con cura, progettato per regalarvi privacy totale e risvegli sereni all'interno dei 220 metri quadri di questo Appartamento corso Vittorio Veneto 1° piano (220 metri quadri), con trattativa riservata. Il vostro rifugio esclusivo dove ricaricare le energie e sognare in piena tranquillità. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/17xNVGJAccHxT4bRAbIe7EjOf7KOFL98z",
+        "stanza": "Camera da letto matrimoniale con letto e armadio como e balcone",
+        "desc": "Varcate la soglia di questa intima camera padronale: una vera oasi di pace e silenzio dove il riposo diventa un abbraccio rigenerante per mente e corpo. Uno spazio ovattato, morbido e rifinito con cura, progettato per regalarvi privacy totale e risvegli sereni all'interno dei 220 metri quadri di questo Appartamento corso Vittorio Veneto 1° piano (220 metri quadri), con trattativa riservata. Il vostro rifugio esclusivo dove ricaricare le energie e sognare in piena tranquillità. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/13u_e_oJQLHLPk3uGgrSldJd9MT5nH8I8",
+        "stanza": "Camera da letto vintage con scrivania letto ed armadio",
+        "desc": "Varcate la soglia di questa intima camera padronale: una vera oasi di pace e silenzio dove il riposo diventa un abbraccio rigenerante per mente e corpo. Uno spazio ovattato, morbido e rifinito con cura, progettato per regalarvi privacy totale e risvegli sereni all'interno dei 220 metri quadri di questo Appartamento corso Vittorio Veneto 1° piano (220 metri quadri), con trattativa riservata. Il vostro rifugio esclusivo dove ricaricare le energie e sognare in piena tranquillità. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1rqHi1SEl46z9E5g-FxVaVuLc1JrAtYns",
+        "stanza": "Cameretta vintage con armadio",
+        "desc": "Ecco un ambiente arioso, protetto e pieno di energia positiva, perfetto per accompagnare la crescita, i giochi e le passioni dei vostri figli o per ospitare il vostro studio personale. Uno spazio versatile, allegro e rifinito con cura, meravigliosamente integrato nei 220 metri quadri dell'abitazione, con trattativa riservata. Il nido stimolante e sicuro dove coltivare sogni e progetti per il futuro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1OI9T_f3x9bvDAyse6HnxF811Ur1BqjbX",
+        "stanza": "Camera sa letto vintage con armadio scrivania e letto",
+        "desc": "Varcate la soglia di questa intima camera padronale: una vera oasi di pace e silenzio dove il riposo diventa un abbraccio rigenerante per mente e corpo. Uno spazio ovattato, morbido e rifinito con cura, progettato per regalarvi privacy totale e risvegli sereni all'interno dei 220 metri quadri di questo Appartamento corso Vittorio Veneto 1° piano (220 metri quadri), con trattativa riservata. Il vostro rifugio esclusivo dove ricaricare le energie e sognare in piena tranquillità. — Immobiliare Giancani"
+      }
+    ],
+    "fotoAttivaIndex": 0
   },
   {
     "id": 10,
@@ -981,7 +1861,7 @@
     "mq": "130 metri quadri",
     "canale": "WhatsApp",
     "mercato": "Pronto da Abitare",
-    "stanza": "Soggiorno con Balcone",
+    "stanza": "Soggiorno con balcone",
     "tipoFoto": "🛋️ Soggiorno Elegante",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1FWDUedT4nZPpCXnPGWI8jBVnjwtf2FdO",
     "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
@@ -990,7 +1870,90 @@
     "luogo": "Favara (AG)",
     "badge": "RIFINITO",
     "vani": "5 Vani",
-    "bagni": "2 Bagni"
+    "bagni": "2 Bagni",
+    "galleria": [
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1FWDUedT4nZPpCXnPGWI8jBVnjwtf2FdO",
+        "stanza": "Soggiorno con balcone",
+        "desc": "Ammirate l'elegante salone di questo Appartamento a Favara. Un'area living ariosa, di grande rappresentanza e rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con zona pranzo un bagno rifinito e un ripostiglio, che esalta al massimo i 130 metri quadri dell'immobile, con trattativa riservata. L'appartamento è in ottimo stato nuovo perfettamente funzionante. Il prezzo è stato ribassato ed è un occasione da non perdere contattaci subito. Perfetto sia per i momenti di relax che per accogliere gli ospiti con grande stile. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1-nATJCUI3E56zQXFr-JAK_ahLos0ssGP",
+        "stanza": "Salotto con balcone e acquario",
+        "desc": "Ammirate l'elegante salone di questo Appartamento a Favara. Un'area living ariosa, di grande rappresentanza e rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con zona pranzo un bagno rifinito e un ripostiglio, che esalta al massimo i 130 metri quadri dell'immobile, con trattativa riservata. L'appartamento è in ottimo stato nuovo perfettamente funzionante. Il prezzo è stato ribassato ed è un occasione da non perdere contattaci subito. Perfetto sia per i momenti di relax che per accogliere gli ospiti con grande stile. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/131kTYRMyzDGFEYO93sE8u25B80wxyFYp",
+        "stanza": "Soggiorno ingresso con vista cucina e zona pranzo",
+        "desc": "Ci troviamo nel comodo soggiorno ingresso con vista cucina e zona pranzo di disimpegno di questo Appartamento a Favara. Uno spazio di collegamento armonioso e rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con zona pranzo un bagno rifinito e un ripostiglio, che distribuisce perfettamente i 130 metri quadri complessivi dell'immobile, con trattativa riservata. L'appartamento è in ottimo stato nuovo perfettamente funzionante. Il prezzo è stato ribassato ed è un occasione da non perdere contattaci subito. Una distribuzione degli ambienti ideale per garantire la massima vivibilità e ordine alla vostra casa. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1Au6i05klLkIjOT-zxuHdmtNKO6yDRAP1",
+        "stanza": "Zona pranzo e living",
+        "desc": "Ammirate l'elegante salone di questo Appartamento a Favara. Un'area living ariosa, di grande rappresentanza e rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con zona pranzo un bagno rifinito e un ripostiglio, che esalta al massimo i 130 metri quadri dell'immobile, con trattativa riservata. L'appartamento è in ottimo stato nuovo perfettamente funzionante. Il prezzo è stato ribassato ed è un occasione da non perdere contattaci subito. Perfetto sia per i momenti di relax che per accogliere gli ospiti con grande stile. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1bJ_gQVOMw3rZO3d-sTcDWjr_W9CJf9fx",
+        "stanza": "Cucina con porta elegante con chiusura a scrigno e porte decorate in vetro",
+        "desc": "Entriamo nella luminosa cucina di questo Appartamento a Favara: un ambiente accogliente, pratico e rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con zona pranzo un bagno rifinito e un ripostiglio, cuore conviviale dei suoi 130 metri quadri complessivi, con trattativa riservata. L'appartamento è in ottimo stato nuovo perfettamente funzionante. Il prezzo è stato ribassato ed è un occasione da non perdere contattaci subito. Lo spazio perfetto per vivere la quotidianità e condividere pranzi e cene in famiglia. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1dnb_NKfwfMwZsuGQfQdqihqVh1481zlq",
+        "stanza": "Cucina zona frigorifero",
+        "desc": "Entriamo nella luminosa cucina di questo Appartamento a Favara: un ambiente accogliente, pratico e rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con zona pranzo un bagno rifinito e un ripostiglio, cuore conviviale dei suoi 130 metri quadri complessivi, con trattativa riservata. L'appartamento è in ottimo stato nuovo perfettamente funzionante. Il prezzo è stato ribassato ed è un occasione da non perdere contattaci subito. Lo spazio perfetto per vivere la quotidianità e condividere pranzi e cene in famiglia. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1IQNWKhQPswFs3pQatr8u1Gvhyedwy9pv",
+        "stanza": "Lavabo e finestra x areazione cucina",
+        "desc": "Entriamo nella luminosa cucina di questo Appartamento a Favara: un ambiente accogliente, pratico e rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con zona pranzo un bagno rifinito e un ripostiglio, cuore conviviale dei suoi 130 metri quadri complessivi, con trattativa riservata. L'appartamento è in ottimo stato nuovo perfettamente funzionante. Il prezzo è stato ribassato ed è un occasione da non perdere contattaci subito. Lo spazio perfetto per vivere la quotidianità e condividere pranzi e cene in famiglia. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1XRs2mgwbHkyRT5CtdlJ-IwObTLaI3zXS",
+        "stanza": "Zona living divano e acquario",
+        "desc": "Ammirate l'elegante salone di questo Appartamento a Favara. Un'area living ariosa, di grande rappresentanza e rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con zona pranzo un bagno rifinito e un ripostiglio, che esalta al massimo i 130 metri quadri dell'immobile, con trattativa riservata. L'appartamento è in ottimo stato nuovo perfettamente funzionante. Il prezzo è stato ribassato ed è un occasione da non perdere contattaci subito. Perfetto sia per i momenti di relax che per accogliere gli ospiti con grande stile. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1lTYtvbzKhWHt0Sn7RnTcMJfkJc2hqkMd",
+        "stanza": "Disimpegno con a sinistra porta bagno cameretta fronte e camera da letto a destra nel fondo",
+        "desc": "Ci troviamo nel comodo disimpegno con a sinistra porta bagno cameretta fronte e camera da letto a destra nel fondo di disimpegno di questo Appartamento a Favara. Uno spazio di collegamento armonioso e rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con zona pranzo un bagno rifinito e un ripostiglio, che distribuisce perfettamente i 130 metri quadri complessivi dell'immobile, con trattativa riservata. L'appartamento è in ottimo stato nuovo perfettamente funzionante. Il prezzo è stato ribassato ed è un occasione da non perdere contattaci subito. Una distribuzione degli ambienti ideale per garantire la massima vivibilità e ordine alla vostra casa. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1BZ41IMTq5Fri_yDvtjCQf4HgGJqZykCX",
+        "stanza": "Ingresso pavimento con disegno di prestigio",
+        "desc": "Ci troviamo nel comodo ingresso pavimento con disegno di prestigio di disimpegno di questo Appartamento a Favara. Uno spazio di collegamento armonioso e rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con zona pranzo un bagno rifinito e un ripostiglio, che distribuisce perfettamente i 130 metri quadri complessivi dell'immobile, con trattativa riservata. L'appartamento è in ottimo stato nuovo perfettamente funzionante. Il prezzo è stato ribassato ed è un occasione da non perdere contattaci subito. Una distribuzione degli ambienti ideale per garantire la massima vivibilità e ordine alla vostra casa. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/11QoL_Ill40n05AeTFH9d4ODYv757oO7G",
+        "stanza": "Ingresso colonne nell'ingresso soggiorno e riscaldamento a parete",
+        "desc": "Ci troviamo nel comodo ingresso colonne nell'ingresso soggiorno e riscaldamento a parete di disimpegno di questo Appartamento a Favara. Uno spazio di collegamento armonioso e rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con zona pranzo un bagno rifinito e un ripostiglio, che distribuisce perfettamente i 130 metri quadri complessivi dell'immobile, con trattativa riservata. L'appartamento è in ottimo stato nuovo perfettamente funzionante. Il prezzo è stato ribassato ed è un occasione da non perdere contattaci subito. Una distribuzione degli ambienti ideale per garantire la massima vivibilità e ordine alla vostra casa. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1MUPOLuS7Ni-EkJwVMYUbOYPJdW0OUk38",
+        "stanza": "Bagno doccia lavabo wc grande ed ampio",
+        "desc": "Osservate il curato bagno doccia lavabo wc grande ed ampio di questo Appartamento a Favara. Uno spazio moderno, funzionale e rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con zona pranzo un bagno rifinito e un ripostiglio, a servizio dei 130 metri quadri complessivi dell'abitazione, con trattativa riservata. L'appartamento è in ottimo stato nuovo perfettamente funzionante. Il prezzo è stato ribassato ed è un occasione da non perdere contattaci subito. Finiture impeccabili studiate per offrire massimo comfort e igiene nella vita di tutti i giorni. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1GhL5L3Pft-5-PikaHiZQOH3S8jB0Lqp0",
+        "stanza": "Bagno e vasca da bagno con inserti",
+        "desc": "Ammirate Ambiente di questo splendido Appartamento a Favara. Uno spazio luminoso, accogliente e rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con zona pranzo un bagno rifinito e un ripostiglio, parte integrante dei 130 metri quadri totali, con trattativa riservata. L'appartamento è in ottimo stato nuovo perfettamente funzionante. Il prezzo è stato ribassato ed è un occasione da non perdere contattaci subito. Un'eccellenza immobiliare presentata in esclusiva da Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/167KnithL_DNoZnWbMT1H82JOkPt3x_Ef",
+        "stanza": "Cameretta con letto matrimoniale armadio e balcone",
+        "desc": "Passiamo alla confortevole cameretta con letto matrimoniale armadio e balcone di questo Appartamento a Favara. Un'oasi riservata e riposante, rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con zona pranzo un bagno rifinito e un ripostiglio, che completa con eleganza i 130 metri quadri totali della proprietà, con trattativa riservata. L'appartamento è in ottimo stato nuovo perfettamente funzionante. Il prezzo è stato ribassato ed è un occasione da non perdere contattaci subito. La camera perfetta per garantire sonni tranquilli e privacy assoluta. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1uWcK0mAQlbXUEyenqZcBAuYtFMkEn5J0",
+        "stanza": "Cameretta con letto matrimoniale e armadio",
+        "desc": "Passiamo alla confortevole cameretta con letto matrimoniale e armadio di questo Appartamento a Favara. Un'oasi riservata e riposante, rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con zona pranzo un bagno rifinito e un ripostiglio, che completa con eleganza i 130 metri quadri totali della proprietà, con trattativa riservata. L'appartamento è in ottimo stato nuovo perfettamente funzionante. Il prezzo è stato ribassato ed è un occasione da non perdere contattaci subito. La camera perfetta per garantire sonni tranquilli e privacy assoluta. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1BzOKaAniKDsfdGdwZpMAcB2RkEW6hYmR",
+        "stanza": "Rifinita lusso classica camera da letto matrimoniale",
+        "desc": "Passiamo alla confortevole rifinita lusso classica camera da letto matrimoniale di questo Appartamento a Favara. Un'oasi riservata e riposante, rifinito e ristrutturato a nuovo con Rifinito appartamento secondo piano con due camere da letto soggiorno ingresso con balcone cucina con zona pranzo un bagno rifinito e un ripostiglio, che completa con eleganza i 130 metri quadri totali della proprietà, con trattativa riservata. L'appartamento è in ottimo stato nuovo perfettamente funzionante. Il prezzo è stato ribassato ed è un occasione da non perdere contattaci subito. La camera perfetta per garantire sonni tranquilli e privacy assoluta. — Immobiliare Giancani"
+      }
+    ],
+    "fotoAttivaIndex": 0
   },
   {
     "id": 11,
@@ -1009,7 +1972,25 @@
     "luogo": "Agrigento / Costa",
     "badge": "VISTA MARE",
     "vani": "4 Vani + Magazzino",
-    "bagni": "1 Bagno"
+    "bagni": "1 Bagno",
+    "galleria": [
+      {
+        "foto": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop",
+        "stanza": "Vista Mare e Magazzino",
+        "desc": "Favara / Costa. Splendida opportunità immobiliare di 120 mq con vista mare e spazioso magazzino carrabile annesso a soli 48.000 €. Ideale per chi cerca relax e spazio utile."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1ZeFvgW36oabdrE0lGUzuTg2kcx8vJgBT",
+        "stanza": "Visuale Drone Esterna",
+        "desc": "Panoramica aerea che valorizza l intera proprietà ed il contesto circostante."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1FWDUedT4nZPpCXnPGWI8jBVnjwtf2FdO",
+        "stanza": "Zona Living e Spazi Interni",
+        "desc": "Ambiente accogliente con ottima illuminazione e rifiniture di qualità."
+      }
+    ],
+    "fotoAttivaIndex": 0
   },
   {
     "id": 12,
@@ -1019,7 +2000,7 @@
     "mq": "110 metri quadri",
     "canale": "Facebook",
     "mercato": "Accesso Indipendente",
-    "stanza": "Verandina Esterna Retro",
+    "stanza": "Verandina esterna retro",
     "tipoFoto": "🏡 Verandina Retro",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1erOi3npN_czkA8yDBpz6Us4es3QbwoWy",
     "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
@@ -1028,7 +2009,110 @@
     "luogo": "Favara (AG)",
     "badge": "PIANO TERRA",
     "vani": "4 Vani",
-    "bagni": "1 Bagno"
+    "bagni": "1 Bagno",
+    "galleria": [
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1erOi3npN_czkA8yDBpz6Us4es3QbwoWy",
+        "stanza": "Verandina esterna retro",
+        "desc": "Che delizia scoprire la verandina esterna retro, un angolo di intimità che si apre su un piccolo giardinetto privato, perfetto per colazioni all'aria aperta all'interno di questo appartamento di 110 metri quadri a Favara. La struttura, completamente ristrutturata a nuovo e situata al piano rialzato con soli cinque gradini, offre un'abitabilità impeccabile a un prezzo davvero accessibile di € 48000. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1M3Bt-YWUmOWwlcm-HGFP2adrBJ_kmCTF",
+        "stanza": "Verandina esterna retro con giardino e cisterna idrica",
+        "desc": "Benvenuti nella verandina esterna retro, un angolo di serenità che si apre su un piccolo giardinetto e sulla cisterna idrica, perfetto per godersi l'aria aperta in questo appartamento di 110 metri quadri a Favara. La ristrutturazione a nuovo ha valorizzato ogni dettaglio, rendendo questo spazio un'oasi di relax accessibile a soli 5 gradini dal piano rialzato, il tutto a un prezzo di assoluto interesse di 48.000 euro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1l8J5VhCrKTWUtG0mnfPnq0k4N8F4sIi3",
+        "stanza": "Camera da letto vista sulla porta",
+        "desc": "Benvenuti nella camera da letto, un angolo di pace all'interno di questo splendido appartamento di 110 metri quadri a Favara. La luminosità naturale e la finitura impeccabile riflettono la cura del dettaglio di questa proprietà ristrutturata a nuovo, pronta per essere abitata. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/13gtIcZNYjmF9S3rz3NRstzau_7LoLvi4",
+        "stanza": "Camera da letto vista balcone sul giardino retro",
+        "desc": "Benvenuti nella camera da letto che si apre sul balcone retro, dove la luce naturale e la vista sul piccolo giardinetto creano un'oasi di tranquillità unica a Favara. In questo appartamento di 110 metri quadri, rifinito e ristrutturato a nuovo, ogni dettaglio è studiato per il vostro comfort, offrendo un'atmosfera calda e accogliente al piano rialzato. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/10ZhNsWnIFqH6XJbvBk5_0naYiYi6ZStb",
+        "stanza": "Ripostiglio",
+        "desc": "Questo pratico ripostiglio, perfettamente integrato nell'appartamento di 110 metri quadri a Favara, offre una soluzione intelligente per ottimizzare gli spazi di stoccaggio. Grazie alla ristrutturazione a nuovo, lo spazio è pronto per essere sfruttato al meglio, garantendo ordine e funzionalità all'interno della casa. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1johqEjLD9YVqkCa_CWtmhrNwUxOy1smO",
+        "stanza": "Cameretta singola con lucernario",
+        "desc": "Benvenuti in questa luminosa cameretta singola, dove il lucernario inonda di luce naturale un ambiente curato nei minimi dettagli, perfetto per il riposo e lo studio. Si tratta di un appartamento di 110 metri quadri a Favara, completamente ristrutturato a nuovo e disponibile a soli 48.000 euro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1v8mAKdQKK2N82yJetrb21As9qMM9Y4ge",
+        "stanza": "Porta della camere singola",
+        "desc": "Benvenuti alla porta della camera singola di questo splendido appartamento di 110 metri quadri a Favara, dove l'atmosfera calda e accogliente accoglie chi varca la soglia. Ingresso al piano rialzato con soli 5 gradini, questo immobile è stato rifinito e ristrutturato a nuovo, garantendo un comfort moderno in un contesto esclusivo. Non lasciatevi sfuggire questa opportunità unica a soli 48.000 euro: — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1TO2StwGtmcaL8YGweBXO8gvKvuZvsa5q",
+        "stanza": "Porta cameretta singola e vediamo nel fondo il bagno non rifinito",
+        "desc": "Benvenuti in questa splendida zona di Favara, dove questo appartamento di 110 metri quadri al piano rialzato offre un'ottima soluzione abitativa con due verandine e un piccolo giardinetto retrostante. Qui siamo davanti alla porta della cameretta singola, che ci introduce verso il fondo dove si trova il bagno, da personalizzare secondo i vostri gusti per completare la ristrutturazione a nuovo. Un'opportunità da non perdere a soli 48.000 euro, pensata per chi cerca spazi ampi e versatili. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1_N4_n6-VmLFly-lI-PWaLClftjtJ6cOn",
+        "stanza": "Camera singola particolare lucernario",
+        "desc": "Benvenuti in questa camera singola caratterizzata da un suggestivo lucernario che inonda di luce naturale lo spazio, rendendo l'atmosfera calda e accogliente. L'immobile, ristrutturato a nuovo e situato a Favara, offre un totale di 110 metri quadri di vivibilità con finiture curate e un prezzo di assoluto vantaggio. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1QOfT7jfqK5i-3-rsrN-uemuKuY40iNlT",
+        "stanza": "Pavimento cameretta singola",
+        "desc": "Il pavimento della cameretta singola, curato nei minimi dettagli, accoglie chi entra con una sensazione di calore e ordine tipica di un immobile rifinito a nuovo. In questo appartamento di 110 metri quadri, situato a Favara, ogni spazio è pensato per offrire comfort e funzionalità quotidiana. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1uD55tgKy1ssMeam7sPFrFK53qQUBYf2F",
+        "stanza": "Ambiente",
+        "desc": "Ammirate Ambiente di questo splendido Appartamento a Favara. Uno spazio luminoso, accogliente e rifinito e ristrutturato a nuovo con Rifinito vuoto, parte integrante dei 110 metri quadri totali, proposto a € 48000. L'appartamento al piano rialzato 5 gradini ha 2 verandine una sulla strada e l'altra retro con un piccolo giardinetto e cisterna idrica singola. Composto da 3 camere da letto 1 bagno rifinito cucina e Soggiorno. Un'eccellenza immobiliare presentata in esclusiva da Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1ssLWO3FvuiRCCnGo2Xm8VswBlJYczG2O",
+        "stanza": "Particolare porte in noce",
+        "desc": "Notate queste eleganti porte in noce che impreziosiscono l'ambiente, conferendo un tocco di classe e calore a questo appartamento di 110 metri quadri a Favara. La qualità dei dettagli riflette la cura della ristrutturazione a nuovo, rendendo ogni spazio unico e accogliente. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1ByK3GpDOXZ4OXag-8tQ7E7YeYpVPMliA",
+        "stanza": "Porta in noce con maniglia in argento",
+        "desc": "Osservate questa porta in noce con maniglia in argento, un dettaglio di pregio che incornicia con eleganza gli ambienti di questo appartamento di 110 metri quadri a Favara. La sua finitura curata riflette lo stato di ristrutturazione a nuovo, conferendo un tocco di classe al piano rialzato dove la luce naturale si espande dalle verandine. Un investimento sicuro a soli € 48000, pronto ad accogliere la vostra famiglia in uno spazio rifinito e funzionale. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1Nlc0b6X38us4cLu2OBisk0Y7YkayI7Ud",
+        "stanza": "Cucina con vista sugli impianti e piastrelle presenti",
+        "desc": "Benvenuti nella cucina di questo splendido appartamento di 110 metri quadri a Favara, dove la ristrutturazione a nuovo ha valorizzato le piastrelle e gli impianti con un gusto moderno e funzionale. In soli 48.000 euro, avete l'opportunità di vivere uno spazio rifinito e curato in ogni dettaglio, perfetto per chi cerca qualità senza compromessi. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1N8dLAy6n3v9WQbGTMXWIBYyaGYyKxpVa",
+        "stanza": "Cucina vuota con vista sulle predisposizione idriche e elettriche",
+        "desc": "Benvenuti in questa cucina, un vero e proprio blank slate dove le predisposizioni idriche ed elettriche sono già pronte ad accogliere i vostri sogni di design. Immaginate la vostra cucina ideale in questo appartamento di 110 metri quadri a Favara, un ambiente rifinito a nuovo che vi aspetta al prezzo imperdibile di 48.000 euro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1ihtFrb4DDEFUway0iW7SZheevVhFc36K",
+        "stanza": "Cucina vista verso la verandina",
+        "desc": "Benvenuti nella cucina di questo splendido appartamento di 110 metri quadri a Favara, dove la luce naturale filtra dalla verandina retrostante, creando un'atmosfera accogliente e luminosa. L'immobile, completamente ristrutturato a nuovo, offre spazi curati in ogni dettaglio, perfetti per chi cerca comfort e qualità al prezzo di 48.000 euro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1NZ6vWFVAJWSUnfPp6yCb0OHIvbco-JXx",
+        "stanza": "Bagno vuoto con soppalco",
+        "desc": "Benvenuti nel bagno di questo appartamento di 110 metri quadri a Favara, dove la presenza di un soppalco offre una soluzione ingegnosa per ottimizzare gli spazi di stoccaggio. L'ambiente, parte di una residenza rifinita e ristrutturata a nuovo, si distingue per la sua funzionalità e la luce naturale che lo illumina. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1Wwzo9vhG-0V7lkEzqsyqgofbjfYctDgk",
+        "stanza": "Bagno vuoto.usato come ripostiglio",
+        "desc": "Qui, in questo spazio versatile che unisce la funzionalità di un ripostiglio alla futura possibilità di rifinitura, possiamo immaginare la comodità di avere un bagno aggiuntivo a disposizione per l'intero appartamento di 110 metri quadri. La versatilità di questa zona, in un contesto già rifinito e ristrutturato a nuovo, rappresenta un valore aggiunto notevole per chi cerca soluzioni pratiche e personalizzabili. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1uhHsN2Z8BTouJRZhFa-I43RtTQlpiCnV",
+        "stanza": "Ambiente",
+        "desc": "Ammirate Ambiente di questo splendido Appartamento a Favara. Uno spazio luminoso, accogliente e rifinito e ristrutturato a nuovo con Rifinito vuoto, parte integrante dei 110 metri quadri totali, proposto a € 48000. L'appartamento al piano rialzato 5 gradini ha 2 verandine una sulla strada e l'altra retro con un piccolo giardinetto e cisterna idrica singola. Composto da 3 camere da letto 1 bagno rifinito cucina e Soggiorno. Un'eccellenza immobiliare presentata in esclusiva da Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1BUfSkiOeKDv0WMbrRHQHBhrbZq3cJan_",
+        "stanza": "Disimpegno con vista 4 porte",
+        "desc": "Benvenuti in questo luminoso disimpegno che, con le sue quattro porte, diventa il cuore pulsante dei 110 metri quadri di questo appartamento ristrutturato a nuovo a Favara. Qui la luce naturale accoglie chi entra, creando un passaggio elegante e funzionale verso gli spazi abitativi principali. — Immobiliare Giancani"
+      }
+    ],
+    "fotoAttivaIndex": 0
   },
   {
     "id": 13,
@@ -1038,7 +2122,7 @@
     "mq": "5.000 metri quadri",
     "canale": "Telegram",
     "mercato": "Costruttori / Privati",
-    "stanza": "Ambiente Panoramico",
+    "stanza": "Ambiente",
     "tipoFoto": "🏡 Drone Terreno",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1shPX-w59-rbvHK4x5QjEGQgPcQuXVkPL",
     "videoUrl": "./assets/video/video_villa_zingarello.mp4",
@@ -1047,7 +2131,85 @@
     "luogo": "Favara (AG)",
     "badge": "PROGETTO APPROVATO",
     "vani": "Edificabile",
-    "bagni": "-"
+    "bagni": "-",
+    "galleria": [
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1shPX-w59-rbvHK4x5QjEGQgPcQuXVkPL",
+        "stanza": "Ambiente",
+        "desc": "Benvenuti in questo esclusivo lotto di 5000 metri quadri a Favara, dove il progetto approvato per 90 metri quadri di abitazione con verande si fonde con una vista mare panoramica sul Priolo. Un'opportunità unica per personalizzare la vostra residenza al grezzo, disponibile a soli 55.000 euro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1K9NKP3DONMDQM1xD-TMevWuynpv2xTC2",
+        "stanza": "Ambiente",
+        "desc": "Benvenuti in questo splendido lotto di 5000 metri quadri a Favara, dove un progetto approvato vi offre la libertà di costruire 90 metri quadri di abitazione con verande, godendo di una vista mare panoramica sul Priolo. Un'opportunità esclusiva al prezzo di 55.000 euro per realizzare il vostro sogno su un terreno al grezzo, pronto a essere personalizzato secondo i vostri gusti. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1B3Oz5A5MMqOKvWp7GVfQ7ikmpAiMaVuJ",
+        "stanza": "Terreno vista Sud",
+        "desc": "Benvenuti su questo splendido lotto di 5000 metri quadri a Favara, dove la luce del sole illumina la vista panoramica sul mare e sul Priolo. Qui troverete un progetto approvato per una residenza di 90 metri quadri con verande, perfetto per chi desidera personalizzare i propri spazi. Un'opportunità esclusiva a soli 55.000 euro — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1pYlL_8t98BIu4LBvyVL3dE-c5OOg8uzy",
+        "stanza": "Ambiente",
+        "desc": "Benvenuti in questa straordinaria occasione a Favara, dove un lotto di 5000 metri quadri si apre su una vista mare panoramica mozzafiato sul panorama di Priolo. Qui il progetto approvato vi aspetta con 90 metri quadri di abitazione e verande, pronti a essere personalizzati al grezzo per realizzare la casa dei vostri sogni. Un investimento esclusivo a soli 55.000 euro, firmato — Immobiliare Giancani. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1eEhx21BtJdwbv95M0k-lwwl-HuVwpKgS",
+        "stanza": "Ambiente",
+        "desc": "Benvenuti in questo straordinario lotto di 5000 metri quadri a Favara, dove il progetto approvato di 90 metri quadri si apre su una vista mare panoramica mozzafiato sul Priolo. È l'occasione unica per realizzare la vostra abitazione su misura, personalizzando ogni dettaglio fin dal grezzo, a un prezzo di vendita di 55.000 euro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1-1QAaDzLz_MIjm6aI3iimUGbttpQdvZ5",
+        "stanza": "Ambiente",
+        "desc": "Benvenuti su questo splendido lotto di 5000 metri quadri a Favara, dove la natura regna sovrana e offre una vista mare panoramica mozzafiato sul panorama del Priolo. Qui troverete un progetto già approvato per realizzare la vostra abitazione di 90 metri quadri con verande, un'opportunità unica per vivere il lusso della libertà su misura. Investite in un futuro sereno con questa soluzione al grezzo da personalizzare, disponibile a soli 55.000 euro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1obdFTENtoKNZrhdxMogDdBxUGiKVIdM0",
+        "stanza": "Ambiente",
+        "desc": "Benvenuti in questo straordinario lotto di 5000 metri quadri a Favara, dove la vista panoramica sul Priolo e sul mare vi accoglierà con un senso di libertà senza paragoni. Qui, su un progetto già approvato, realizzerete la vostra abitazione di 90 metri quadri con verande, personalizzando ogni dettaglio al grezzo per un prezzo di assoluto valore di 55.000 euro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1Q_jG6BBwNA_Qhw4og0HOKQFSgUWlUBSX",
+        "stanza": "Ambiente",
+        "desc": "Benvenuti in questo splendido lotto di 5000 metri quadri a Favara, dove il progetto approvato con 90 metri quadri di abitazione e verande si affaccia su una vista mare panoramica sul Priolo. Un'opportunità esclusiva da € 55000 per realizzare la vostra dimora ideale in un contesto al grezzo e totalmente personalizzabile. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1QnPqiThFxuVvGUlJ126e7D5sCyoSnqhZ",
+        "stanza": "Ambiente",
+        "desc": "Benvenuti in questa straordinaria occasione a Favara, dove su 5000 metri quadri di terreno si apre una vista mare panoramica mozzafiato sul panorama del Priolo. Qui, grazie al progetto già approvato, potrete realizzare la vostra abitazione di 90 metri quadri con verande, personalizzando ogni dettaglio su un lotto al grezzo disponibile a soli 55.000 euro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/16v-ggmchi0ZZG8uyqX436pEDbu0bdqY0",
+        "stanza": "Ambiente",
+        "desc": "Benvenuti in questo straordinario lotto di 5000 metri quadri a Favara, dove il progetto approvato per una residenza di 90 metri quadri con verande si apre su una vista mare panoramica mozzafiato sul Priolo. Un'opportunità esclusiva per realizzare la casa dei vostri sogni, personalizzandola fin dal grezzo, a soli 55.000 euro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1W6q789O-qvTldXybi_V_k4ibK2WJaH83",
+        "stanza": "Ambiente",
+        "desc": "Benvenuti su questo splendido lotto di 5000 metri quadri a Favara, dove la vista panoramica sul Priolo regala una luce naturale incantevole. Qui potrete realizzare la vostra abitazione di 90 metri quadri con verande, partendo da un progetto già approvato e personalizzandolo a vostro piacimento. Un'opportunità unica da € 55000 per chi cerca spazi e qualità. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/16Bbg7yRZKrikdLtojP8XWOR72IE8le26",
+        "stanza": "Ambiente",
+        "desc": "Benvenuti in questo splendido lotto di terreno edificabile di 5000 metri quadri a Favara, dove il progetto approvato per 90 metri quadri di abitazione e verande si apre su una vista mare panoramica mozzafiato sul panorama del Priolo. Un'opportunità esclusiva per realizzare la casa dei vostri sogni al grezzo da personalizzare, con un investimento accessibile di € 55000. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1t2OXg7xizK-zIezgFj-RpI319PfvoS1v",
+        "stanza": "Ambiente",
+        "desc": "Benvenuti in questo straordinario lotto di 5000 metri quadri a Favara, dove il progetto approvato per 90 metri quadri di abitazione con verande si apre su una vista mare panoramica mozzafiato sul Priolo. Qui, l'essenza del \"grezzo\" diventa un'opportunità d'oro per personalizzare ogni dettaglio e realizzare la casa dei vostri sogni, il tutto a soli 55.000 euro. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1MJZW7_NLWCIwCSTxMtSM1RbqmGDW3LBt",
+        "stanza": "Terreno vista",
+        "desc": "Usciamo all'esterno su questo suggestivo terreno vista di pertinenza di questo Terreno Edificabile a Favara. Uno sfogo all'aperto ventilato e panoramico che valorizza i 5000 metri quadri della proprietà, proposto a € 55000. Trattasi di un lotto di terreno edificabile con progetto rilasciato con 90 mq di abitazione e verande  Vista mare panoramica sul panorama del Priolo a Favara. Ideale per godersi le belle giornate e momenti di relax all'aria aperta. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1Dk6yqpRd_RhAkJcmCyy5u0ZOJEr3ZdlW",
+        "stanza": "Ambiente",
+        "desc": "Ammirate Ambiente di questo splendido Terreno Edificabile a Favara. Uno spazio luminoso, accogliente e al grezzo da personalizzare con Lotto di terreno con progetto approvato, parte integrante dei 5000 metri quadri totali, proposto a € 55000. Trattasi di un lotto di terreno edificabile con progetto rilasciato con 90 mq di abitazione e verande  Vista mare panoramica sul panorama del Priolo a Favara. Un'eccellenza immobiliare presentata in esclusiva da Immobiliare Giancani. — Immobiliare Giancani"
+      }
+    ],
+    "fotoAttivaIndex": 0
   },
   {
     "id": 14,
@@ -1057,7 +2219,7 @@
     "mq": "120 metri quadri",
     "canale": "Instagram",
     "mercato": "Residenziale Agrigento",
-    "stanza": "Cucina Abitabile",
+    "stanza": "CUCINA",
     "tipoFoto": "🛋️ Cucina Abitabile",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1pQ-ppyKxVL9aCrM2TD5O1Qrr3Jt_RXVz",
     "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
@@ -1066,7 +2228,100 @@
     "luogo": "Agrigento, Villaggio Mosè",
     "badge": "ZONA RESIDENZIALE",
     "vani": "5 Vani",
-    "bagni": "2 Bagni"
+    "bagni": "2 Bagni",
+    "galleria": [
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1pQ-ppyKxVL9aCrM2TD5O1Qrr3Jt_RXVz",
+        "stanza": "CUCINA",
+        "desc": "L'assenza di una denominazione specifica diventa un'opportunità unica per immaginare uno spazio puro, pronto a essere definito dal tuo stile di vita esclusivo. Qui, ogni angolo è un palcoscenico d'arte contemporanea dove la luce e l'architettura dialogano in perfetta armonia. Trasforma questo vuoto in una dichiarazione di eleganza senza tempo. — Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1M0DJGYeQo4sqZ_Q23nom7ODVcYc2Ty1s",
+        "stanza": "DISIMPEGNO CON CORRIDOIO",
+        "desc": "Qui vediamo un angolo del Corridoio del meraviglioso appartamento sito Nel Villaggio mosè. Il corridoio da spazio e ed eleganza ."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1BvBN7iNQWgNymA7zrYKlur_KYAJbIzKj",
+        "stanza": "ZONA PRANZO CUCINA",
+        "desc": "Mi scuso per la confusione: non ho ricevuto il nome specifico della stanza da descrivere, poiché risulta come \"undefined\". Per poterti offrire un testo impeccabile e su misura, potresti gentilmente specificare quale ambiente es. camera da letto, salone, cucina desideri presentare? — Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1p7Pib1RDgGZHDuqJ16vfoaxS9iP-KphV",
+        "stanza": "VISTA DAL BALCONE CUCINA",
+        "desc": "Ammirate VISTA DAL BALCONE DELL' Appartamento via Antares villaggio Mosè : uno spazio rifinito, arioso e luminoso pronto ad accogliervi. Un'eccellenza immobiliare garantita  — Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1PfhGdnvOyAPS1qfKtrFTMv0iFqdbRDxS",
+        "stanza": "BALCONE",
+        "desc": "Ammirate Ambiente di Appartamento via Antares villaggio Mosè : uno spazio rifinito, arioso e luminoso pronto ad accogliervi. Un'eccellenza immobiliare garantita da Antonio Giancani — Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/13jkqLnrpLoGBcZnRzUS4NHwt9OMec4Fz",
+        "stanza": "CAMERA DA LETTO VUOTA",
+        "desc": "Ammirate Ambiente di Appartamento via Antares villaggio Mosè : uno spazio rifinito, arioso e luminoso pronto ad accogliervi. Un'eccellenza immobiliare garantita da Antonio Giancani — Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1VwLpftZurGw-bEMuN-jGOE3IzDtbXuNh",
+        "stanza": "BAGNO",
+        "desc": "Ammirate Ambiente di Appartamento via Antares villaggio Mosè : uno spazio rifinito, arioso e luminoso pronto ad accogliervi. Un'eccellenza immobiliare garantita da Antonio Giancani — Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/11Zp1DYdCtOrBEwqiOb4Psep0KniEbWfI",
+        "stanza": "CAMERA DA LETTO VUOTA",
+        "desc": "Ammirate Ambiente di Appartamento via Antares villaggio Mosè : uno spazio rifinito, arioso e luminoso pronto ad accogliervi. Un'eccellenza immobiliare garantita da Antonio Giancani — Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1QNqwN064q-c4enbRMmnZapk5X1i2tE9F",
+        "stanza": "SOGGIORNO VUOTO",
+        "desc": "Ammirate Ambiente di Appartamento via Antares villaggio Mosè : uno spazio rifinito, arioso e luminoso pronto ad accogliervi. Un'eccellenza immobiliare garantita da Antonio Giancani — Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/11UPIPcWsCEGbtRhMOFjC2mA86gexoafa",
+        "stanza": "CORRIDOIO VISTA BAGNO E SOGGIORNO SUL FONDO",
+        "desc": "Ammirate Ambiente di Appartamento via Antares villaggio Mosè : uno spazio rifinito, arioso e luminoso pronto ad accogliervi. Un'eccellenza immobiliare garantita da Antonio Giancani — Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1ysjOFl0hMOSwHpznJs1f_j339n37l_PE",
+        "stanza": "BALCONE VISTA PANORAMICA",
+        "desc": "Ammirate Ambiente di Appartamento via Antares villaggio Mosè : uno spazio rifinito, arioso e luminoso pronto ad accogliervi. Un'eccellenza immobiliare garantita da Antonio Giancani — Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1tKqaWZsMEhCoyK8Nr5QNwz3lopVkE2Nn",
+        "stanza": "BALCONE",
+        "desc": "Ammirate Ambiente di Appartamento via Antares villaggio Mosè : uno spazio rifinito, arioso e luminoso pronto ad accogliervi. Un'eccellenza immobiliare garantita da Antonio Giancani — Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1srn2N7N1ccVcETH1d2-Z9IZ2tpfrdhIr",
+        "stanza": "VISTA PANORAMICA BALCONE DISTRIBUTORE DI BENZINA",
+        "desc": "Ammirate Ambiente di Appartamento via Antares villaggio Mosè : uno spazio rifinito, arioso e luminoso pronto ad accogliervi. Un'eccellenza immobiliare garantita da Antonio Giancani — Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1zyYKxGWSo4FL6_98dj76qBTRrP55Z47F",
+        "stanza": "SALOTTO VUOTO",
+        "desc": "Ammirate Ambiente di Appartamento via Antares villaggio Mosè : uno spazio rifinito, arioso e luminoso pronto ad accogliervi. Un'eccellenza immobiliare garantita da Antonio Giancani — Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1k3CtUcwPjkcT4CrdYILI-Wff92EhZexD",
+        "stanza": "SALONE VUOTO",
+        "desc": "Ammirate Ambiente di Appartamento via Antares villaggio Mosè : uno spazio rifinito, arioso e luminoso pronto ad accogliervi. Un'eccellenza immobiliare garantita da Antonio Giancani — Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/10Vvd-Ig0lC384xLEvbYKUjMQ6ssx-R-F",
+        "stanza": "SALONE VUOTO",
+        "desc": "Ammirate Ambiente di Appartamento via Antares villaggio Mosè : uno spazio rifinito, arioso e luminoso pronto ad accogliervi. Un'eccellenza immobiliare garantita da Antonio Giancani — Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1VhKN9P-97wkwpJYik3u2UxE3jM9u4dpg",
+        "stanza": "CAMERA DA LETTO 3",
+        "desc": "Sembra che i dettagli specifici per la stanza siano momentaneamente disponibili, ma la promessa di lusso e comfort resta intatta in ogni angolo della proprietà. Ogni spazio è stato concepito per offrire un'esperienza abitativa senza pari, dove il design incontra la funzionalità in modo impeccabile. Scopri l'eccellenza che definisce lo standard di vita che cerchi. — Immobiliare Giancani"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1yD6YCwYlk-YSp9E2I4bZgf3CR6GNkvmA",
+        "stanza": "BAGNO",
+        "desc": "Ammirate Ambiente di Appartamento via Antares villaggio Mosè : uno spazio rifinito, arioso e luminoso pronto ad accogliervi. Un'eccellenza immobiliare garantita da Antonio Giancani — Immobiliare Giancani."
+      }
+    ],
+    "fotoAttivaIndex": 0
   },
   {
     "id": 15,
@@ -1076,7 +2331,7 @@
     "mq": "120 metri quadri",
     "canale": "Estero",
     "mercato": "🌍 Clienti Selezionati",
-    "stanza": "Bagno Rifinito",
+    "stanza": "Bagno",
     "tipoFoto": "🛋️ Bagno Rifinito",
     "fotoUrl": "https://lh3.googleusercontent.com/d/16rr6WAcbhKpp441O7gAI9uoJ4Diw4UyZ",
     "videoUrl": "./assets/video/video_villa_favara.mp4",
@@ -1085,7 +2340,110 @@
     "luogo": "Favara (AG)",
     "badge": "RIFINITISSIMA",
     "vani": "6 Vani",
-    "bagni": "2 Bagni"
+    "bagni": "2 Bagni",
+    "galleria": [
+      {
+        "foto": "https://lh3.googleusercontent.com/d/16rr6WAcbhKpp441O7gAI9uoJ4Diw4UyZ",
+        "stanza": "Bagno",
+        "desc": "Scoprite tutti i preziosi dettagli che rendono questo bagno unico nel suo genere. Dal pavimento alle rifiniture delle pareti, tutto è stato progettato pensando al massimo comfort abitativo. Un ambiente ideale, proposto con orgoglio da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1cnE2Oqw5nQ0LPmPMvLKiCqd5TJp_tayN",
+        "stanza": "Salotto soggiorno",
+        "desc": "Diamo uno sguardo ravvicinato a questo meraviglioso salotto soggiorno. L'illuminazione naturale valorizza ogni dettaglio, esaltando la qualità dei materiali scelti. È un angolo perfetto per rilassarsi o condividere momenti speciali in questo immobile di pregio. — Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1XhLbVJzqZNyOqY6Bz-3jNLJQGpx8EZHJ",
+        "stanza": "Corridoio",
+        "desc": "Questo ambiente, dedicato a fungere da perfetto corridoio, rappresenta il cuore pulsante dell'abitazione. Spazi arieggiati e una vista piacevole contribuiscono ad un'esperienza abitativa di prima classe. — Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1fREzrg9xsuiaQsm40UNWGrQo6LNgOJ4b",
+        "stanza": "Camera da letto Padronale",
+        "desc": "Questa visuale vi permette di apprezzare pienamente le qualità di questo camera da letto Padronale. L'organizzazione intelligente degli spazi garantisce estrema versatilità. Che vogliate usarlo per la famiglia o per accogliere amici, la vivibilità è semplicemente eccezionale. — Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1Oub-5JutwgeVuypeAKPbH2e19lf1fP-W",
+        "stanza": "Cameretta da letto doppia",
+        "desc": "Ammirate l'incredibile luminosità e le generose proporzioni di questo cameretta da letto doppia. Lo stile neutro e sofisticato permette di immaginare facilmente l'arredamento dei vostri sogni. Un'opportunità da non lasciarsi sfuggire. — Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1zcpjTCmi00-DrRDXlpYkogMIKAyG5Oez",
+        "stanza": "Disimpegno & Corridoio Zona Notte",
+        "desc": "Il comodo disimpegno separa magistralmente la vivacità della zona giorno dalla quiete della zona notte, ideale per quando volete far finta di non aver sentito il citofono! — Immobiliare"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1WPly4r7dN618PVFF9e17H-u4dFIirvu5",
+        "stanza": "Camera da Letto Singola",
+        "desc": "Scoprite tutti i preziosi dettagli che rendono questo camera da Letto Singola unico nel suo genere. Dal pavimento alle rifiniture delle pareti, tutto è stato progettato pensando al massimo comfort abitativo. Un ambiente ideale, proposto con orgoglio da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1raw_OItmpcTjkz4ejUho4S-KL5y1gqLT",
+        "stanza": "Cucina con accesso alla veranda coperta e soggiorno",
+        "desc": "Diamo uno sguardo ravvicinato a questo meraviglioso cucina con accesso alla veranda coperta e soggiorno. L'illuminazione naturale valorizza ogni dettaglio, esaltando la qualità dei materiali scelti. È un angolo perfetto per rilassarsi o condividere momenti speciali in questo immobile di pregio. — Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1TwY_ROr9CVM32jYMsXcHthFXEHVQ1fsq",
+        "stanza": "Veranda Coperta con accesso in Cucina",
+        "desc": "In questo spettacolare veranda Coperta con accesso in Cucina dell'immobile VILLA FAVARA RIFINITA troviamo una distribuzione degli spazi estremamente funzionale. Le ampie metrature e la disposizione intelligente creano un'atmosfera accogliente e incredibilmente vivibile. Proposta in esclusiva gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1kqp05I46o7O3-iS1jede-9try0H2pQUU",
+        "stanza": "Bagno di Servizio & Lavanderia",
+        "desc": "Scoprite tutti i preziosi dettagli che rendono questo bagno di Servizio & Lavanderia unico nel suo genere. Dal pavimento alle rifiniture delle pareti, tutto è stato progettato pensando al massimo comfort abitativo. Un ambiente ideale, proposto con orgoglio da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1nbUq2yNa_m7CXApS8nLTQD8Z9bDdT1mz",
+        "stanza": "Angolo Barbieque e forno con Veranda esterna",
+        "desc": "Questa visuale vi permette di apprezzare pienamente le qualità di questo angolo Barbieque e forno con Veranda esterna. L'organizzazione intelligente degli spazi garantisce estrema versatilità. Che vogliate usarlo per la famiglia o per accogliere amici, la vivibilità è semplicemente eccezionale. — Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1YDJ__HPAS7tySlwLxLGVy4VAOrP5VCNr",
+        "stanza": "Veranda esterna",
+        "desc": "Diamo uno sguardo ravvicinato a questo meraviglioso veranda esterna. L'illuminazione naturale valorizza ogni dettaglio, esaltando la qualità dei materiali scelti. È un angolo perfetto per rilassarsi o condividere momenti speciali in questo immobile di pregio. — Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/17VVeDz5XA28TuFo7ewfGu7U3IfUDyHeU",
+        "stanza": "Vista dal lotto di terreno Agricolo 200 mq",
+        "desc": "Siamo davvero lieti di mostrarvi l'attenzione dedicata a questo bellissimo vista dal lotto di terreno Agricolo 200 mq. Le finiture moderne, unite a un design classico, offrono un colpo d'occhio impareggiabile. Un vero fiore all'occhiello per l'immobile VILLA FAVARA RIFINITA, ovviamente garantito dall'esperienza di Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1Y7siiADmJKMG4GxNmS11XH7QQeLyklOL",
+        "stanza": "Accesso Carrabile",
+        "desc": "Proseguiamo il nostro tour virtuale scoprendo le potenzialità di questo magnifico accesso Carrabile. La sensazione di ampiezza è immediata, e l'atmosfera tranquilla rende l'immobile VILLA FAVARA RIFINITA la cornice perfetta per la vita quotidiana. — Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1SjlA12dVhhXQPReQ7C01dsCu0gqJWNa1",
+        "stanza": "Spazio adiacente all'entrata Carrabile e Ingresso casa",
+        "desc": "Ammirate l'incredibile luminosità e le generose proporzioni di questo spazio adiacente all'entrata Carrabile e Ingresso casa. Lo stile neutro e sofisticato permette di immaginare facilmente l'arredamento dei vostri sogni. Un'opportunità da non lasciarsi sfuggire. — Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1DQmddiGt9W5nKFHKi5mPZ1wBGNElIZet",
+        "stanza": "Ingresso Principale & Cancello Esterno",
+        "desc": "Vi diamo il benvenuto in questa splendida villa dove eleganza e privacy si incontrano... o dove semplicemente i parenti si fermano al cancello se non sono graditi! — Immobiliare"
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/16IfVxhVMcjG6edg8Mv5YTF43U3RGOEWU",
+        "stanza": "Cucina con ingresso soggiorno e Veranda Coperta",
+        "desc": "Questo ambiente, dedicato a fungere da perfetto cucina con ingresso soggiorno e Veranda Coperta, rappresenta il cuore pulsante dell'abitazione. Spazi arieggiati e una vista piacevole contribuiscono ad un'esperienza abitativa di prima classe. — Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1CXteSFaVTBn2ZgVN53dTv9KzWWTPZYSi",
+        "stanza": "Vista dalla Cucina verso il Soggiorno",
+        "desc": "Diamo uno sguardo ravvicinato a questo meraviglioso vista dalla Cucina verso il Soggiorno. L'illuminazione naturale valorizza ogni dettaglio, esaltando la qualità dei materiali scelti. È un angolo perfetto per rilassarsi o condividere momenti speciali in questo immobile di pregio. — Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1tHv88x6wi9H4cCkXcL_AssOespzVKyDw",
+        "stanza": "Vista dalla Cucina verso il Soggiorno",
+        "desc": "Siamo davvero lieti di mostrarvi l'attenzione dedicata a questo bellissimo vista dalla Cucina verso il Soggiorno. Le finiture moderne, unite a un design classico, offrono un colpo d'occhio impareggiabile. Un vero fiore all'occhiello per l'immobile VILLA FAVARA RIFINITA, ovviamente garantito dall'esperienza di Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1C6D-UAtQdte-aYyCwfNG3d9vTm1T72PK",
+        "stanza": "Il  Soggiorno",
+        "desc": "Questa visuale vi permette di apprezzare pienamente le qualità di questo il  Soggiorno. L'organizzazione intelligente degli spazi garantisce estrema versatilità. Che vogliate usarlo per la famiglia o per accogliere amici, la vivibilità è semplicemente eccezionale. — Proposta gestita da Immobiliare Giancani."
+      }
+    ],
+    "fotoAttivaIndex": 0
   },
   {
     "id": 16,
@@ -1095,7 +2453,7 @@
     "mq": "120 metri quadri",
     "canale": "WhatsApp",
     "mercato": "Centrale Panoramico",
-    "stanza": "Balcone Panoramico",
+    "stanza": "Balcone",
     "tipoFoto": "🏡 Balcone Panoramico",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1nVZyvnk738wrNPiocltHHjdYkSgjPFky",
     "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
@@ -1104,7 +2462,65 @@
     "luogo": "Favara (AG), Via Olanda",
     "badge": "PANORAMICO",
     "vani": "5 Vani",
-    "bagni": "2 Bagni"
+    "bagni": "2 Bagni",
+    "galleria": [
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1nVZyvnk738wrNPiocltHHjdYkSgjPFky",
+        "stanza": "Balcone",
+        "desc": "Diamo uno sguardo ravvicinato a questo meraviglioso Ambiente. L'illuminazione naturale valorizza ogni dettaglio, esaltando la qualità dei materiali scelti. È un angolo perfetto per rilassarsi o condividere momenti speciali in questo immobile di pregio. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1AucOkfqGV6zDbUZCT5NWZGEUxc_366nQ",
+        "stanza": "Balcone",
+        "desc": "Ammirate l'incredibile luminosità e le generose proporzioni di questo Ambiente. Lo stile neutro e sofisticato permette di immaginare facilmente l'arredamento dei vostri sogni. Un'opportunità da non lasciarsi sfuggire. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1sUGqLVELzC3jvgaOG_esLJiItF4pmgXj",
+        "stanza": "Il Corridoio",
+        "desc": "Proseguiamo il nostro tour virtuale scoprendo le potenzialità di questo magnifico Ambiente. La sensazione di ampiezza è immediata, e l'atmosfera tranquilla rende l'immobile Appartamento Via olanda 3 piano  la cornice perfetta per la vita quotidiana. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1P2D5MCuF2OZkQ_NWz8o7MdPflz1Pf556",
+        "stanza": "La Cameretta da letto",
+        "desc": "Vi invitiamo ad ammirare l'eleganza discreta e l'ottimo stato di manutenzione di questo Ambiente. Un ambiente pronto da vivere, progettato per soddisfare anche i clienti più esigenti. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1vj9sBnTttwHlgxCgBpL4BESOBwvbHYTJ",
+        "stanza": "Il Salotto",
+        "desc": "Scoprite tutti i preziosi dettagli che rendono questo Ambiente unico nel suo genere. Dal pavimento alle rifiniture delle pareti, tutto è stato progettato pensando al massimo comfort abitativo. Un ambiente ideale, proposto con orgoglio da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/17fBO-jTXl66Fh6IaZ4wSQWc7Px2OvTig",
+        "stanza": "Il disimpegno",
+        "desc": "Ammirate l'incredibile luminosità e le generose proporzioni di questo Ambiente. Lo stile neutro e sofisticato permette di immaginare facilmente l'arredamento dei vostri sogni. Un'opportunità da non lasciarsi sfuggire. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/19vDgFhWliyfZQ9ItU9aMMVotFCJo2M2x",
+        "stanza": "Il Ripostiglio",
+        "desc": "Siamo davvero lieti di mostrarvi l'attenzione dedicata a questo bellissimo Ambiente. Le finiture moderne, unite a un design classico, offrono un colpo d'occhio impareggiabile. Un vero fiore all'occhiello per l'immobile Appartamento Via olanda 3 piano , ovviamente garantito dall'esperienza di Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1t0s8y3z21AlIcWBBFDxW1rwC6r1X27M3",
+        "stanza": "La Cucina",
+        "desc": "Proseguiamo il nostro tour virtuale scoprendo le potenzialità di questo magnifico Ambiente. La sensazione di ampiezza è immediata, e l'atmosfera tranquilla rende l'immobile Appartamento Via olanda 3 piano  la cornice perfetta per la vita quotidiana. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/1PVj96nWkbWb9mrW7M5BzViugQXP0ANbv",
+        "stanza": "Ripostiglio",
+        "desc": "Proseguiamo il nostro tour virtuale scoprendo le potenzialità di questo magnifico Ambiente. La sensazione di ampiezza è immediata, e l'atmosfera tranquilla rende l'immobile Appartamento Via olanda 3 piano  la cornice perfetta per la vita quotidiana. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/193ZYxEfLd7CZ9Ui4ZaHAJrcNGjrYHGbb",
+        "stanza": "Il Bagno",
+        "desc": "Proseguiamo il nostro tour virtuale scoprendo le potenzialità di questo magnifico Ambiente. La sensazione di ampiezza è immediata, e l'atmosfera tranquilla rende l'immobile Appartamento Via olanda 3 piano  la cornice perfetta per la vita quotidiana. Proposta gestita da Immobiliare Giancani."
+      },
+      {
+        "foto": "https://lh3.googleusercontent.com/d/12r1A-MPA_qcqLnDFKNchXEX6cydmWPFt",
+        "stanza": "La Cucina vicino il Balcone",
+        "desc": "Vi invitiamo ad ammirare l'eleganza discreta e l'ottimo stato di manutenzione di questo Ambiente. Un ambiente pronto da vivere, progettato per soddisfare anche i clienti più esigenti. Proposta gestita da Immobiliare Giancani."
+      }
+    ],
+    "fotoAttivaIndex": 0
   }
 ];
 
@@ -1126,7 +2542,7 @@
 
     // GESTIONE CATALOGO (LOCALSTORAGE)
     function caricaCatalogo() {
-      const salvato = localStorage.getItem('giancani_catalogo_immobili_v6');
+      const salvato = localStorage.getItem('giancani_catalogo_immobili_v7');
       if (salvato) {
         try {
           CATALOGO_IMMOBILI = JSON.parse(salvato);
@@ -1140,7 +2556,7 @@
     }
 
     function salvaCatalogo() {
-      localStorage.setItem('giancani_catalogo_immobili_v6', JSON.stringify(CATALOGO_IMMOBILI));
+      localStorage.setItem('giancani_catalogo_immobili_v7', JSON.stringify(CATALOGO_IMMOBILI));
       aggiornaConteggiKPI();
       filtraContenuti();
     }
@@ -1266,26 +2682,49 @@
           return `
             <div class="bg-[#1e293b] border border-slate-800 rounded-xl overflow-hidden shadow-md flex flex-col justify-between card-hover transition-all duration-300 hover:border-slate-600 hover:shadow-xl">
               
-              <!-- Foto Reale con Badge -->
-              <div class="relative h-44 w-full bg-slate-950 overflow-hidden cursor-pointer" onclick="apriModal(${item.id})">
-                <img src="${item.fotoUrl}" alt="${item.titolo}" class="w-full h-full object-cover img-zoom" loading="lazy" onerror="this.src='https://lh3.googleusercontent.com/d/1ZeFvgW36oabdrE0lGUzuTg2kcx8vJgBT'">
+              <!-- Foto Reale con Slider Frecce SX/DX e Badge -->
+              <div class="relative h-48 w-full bg-slate-950 overflow-hidden group cursor-pointer" onclick="apriModal(${item.id})">
+                <img id="card-img-${item.id}" src="${item.fotoUrl}" alt="${item.titolo}" class="w-full h-full object-cover img-zoom transition-all duration-300" loading="lazy" onerror="this.src='https://lh3.googleusercontent.com/d/1ZeFvgW36oabdrE0lGUzuTg2kcx8vJgBT'">
                 
+                <!-- Frecce Scorrimento SX / DX sulla Card -->
+                ${item.galleria && item.galleria.length > 1 ? `
+                  <button onclick="event.stopPropagation(); scorriFotoCard(${item.id}, -1)" 
+                          class="absolute left-1.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-slate-950/80 hover:bg-emerald-600 text-white flex items-center justify-center backdrop-blur-md transition-all shadow-lg z-20 text-xs font-bold border border-white/20 hover:scale-110 opacity-90 group-hover:opacity-100" 
+                          title="Foto Precedente nello Sheet">
+                    ◀
+                  </button>
+                  <button onclick="event.stopPropagation(); scorriFotoCard(${item.id}, 1)" 
+                          class="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-slate-950/80 hover:bg-emerald-600 text-white flex items-center justify-center backdrop-blur-md transition-all shadow-lg z-20 text-xs font-bold border border-white/20 hover:scale-110 opacity-90 group-hover:opacity-100" 
+                          title="Foto Successiva nello Sheet">
+                    ▶
+                  </button>
+                ` : ''}
+
                 <!-- Badge Canale in alto a sinistra -->
-                <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+                <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5 z-10">
                   <span class="px-2 py-0.5 rounded text-[10px] font-bold border backdrop-blur-md ${badgeCanaleClass}">
                     ${iconCanale} ${item.canale}
                   </span>
                   ${isEstero ? '<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-indigo-600 text-white shadow-sm">ESTERO</span>' : ''}
                 </div>
 
+                <!-- Contatore Foto in alto a destra -->
+                ${item.galleria && item.galleria.length > 1 ? `
+                  <div class="absolute top-2.5 right-2.5 z-10">
+                    <span id="card-counter-${item.id}" class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-black/80 text-emerald-300 border border-emerald-500/30 backdrop-blur-md shadow-sm">
+                      📸 ${(item.fotoAttivaIndex || 0) + 1}/${item.galleria.length}
+                    </span>
+                  </div>
+                ` : ''}
+
                 <!-- Prezzo in basso a destra -->
-                <div class="absolute bottom-2.5 right-2.5 bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10 shadow-lg">
+                <div class="absolute bottom-2.5 right-2.5 bg-black/85 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10 shadow-lg z-10">
                   <span class="text-xs font-black text-emerald-400">${item.prezzo}</span>
                 </div>
 
-                <!-- Tag Tipo Foto in basso a sinistra -->
-                <div class="absolute bottom-2.5 left-2.5 bg-black/70 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-semibold text-slate-200">
-                  ${item.tipoFoto || '🏡 Scatto Reale'}
+                <!-- Tag Stanza / Ambiente in basso a sinistra -->
+                <div class="absolute bottom-2.5 left-2.5 bg-black/80 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-semibold text-slate-200 z-10 max-w-[55%] truncate border border-white/10">
+                  <span id="card-tag-${item.id}">📍 ${item.stanza || item.tipoFoto || 'Scatto Reale'}</span>
                 </div>
               </div>
 
@@ -1299,6 +2738,12 @@
                   <h4 class="font-bold text-xs sm:text-sm text-white line-clamp-2 hover:text-emerald-400 transition-colors cursor-pointer" onclick="apriModal(${item.id})">
                     ${item.titolo}
                   </h4>
+                  <p id="card-desc-${item.id}" class="text-[11px] text-slate-400 line-clamp-2 mt-1 italic">
+                    ${item.descrizione}
+                  </p>
+                  <p id="card-desc-${item.id}" class="text-[11px] text-slate-400 line-clamp-2 mt-1 italic">
+                    ${item.descrizione}
+                  </p>
                 </div>
 
                 <!-- FRASE CONTATTO OBBLIGATORIA SU OGNI CARD -->
@@ -1480,17 +2925,227 @@
     // =========================================================================
     // STUDIO GRAFICO GIANCANI: 8 STILI & BASI MUSICALI
     // =========================================================================
-    function apriStudioGrafico(id) {
+    
+    // =========================================================================
+    // LOGICA GALLERIA FOTO & DESCRIZIONI SHEET (SCORRIMENTO DESTRA / SINISTRA)
+    // =========================================================================
+    let indiceFotoStudioGrafico = 0;
+    let indiceFotoModal = 0;
+
+    // 1. Scorrimento Foto sulla Card del Catalogo
+    function scorriFotoCard(id, delta) {
+      const item = CATALOGO_IMMOBILI.find(x => x.id === id);
+      if (!item || !item.galleria || item.galleria.length <= 1) return;
+      const tot = item.galleria.length;
+      item.fotoAttivaIndex = ((item.fotoAttivaIndex || 0) + delta + tot) % tot;
+      const scatto = item.galleria[item.fotoAttivaIndex];
+      
+      item.fotoUrl = scatto.foto;
+      if (scatto.stanza) item.stanza = scatto.stanza;
+      if (scatto.desc) item.descrizione = scatto.desc;
+
+      const imgEl = document.getElementById(`card-img-${id}`);
+      const counterEl = document.getElementById(`card-counter-${id}`);
+      const tagEl = document.getElementById(`card-tag-${id}`);
+      const descEl = document.getElementById(`card-desc-${id}`);
+
+      if (imgEl) {
+        imgEl.style.opacity = '0.3';
+        imgEl.src = scatto.foto;
+        imgEl.onload = () => { imgEl.style.opacity = '1'; };
+      }
+      if (counterEl) counterEl.textContent = `📸 ${item.fotoAttivaIndex + 1}/${tot}`;
+      if (tagEl) tagEl.textContent = `📍 ${scatto.stanza || 'Scatto Reale'}`;
+      if (descEl) descEl.textContent = scatto.desc || item.descrizione;
+    }
+
+    // 2. Galleria Scorrevole in Studio Grafico
+    function renderGalleriaStudioGrafico() {
+      if (!immobileStudioGrafico) return;
+      const galleria = (immobileStudioGrafico.galleria && immobileStudioGrafico.galleria.length) 
+        ? immobileStudioGrafico.galleria 
+        : [{ foto: immobileStudioGrafico.fotoUrl, stanza: immobileStudioGrafico.stanza || 'Principale', desc: immobileStudioGrafico.descrizione }];
+      
+      const container = document.getElementById('sg-thumbnails-container');
+      const counter = document.getElementById('sg-gallery-counter');
+      if (counter) counter.textContent = `${indiceFotoStudioGrafico + 1} / ${galleria.length}`;
+
+      if (!container) return;
+      container.innerHTML = galleria.map((scatto, idx) => {
+        const isAttivo = idx === indiceFotoStudioGrafico;
+        return `
+          <div onclick="selezionaFotoStudioGrafico(${idx})" id="sg-thumb-${idx}"
+               class="shrink-0 w-24 h-20 rounded-lg overflow-hidden border-2 cursor-pointer transition-all duration-200 relative group ${isAttivo ? 'border-emerald-500 shadow-md shadow-emerald-500/30 scale-105' : 'border-slate-700 hover:border-slate-500 opacity-70 hover:opacity-100'}">
+            <img src="${scatto.foto}" alt="" class="w-full h-full object-cover">
+            ${isAttivo ? '<span class="absolute top-1 right-1 w-4 h-4 rounded-full bg-emerald-500 text-slate-950 font-black text-[9px] flex items-center justify-center shadow">✓</span>' : ''}
+            <div class="absolute inset-x-0 bottom-0 bg-black/85 px-1 py-0.5 text-[9px] font-semibold text-white truncate text-center">
+              ${scatto.stanza || `Foto ${idx+1}`}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      aggiornaBoxStanzaStudioGrafico();
+    }
+
+    function selezionaFotoStudioGrafico(idx) {
+      if (!immobileStudioGrafico) return;
+      const galleria = (immobileStudioGrafico.galleria && immobileStudioGrafico.galleria.length) 
+        ? immobileStudioGrafico.galleria 
+        : [{ foto: immobileStudioGrafico.fotoUrl, stanza: immobileStudioGrafico.stanza || 'Principale', desc: immobileStudioGrafico.descrizione }];
+      
+      if (idx < 0 || idx >= galleria.length) return;
+      indiceFotoStudioGrafico = idx;
+      const scatto = galleria[idx];
+
+      immobileStudioGrafico.fotoUrl = scatto.foto;
+      if (scatto.stanza) immobileStudioGrafico.stanza = scatto.stanza;
+      if (scatto.desc) immobileStudioGrafico.descrizione = scatto.desc;
+
+      cachedImg = null;
+      cachedImgUrl = null;
+
+      renderGalleriaStudioGrafico();
+      
+      const thumbEl = document.getElementById(`sg-thumb-${idx}`);
+      if (thumbEl) thumbEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+      ridisegnaGraficaLive();
+      aggiornaTestoPostSocial();
+    }
+
+    function scorriGalleriaStudioGrafico(delta) {
+      if (!immobileStudioGrafico || !immobileStudioGrafico.galleria) return;
+      const tot = immobileStudioGrafico.galleria.length;
+      const nuovoIdx = (indiceFotoStudioGrafico + delta + tot) % tot;
+      selezionaFotoStudioGrafico(nuovoIdx);
+    }
+
+    function aggiornaBoxStanzaStudioGrafico() {
+      if (!immobileStudioGrafico) return;
+      const galleria = (immobileStudioGrafico.galleria && immobileStudioGrafico.galleria.length) 
+        ? immobileStudioGrafico.galleria 
+        : [{ foto: immobileStudioGrafico.fotoUrl, stanza: immobileStudioGrafico.stanza || 'Principale', desc: immobileStudioGrafico.descrizione }];
+      const scatto = galleria[indiceFotoStudioGrafico] || galleria[0];
+      
+      const titEl = document.getElementById('sg-stanza-titolo');
+      const descEl = document.getElementById('sg-stanza-descrizione');
+      if (titEl) titEl.textContent = `📍 Ambiente: ${scatto.stanza || 'Scatto Selezionato'}`;
+      if (descEl) descEl.textContent = scatto.desc || immobileStudioGrafico.descrizione;
+    }
+
+    function applicaTestoStanzaCorrente() {
+      if (!immobileStudioGrafico) return;
+      const galleria = (immobileStudioGrafico.galleria && immobileStudioGrafico.galleria.length) 
+        ? immobileStudioGrafico.galleria 
+        : [{ foto: immobileStudioGrafico.fotoUrl, stanza: immobileStudioGrafico.stanza || 'Principale', desc: immobileStudioGrafico.descrizione }];
+      const scatto = galleria[indiceFotoStudioGrafico] || galleria[0];
+      if (scatto.desc) {
+        immobileStudioGrafico.descrizione = scatto.desc;
+        aggiornaTestoPostSocial();
+        ridisegnaGraficaLive();
+        mostraToast('✅ Testo della riga applicato alla grafica e al post!');
+      }
+    }
+
+    // 3. Galleria Scorrevole nel Lightbox Modal
+    function aggiornaContenutoModal() {
+      if (!immobileSelezionatoModal) return;
+      const item = immobileSelezionatoModal;
+      const galleria = (item.galleria && item.galleria.length) 
+        ? item.galleria 
+        : [{ foto: item.fotoUrl, stanza: item.stanza || 'Principale', desc: item.descrizione }];
+      
+      const scatto = galleria[indiceFotoModal] || galleria[0];
+
+      document.getElementById('modal-titolo').textContent = item.titolo;
+      document.getElementById('modal-badge-canale').textContent = `${item.canale} • ${item.mercato}`;
+      
+      const imgDisplay = document.getElementById('modal-img-display');
+      if (imgDisplay) {
+        imgDisplay.style.opacity = '0.4';
+        imgDisplay.src = scatto.foto;
+        imgDisplay.onload = () => { imgDisplay.style.opacity = '1'; };
+      }
+
+      document.getElementById('modal-tag-foto').textContent = scatto.stanza || item.tipoFoto || 'Scatto Reale';
+      document.getElementById('modal-stanza').textContent = scatto.stanza || item.luogo || item.stanza;
+      document.getElementById('modal-prezzo').textContent = item.prezzo;
+      document.getElementById('modal-mq').textContent = `📐 ${item.mq}`;
+      document.getElementById('modal-stato').textContent = item.stato;
+      document.getElementById('modal-descrizione').textContent = scatto.desc || item.descrizione;
+      
+      const counterEl = document.getElementById('modal-photo-counter');
+      if (counterEl) counterEl.textContent = `• Foto ${indiceFotoModal + 1} di ${galleria.length}`;
+
+      const thumbsEl = document.getElementById('modal-thumbs-strip');
+      if (thumbsEl) {
+        thumbsEl.innerHTML = galleria.map((s, i) => `
+          <div onclick="cambiaFotoModal(${i})" id="modal-thumb-${i}"
+               class="shrink-0 w-16 h-12 rounded-lg overflow-hidden border-2 cursor-pointer transition-all ${i === indiceFotoModal ? 'border-emerald-500 scale-105 shadow' : 'border-slate-700 opacity-60 hover:opacity-100'}">
+            <img src="${s.foto}" class="w-full h-full object-cover">
+          </div>
+        `).join('');
+
+        const activeThumb = document.getElementById(`modal-thumb-${indiceFotoModal}`);
+        if (activeThumb) activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+
+    function scorriFotoModal(delta) {
+      if (!immobileSelezionatoModal || !immobileSelezionatoModal.galleria) return;
+      const tot = immobileSelezionatoModal.galleria.length;
+      indiceFotoModal = (indiceFotoModal + delta + tot) % tot;
+      aggiornaContenutoModal();
+    }
+
+    function cambiaFotoModal(i) {
+      indiceFotoModal = i;
+      aggiornaContenutoModal();
+    }
+
+    // Navigazione da tastiera Frecce SX/DX
+    window.addEventListener('keydown', (e) => {
+      const modalLightbox = document.getElementById('modal-lightbox');
+      if (modalLightbox && !modalLightbox.classList.contains('hidden')) {
+        if (e.key === 'ArrowLeft') scorriFotoModal(-1);
+        if (e.key === 'ArrowRight') scorriFotoModal(1);
+      }
+      const modalStudio = document.getElementById('modal-studio-grafico');
+      if (modalStudio && !modalStudio.classList.contains('hidden')) {
+        if (e.key === 'ArrowLeft') scorriGalleriaStudioGrafico(-1);
+        if (e.key === 'ArrowRight') scorriGalleriaStudioGrafico(1);
+      }
+    });
+
+    function apriStudioGrafico(id, fotoIdx = null) {
       const item = CATALOGO_IMMOBILI.find(x => x.id === id);
       if (!item) return;
 
       immobileStudioGrafico = item;
+      indiceFotoStudioGrafico = (fotoIdx !== null) ? fotoIdx : (item.fotoAttivaIndex || 0);
 
-      document.getElementById('sg-input-prezzo').value = item.prezzo || '€ 120.000';
+      const galleria = (item.galleria && item.galleria.length) 
+        ? item.galleria 
+        : [{ foto: item.fotoUrl, stanza: item.stanza || 'Principale', desc: item.descrizione }];
+      const scatto = galleria[indiceFotoStudioGrafico] || galleria[0];
+
+      immobileStudioGrafico.fotoUrl = scatto.foto;
+      if (scatto.stanza) immobileStudioGrafico.stanza = scatto.stanza;
+      if (scatto.desc) immobileStudioGrafico.descrizione = scatto.desc;
+
+      cachedImg = null;
+      cachedImgUrl = null;
+
+      document.getElementById('sg-input-prezzo').value = item.prezzo || 'Trattativa Riservata';
       document.getElementById('sg-input-mq').value = normalizzaMetriQuadri(item.mq);
       document.getElementById('sg-input-luogo').value = item.luogo || item.stanza || 'Favara (AG)';
       document.getElementById('sg-input-badge').value = item.badge || 'IN VENDITA';
+      if (document.getElementById('sg-input-contatto')) {
+        document.getElementById('sg-input-contatto').value = '📞 Info e visite: Antonio Giancani 320 166 7156';
+      }
 
+      renderGalleriaStudioGrafico();
       aggiornaTestoPostSocial();
 
       document.getElementById('modal-studio-grafico').classList.remove('hidden');
@@ -1502,8 +3157,10 @@
 
     function apriStudioGraficoDaModal() {
       if (!immobileSelezionatoModal) return;
+      const id = immobileSelezionatoModal.id;
+      const fIdx = indiceFotoModal;
       chiudiModal();
-      apriStudioGrafico(immobileSelezionatoModal.id);
+      apriStudioGrafico(id, fIdx);
     }
 
     function chiudiStudioGrafico() {
@@ -2535,20 +4192,13 @@ Antonio Giancani — 320 166 7156 — Immobiliare Giancani
     }
 
     // MODAL LIGHTBOX FOTO
-    function apriModal(id) {
+    function apriModal(id, fotoIdx = null) {
       const item = CATALOGO_IMMOBILI.find(x => x.id === id);
       if (!item) return;
 
       immobileSelezionatoModal = item;
-      document.getElementById('modal-titolo').textContent = item.titolo;
-      document.getElementById('modal-badge-canale').textContent = `${item.canale} • ${item.mercato}`;
-      document.getElementById('modal-img-display').src = item.fotoUrl;
-      document.getElementById('modal-tag-foto').textContent = item.tipoFoto;
-      document.getElementById('modal-stanza').textContent = item.luogo || item.stanza;
-      document.getElementById('modal-prezzo').textContent = item.prezzo;
-      document.getElementById('modal-mq').textContent = `📐 ${item.mq}`;
-      document.getElementById('modal-stato').textContent = item.stato;
-      document.getElementById('modal-descrizione').textContent = item.descrizione;
+      indiceFotoModal = (fotoIdx !== null) ? fotoIdx : (item.fotoAttivaIndex || 0);
+      aggiornaContenutoModal();
 
       document.getElementById('modal-lightbox').classList.remove('hidden');
       document.getElementById('modal-lightbox').classList.add('flex');
