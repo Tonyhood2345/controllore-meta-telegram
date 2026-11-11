@@ -688,6 +688,12 @@
                        class="w-full bg-slate-950 border border-slate-700 rounded-md px-2.5 py-1.5 text-white text-xs focus:outline-none focus:border-emerald-500">
               </div>
             </div>
+            <div>
+              <label class="block text-[10px] text-emerald-400 font-bold mb-0.5">📞 Frase Contatto / Prenota Visita</label>
+              <input type="text" id="sg-input-contatto" oninput="ridisegnaGraficaLive()"
+                     value="📞 Info e visite: Antonio Giancani 320 166 7156"
+                     class="w-full bg-slate-950 border border-emerald-500/50 rounded-md px-2.5 py-1.5 text-white font-semibold text-xs focus:outline-none focus:border-emerald-500">
+            </div>
           </div>
 
           <!-- TESTO POST SOCIAL GENERATO AUTOMATICAMENTE -->
@@ -795,55 +801,39 @@
   <!-- SCRIPT LOGIC JAVASCRIPT: 8 STILI GRAFICI, AUDIO & EXPORT MP4 -->
   <!-- ========================================================================= -->
   <script>
-    const DATABASE_IMMOBILI_DEFAULT = [
+        const DATABASE_IMMOBILI_DEFAULT = [
   {
     "id": 1,
-    "titolo": "Appartamento 4° Piano corso Vittorio Veneto",
+    "sheet": "Appartamento_4°_Piano_corso_Vittorio_Veneto_",
+    "titolo": "Appartamento 4° Piano Corso Vittorio Veneto",
     "prezzo": "Trattativa Riservata",
     "mq": "140 metri quadri",
     "canale": "Facebook",
     "mercato": "Italia • Nazionale",
-    "stanza": "Salone & Zona Giorno",
+    "stanza": "Salotto Vuoto",
     "tipoFoto": "🛋️ Interno Salone",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1J_dumkLBgmNO14H2Ga0sTkEJR25jWbSw",
     "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
-    "descrizione": "Favara, corso Vittorio Veneto n 269. Luminoso 4° piano ascensorato, ottime finiture, ampi balconi panoramici.",
+    "descrizione": "Favara, corso Vittorio Veneto n 269. Luminoso 4° piano ascensorato, ottime finiture, ampi balconi panoramici. Immaginate la luce dorata del tramonto favarese che bagna i 140 mq di questo salotto.",
     "stato": "🛑 Bloccato Meta (Audit)",
-    "luogo": "Favara (AG), C.so V. Veneto",
+    "luogo": "Favara (AG), C.so V. Veneto 269",
     "badge": "IN VENDITA",
     "vani": "5 Vani",
     "bagni": "2 Bagni"
   },
   {
     "id": 2,
-    "titolo": "Villa Panoramica Contrada Zingarello",
-    "prezzo": "€ 95.000",
-    "mq": "120 metri quadri",
-    "canale": "Telegram",
-    "mercato": "Sicilia / Agrigento",
-    "stanza": "Vista Drone Esterno",
-    "tipoFoto": "🏡 Drone Esterno",
-    "fotoUrl": "https://lh3.googleusercontent.com/d/1ZeFvgW36oabdrE0lGUzuTg2kcx8vJgBT",
-    "videoUrl": "./assets/video/video_villa_zingarello.mp4",
-    "descrizione": "Zingarello, Agrigento. Villa indipendente con spettacolare visuale costa e mare ripresa da drone DJI, veranda e corte.",
-    "stato": "✅ Approvato Telegram",
-    "luogo": "Agrigento, Zingarello",
-    "badge": "IN VENDITA",
-    "vani": "4 Vani",
-    "bagni": "2 Bagni"
-  },
-  {
-    "id": 3,
-    "titolo": "Cannero Riviera Lago Maggiore (Estero)",
+    "sheet": "Cannero_Riviera_lago_Maggiore_",
+    "titolo": "Cannero Riviera Lago Maggiore",
     "prezzo": "€ 150.000",
     "mq": "90 metri quadri",
     "canale": "Estero",
     "mercato": "🌍 Portali Internazionali (Svizzera/Germania)",
-    "stanza": "Facciata & Vista Lago",
+    "stanza": "Camera da Letto Rifinita",
     "tipoFoto": "🏡 Esterno Lago",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1ySiRhbdekzjRk4wqrmQdYQmb-mM3BtUZ",
     "videoUrl": "./assets/video/video_cannero_riviera.mp4",
-    "descrizione": "Cannero Riviera, prestigioso immobile con affaccio panoramico sul Lago Maggiore. Ideale per investitori internazionali ed acquirenti esteri.",
+    "descrizione": "Benvenuti a Cannero Riviera sul Lago Maggiore: incantevole dimora di 90 metri quadri proposta a 150.000 €, dove il fascino lacustre incontra eleganza e tranquillità. Ideale per investitori internazionali.",
     "stato": "✅ Approvato Estero",
     "luogo": "Cannero Riviera, Lago Maggiore",
     "badge": "ESCLUSIVA ESTERO",
@@ -851,17 +841,94 @@
     "bagni": "1 Bagno"
   },
   {
+    "id": 3,
+    "sheet": "Terreno_17.000_mq_a_35.000€",
+    "titolo": "Terreno Panoramico 17.000 mq Favara",
+    "prezzo": "€ 35.000",
+    "mq": "17.000 metri quadri",
+    "canale": "Telegram",
+    "mercato": "Investimenti / Agricolo",
+    "stanza": "Vista Drone dal Terreno",
+    "tipoFoto": "🏡 Drone Terreno",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1G5wxLG8wt_hDB-MiHG7a4C6chIpW94_T",
+    "videoUrl": "./assets/video/video_villa_zingarello.mp4",
+    "descrizione": "Favara. Vasto appezzamento di terreno di 17.000 mq a soli 35.000 € con vista collinare spettacolare ripreso con drone DJI. Uliveto produttivo e facile accesso carrabile dalla strada principale.",
+    "stato": "✅ Approvato Telegram",
+    "luogo": "Favara (AG)",
+    "badge": "OPPORTUNITÀ",
+    "vani": "Terreno Agricolo",
+    "bagni": "-"
+  },
+  {
     "id": 4,
-    "titolo": "Villa Indipendente Favara con Corte e Giardino",
-    "prezzo": "€ 135.000",
-    "mq": "160 metri quadri",
+    "sheet": "Villa_Zingarello",
+    "titolo": "Villa Panoramica Contrada Zingarello",
+    "prezzo": "€ 95.000",
+    "mq": "120 metri quadri",
+    "canale": "Telegram",
+    "mercato": "Sicilia / Agrigento",
+    "stanza": "Vista Esterna Drone Ovest",
+    "tipoFoto": "🏡 Drone Esterno",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1ZeFvgW36oabdrE0lGUzuTg2kcx8vJgBT",
+    "videoUrl": "./assets/video/video_villa_zingarello.mp4",
+    "descrizione": "Zingarello, Agrigento. Villa indipendente con spettacolare visuale costa e mare ripresa da drone DJI, suggestivo terrazzo panoramico, veranda e corte privata a 95.000 €.",
+    "stato": "✅ Approvato Telegram",
+    "luogo": "Agrigento, Zingarello",
+    "badge": "IN VENDITA",
+    "vani": "4 Vani",
+    "bagni": "2 Bagni"
+  },
+  {
+    "id": 5,
+    "sheet": "Appartamento_2_piano_Via_Pavia_Con_vista_panoramica_",
+    "titolo": "Appartamento 2° Piano Via Pavia con Vista Panoramica",
+    "prezzo": "€ 38.000",
+    "mq": "120 metri quadri",
+    "canale": "Instagram",
+    "mercato": "Prima Casa / Affare",
+    "stanza": "Camera da Letto Matrimoniale",
+    "tipoFoto": "🛋️ Camera Panoramica",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/12DCZfaRB3l2LzlKLsLD_idBzD65ipBhM",
+    "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
+    "descrizione": "Favara, via Pavia. Luminoso appartamento al 2° piano di 120 mq con vista panoramica a soli 38.000 €. Ambienti ariosi, ottima esposizione con luce naturale che accarezza ogni stanza.",
+    "stato": "🛑 Bloccato Meta (Audit)",
+    "luogo": "Favara (AG), Via Pavia",
+    "badge": "OTTIMO AFFARE",
+    "vani": "5 Vani",
+    "bagni": "2 Bagni"
+  },
+  {
+    "id": 6,
+    "sheet": "Villa_Aragona",
+    "titolo": "Villa Singola Rifinita Aragona",
+    "prezzo": "Trattativa Riservata",
+    "mq": "120 metri quadri",
+    "canale": "Estero",
+    "mercato": "🌍 Clienti Esteri / Prestigio",
+    "stanza": "Camera da Letto Matrimoniale Seconda",
+    "tipoFoto": "🛋️ Finiture Pregio",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/13DCw7jS4GzKRhN7qH3U9RRPnh1V45vKF",
+    "videoUrl": "./assets/video/video_villa_favara.mp4",
+    "descrizione": "Aragona. Villa indipendente curata in ogni dettaglio architettonico. Pavimenti raffinati, infissi ad alte prestazioni, ampie stanze immerse nella quiete e nel verde.",
+    "stato": "✅ Approvato Estero",
+    "luogo": "Aragona (AG)",
+    "badge": "PRESTIGIO",
+    "vani": "6 Vani",
+    "bagni": "2 Bagni"
+  },
+  {
+    "id": 7,
+    "sheet": "Villa_Favara",
+    "titolo": "Villa Favara con Corte e Giardino",
+    "prezzo": "Trattativa Riservata",
+    "mq": "120 metri quadri",
     "canale": "WhatsApp",
-    "mercato": "Clienti VIP Profilati",
-    "stanza": "Corte Esterna & Cancello",
+    "mercato": "Clienti Profilati",
+    "stanza": "Il Cancello d Ingresso",
     "tipoFoto": "🏡 Esterno Cancello",
     "fotoUrl": "https://lh3.googleusercontent.com/d/1TdF7kxeEZcFfrZz7TS627kemxCmubem9",
     "videoUrl": "./assets/video/video_villa_favara.mp4",
-    "descrizione": "Favara. Spettacolare villa con imponente cancello d'ingresso, viale pavimentato, alberi ornamentali e riscaldamento autonomo.",
+    "descrizione": "Favara. Spettacolare proprietà con imponente cancello d ingresso, vialetto pavimentato, alberi ornamentali e ampi spazi esterni che fungono da cuore pulsante della dimora.",
     "stato": "✅ Inviato Notifiche WA",
     "luogo": "Favara (AG)",
     "badge": "IN VENDITA",
@@ -869,220 +936,175 @@
     "bagni": "2 Bagni"
   },
   {
-    "id": 5,
-    "titolo": "Aragona Centro con Box Auto Esclusivo",
-    "prezzo": "€ 89.000",
-    "mq": "115 metri quadri",
+    "id": 8,
+    "sheet": "Appartamento_primo_piano_rifinito_ad_Aragona_con_box_auto",
+    "titolo": "Appartamento 1° Piano Rifinito ad Aragona con Box Auto",
+    "prezzo": "€ 85.000",
+    "mq": "120 metri quadri",
     "canale": "Telegram",
-    "mercato": "Provincia Agrigento",
-    "stanza": "Prospetto da Drone",
+    "mercato": "Famiglie / Servito",
+    "stanza": "Vista Palazzo Aragona",
     "tipoFoto": "🏡 Drone Stabile",
     "fotoUrl": "https://lh3.googleusercontent.com/d/15uuETuZVsZ1eOoxkv-YMM_8mngBkpHT3",
     "videoUrl": "./assets/video/video_villa_zingarello.mp4",
-    "descrizione": "Aragona, stabile servito con garage privato al piano terra. Vista aerea da drone, ottima esposizione solare, vicinissimo a scuole e negozi.",
+    "descrizione": "Aragona. Appartamento di 120 mq finemente rifinito al primo piano con comodo box auto privato incluso a 85.000 €. Visuale aperta, luce calda e vicinanza ai principali servizi.",
     "stato": "✅ Approvato Telegram",
     "luogo": "Aragona (AG)",
-    "badge": "IN VENDITA",
-    "vani": "4 Vani",
-    "bagni": "2 Bagni"
-  },
-  {
-    "id": 6,
-    "titolo": "Appartamento Piano Terra Favara con Spazio Esterno",
-    "prezzo": "€ 78.000",
-    "mq": "105 metri quadri",
-    "canale": "Facebook",
-    "mercato": "Famiglie & Prima Casa",
-    "stanza": "Verandina e Cortile",
-    "tipoFoto": "🏡 Cortile Esterno",
-    "fotoUrl": "https://lh3.googleusercontent.com/d/1erOi3npN_czkA8yDBpz6Us4es3QbwoWy",
-    "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
-    "descrizione": "Favara. Comodo appartamento al piano terra con accesso indipendente, graziosa verandina privata, cucina abitabile e zero spese condominiali.",
-    "stato": "🛑 Bloccato Meta (Audit)",
-    "luogo": "Favara (AG)",
-    "badge": "IN VENDITA",
-    "vani": "4 Vani",
-    "bagni": "1 Bagno"
-  },
-  {
-    "id": 7,
-    "titolo": "Terreno Panoramico 17.000 mq Favara",
-    "prezzo": "€ 45.000",
-    "mq": "17.000 metri quadri",
-    "canale": "Telegram",
-    "mercato": "Investimenti / Agricolo",
-    "stanza": "Ripresa Aerea Drone",
-    "tipoFoto": "🏡 Drone Terreno",
-    "fotoUrl": "https://lh3.googleusercontent.com/d/1G5wxLG8wt_hDB-MiHG7a4C6chIpW94_T",
-    "videoUrl": "./assets/video/video_villa_zingarello.mp4",
-    "descrizione": "Favara. Vasto appezzamento di terreno con vista collinare spettacolare ripreso con drone DJI. Uliveto produttivo e facile accesso carrabile.",
-    "stato": "✅ Approvato Telegram",
-    "luogo": "Favara (AG)",
-    "badge": "OPPORTUNITÀ",
-    "vani": "Agricolo",
-    "bagni": "-"
-  },
-  {
-    "id": 8,
-    "titolo": "Appartamento Centrale Via Pavia",
-    "prezzo": "€ 110.000",
-    "mq": "130 metri quadri",
-    "canale": "Instagram",
-    "mercato": "Giovani Coppie / Social",
-    "stanza": "Facciata Esterna Stabile",
-    "tipoFoto": "🏡 Esterno Facciata",
-    "fotoUrl": "https://lh3.googleusercontent.com/d/1wP698j-x5L2R2s-G5uG8Q1jY4z-K8m9N",
-    "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
-    "descrizione": "Favara, via Pavia. Appartamento rifinito e pronto da abitare in contesto tranquillo. Ampi spazi interni, luminoso con doppi servizi.",
-    "stato": "🛑 Bloccato Meta (Audit)",
-    "luogo": "Favara (AG), Via Pavia",
-    "badge": "IN VENDITA",
+    "badge": "CON BOX AUTO",
     "vani": "5 Vani",
     "bagni": "2 Bagni"
   },
   {
     "id": 9,
-    "titolo": "Villa Singola Aragona con Parco Privato",
-    "prezzo": "€ 185.000",
-    "mq": "210 metri quadri",
-    "canale": "Estero",
-    "mercato": "🌍 Investitori Esteri / Turismo",
-    "stanza": "Giardino e Porticato",
-    "tipoFoto": "🏡 Esterno Porticato",
-    "fotoUrl": "https://lh3.googleusercontent.com/d/18U_m28s1c4p-N_l9b7v5x3z1a2c4e6g8",
-    "videoUrl": "./assets/video/video_villa_favara.mp4",
-    "descrizione": "Aragona. Magnifica villa immersa nel verde con piante secolari, camino rustico, garage triplo e finiture rustiche d'eccellenza.",
-    "stato": "✅ Approvato Estero",
-    "luogo": "Aragona (AG)",
-    "badge": "PRESTIGIO ESTERO",
+    "sheet": "Appartamento_corso_Vittorio_Veneto_1°_piano",
+    "titolo": "Appartamento Corso Vittorio Veneto 1° Piano",
+    "prezzo": "Trattativa Riservata",
+    "mq": "220 metri quadri",
+    "canale": "Facebook",
+    "mercato": "Grandi Metrature",
+    "stanza": "Cameretta con Armadio Celeste",
+    "tipoFoto": "🛋️ Cameretta",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1vbu_Vc_NaX0QKIDYPPwgteuAw2ct9A47",
+    "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
+    "descrizione": "Favara, corso Vittorio Veneto. Prestigioso appartamento di ampia metratura (220 mq) al 1° piano. Ambienti ariosi e protetti, ideale per nuclei familiari esigenti o studio e abitazione.",
+    "stato": "🛑 Bloccato Meta (Audit)",
+    "luogo": "Favara (AG), C.so V. Veneto",
+    "badge": "GRANDE METRATURA",
     "vani": "7 Vani",
-    "bagni": "3 Bagni"
+    "bagni": "2 Bagni"
   },
   {
     "id": 10,
-    "titolo": "Terreno Edificabile Favara Zona Residenziale",
-    "prezzo": "€ 68.000",
-    "mq": "1.200 metri quadri",
+    "sheet": "Appartamento_rifinito_2°_Piano",
+    "titolo": "Appartamento Rifinito 2° Piano Favara",
+    "prezzo": "Trattativa Riservata",
+    "mq": "130 metri quadri",
     "canale": "WhatsApp",
-    "mercato": "Costruttori & Privati",
-    "stanza": "Panoramica da Drone",
-    "tipoFoto": "🏡 Drone Terreno",
-    "fotoUrl": "https://lh3.googleusercontent.com/d/14x_p97b3m1k8l6v4z2q0e8j6w4t2r0y8",
-    "videoUrl": "./assets/video/video_villa_zingarello.mp4",
-    "descrizione": "Favara, ottima posizione residenziale. Terreno edificabile ideale per la realizzazione di villa singola o bifamiliare con giardino.",
+    "mercato": "Pronto da Abitare",
+    "stanza": "Soggiorno con Balcone",
+    "tipoFoto": "🛋️ Soggiorno Elegante",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1FWDUedT4nZPpCXnPGWI8jBVnjwtf2FdO",
+    "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
+    "descrizione": "Favara. Ammirate l elegante salone di questo appartamento al 2° piano di 130 mq. Zona living ariosa di grande rappresentanza, finiture moderne e balcone a livello.",
     "stato": "✅ Inviato Notifiche WA",
     "luogo": "Favara (AG)",
-    "badge": "EDIFICABILE",
-    "vani": "Edificabile",
-    "bagni": "-"
-  },
-  {
-    "id": 11,
-    "titolo": "Attico Panoramico Via Olanda Favara",
-    "prezzo": "€ 125.000",
-    "mq": "150 metri quadri",
-    "canale": "Telegram",
-    "mercato": "Clienti Esclusivi",
-    "stanza": "Terrazzo Panoramico",
-    "tipoFoto": "🏡 Terrazzo Esterno",
-    "fotoUrl": "https://lh3.googleusercontent.com/d/12a_b4c6d8e0f2g4h6i8j0k2l4m6n8o0p",
-    "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
-    "descrizione": "Favara, via Olanda. Esclusivo attico con terrazza a livello di 60 mq con vista mozzafiato. Climatizzato, rifiniture moderne.",
-    "stato": "✅ Approvato Telegram",
-    "luogo": "Favara (AG), Via Olanda",
-    "badge": "ATTICO TOP",
+    "badge": "RIFINITO",
     "vani": "5 Vani",
     "bagni": "2 Bagni"
   },
   {
+    "id": 11,
+    "sheet": "Appartamento_con_magazzino_vista_mare",
+    "titolo": "Appartamento con Magazzino Vista Mare",
+    "prezzo": "€ 48.000",
+    "mq": "120 metri quadri",
+    "canale": "Telegram",
+    "mercato": "Costa & Mare",
+    "stanza": "Vista Mare e Magazzino",
+    "tipoFoto": "🏡 Vista Mare",
+    "fotoUrl": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop",
+    "videoUrl": "./assets/video/video_villa_zingarello.mp4",
+    "descrizione": "Favara / Costa. Splendida opportunità immobiliare di 120 mq con vista mare e spazioso magazzino carrabile annesso a soli 48.000 €. Ideale per chi cerca relax e spazio utile.",
+    "stato": "✅ Approvato Telegram",
+    "luogo": "Agrigento / Costa",
+    "badge": "VISTA MARE",
+    "vani": "4 Vani + Magazzino",
+    "bagni": "1 Bagno"
+  },
+  {
     "id": 12,
-    "titolo": "Appartamento Ristrutturato Via Capitano Callea",
-    "prezzo": "€ 82.000",
+    "sheet": "Appartamento_Piano_Terra_Favara",
+    "titolo": "Appartamento Piano Terra Favara con Verandina",
+    "prezzo": "€ 48.000",
     "mq": "110 metri quadri",
     "canale": "Facebook",
-    "mercato": "Centrale Servito",
-    "stanza": "Ingresso e Zona Living",
-    "tipoFoto": "🛋️ Interno Living",
-    "fotoUrl": "https://lh3.googleusercontent.com/d/1q2w3e4r5t6y7u8i9o0p1a2s3d4f5g6h7",
+    "mercato": "Accesso Indipendente",
+    "stanza": "Verandina Esterna Retro",
+    "tipoFoto": "🏡 Verandina Retro",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1erOi3npN_czkA8yDBpz6Us4es3QbwoWy",
     "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
-    "descrizione": "Favara, via Capitano Callea. Appartamento centralissimo, vicino a banche e supermercati. Impianti a norma e infissi termici.",
+    "descrizione": "Favara. Comodo appartamento al piano terra di 110 mq con deliziosa verandina esterna retro a 48.000 €. Un angolo di intimità e relax per godersi colazioni all aperto in totale privacy.",
     "stato": "🛑 Bloccato Meta (Audit)",
-    "luogo": "Favara (AG), Via Cap. Callea",
-    "badge": "IN VENDITA",
+    "luogo": "Favara (AG)",
+    "badge": "PIANO TERRA",
     "vani": "4 Vani",
     "bagni": "1 Bagno"
   },
   {
     "id": 13,
-    "titolo": "Casale Rustico con Terreno Favara Periferia",
+    "sheet": "Terreno_edificabile_con_progetto_approvato_",
+    "titolo": "Terreno Edificabile con Progetto Approvato Favara",
     "prezzo": "€ 55.000",
-    "mq": "130 metri quadri",
-    "canale": "Estero",
-    "mercato": "🌍 Rustici / Amanti Natura",
-    "stanza": "Prospetto Pietra e Corte",
-    "tipoFoto": "🏡 Rustico Esterno",
-    "fotoUrl": "https://lh3.googleusercontent.com/d/1z9y8x7w6v5u4t3s2r1q0p9o8n7m6l5k4",
-    "videoUrl": "./assets/video/video_villa_favara.mp4",
-    "descrizione": "Favara periferia. Tipico rustico in pietra siciliana con corte recintata e terreno. Ideale per casa vacanze o b&b.",
-    "stato": "✅ Approvato Estero",
-    "luogo": "Favara (AG), Periferia",
-    "badge": "RUSTICO",
-    "vani": "5 Vani",
-    "bagni": "1 Bagno"
+    "mq": "5.000 metri quadri",
+    "canale": "Telegram",
+    "mercato": "Costruttori / Privati",
+    "stanza": "Ambiente Panoramico",
+    "tipoFoto": "🏡 Drone Terreno",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1shPX-w59-rbvHK4x5QjEGQgPcQuXVkPL",
+    "videoUrl": "./assets/video/video_villa_zingarello.mp4",
+    "descrizione": "Favara. Esclusivo lotto di 5.000 mq a 55.000 € con progetto approvato per la costruzione di 90 mq abitativi. Vista aperta e posizione strategica residenziale.",
+    "stato": "✅ Approvato Telegram",
+    "luogo": "Favara (AG)",
+    "badge": "PROGETTO APPROVATO",
+    "vani": "Edificabile",
+    "bagni": "-"
   },
   {
     "id": 14,
-    "titolo": "Locale Commerciale Piano Terra Favara",
-    "prezzo": "€ 65.000",
-    "mq": "85 metri quadri",
-    "canale": "WhatsApp",
-    "mercato": "Investimento Commerciale",
-    "stanza": "Vetrina su Strada Principale",
-    "tipoFoto": "🏡 Vetrina Esterna",
-    "fotoUrl": "https://lh3.googleusercontent.com/d/1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z7",
+    "sheet": "Appartamento_via_Antares_villaggio_Mosè_",
+    "titolo": "Appartamento Via Antares Villaggio Mosè",
+    "prezzo": "Trattativa Riservata",
+    "mq": "120 metri quadri",
+    "canale": "Instagram",
+    "mercato": "Residenziale Agrigento",
+    "stanza": "Cucina Abitabile",
+    "tipoFoto": "🛋️ Cucina Abitabile",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1pQ-ppyKxVL9aCrM2TD5O1Qrr3Jt_RXVz",
     "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
-    "descrizione": "Favara, ad alto passaggio veicolare. Locale commerciale con ampia vetrina fronte strada, antibagno e bagno.",
-    "stato": "✅ Inviato Notifiche WA",
-    "luogo": "Favara (AG)",
-    "badge": "COMMERCIALE",
-    "vani": "Open Space",
-    "bagni": "1 Bagno"
+    "descrizione": "Agrigento, Villaggio Mosè, via Antares. Luminoso appartamento di 120 mq in zona residenziale servita da negozi e scuole. Ampia cucina, termoautonomo e spazi ben distribuiti.",
+    "stato": "🛑 Bloccato Meta (Audit)",
+    "luogo": "Agrigento, Villaggio Mosè",
+    "badge": "ZONA RESIDENZIALE",
+    "vani": "5 Vani",
+    "bagni": "2 Bagni"
   },
   {
     "id": 15,
-    "titolo": "Appartamento Elegante Piazza Cavour",
-    "prezzo": "€ 98.000",
-    "mq": "125 metri quadri",
-    "canale": "Telegram",
-    "mercato": "Centro Storico",
-    "stanza": "Balcone con Vista Piazza",
-    "tipoFoto": "🏡 Balcone Esterno",
-    "fotoUrl": "https://lh3.googleusercontent.com/d/1a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6",
-    "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
-    "descrizione": "Favara, piazza Cavour. Storica palazzina con affaccio d'onore sulla piazza principale. Ambienti alti con volte decorate.",
-    "stato": "✅ Approvato Telegram",
-    "luogo": "Favara (AG), Piazza Cavour",
-    "badge": "CENTRALISSIMO",
-    "vani": "4 Vani",
+    "sheet": "VILLA_FAVARA_RIFINITA",
+    "titolo": "Villa Favara Rifinita con Spazio Esterno",
+    "prezzo": "Trattativa Riservata",
+    "mq": "120 metri quadri",
+    "canale": "Estero",
+    "mercato": "🌍 Clienti Selezionati",
+    "stanza": "Bagno Rifinito",
+    "tipoFoto": "🛋️ Bagno Rifinito",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/16rr6WAcbhKpp441O7gAI9uoJ4Diw4UyZ",
+    "videoUrl": "./assets/video/video_villa_favara.mp4",
+    "descrizione": "Favara. Prestigiosa villa completamente rifinita con materiali moderni di prima scelta. Pavimentazioni di livello, sanitari di design e corte perimetrale riservata.",
+    "stato": "✅ Approvato Estero",
+    "luogo": "Favara (AG)",
+    "badge": "RIFINITISSIMA",
+    "vani": "6 Vani",
     "bagni": "2 Bagni"
   },
   {
     "id": 16,
-    "titolo": "Villa Bifamiliare Nuova Costruzione Favara",
-    "prezzo": "€ 170.000",
-    "mq": "180 metri quadri",
-    "canale": "Instagram",
-    "mercato": "Nuove Costruzioni",
-    "stanza": "Facciata Moderna e Giardino",
-    "tipoFoto": "🏡 Esterno Moderno",
-    "fotoUrl": "https://lh3.googleusercontent.com/d/1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7",
-    "videoUrl": "./assets/video/video_villa_favara.mp4",
-    "descrizione": "Favara. Villa di recente edificazione in classe energetica A+, cappotto termico, fotovoltaico e giardino su 3 lati.",
-    "stato": "🛑 Bloccato Meta (Audit)",
-    "luogo": "Favara (AG)",
-    "badge": "CLASSE A+",
-    "vani": "6 Vani",
-    "bagni": "3 Bagni"
+    "sheet": "Appartamento_Via_olanda_3_piano_",
+    "titolo": "Appartamento Via Olanda 3° Piano con Balcone",
+    "prezzo": "Trattativa Riservata",
+    "mq": "120 metri quadri",
+    "canale": "WhatsApp",
+    "mercato": "Centrale Panoramico",
+    "stanza": "Balcone Panoramico",
+    "tipoFoto": "🏡 Balcone Panoramico",
+    "fotoUrl": "https://lh3.googleusercontent.com/d/1nVZyvnk738wrNPiocltHHjdYkSgjPFky",
+    "videoUrl": "./assets/video/video_corso_vittorio_veneto.mp4",
+    "descrizione": "Favara, via Olanda. Luminoso 3° piano con comodo balcone panoramico di 120 mq. Illuminazione naturale eccellente in ogni camera e vicinanza ai principali corsi della città.",
+    "stato": "✅ Inviato Notifiche WA",
+    "luogo": "Favara (AG), Via Olanda",
+    "badge": "PANORAMICO",
+    "vani": "5 Vani",
+    "bagni": "2 Bagni"
   }
 ];
 
@@ -1104,7 +1126,7 @@
 
     // GESTIONE CATALOGO (LOCALSTORAGE)
     function caricaCatalogo() {
-      const salvato = localStorage.getItem('giancani_catalogo_immobili_v4');
+      const salvato = localStorage.getItem('giancani_catalogo_immobili_v6');
       if (salvato) {
         try {
           CATALOGO_IMMOBILI = JSON.parse(salvato);
@@ -1118,7 +1140,7 @@
     }
 
     function salvaCatalogo() {
-      localStorage.setItem('giancani_catalogo_immobili_v4', JSON.stringify(CATALOGO_IMMOBILI));
+      localStorage.setItem('giancani_catalogo_immobili_v6', JSON.stringify(CATALOGO_IMMOBILI));
       aggiornaConteggiKPI();
       filtraContenuti();
     }
@@ -1279,6 +1301,12 @@
                   </h4>
                 </div>
 
+                <!-- FRASE CONTATTO OBBLIGATORIA SU OGNI CARD -->
+                <div class="bg-emerald-950/40 border border-emerald-500/30 rounded-lg px-2.5 py-1.5 text-[11px] flex items-center justify-between text-emerald-300">
+                  <span class="flex items-center gap-1.5 font-medium"><i class="fas fa-phone-alt text-emerald-400"></i> Info & Visite:</span>
+                  <a href="tel:3201667156" class="font-bold text-white hover:text-emerald-300 transition-colors">Antonio 320 166 7156</a>
+                </div>
+
                 <!-- PULSANTI: CREA GRAFICA / VIDEO MP4 & ELIMINA -->
                 <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-1.5">
                   
@@ -1342,7 +1370,10 @@
                 <p class="font-bold text-white truncate cursor-pointer hover:text-emerald-400" onclick="apriModal(${item.id})">${item.titolo}</p>
                 <p class="text-[11px] text-slate-400 truncate">${item.luogo || item.stanza}</p>
               </td>
-              <td class="py-2.5 px-4 font-extrabold text-emerald-400">${item.prezzo}</td>
+              <td class="py-2.5 px-4 font-extrabold text-emerald-400">
+                <div>${item.prezzo}</div>
+                <a href="tel:3201667156" class="text-[10px] font-medium text-emerald-300/80 hover:text-emerald-200 block mt-0.5">📞 320 166 7156</a>
+              </td>
               <td class="py-2.5 px-4 text-slate-300 font-medium">${item.mq}</td>
               <td class="py-2.5 px-4">
                 <span class="inline-flex items-center gap-1 text-[11px] text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
@@ -1596,6 +1627,8 @@
       const luogo = document.getElementById('sg-input-luogo').value || immobileStudioGrafico.luogo || 'Favara (AG)';
       const desc = immobileStudioGrafico.descrizione || 'Splendida opportunità immobiliare curata nei dettagli.';
 
+      const contatto = document.getElementById('sg-input-contatto') ? document.getElementById('sg-input-contatto').value : '📞 Info e visite: Antonio Giancani 320 166 7156';
+
       const testo = `🏡 ${titolo}
 📍 ${luogo}
 
@@ -1606,10 +1639,10 @@
 
 ${desc}
 
-📞 Per informazioni o per prenotare una visita:
-Antonio Giancani — 320 166 7156
+📞 Per informazioni e riservare la visita contatta:
+Antonio Giancani — 320 166 7156 — Immobiliare Giancani
 
-— Immobiliare Giancani
+— Immobiliare Giancani • Favara (AG)
 #immobiliaregiancani #favara #agrigento #caseinvendita #realestate`;
 
       document.getElementById('sg-testo-post').value = testo;
@@ -1653,11 +1686,12 @@ Antonio Giancani — 320 166 7156
       const mq = document.getElementById('sg-input-mq').value;
       const luogo = document.getElementById('sg-input-luogo').value.toUpperCase();
       const badge = document.getElementById('sg-input-badge').value.toUpperCase();
+      const contatto = (document.getElementById('sg-input-contatto') ? document.getElementById('sg-input-contatto').value : '📞 Info e visite: Antonio Giancani 320 166 7156');
       const titolo = immobileStudioGrafico.titolo;
       const desc = immobileStudioGrafico.descrizione;
 
       if (cachedImg && cachedImgUrl === immobileStudioGrafico.fotoUrl) {
-        renderizzaStileScelto(ctx, cachedImg, W, H, titolo, prezzo, mq, luogo, badge, desc, zoomScale, panX, panY);
+        renderizzaStileScelto(ctx, cachedImg, W, H, titolo, prezzo, mq, luogo, badge, desc, zoomScale, panX, panY, contatto);
         return;
       }
 
@@ -1670,7 +1704,7 @@ Antonio Giancani — 320 166 7156
         loading.classList.add('hidden');
         cachedImg = img;
         cachedImgUrl = immobileStudioGrafico.fotoUrl;
-        renderizzaStileScelto(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoomScale, panX, panY);
+        renderizzaStileScelto(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoomScale, panX, panY, contatto);
       };
 
       img.onerror = () => {
@@ -1688,28 +1722,28 @@ Antonio Giancani — 320 166 7156
       };
     }
 
-    function renderizzaStileScelto(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0, px = 0, py = 0) {
+    function renderizzaStileScelto(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0, px = 0, py = 0, contatto = '📞 Info e visite: Antonio Giancani 320 166 7156') {
       if (stileGraficoCorrente === 'cb_curved_wave') {
-        disegnaStileCBCurvedWave(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom);
+        disegnaStileCBCurvedWave(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom, contatto);
       } else if (stileGraficoCorrente === 'metroquadro_gradient') {
-        disegnaStileMetroquadro(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom);
+        disegnaStileMetroquadro(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom, contatto);
       } else if (stileGraficoCorrente === 'professionecasa_sidebar') {
-        disegnaStileProfessioneCasa(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom);
+        disegnaStileProfessioneCasa(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom, contatto);
       } else if (stileGraficoCorrente === 'luxury_glass') {
-        disegnaStileLuxuryGlass(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom);
+        disegnaStileLuxuryGlass(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom, contatto);
       } else if (stileGraficoCorrente === 'tempocasa_green') {
-        disegnaStileTempocasaGreen(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom);
+        disegnaStileTempocasaGreen(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom, contatto);
       } else if (stileGraficoCorrente === 'editorial_magazine') {
-        disegnaStileEditorialMagazine(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom);
+        disegnaStileEditorialMagazine(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom, contatto);
       } else if (stileGraficoCorrente === 'splitscreen_dual') {
-        disegnaStileSplitScreenDual(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom);
+        disegnaStileSplitScreenDual(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom, contatto);
       } else {
-        disegnaStileDroneHero(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom);
+        disegnaStileDroneHero(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom, contatto);
       }
     }
 
     // 1. C&B CURVED WAVE
-    function disegnaStileCBCurvedWave(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0) {
+    function disegnaStileCBCurvedWave(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0, contatto = '📞 Info e visite: Antonio Giancani 320 166 7156') {
       ctx.fillStyle = '#f8f9fb';
       ctx.fillRect(0, 0, W, H);
       const headerH = 150;
@@ -1789,12 +1823,12 @@ Antonio Giancani — 320 166 7156
       if (descLines[1]) ctx.fillText(descLines[1], cx + 25, cy + 185);
 
       ctx.fillStyle = '#184c78';
-      ctx.font = 'bold 17px sans-serif';
-      ctx.fillText('— Immobiliare Giancani', cx + 25, cy + ch - 18);
+      ctx.font = 'bold 18px sans-serif';
+      ctx.fillText(contatto, cx + 25, cy + ch - 18);
     }
 
     // 2. METROQUADRO GRADIENT
-    function disegnaStileMetroquadro(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0) {
+    function disegnaStileMetroquadro(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0, contatto = '📞 Info e visite: Antonio Giancani 320 166 7156') {
       disegnaImmagineCoverZoom(ctx, img, 0, 0, W, H, zoom);
 
       const grad = ctx.createLinearGradient(0, H * 0.38, 0, H);
@@ -1865,12 +1899,12 @@ Antonio Giancani — 320 166 7156
       ctx.fillText(spezzaTesto(desc, 65)[0] || '', 55, cardY + 36);
 
       ctx.fillStyle = '#d41c28';
-      ctx.font = 'bold 19px sans-serif';
-      ctx.fillText('— Immobiliare Giancani • Favara (AG)', 55, cardY + cardH - 20);
+      ctx.font = 'bold 18px sans-serif';
+      ctx.fillText(contatto + ' — Immobiliare Giancani', 55, cardY + cardH - 20);
     }
 
     // 3. PROFESSIONECASA SIDEBAR
-    function disegnaStileProfessioneCasa(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0) {
+    function disegnaStileProfessioneCasa(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0, contatto = '📞 Info e visite: Antonio Giancani 320 166 7156') {
       const sideW = W * 0.20;
       ctx.fillStyle = '#e11d2a';
       ctx.fillRect(0, 0, sideW, H);
@@ -1939,11 +1973,11 @@ Antonio Giancani — 320 166 7156
 
       ctx.fillStyle = '#184c78';
       ctx.font = 'bold 18px sans-serif';
-      ctx.fillText('— Immobiliare Giancani', cx + 38, cy + 315);
+      ctx.fillText(contatto, cx + 38, cy + 315);
     }
 
     // 4. LUXURY GLASS
-    function disegnaStileLuxuryGlass(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0) {
+    function disegnaStileLuxuryGlass(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0, contatto = '📞 Info e visite: Antonio Giancani 320 166 7156') {
       disegnaImmagineCoverZoom(ctx, img, 0, 0, W, H, zoom);
 
       const grad = ctx.createRadialGradient(W/2, H/2, 200, W/2, H/2, W * 0.75);
@@ -1985,11 +2019,11 @@ Antonio Giancani — 320 166 7156
 
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 20px sans-serif';
-      ctx.fillText('📞 Info & Visite: Antonio Giancani 320 166 7156', cx + 40, cy + 295);
+      ctx.fillText(contatto, cx + 40, cy + 295);
     }
 
     // 5. TEMPOCASA MODERN GREEN
-    function disegnaStileTempocasaGreen(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0) {
+    function disegnaStileTempocasaGreen(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0, contatto = '📞 Info e visite: Antonio Giancani 320 166 7156') {
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, W, H);
 
@@ -2049,11 +2083,11 @@ Antonio Giancani — 320 166 7156
 
       ctx.fillStyle = '#00a859';
       ctx.font = 'bold 18px sans-serif';
-      ctx.fillText('— Immobiliare Giancani • Favara (AG)', 45, H - 25);
+      ctx.fillText(contatto + ' • Immobiliare Giancani', 45, H - 25);
     }
 
     // 6. EDITORIAL MAGAZINE ARCHITETTURA
-    function disegnaStileEditorialMagazine(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0) {
+    function disegnaStileEditorialMagazine(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0, contatto = '📞 Info e visite: Antonio Giancani 320 166 7156') {
       ctx.fillStyle = '#0f172a';
       ctx.fillRect(0, 0, W, H);
 
@@ -2101,12 +2135,12 @@ Antonio Giancani — 320 166 7156
       ctx.fillText(spezzaTesto(desc, 60)[0] || '', 50, bY + 205);
 
       ctx.fillStyle = '#d4af37';
-      ctx.font = 'bold 18px "Playfair Display", Georgia, serif';
-      ctx.fillText('— Collezione Immobiliare Giancani', 50, H - 45);
+      ctx.font = 'bold 17px "Playfair Display", Georgia, serif';
+      ctx.fillText(contatto + ' — Collezione Giancani', 50, H - 45);
     }
 
     // 7. SPLITSCREEN DUAL VIEW
-    function disegnaStileSplitScreenDual(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0) {
+    function disegnaStileSplitScreenDual(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0, contatto = '📞 Info e visite: Antonio Giancani 320 166 7156') {
       ctx.fillStyle = '#0f172a';
       ctx.fillRect(0, 0, W, H);
 
@@ -2158,11 +2192,11 @@ Antonio Giancani — 320 166 7156
 
       ctx.fillStyle = '#10b981';
       ctx.font = 'bold 18px sans-serif';
-      ctx.fillText('— Immobiliare Giancani', 45, H - 35);
+      ctx.fillText(contatto, 45, H - 35);
     }
 
     // 8. DRONE HERO CINEMATIC HUD
-    function disegnaStileDroneHero(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0) {
+    function disegnaStileDroneHero(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0, contatto = '📞 Info e visite: Antonio Giancani 320 166 7156') {
       disegnaImmagineCoverZoom(ctx, img, 0, 0, W, H, zoom);
 
       // Bande Nere Widescreen Cinematografiche
@@ -2212,8 +2246,8 @@ Antonio Giancani — 320 166 7156
       ctx.fillText(prezzo, W - 45, H - 75);
 
       ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 16px sans-serif';
-      ctx.fillText('— Immobiliare Giancani', W - 45, H - 40);
+      ctx.font = 'bold 18px sans-serif';
+      ctx.fillText(contatto, W - 45, H - 40);
     }
 
     // HELPER GRAFICI & ICONE VETTORIALI
