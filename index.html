@@ -224,7 +224,7 @@
         <div>
           <h2 class="text-sm font-bold text-white flex items-center gap-2">
             <span>Studio Grafico & Video MP4 con Musica Diretta01</span>
-            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-bold">8 STILI + MUSICA</span>
+            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-bold">9 STILI + MUSICA</span>
           </h2>
           <p class="text-xs text-slate-400 mt-0.5">
             Scarica in formato PNG HD o in Video MP4 animato con le musiche originali della cartella Drive Diretta01 (Sicilian Sunset, Calma del Mediodía, Back Road Out of Town)
@@ -475,7 +475,7 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL 2: STUDIO GRAFICO & VIDEO MP4 (CON 8 STILI & BASI MUSICALI) -->
+  <!-- MODAL 2: STUDIO GRAFICO & VIDEO MP4 (CON 9 STILI & BASI MUSICALI) -->
   <!-- ========================================================================= -->
   <div id="modal-studio-grafico" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-2 sm:p-4">
     <div class="bg-[#1e293b] border border-slate-700 rounded-2xl max-w-6xl w-full overflow-hidden shadow-2xl relative flex flex-col max-h-[96vh]">
@@ -663,10 +663,10 @@
         <!-- Colonna Destra: 8 Stili Grafici, Dati Live & Testo Social (5 col) -->
         <div class="lg:col-span-5 flex flex-col space-y-4 text-xs">
           
-          <!-- SELETTORE DEI GLI 8 STILI GRAFICI DEI BOT -->
+          <!-- SELETTORE DEI GLI 9 STILI GRAFICI DEI BOT -->
           <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 space-y-2">
             <div class="flex items-center justify-between">
-              <span class="font-bold text-slate-200 block text-[11px] tracking-wide uppercase">Scegli tra gli 8 Stili dei Bot</span>
+              <span class="font-bold text-slate-200 block text-[11px] tracking-wide uppercase">Scegli tra i 9 Stili Grafici dei Bot (Incluso Provenzano & Proto)</span>
               <span class="text-[10px] text-emerald-400 font-bold">1-Click Switch</span>
             </div>
             
@@ -726,6 +726,16 @@
                       class="p-2 rounded-lg border text-left transition-all bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700">
                 <span class="font-bold text-xs block">🎖️ Drone Hero</span>
                 <span class="text-[9px] text-slate-400">Cinematic HUD DJI 4K</span>
+              </button>
+
+              <!-- 9: Provenzano & Proto Executive (Indigo & Gold) -->
+              <button onclick="selezionaStile('provenzano_executive')" id="btn-stile-provenzano_executive"
+                      class="p-2.5 rounded-lg border text-left transition-all bg-gradient-to-r from-indigo-950/80 via-slate-900 to-purple-950/80 border-amber-500/60 text-white hover:border-amber-400 col-span-2 shadow-md">
+                <div class="flex items-center justify-between mb-0.5">
+                  <span class="font-bold text-xs block text-amber-300">⭐ Provenzano & Proto Executive</span>
+                  <span class="px-2 py-0.5 rounded text-[9px] font-black bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 shadow-sm">NUOVO STILE</span>
+                </div>
+                <span class="text-[10px] text-slate-300">Layout Indigo & Gold, ritratto agente in cerchio oro, spec-bar orizzontale & dot matrix</span>
               </button>
 
             </div>
@@ -891,7 +901,7 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- SCRIPT LOGIC JAVASCRIPT: 8 STILI GRAFICI, AUDIO & EXPORT MP4 -->
+  <!-- SCRIPT LOGIC JAVASCRIPT: 9 STILI GRAFICI, AUDIO & EXPORT MP4 -->
   <!-- ========================================================================= -->
   <script>
                 const DATABASE_IMMOBILI_DEFAULT = [
@@ -2531,6 +2541,12 @@
     let stileGraficoCorrente = 'cb_curved_wave';
     let chartCanaliInstance = null;
     let isAudioPlaying = false;
+    
+    // Precarica immagine ritratto agente per Stile Provenzano & Proto Executive
+    const agenteImgAsset = new Image();
+    agenteImgAsset.crossOrigin = 'anonymous';
+    agenteImgAsset.src = './assets/agente_antonio_giancani.png';
+    window.cachedAgentImg = agenteImgAsset;
     let animazioneKenBurnsFrameId = null;
 
     // Inizializzazione
@@ -2923,7 +2939,7 @@
     }
 
     // =========================================================================
-    // STUDIO GRAFICO GIANCANI: 8 STILI & BASI MUSICALI
+    // STUDIO GRAFICO GIANCANI: 9 STILI & BASI MUSICALI
     // =========================================================================
     
     // =========================================================================
@@ -3175,7 +3191,7 @@
 
       const stiliDisponibili = [
         'cb_curved_wave', 'metroquadro_gradient', 'professionecasa_sidebar', 'luxury_glass',
-        'tempocasa_green', 'editorial_magazine', 'splitscreen_dual', 'drone_hero'
+        'tempocasa_green', 'editorial_magazine', 'splitscreen_dual', 'drone_hero', 'provenzano_executive'
       ];
 
       stiliDisponibili.forEach(s => {
@@ -3198,7 +3214,8 @@
         'tempocasa_green': 'Tempocasa Modern Green',
         'editorial_magazine': 'Editorial Magazine',
         'splitscreen_dual': 'SplitScreen Dual View',
-        'drone_hero': 'Drone Hero Cinematic'
+        'drone_hero': 'Drone Hero Cinematic',
+        'provenzano_executive': 'Provenzano & Proto Executive'
       };
 
       document.getElementById('sg-badge-stile-attivo').textContent = nomiLabel[stile] || stile;
@@ -3321,7 +3338,7 @@ Antonio Giancani — 320 166 7156 — Immobiliare Giancani
     }
 
     // =========================================================================
-    // MOTORE GRAFICO RENDERING CANVAS (1080x1080) CON GLI 8 STILI
+    // MOTORE GRAFICO RENDERING CANVAS (1080x1080) CON GLI 9 STILI
     // =========================================================================
     let cachedImg = null;
     let cachedImgUrl = '';
@@ -3394,8 +3411,10 @@ Antonio Giancani — 320 166 7156 — Immobiliare Giancani
         disegnaStileEditorialMagazine(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom, contatto);
       } else if (stileGraficoCorrente === 'splitscreen_dual') {
         disegnaStileSplitScreenDual(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom, contatto);
-      } else {
+      } else if (stileGraficoCorrente === 'drone_hero') {
         disegnaStileDroneHero(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom, contatto);
+      } else {
+        disegnaStileProvenzanoExecutive(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom, contatto);
       }
     }
 
@@ -3908,6 +3927,258 @@ Antonio Giancani — 320 166 7156 — Immobiliare Giancani
     }
 
     // HELPER GRAFICI & ICONE VETTORIALI
+    
+    // =========================================================================
+    // 9. PROVENZANO & PROTO EXECUTIVE (INDIGO, GOLD & AGENT BADGE)
+    // =========================================================================
+    function disegnaStileProvenzanoExecutive(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom = 1.0, contatto = '📞 Info e visite: Antonio Giancani 320 166 7156') {
+      // 1. Foto Immobile di Sfondo
+      const footerH = 175;
+      disegnaImmagineCoverZoom(ctx, img, 0, 0, W, H - footerH + 40, zoom);
+
+      // 2. Gradiente Scuro sulla foto per massima leggibilità testi
+      const grad = ctx.createLinearGradient(0, H * 0.35, 0, H - footerH + 40);
+      grad.addColorStop(0, 'rgba(30, 25, 72, 0.0)');
+      grad.addColorStop(0.45, 'rgba(30, 25, 72, 0.55)');
+      grad.addColorStop(0.85, 'rgba(25, 20, 60, 0.94)');
+      grad.addColorStop(1, 'rgba(20, 16, 48, 0.98)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, H * 0.35, W, (H - footerH + 40) - (H * 0.35));
+
+      // 3. Header Alto a Sinistra: Blocco Indigo Provenzano & Proto (#1e1948)
+      const hW = 460, hH = 195;
+      ctx.fillStyle = '#1e1948';
+      ctx.fillRect(0, 0, hW, hH);
+
+      // Linea di cornice bianca/blu che scende a sinistra
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(35, hH);
+      ctx.lineTo(35, H - footerH - 220);
+      ctx.stroke();
+
+      // Social / Website top line
+      ctx.textAlign = 'left';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+      ctx.font = 'bold 15px sans-serif';
+      ctx.fillText('giancani-immobiliare.it  ●  f  in', 35, 45);
+
+      // Logo Grafico: Casa / Finestra con 4 riquadri in cornice bianca
+      const logoX = 350, logoY = 60, logoS = 75;
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(logoX, logoY, logoS, logoS);
+      ctx.beginPath();
+      ctx.moveTo(logoX + logoS/2, logoY);
+      ctx.lineTo(logoX + logoS/2, logoY + logoS);
+      ctx.moveTo(logoX, logoY + logoS/2);
+      ctx.lineTo(logoX + logoS, logoY + logoS/2);
+      ctx.stroke();
+      // Archetto del tetto
+      ctx.beginPath();
+      ctx.arc(logoX + logoS/2, logoY + logoS/2, logoS * 0.72, Math.PI * 1.15, Math.PI * 1.85);
+      ctx.stroke();
+
+      // Scritta Agenzia: IMMOBILIARE GIANCANI
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 24px sans-serif';
+      ctx.fillText('IMMOBILIARE GIANCANI', 35, 105);
+
+      // Tagline: LA CERTEZZA DELLA COMPETENZA
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+      ctx.font = 'bold 13px sans-serif';
+      ctx.fillText('LA CERTEZZA DELLA COMPETENZA', 35, 138);
+
+      ctx.fillStyle = '#ffd200';
+      ctx.font = 'bold 12px sans-serif';
+      ctx.fillText('SERVIZI IMMOBILIARI ESCLUSIVI • FAVARA (AG)', 35, 165);
+
+      // 4. Badge Agente in Alto a Destra (Ritratto con cerchio Gold)
+      const agCx = W - 135, agCy = 120, agR = 75;
+      
+      // Anello Oro Giallo Acceso (#ffd200)
+      ctx.strokeStyle = '#ffd200';
+      ctx.lineWidth = 7;
+      ctx.beginPath();
+      ctx.arc(agCx, agCy, agR, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Immagine Agente (o Avatar se l'immagine non è ancora caricata)
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(agCx, agCy, agR - 3.5, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.clip();
+      if (window.cachedAgentImg && window.cachedAgentImg.complete) {
+        ctx.drawImage(window.cachedAgentImg, agCx - agR, agCy - agR, agR * 2, agR * 2);
+      } else {
+        ctx.fillStyle = '#e2e8f0';
+        ctx.fillRect(agCx - agR, agCy - agR, agR * 2, agR * 2);
+        ctx.fillStyle = '#1e1948';
+        ctx.beginPath();
+        ctx.arc(agCx, agCy - 15, 30, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(agCx, agCy + 55, 45, Math.PI, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+
+      // Targhetta Nome Agente Indigo sotto il ritratto
+      const pillW = 200, pillH = 40;
+      disegnaRoundedRect(ctx, agCx - pillW/2, agCy + agR - 15, pillW, pillH, 20, '#1e1948', '#ffffff', 1.5);
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 16px sans-serif';
+      ctx.fillText('Antonio Giancani', agCx, agCy + agR + 11);
+
+      // 5. Testi Principali Sopra la Spec Bar
+      const specY = H - footerH - 65;
+      
+      // Titolo 1: Categoria / Tipologia (INDIPENDENTE / APPARTAMENTO / VILLA)
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 48px sans-serif';
+      const categoria = (badge && badge !== 'IN VENDITA') ? badge : (titolo.split(' ')[0].toUpperCase());
+      ctx.fillText(categoria || 'INDIPENDENTE', 45, specY - 65);
+
+      // Titolo 2: IN VENDITA (Giallo Oro #ffd200)
+      ctx.fillStyle = '#ffd200';
+      ctx.font = '900 52px sans-serif';
+      ctx.fillText('IN VENDITA', 45, specY - 10);
+
+      // 6. Spec Bar Orizzontale a 4 Sezioni
+      const sbW = W - 90, sbH = 65, sbX = 45;
+      disegnaRoundedRect(ctx, sbX, specY, sbW, sbH, 14, 'rgba(20, 16, 48, 0.88)', 'rgba(255, 255, 255, 0.25)', 1.5);
+
+      // Divider verticali
+      const colW = sbW / 4;
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+      ctx.lineWidth = 1.5;
+      for (let i = 1; i < 4; i++) {
+        ctx.beginPath();
+        ctx.moveTo(sbX + colW * i, specY + 12);
+        ctx.lineTo(sbX + colW * i, specY + sbH - 12);
+        ctx.stroke();
+      }
+
+      // Colonna 1: Icona Pin Giallo + Indirizzo / Località
+      disegnaIconaPin(ctx, sbX + 28, specY + 32, 26, '#ffd200');
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 14px sans-serif';
+      ctx.textAlign = 'left';
+      const locLines = spezzaTesto(luogo, 16);
+      ctx.fillText(locLines[0] || 'Favara (AG)', sbX + 48, specY + 28);
+      if (locLines[1]) ctx.fillText(locLines[1], sbX + 48, specY + 48);
+
+      // Colonna 2: Icona [m²] Gialla + Superficie
+      ctx.strokeStyle = '#ffd200';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(sbX + colW + 18, specY + 18, 30, 30);
+      ctx.fillStyle = '#ffd200';
+      ctx.font = 'bold 13px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('m²', sbX + colW + 33, specY + 38);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 18px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(mq.replace('metri quadri', 'm²'), sbX + colW + 56, specY + 39);
+
+      // Colonna 3: Icona Parcheggio / Servizi Gialla (P)
+      ctx.fillStyle = '#ffd200';
+      ctx.beginPath();
+      ctx.arc(sbX + colW * 2 + 32, specY + 33, 15, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = '#1e1948';
+      ctx.font = '900 16px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('P', sbX + colW * 2 + 32, specY + 39);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 17px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('box auto', sbX + colW * 2 + 56, specY + 39);
+
+      // Colonna 4: Prezzo Ufficiale da Google Sheet
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = 'bold 13px sans-serif';
+      ctx.fillText('Prezzo Sheet:', sbX + colW * 3 + 18, specY + 26);
+
+      ctx.fillStyle = '#ffd200';
+      ctx.font = '900 20px sans-serif';
+      ctx.fillText(prezzo, sbX + colW * 3 + 18, specY + 50);
+
+      // 7. Footer Bianco/Grigio Chiaro (#f3f4f8) con curva in alto a sinistra
+      const cardY = H - footerH;
+      ctx.fillStyle = '#f3f4f8';
+      ctx.beginPath();
+      ctx.moveTo(0, cardY + 35);
+      ctx.quadraticCurveTo(0, cardY, 35, cardY);
+      ctx.lineTo(W, cardY);
+      ctx.lineTo(W, H);
+      ctx.lineTo(0, H);
+      ctx.closePath();
+      ctx.fill();
+
+      // Decorazione Dot Matrix (4 righe x 4 colonne)
+      ctx.fillStyle = '#94a3b8';
+      for (let r = 0; r < 4; r++) {
+        for (let c = 0; c < 4; c++) {
+          ctx.beginPath();
+          ctx.arc(45 + c * 10, cardY + 50 + r * 10, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Testo Caratteristiche Salienti (Dark Indigo)
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#1e1948';
+      ctx.font = 'bold 21px sans-serif';
+      ctx.fillText('✓ Spazi ampi e arieggiati, finiture moderne di pregio,', 105, cardY + 60);
+      ctx.fillText(`✓ ${mq} • Ideale per famiglie ed investitori d'eccellenza`, 105, cardY + 95);
+
+      ctx.fillStyle = '#64748b';
+      ctx.font = '14px sans-serif';
+      ctx.fillText('Rif. Agenzia: MP-GIANCANI • Favara (AG)', 105, cardY + 125);
+
+      // 8. Tasto Pulsante CONTATTACI (Dark Navy con bandiera Giallo Oro a sinistra)
+      const btnW = 270, btnH = 68;
+      const btnX = W - btnW - 35, btnY = cardY + 45;
+      
+      // Sfondo Dark Navy
+      disegnaRoundedRect(ctx, btnX, btnY, btnW, btnH, 18, '#1e1948', '#1e1948', 0);
+
+      // Bandiera / Accento Giallo Oro (#ffd200) a sinistra
+      ctx.fillStyle = '#ffd200';
+      ctx.beginPath();
+      ctx.moveTo(btnX, btnY + 18);
+      ctx.quadraticCurveTo(btnX, btnY, btnX + 18, btnY);
+      ctx.lineTo(btnX + 48, btnY);
+      ctx.lineTo(btnX + 48, btnY + btnH);
+      ctx.lineTo(btnX + 18, btnY + btnH);
+      ctx.quadraticCurveTo(btnX, btnY + btnH, btnX, btnY + btnH - 18);
+      ctx.closePath();
+      ctx.fill();
+
+      // Icona Telefono dentro la bandierina
+      ctx.fillStyle = '#1e1948';
+      ctx.font = 'bold 20px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('📞', btnX + 24, btnY + 42);
+
+      // Testo CTA a destra della bandierina
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 18px sans-serif';
+      ctx.fillText('CONTATTACI', btnX + 62, btnY + 30);
+
+      ctx.fillStyle = '#ffd200';
+      ctx.font = 'bold 15px sans-serif';
+      ctx.fillText('320 166 7156', btnX + 62, btnY + 54);
+    }
+
     function disegnaHeaderLogoGiancani(ctx, W, headerH) {
       ctx.fillStyle = '#184c78';
       ctx.font = 'bold 28px sans-serif';
