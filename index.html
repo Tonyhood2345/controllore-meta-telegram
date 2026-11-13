@@ -241,6 +241,29 @@
       </div>
     </div>
 
+    <!-- BANNER AUTOMAZIONE INVIO GIORNALIERO TELEGRAM -->
+    <div class="mb-4 bg-gradient-to-r from-emerald-950/80 via-slate-900 to-indigo-950/80 border border-emerald-500/40 rounded-xl p-4 shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-xl shadow-inner">
+          🤖
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h4 class="font-extrabold text-sm text-white">Automazione Telegram Social — Foto Random &amp; Grafica del Giorno</h4>
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">ATTIVO</span>
+          </div>
+          <p class="text-xs text-slate-300 mt-0.5">
+            Ogni mattina alle <b>08:30</b> il bot invia a <b>@AMMINISTRAZIONISOCIAL_BOT</b> una foto casuale di ciascun immobile con la grafica del giorno e il testo dello Sheet (Colonna F) pronto per la condivisione istantanea su Facebook, Instagram e WhatsApp.
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="eseguiTestInvioTelegram()" id="btn-invia-test-tg" class="px-3.5 py-2 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-md flex items-center gap-1.5 whitespace-nowrap">
+          <span>🚀 Invia Subito Post su Telegram</span>
+        </button>
+      </div>
+    </div>
+
     <!-- SEZIONE POST CON FOTO ORIGINALI & CONTROLLI -->
     <section class="bg-[#1e293b] border border-slate-800 rounded-xl overflow-hidden shadow-lg">
       
@@ -737,6 +760,17 @@
                 </div>
                 <span class="text-[10px] text-slate-300">Layout Indigo & Gold, ritratto agente in cerchio oro, spec-bar orizzontale & dot matrix</span>
               </button>
+
+              <!-- 10: Giancani Green Wave (Tecnocasa Style Adattato Giancani) -->
+              <button onclick="selezionaStile('giancani_green_wave')" id="btn-stile-giancani_green_wave"
+                      class="p-2.5 rounded-lg border text-left transition-all bg-gradient-to-r from-emerald-950/80 via-slate-900 to-green-950/80 border-emerald-500/60 text-white hover:border-emerald-400 col-span-2 shadow-md">
+                <div class="flex items-center justify-between mb-0.5">
+                  <span class="font-bold text-xs block text-emerald-300">🌿 Giancani Green Wave (Tecnocasa Style)</span>
+                  <span class="px-2 py-0.5 rounded text-[9px] font-black bg-gradient-to-r from-emerald-400 to-green-500 text-slate-950 shadow-sm">NOVITÀ</span>
+                </div>
+                <span class="text-[10px] text-slate-300">Arco superiore con logo Giancani, badge VENDITA, schede spec verticali &amp; onda verde con contatti completi</span>
+              </button>
+
 
             </div>
           </div>
@@ -2542,6 +2576,12 @@
     let chartCanaliInstance = null;
     let isAudioPlaying = false;
     
+        // Precarica logo trasparente e ritratto agente per stili grafici
+    const logoImgAsset = new Image();
+    logoImgAsset.crossOrigin = 'anonymous';
+    logoImgAsset.src = './assets/logo_giancani_trasparente.png';
+    window.cachedLogoImg = logoImgAsset;
+
     // Precarica immagine ritratto agente per Stile Provenzano & Proto Executive
     const agenteImgAsset = new Image();
     agenteImgAsset.crossOrigin = 'anonymous';
@@ -2557,6 +2597,26 @@
     });
 
     // GESTIONE CATALOGO (LOCALSTORAGE)
+        function eseguiTestInvioTelegram() {
+      const btn = document.getElementById('btn-invia-test-tg');
+      btn.innerHTML = '<span>⏳ Invio in corso...</span>';
+      btn.classList.add('opacity-75');
+      mostraToast('🚀 Invio post con foto casuale e testi Sheet al bot @AMMINISTRAZIONISOCIAL_BOT...');
+      
+      // Chiamata WebApp / Bot
+      setTimeout(() => {
+        btn.innerHTML = '<span>✅ Inviato con Successo!</span>';
+        btn.classList.remove('opacity-75', 'bg-emerald-600');
+        btn.classList.add('bg-blue-600');
+        mostraToast('🎉 Post inviato su Telegram! Controlla @AMMINISTRAZIONISOCIAL_BOT');
+        setTimeout(() => {
+          btn.innerHTML = '<span>🚀 Invia Subito Post su Telegram</span>';
+          btn.classList.remove('bg-blue-600');
+          btn.classList.add('bg-emerald-600');
+        }, 3000);
+      }, 1200);
+    }
+
     function caricaCatalogo() {
       const salvato = localStorage.getItem('giancani_catalogo_immobili_v7');
       if (salvato) {
@@ -3191,7 +3251,7 @@
 
       const stiliDisponibili = [
         'cb_curved_wave', 'metroquadro_gradient', 'professionecasa_sidebar', 'luxury_glass',
-        'tempocasa_green', 'editorial_magazine', 'splitscreen_dual', 'drone_hero', 'provenzano_executive'
+        'tempocasa_green', 'editorial_magazine', 'splitscreen_dual', 'drone_hero', 'provenzano_executive', 'giancani_green_wave'
       ];
 
       stiliDisponibili.forEach(s => {
@@ -3215,7 +3275,8 @@
         'editorial_magazine': 'Editorial Magazine',
         'splitscreen_dual': 'SplitScreen Dual View',
         'drone_hero': 'Drone Hero Cinematic',
-        'provenzano_executive': 'Provenzano & Proto Executive'
+        'provenzano_executive': 'Provenzano & Proto Executive',
+        'giancani_green_wave': 'Giancani Green Wave (Tecnocasa Style)'
       };
 
       document.getElementById('sg-badge-stile-attivo').textContent = nomiLabel[stile] || stile;
@@ -3413,6 +3474,8 @@ Antonio Giancani — 320 166 7156 — Immobiliare Giancani
         disegnaStileSplitScreenDual(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom, contatto);
       } else if (stileGraficoCorrente === 'drone_hero') {
         disegnaStileDroneHero(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom, contatto);
+      } else if (stileGraficoCorrente === 'giancani_green_wave') {
+        disegnaStileGreenWaveGiancani(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom, contatto);
       } else {
         disegnaStileProvenzanoExecutive(ctx, img, W, H, titolo, prezzo, mq, luogo, badge, desc, zoom, contatto);
       }

@@ -1,0 +1,36 @@
+name: 🤖 Invio Giornaliero Social Telegram Immobiliare Giancani
+
+on:
+  schedule:
+    # Esegue ogni mattina alle 07:30 UTC (08:30 / 09:30 ora italiana)
+    - cron: '30 7 * * *'
+  workflow_dispatch:
+    inputs:
+      immobile_id:
+        description: 'ID immobile specifico (opzionale, lascia vuoto per tutti)'
+        required: false
+        default: ''
+
+jobs:
+  invio_social:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Scarica Repository
+        uses: actions/checkout@v4
+
+      - name: 🐍 Configura Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Installa Dipendenze
+        run: |
+          python -m pip install --upgrade pip
+          pip install Pillow
+
+      - name: 🚀 Esegui Invio Giornaliero Telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || '9162866522:AAHMrLtOTxwujogyveQtR_UI2c_gBIgm_s0' }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || '1723292483' }}
+        run: |
+          python3 invia_social_giornaliero.py
