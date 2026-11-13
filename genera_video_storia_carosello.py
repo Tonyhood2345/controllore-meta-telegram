@@ -262,9 +262,16 @@ def genera_video_carosello(durata_per_slide=3.5, musica_nome=None, invia_telegra
         "ffmpeg", "-y",
         "-f", "concat", "-safe", "0", "-i", concat_txt
     ]
+    durata_tot = round(len(slide_files) * durata_per_slide, 1)
     if audio_opt:
-        cmd.extend(audio_opt)
-        cmd.extend(["-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-shortest"])
+        fade_start = max(0, int(durata_tot - 2))
+        cmd.extend([
+            "-stream_loop", "-1", "-i", audio_track,
+            "-c:v", "libx264", "-pix_fmt", "yuv420p",
+            "-af", f"afade=t=out:st={fade_start}:d=2",
+            "-c:a", "aac", "-b:a", "192k",
+            "-shortest"
+        ])
     else:
         cmd.extend(["-c:v", "libx264", "-pix_fmt", "yuv420p"])
         
