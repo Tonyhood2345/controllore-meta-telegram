@@ -775,6 +775,96 @@
             </div>
           </div>
 
+          <!-- PALETTA COLORI & TONALITÀ GRAFICA -->
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="text-sm">🎨</span>
+                <span class="font-bold text-slate-200 text-[11px] tracking-wide uppercase">Paletta Colori Grafica</span>
+              </div>
+              <button type="button" onclick="applicaPaletteDelGiorno()" title="Ripristina la palette automatica calcolata per oggi"
+                      class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition-all flex items-center gap-1">
+                <span>🔄 Palette del Giorno:</span> <b id="sg-nome-palette-giorno">Oggi</b>
+              </button>
+            </div>
+
+            <!-- Color Pickers Live -->
+            <div class="grid grid-cols-2 gap-2">
+              <div class="bg-slate-950 p-2 rounded-lg border border-slate-800 flex items-center justify-between">
+                <div>
+                  <label class="block text-[10px] text-slate-400 font-semibold">Colore Primario</label>
+                  <span id="sg-hex-primario" class="text-[10px] font-mono text-slate-300">#006837</span>
+                </div>
+                <input type="color" id="sg-colore-primario" value="#006837" oninput="aggiornaColoreDaPicker('primario', this.value)"
+                       class="w-8 h-8 rounded cursor-pointer bg-transparent border-0">
+              </div>
+
+              <div class="bg-slate-950 p-2 rounded-lg border border-slate-800 flex items-center justify-between">
+                <div>
+                  <label class="block text-[10px] text-slate-400 font-semibold">Colore Secondario / Oro</label>
+                  <span id="sg-hex-secondario" class="text-[10px] font-mono text-slate-300">#ffd200</span>
+                </div>
+                <input type="color" id="sg-colore-secondario" value="#ffd200" oninput="aggiornaColoreDaPicker('secondario', this.value)"
+                       class="w-8 h-8 rounded cursor-pointer bg-transparent border-0">
+              </div>
+            </div>
+
+            <!-- Palette Preset Cliccabili con 1 Clic -->
+            <div>
+              <span class="block text-[10px] text-slate-400 font-semibold mb-1.5">Preset Rapidi Paletta:</span>
+              <div class="grid grid-cols-4 gap-1.5">
+                <button type="button" onclick="impostaPaletteCustom('#006837', '#ffd200', 'Smeraldo Giancani')" 
+                        class="p-1 rounded border border-slate-800 hover:border-emerald-500 text-left flex items-center gap-1 bg-slate-950 transition-all" title="Smeraldo Giancani">
+                  <span class="w-3.5 h-3.5 rounded-full inline-block border border-white/20" style="background:#006837"></span>
+                  <span class="w-2.5 h-2.5 rounded-full inline-block border border-white/20 -ml-1" style="background:#ffd200"></span>
+                  <span class="text-[9px] text-slate-300 truncate">Smeraldo</span>
+                </button>
+                <button type="button" onclick="impostaPaletteCustom('#1e1948', '#ffd200', 'Indigo Notte')" 
+                        class="p-1 rounded border border-slate-800 hover:border-indigo-500 text-left flex items-center gap-1 bg-slate-950 transition-all" title="Indigo Notte">
+                  <span class="w-3.5 h-3.5 rounded-full inline-block border border-white/20" style="background:#1e1948"></span>
+                  <span class="w-2.5 h-2.5 rounded-full inline-block border border-white/20 -ml-1" style="background:#ffd200"></span>
+                  <span class="text-[9px] text-slate-300 truncate">Indigo</span>
+                </button>
+                <button type="button" onclick="impostaPaletteCustom('#0f172a', '#d4af37', 'Luxury Gold')" 
+                        class="p-1 rounded border border-slate-800 hover:border-amber-500 text-left flex items-center gap-1 bg-slate-950 transition-all" title="Luxury Gold">
+                  <span class="w-3.5 h-3.5 rounded-full inline-block border border-white/20" style="background:#0f172a"></span>
+                  <span class="w-2.5 h-2.5 rounded-full inline-block border border-white/20 -ml-1" style="background:#d4af37"></span>
+                  <span class="text-[9px] text-slate-300 truncate">Gold Lux</span>
+                </button>
+                <button type="button" onclick="impostaPaletteCustom('#0369a1', '#38bdf8', 'Oceano Ciano')" 
+                        class="p-1 rounded border border-slate-800 hover:border-sky-500 text-left flex items-center gap-1 bg-slate-950 transition-all" title="Oceano Ciano">
+                  <span class="w-3.5 h-3.5 rounded-full inline-block border border-white/20" style="background:#0369a1"></span>
+                  <span class="w-2.5 h-2.5 rounded-full inline-block border border-white/20 -ml-1" style="background:#38bdf8"></span>
+                  <span class="text-[9px] text-slate-300 truncate">Oceano</span>
+                </button>
+                <button type="button" onclick="impostaPaletteCustom('#881337', '#fde047', 'Bordeaux Rubino')" 
+                        class="p-1 rounded border border-slate-800 hover:border-rose-500 text-left flex items-center gap-1 bg-slate-950 transition-all" title="Bordeaux Rubino">
+                  <span class="w-3.5 h-3.5 rounded-full inline-block border border-white/20" style="background:#881337"></span>
+                  <span class="w-2.5 h-2.5 rounded-full inline-block border border-white/20 -ml-1" style="background:#fde047"></span>
+                  <span class="text-[9px] text-slate-300 truncate">Bordeaux</span>
+                </button>
+                <button type="button" onclick="impostaPaletteCustom('#c2410c', '#fbbf24', 'Terracotta Tramonto')" 
+                        class="p-1 rounded border border-slate-800 hover:border-orange-500 text-left flex items-center gap-1 bg-slate-950 transition-all" title="Terracotta Tramonto">
+                  <span class="w-3.5 h-3.5 rounded-full inline-block border border-white/20" style="background:#c2410c"></span>
+                  <span class="w-2.5 h-2.5 rounded-full inline-block border border-white/20 -ml-1" style="background:#fbbf24"></span>
+                  <span class="text-[9px] text-slate-300 truncate">Tramonto</span>
+                </button>
+                <button type="button" onclick="impostaPaletteCustom('#1e3a8a', '#60a5fa', 'Royal Corporate')" 
+                        class="p-1 rounded border border-slate-800 hover:border-blue-500 text-left flex items-center gap-1 bg-slate-950 transition-all" title="Royal Corporate">
+                  <span class="w-3.5 h-3.5 rounded-full inline-block border border-white/20" style="background:#1e3a8a"></span>
+                  <span class="w-2.5 h-2.5 rounded-full inline-block border border-white/20 -ml-1" style="background:#60a5fa"></span>
+                  <span class="text-[9px] text-slate-300 truncate">Corporate</span>
+                </button>
+                <button type="button" onclick="impostaPaletteCustom('#14532d', '#4ade80', 'Foresta Menta')" 
+                        class="p-1 rounded border border-slate-800 hover:border-green-500 text-left flex items-center gap-1 bg-slate-950 transition-all" title="Foresta Menta">
+                  <span class="w-3.5 h-3.5 rounded-full inline-block border border-white/20" style="background:#14532d"></span>
+                  <span class="w-2.5 h-2.5 rounded-full inline-block border border-white/20 -ml-1" style="background:#4ade80"></span>
+                  <span class="text-[9px] text-slate-300 truncate">Foresta</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <!-- DATI RAPIDI MODIFICABILI SULLA GRAFICA -->
           <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3 space-y-2.5">
             <span class="font-bold text-slate-200 block text-[11px] tracking-wide uppercase">Testi & Dati Grafica Live</span>
@@ -3246,7 +3336,74 @@
       document.getElementById('modal-studio-grafico').classList.remove('flex');
     }
 
-    function selezionaStile(stile) {
+    // =========================================================================
+    // GESTIONE PALETTA COLORI DINAMICA & CAMBIO ROTATIVO GIORNALIERO (OGNI 24H)
+    // =========================================================================
+    const PALETTE_SETTIMANALI = [
+      { nome: 'Lunedì Smeraldo', primario: '#006837', secondario: '#ffd200' },
+      { nome: 'Martedì Indigo Notte', primario: '#1e1948', secondario: '#ffd200' },
+      { nome: 'Mercoledì Oceano Mediterraneo', primario: '#0369a1', secondario: '#38bdf8' },
+      { nome: 'Giovedì Luxury Gold', primario: '#0f172a', secondario: '#d4af37' },
+      { nome: 'Venerdì Granato & Oro', primario: '#881337', secondario: '#fde047' },
+      { nome: 'Sabato Terracotta Tramonto', primario: '#c2410c', secondario: '#fbbf24' },
+      { nome: 'Domenica Foresta & Menta', primario: '#14532d', secondario: '#4ade80' }
+    ];
+
+    let colorePrimarioCorrente = '#006837';
+    let coloreSecondarioCorrente = '#ffd200';
+    let nomePaletteCorrente = 'Smeraldo';
+
+    function ottieniPaletteDelGiorno() {
+      const giornoSettimana = new Date().getDay(); // 0 = Dom, 1 = Lun...
+      const idx = (giornoSettimana + 6) % 7; // 0 = Lunedì, 6 = Domenica
+      return PALETTE_SETTIMANALI[idx];
+    }
+
+    function applicaPaletteDelGiorno(forzaRidisegno = true) {
+      const palOggi = ottieniPaletteDelGiorno();
+      impostaPaletteCustom(palOggi.primario, palOggi.secondario, palOggi.nome, forzaRidisegno);
+      mostraToast('🎨 Applicata Palette: ' + palOggi.nome);
+    }
+
+    function impostaPaletteCustom(hexPrimario, hexSecondario, nome = 'Personalizzata', ridisegna = true) {
+      colorePrimarioCorrente = hexPrimario;
+      coloreSecondarioCorrente = hexSecondario;
+      nomePaletteCorrente = nome;
+
+      const inpP = document.getElementById('sg-colore-primario');
+      const inpS = document.getElementById('sg-colore-secondario');
+      const hexP = document.getElementById('sg-hex-primario');
+      const hexS = document.getElementById('sg-hex-secondario');
+      const lblG = document.getElementById('sg-nome-palette-giorno');
+
+      if (inpP) inpP.value = hexPrimario;
+      if (inpS) inpS.value = hexSecondario;
+      if (hexP) hexP.textContent = hexPrimario;
+      if (hexS) hexS.textContent = hexSecondario;
+      if (lblG) lblG.textContent = nome;
+
+      if (ridisegna) {
+        ridisegnaGraficaLive();
+      }
+    }
+
+    function aggiornaColoreDaPicker(tipo, hexVal) {
+      if (tipo === 'primario') {
+        colorePrimarioCorrente = hexVal;
+        const hexP = document.getElementById('sg-hex-primario');
+        if (hexP) hexP.textContent = hexVal;
+      } else {
+        coloreSecondarioCorrente = hexVal;
+        const hexS = document.getElementById('sg-hex-secondario');
+        if (hexS) hexS.textContent = hexVal;
+      }
+      nomePaletteCorrente = 'Personalizzata';
+      const lblG = document.getElementById('sg-nome-palette-giorno');
+      if (lblG) lblG.textContent = 'Custom';
+      ridisegnaGraficaLive();
+    }
+
+        function selezionaStile(stile) {
       stileGraficoCorrente = stile;
 
       const stiliDisponibili = [
@@ -4010,7 +4167,7 @@ Antonio Giancani — 320 166 7156 — Immobiliare Giancani
 
       // 3. Header Alto a Sinistra: Blocco Indigo Provenzano & Proto (#1e1948)
       const hW = 460, hH = 195;
-      ctx.fillStyle = '#1e1948';
+      ctx.fillStyle = colorePrimarioCorrente;
       ctx.fillRect(0, 0, hW, hH);
 
       // Linea di cornice bianca/blu che scende a sinistra
@@ -4061,7 +4218,7 @@ Antonio Giancani — 320 166 7156 — Immobiliare Giancani
       const agCx = W - 135, agCy = 120, agR = 75;
       
       // Anello Oro Giallo Acceso (#ffd200)
-      ctx.strokeStyle = '#ffd200';
+      ctx.strokeStyle = coloreSecondarioCorrente;
       ctx.lineWidth = 7;
       ctx.beginPath();
       ctx.arc(agCx, agCy, agR, 0, Math.PI * 2);
@@ -4090,7 +4247,7 @@ Antonio Giancani — 320 166 7156 — Immobiliare Giancani
 
       // Targhetta Nome Agente Indigo sotto il ritratto
       const pillW = 200, pillH = 40;
-      disegnaRoundedRect(ctx, agCx - pillW/2, agCy + agR - 15, pillW, pillH, 20, '#1e1948', '#ffffff', 1.5);
+      disegnaRoundedRect(ctx, agCx - pillW/2, agCy + agR - 15, pillW, pillH, 20, colorePrimarioCorrente, '#ffffff', 1.5);
       ctx.textAlign = 'center';
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 16px sans-serif';
@@ -4107,13 +4264,13 @@ Antonio Giancani — 320 166 7156 — Immobiliare Giancani
       ctx.fillText(categoria || 'INDIPENDENTE', 45, specY - 65);
 
       // Titolo 2: IN VENDITA (Giallo Oro #ffd200)
-      ctx.fillStyle = '#ffd200';
+      ctx.fillStyle = coloreSecondarioCorrente;
       ctx.font = '900 52px sans-serif';
       ctx.fillText('IN VENDITA', 45, specY - 10);
 
       // 6. Spec Bar Orizzontale a 4 Sezioni
       const sbW = W - 90, sbH = 65, sbX = 45;
-      disegnaRoundedRect(ctx, sbX, specY, sbW, sbH, 14, 'rgba(20, 16, 48, 0.88)', 'rgba(255, 255, 255, 0.25)', 1.5);
+      disegnaRoundedRect(ctx, sbX, specY, sbW, sbH, 14, colorePrimarioCorrente, coloreSecondarioCorrente, 1.5);
 
       // Divider verticali
       const colW = sbW / 4;
@@ -4127,7 +4284,7 @@ Antonio Giancani — 320 166 7156 — Immobiliare Giancani
       }
 
       // Colonna 1: Icona Pin Giallo + Indirizzo / Località
-      disegnaIconaPin(ctx, sbX + 28, specY + 32, 26, '#ffd200');
+      disegnaIconaPin(ctx, sbX + 28, specY + 32, 26, coloreSecondarioCorrente);
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 14px sans-serif';
       ctx.textAlign = 'left';
@@ -4136,10 +4293,10 @@ Antonio Giancani — 320 166 7156 — Immobiliare Giancani
       if (locLines[1]) ctx.fillText(locLines[1], sbX + 48, specY + 48);
 
       // Colonna 2: Icona [m²] Gialla + Superficie
-      ctx.strokeStyle = '#ffd200';
+      ctx.strokeStyle = coloreSecondarioCorrente;
       ctx.lineWidth = 2;
       ctx.strokeRect(sbX + colW + 18, specY + 18, 30, 30);
-      ctx.fillStyle = '#ffd200';
+      ctx.fillStyle = coloreSecondarioCorrente;
       ctx.font = 'bold 13px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('m²', sbX + colW + 33, specY + 38);
