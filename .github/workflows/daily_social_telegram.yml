@@ -1,4 +1,4 @@
-name: 🤖 Invio Giornaliero Social Telegram Immobiliare Giancani
+name: 🤖 Invio Giornaliero Social Telegram & Video Carosello Storie
 
 on:
   schedule:
@@ -6,10 +6,10 @@ on:
     - cron: '30 7 * * *'
   workflow_dispatch:
     inputs:
-      immobile_id:
-        description: 'ID immobile specifico (opzionale, lascia vuoto per tutti)'
+      invia_video:
+        description: 'Genera e invia anche il Video Carosello Storie 9:16 (true/false)'
         required: false
-        default: ''
+        default: 'true'
 
 jobs:
   invio_social:
@@ -23,14 +23,22 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: 📦 Installa Dipendenze
+      - name: 📦 Installa Dipendenze & FFmpeg
         run: |
+          sudo apt-get update && sudo apt-get install -y ffmpeg
           python -m pip install --upgrade pip
           pip install Pillow
 
-      - name: 🚀 Esegui Invio Giornaliero Telegram
+      - name: 🚀 Esegui Invio Giornaliero Singoli Post Telegram
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || '9162866522:AAHMrLtOTxwujogyveQtR_UI2c_gBIgm_s0' }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || '1723292483' }}
         run: |
           python3 invia_social_giornaliero.py
+
+      - name: 🎬 Genera e Invia Video Carosello Storie 9:16
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN || '9162866522:AAHMrLtOTxwujogyveQtR_UI2c_gBIgm_s0' }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID || '1723292483' }}
+        run: |
+          python3 genera_video_storia_carosello.py --telegram

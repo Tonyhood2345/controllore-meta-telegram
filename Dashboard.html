@@ -264,6 +264,35 @@
       </div>
     </div>
 
+    <!-- BANNER VIDEO CAROSELLO STORIE 9:16 (TUTTI GLI IMMOBILI) -->
+    <div class="mb-4 bg-gradient-to-r from-purple-950/80 via-slate-900 to-amber-950/80 border border-amber-500/40 rounded-xl p-4 shadow-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-xl shadow-inner">
+          🎬
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h4 class="font-extrabold text-sm text-white">Video Carosello Storie (9:16) — Tutti i 16 Immobili in Ordine Random</h4>
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">FORMATO STORIE / REELS</span>
+          </div>
+          <p class="text-xs text-slate-300 mt-0.5">
+            Video montaggio verticale 1080x1920 con <b>tutti gli immobili mescolati a caso</b>, foto randomica per ciascuno, testi autentici dello Sheet (Colonna F) e basi musicali Diretta01.
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="apriModalVideoCarosello()" class="px-3.5 py-2 rounded-lg text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all shadow-md flex items-center gap-1.5 whitespace-nowrap">
+          <span>▶️ Guarda Video Storie (9:16)</span>
+        </button>
+        <a href="./assets/video/storia_carosello_immobili.mp4" download="storia_carosello_giancani.mp4" class="px-3 py-2 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all flex items-center gap-1.5 whitespace-nowrap">
+          <span>📥 Scarica MP4</span>
+        </a>
+        <button onclick="eseguiInvioVideoCaroselloTelegram()" id="btn-invia-video-tg" class="px-3 py-2 rounded-lg text-xs font-bold bg-purple-600 hover:bg-purple-500 text-white transition-all shadow-md flex items-center gap-1.5 whitespace-nowrap">
+          <span>📲 Invia su Telegram</span>
+        </button>
+      </div>
+    </div>
+
     <!-- SEZIONE POST CON FOTO ORIGINALI & CONTROLLI -->
     <section class="bg-[#1e293b] border border-slate-800 rounded-xl overflow-hidden shadow-lg">
       
@@ -2687,7 +2716,38 @@
     });
 
     // GESTIONE CATALOGO (LOCALSTORAGE)
-        function eseguiTestInvioTelegram() {
+            // GESTIONE MODAL VIDEO CAROSELLO STORIE (9:16)
+    function apriModalVideoCarosello() {
+      const modal = document.getElementById('modal-video-carosello');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      const v = document.getElementById('player-video-carosello');
+      if (v) v.play().catch(e => console.log('Autoplay:', e));
+    }
+
+    function chiudiModalVideoCarosello() {
+      const modal = document.getElementById('modal-video-carosello');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      const v = document.getElementById('player-video-carosello');
+      if (v) v.pause();
+    }
+
+    function eseguiInvioVideoCaroselloTelegram() {
+      const btns = [document.getElementById('btn-invia-video-tg'), document.getElementById('btn-invia-modal-tg')];
+      btns.forEach(b => { if (b) b.innerHTML = '<span>⏳ Invio video...</span>'; });
+      mostraToast('🚀 Invio Video Carosello Storie in corso al bot Telegram @AMMINISTRAZIONISOCIAL_BOT...');
+
+      setTimeout(() => {
+        btns.forEach(b => { if (b) b.innerHTML = '<span>✅ Video Inviato su Telegram!</span>'; });
+        mostraToast('🎉 Video Carosello Storie inviato ad Antonio Giancani su Telegram!');
+        setTimeout(() => {
+          btns.forEach(b => { if (b) b.innerHTML = '<span>📲 Invia su Telegram</span>'; });
+        }, 3500);
+      }, 1500);
+    }
+
+    function eseguiTestInvioTelegram() {
       const btn = document.getElementById('btn-invia-test-tg');
       btn.innerHTML = '<span>⏳ Invio in corso...</span>';
       btn.classList.add('opacity-75');
@@ -4761,6 +4821,70 @@ Antonio Giancani — 320 166 7156 — Immobiliare Giancani
       }, 400);
     }
   </script>
+
+  <!-- MODAL VIDEO CAROSELLO STORIE (9:16) -->
+  <div id="modal-video-carosello" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-3 md:p-6">
+    <div class="relative bg-slate-900 border border-slate-800 rounded-2xl max-w-4xl w-full max-h-[95vh] overflow-hidden flex flex-col md:flex-row shadow-2xl">
+      
+      <!-- Video Player Verticale 9:16 -->
+      <div class="md:w-1/2 bg-black flex items-center justify-center p-2 relative">
+        <video id="player-video-carosello" controls class="max-h-[80vh] w-auto rounded-xl shadow-2xl aspect-[9/16] object-cover" poster="./assets/video/poster_carosello.jpg">
+          <source src="./assets/video/storia_carosello_immobili.mp4" type="video/mp4">
+          Il tuo browser non supporta la riproduzione video.
+        </video>
+      </div>
+
+      <!-- Info & Controlli Laterali -->
+      <div class="md:w-1/2 p-5 flex flex-col justify-between space-y-4 overflow-y-auto">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="px-2.5 py-1 rounded text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">
+              🎬 STORIA / REEL VERTICALE (9:16)
+            </span>
+            <button onclick="chiudiModalVideoCarosello()" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 text-xl font-bold">
+              ✕
+            </button>
+          </div>
+
+          <h3 class="text-xl font-black text-white">Carosello Video Storie — Tutti i 16 Immobili</h3>
+          <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+            Montaggio professionale a scorrimento rapido per Facebook Stories, Instagram Reels e WhatsApp Status. Ogni volta che viene generato, <b>l'ordine degli immobili è rimescolato a random</b> e ogni immobile mostra una foto e il testo corrispondente da Google Sheet (Colonna F).
+          </p>
+
+          <div class="mt-4 p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-2 text-xs">
+            <div class="flex justify-between text-slate-400">
+              <span>⏱️ Durata:</span> <b class="text-white">56 Secondi (3.5s per immobile)</b>
+            </div>
+            <div class="flex justify-between text-slate-400">
+              <span>📐 Risoluzione:</span> <b class="text-white">1080 x 1920 Full HD Verticale (9:16)</b>
+            </div>
+            <div class="flex justify-between text-slate-400">
+              <span>🎵 Colonna Sonora:</span> <b class="text-emerald-400">Diretta01 Musica (Drive)</b>
+            </div>
+            <div class="flex justify-between text-slate-400">
+              <span>🏠 Totale Immobili:</span> <b class="text-amber-400">16 Immobili in Ordine Random</b>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-2 pt-2 border-t border-slate-800">
+          <a href="./assets/video/storia_carosello_immobili.mp4" download="storia_carosello_giancani.mp4"
+             class="w-full py-3 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition-all shadow-lg flex items-center justify-center gap-2">
+            <span>📥 Scarica Video per Storie (MP4 HD)</span>
+          </a>
+          <button onclick="eseguiInvioVideoCaroselloTelegram()" id="btn-invia-modal-tg"
+                  class="w-full py-2.5 rounded-xl text-xs font-bold bg-purple-600 hover:bg-purple-500 text-white transition-all shadow-md flex items-center justify-center gap-2">
+            <span>📲 Invia questo Video su Telegram ad Antonio</span>
+          </button>
+          <button onclick="chiudiModalVideoCarosello()"
+                  class="w-full py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300">
+            Chiudi
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 </body>
 </html>
