@@ -24,7 +24,7 @@ import crea_grafica_social
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "9162866522:AAHMrLtOTxwujogyveQtR_UI2c_gBIgm_s0")
 ANTONIO_CHAT_ID    = os.getenv("TELEGRAM_CHAT_ID", "1723292483")
-REPO_DIR           = "/home/antigravity/CONTROLLORE_META_TELEGRAM"
+REPO_DIR           = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_DIR         = os.path.join(REPO_DIR, "assets", "video")
 FRAMES_DIR         = "/tmp/story_carousel_frames"
 
