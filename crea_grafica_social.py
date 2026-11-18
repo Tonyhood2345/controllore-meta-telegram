@@ -134,7 +134,7 @@ def render_giancani_green_wave(foto_url, titolo, prezzo, mq, luogo, categoria="A
     draw.polygon(points, fill=(255, 255, 255, 255))
     
     # Logo Immobiliare Giancani
-    logo_path = "/home/antigravity/CONTROLLORE_META_TELEGRAM/assets/logo_giancani_trasparente.png"
+    logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "logo_giancani_trasparente.png")
     if os.path.exists(logo_path):
         logo = Image.open(logo_path).convert("RGBA")
         lw = 360
@@ -285,7 +285,7 @@ def render_provenzano_executive(foto_url, titolo, prezzo, mq, luogo, categoria="
     draw.ellipse([(ag_cx - ag_r - 4, ag_cy - ag_r - 4), (ag_cx + ag_r + 4, ag_cy + ag_r + 4)], fill=col_sec)
     
     # Ritratto reale di Antonio Giancani
-    ag_path = "/home/antigravity/CONTROLLORE_META_TELEGRAM/assets/agente_antonio_giancani.png"
+    ag_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "agente_antonio_giancani.png")
     if os.path.exists(ag_path):
         ag_img = Image.open(ag_path).convert("RGBA").resize((ag_r*2, ag_r*2), Image.Resampling.LANCZOS)
         mask = Image.new("L", (ag_r*2, ag_r*2), 0)
