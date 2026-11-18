@@ -25,7 +25,7 @@ jobs:
 
       - name: 📦 Installa Dipendenze & FFmpeg
         run: |
-          sudo apt-get update && sudo apt-get install -y ffmpeg
+          sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
           python -m pip install --upgrade pip
           pip install Pillow
 
