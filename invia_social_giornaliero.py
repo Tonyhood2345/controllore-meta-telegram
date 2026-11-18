@@ -30,7 +30,7 @@ STILI_ROTATIVI = [
 
 def carica_immobili():
     """Carica gli immobili dal file index.html o da fallback"""
-    index_path = "/home/antigravity/CONTROLLORE_META_TELEGRAM/index.html"
+    index_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "index.html")
     try:
         with open(index_path, "r", encoding="utf-8") as f:
             text = f.read()
